@@ -3,6 +3,9 @@
 ## Requirement ID
 FR-02
 
+## Test Design ID
+TD-POOL-A
+
 ## Module / Test type / Technique
 Login / Functional / Equivalence Partitioning
 

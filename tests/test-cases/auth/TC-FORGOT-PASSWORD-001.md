@@ -3,6 +3,9 @@
 ## Requirement ID
 FR-03
 
+## Test Design ID
+TD-POOL-A
+
 ## Module / Test type / Technique
 Forgot Password / Functional / Scenario Testing
 

@@ -3,6 +3,9 @@
 ## Requirement ID
 FR-05
 
+## Test Design ID
+TD-POOL-A
+
 ## Module / Test type / Technique
 Product Listing / Functional / Equivalence Partitioning
 
@@ -33,4 +36,4 @@ Product Listing / Functional / Equivalence Partitioning
 Trang chủ hiển thị danh sách sản phẩm dạng lưới, mỗi sản phẩm có ảnh với alt text, tên, giá có ký hiệu `₫` và phân cách hàng nghìn. Khi tìm kiếm hợp lệ, hệ thống chỉ hiển thị sản phẩm phù hợp theo tên. Khi không có kết quả, hệ thống hiển thị empty state phù hợp. Từ khóa tìm kiếm được hiển thị an toàn, không render HTML hoặc thực thi script.
 
 ## Status / Related bugs
-Not Run / None
+Fail / Bug issue cần tạo
