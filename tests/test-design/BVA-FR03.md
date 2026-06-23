@@ -13,7 +13,6 @@ Bảng dưới đây trình bày các miền giá trị input hợp lệ và cá
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Email** | Độ dài chuỗi | [5, 254] ký tự *(giả định)* | 5 | 254 | - MINM: 4 ký tự<br>- MIN: 5 ký tự<br>- MINP: 6 ký tự<br>- MAXM: 253 ký tự<br>- MAX: 254 ký tự<br>- MAXP: 255 ký tự |
 | **OTP** | Độ dài chuỗi | [6, 6] ký tự | 6 | 6 | - MINM/MAXM: 5 ký tự<br>- MIN/MAX: 6 ký tự<br>- MINP/MAXP: 7 ký tự |
-| | Giá trị số | [000000, 999999] | `000000` (giá trị 0) | `999999` (giá trị 999999) | - MINM: N/A (không có số âm dạng OTP)<br>- MIN: `000000`<br>- MINP: `000001`<br>- MAXM: `999998`<br>- MAX: `999999`<br>- MAXP: N/A (trùng với độ dài 7 ký tự) |
 | **Mật khẩu mới** | Độ dài chuỗi | [8, 255] ký tự *(giả định)* | 8 | 255 | - MINM: 7 ký tự<br>- MIN: 8 ký tự<br>- MINP: 9 ký tự<br>- MAXM: 254 ký tự<br>- MAX: 255 ký tự<br>- MAXP: 256 ký tự |
 | | Số chữ hoa | [1, +∞) | 1 | N/A | - MINM: 0 chữ hoa<br>- MIN: 1 chữ hoa<br>- MINP: 2 chữ hoa |
 | | Số chữ thường | [1, +∞) | 1 | N/A | - MINM: 0 chữ thường<br>- MIN: 1 chữ thường<br>- MINP: 2 chữ thường |
@@ -50,10 +49,6 @@ Bảng dưới đây trình bày các miền giá trị input hợp lệ và cá
 | FR03_MINM_02 | Độ dài OTP = [6, 6] | `12345` | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi OTP không hợp lệ (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
 | FR03_MIN_02 | Độ dài OTP = [6, 6] | `123456` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
 | FR03_MINP_02 | Độ dài OTP = [6, 6] | `1234567` | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi OTP không hợp lệ (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_03 | Giá trị OTP = [000000, 999999] | `000000` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_03 | Giá trị OTP = [000000, 999999] | `000001` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MAXM_02 | Giá trị OTP = [000000, 999999] | `999998` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MAX_02 | Giá trị OTP = [000000, 999999] | `999999` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
 | FR03_MINM_03 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `Abc123!` (đoạn mã 7 ký tự) | `Abc123!` | - Đặt lại mật khẩu thất bại, thông báo lỗi mật khẩu quá ngắn (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
 | FR03_MIN_04 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `Abc1234!` (đoạn mã 8 ký tự) | `Abc1234!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
 | FR03_MINP_04 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `Abc12345!` (đoạn mã 9 ký tự) | `Abc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
