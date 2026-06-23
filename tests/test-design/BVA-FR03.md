@@ -33,12 +33,12 @@ Bảng dưới đây trình bày các miền giá trị input hợp lệ và cá
 
 | ID | Partition Tested | Email (Input) | Expected Output |
 |---|---|---|---|
-| FR03_MINM_01 | Độ dài Email = [5, 254] | `a@.c` (độ dài 4) | - Không sinh OTP, hiển thị thông báo lỗi (O2)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Giữ nguyên Bước 1 (O8) |
-| FR03_MIN_01 | Độ dài Email = [5, 254] | `a@b.c` (độ dài 5, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
-| FR03_MINP_01 | Độ dài Email = [5, 254] | `ab@b.c` (độ dài 6, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
-| FR03_MAXM_01 | Độ dài Email = [5, 254] | `a` (lặp lại 243 lần) + `@eshop.com` (tổng độ dài 253, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
-| FR03_MAX_01 | Độ dài Email = [5, 254] | `a` (lặp lại 244 lần) + `@eshop.com` (tổng độ dài 254, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
-| FR03_MAXP_01 | Độ dài Email = [5, 254] | `a` (lặp lại 245 lần) + `@eshop.com` (tổng độ dài 255) | - Không sinh OTP, hiển thị thông báo lỗi (O2)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Giữ nguyên Bước 1 (O8) |
+| FR03_MINM_01 | Độ dài Email = Min - 1 (4 ký tự) | `a@.c` (độ dài 4) | - Không sinh OTP, hiển thị thông báo lỗi (O2)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Giữ nguyên Bước 1 (O8) |
+| FR03_MIN_01 | Độ dài Email = Min (5 ký tự) | `a@b.c` (độ dài 5, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
+| FR03_MINP_01 | Độ dài Email = Min + 1 (6 ký tự) | `ab@b.c` (độ dài 6, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
+| FR03_MAXM_01 | Độ dài Email = Max - 1 (253 ký tự) | `a` (lặp lại 243 lần) + `@eshop.com` (tổng độ dài 253, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
+| FR03_MAX_01 | Độ dài Email = Max (254 ký tự) | `a` (lặp lại 244 lần) + `@eshop.com` (tổng độ dài 254, đã đăng ký) | - Sinh mã OTP đúng 6 chữ số và hiển thị trên màn hình (O1)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Chuyển sang Bước 2 (O7) |
+| FR03_MAXP_01 | Độ dài Email = Max + 1 (255 ký tự) | `a` (lặp lại 245 lần) + `@eshop.com` (tổng độ dài 255) | - Không sinh OTP, hiển thị thông báo lỗi (O2)<br>- Hiển thị "Bước 1 / 2" (O3)<br>- Có hiển thị nút "Quay lại đăng nhập" (O5)<br>- Giữ nguyên Bước 1 (O8) |
 
 *Lưu ý cho Bước 1:* Các test case trên giả định địa chỉ email (ngoại trừ trường hợp vượt biên) đã được đăng ký trên hệ thống để kiểm tra khả năng sinh mã OTP.
 
@@ -46,24 +46,24 @@ Bảng dưới đây trình bày các miền giá trị input hợp lệ và cá
 
 | ID | Partition Tested | OTP (Input) | Mật khẩu mới (Input) | Xác nhận mật khẩu (Input) | Expected Output |
 |---|---|---|---|---|---|
-| FR03_MINM_02 | Độ dài OTP = [6, 6] | `12345` | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi OTP không hợp lệ (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_02 | Độ dài OTP = [6, 6] | `123456` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_02 | Độ dài OTP = [6, 6] | `1234567` | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi OTP không hợp lệ (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINM_03 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `Abc123!` (đoạn mã 7 ký tự) | `Abc123!` | - Đặt lại mật khẩu thất bại, thông báo lỗi mật khẩu quá ngắn (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_04 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `Abc1234!` (đoạn mã 8 ký tự) | `Abc1234!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_04 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `Abc12345!` (đoạn mã 9 ký tự) | `Abc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MAXM_03 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `A` + `b` (lặp lại 250 lần) + `1!` | `A` + `b` (lặp lại 250 lần) + `1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MAX_03 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `A` + `b` (lặp lại 251 lần) + `1!` | `A` + `b` (lặp lại 251 lần) + `1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MAXP_02 | Độ dài Mật khẩu mới = [8, 255] | `123456` *(mã đúng)* | `A` + `b` (lặp lại 252 lần) + `1!` | `A` + `b` (lặp lại 252 lần) + `1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi mật khẩu quá dài (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINM_04 | Số chữ hoa trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `abc12345!` | `abc12345!` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu chữ hoa (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_05 | Số chữ hoa trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abc12345!` | `Abc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_05 | Số chữ hoa trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `ABc12345!` | `ABc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINM_05 | Số chữ thường trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `ABC12345!` | `ABC12345!` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu chữ thường (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_06 | Số chữ thường trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `aBC12345!` | `aBC12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_06 | Số chữ thường trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `abC12345!` | `abC12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINM_06 | Số chữ số trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abcdefgh!` | `Abcdefgh!` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu chữ số (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_07 | Số chữ số trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abcdefg1!` | `Abcdefg1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_07 | Số chữ số trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abcdef12!` | `Abcdef12!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINM_07 | Số ký tự đặc biệt trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abc12345` | `Abc12345` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu ký tự đặc biệt (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MIN_08 | Số ký tự đặc biệt trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abc1234!` | `Abc1234!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
-| FR03_MINP_08 | Số ký tự đặc biệt trong Mật khẩu mới = [1, +∞) | `123456` *(mã đúng)* | `Abc1234!!` | `Abc1234!!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINM_02 | Độ dài OTP = Min - 1 (5 ký tự) | `12345` | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi OTP không hợp lệ (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MIN_02 | Độ dài OTP = Min / Max (6 ký tự) | `123456` *(mã đúng)* | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINP_02 | Độ dài OTP = Max + 1 (7 ký tự) | `1234567` | `NewPass1!` | `NewPass1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi OTP không hợp lệ (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINM_03 | Độ dài Mật khẩu mới = Min - 1 (7 ký tự) | `123456` *(mã đúng)* | `Abc123!` (đoạn mã 7 ký tự) | `Abc123!` | - Đặt lại mật khẩu thất bại, thông báo lỗi mật khẩu quá ngắn (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MIN_04 | Độ dài Mật khẩu mới = Min (8 ký tự) | `123456` *(mã đúng)* | `Abc1234!` (đoạn mã 8 ký tự) | `Abc1234!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINP_04 | Độ dài Mật khẩu mới = Min + 1 (9 ký tự) | `123456` *(mã đúng)* | `Abc12345!` (đoạn mã 9 ký tự) | `Abc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MAXM_03 | Độ dài Mật khẩu mới = Max - 1 (254 ký tự) | `123456` *(mã đúng)* | `A` + `b` (lặp lại 250 lần) + `1!` | `A` + `b` (lặp lại 250 lần) + `1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MAX_03 | Độ dài Mật khẩu mới = Max (255 ký tự) | `123456` *(mã đúng)* | `A` + `b` (lặp lại 251 lần) + `1!` | `A` + `b` (lặp lại 251 lần) + `1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MAXP_02 | Độ dài Mật khẩu mới = Max + 1 (256 ký tự) | `123456` *(mã đúng)* | `A` + `b` (lặp lại 252 lần) + `1!` | `A` + `b` (lặp lại 252 lần) + `1!` | - Đặt lại mật khẩu thất bại, thông báo lỗi mật khẩu quá dài (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINM_04 | Số chữ hoa trong Mật khẩu mới = Min - 1 (0 chữ hoa) | `123456` *(mã đúng)* | `abc12345!` | `abc12345!` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu chữ hoa (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MIN_05 | Số chữ hoa trong Mật khẩu mới = Min (1 chữ hoa) | `123456` *(mã đúng)* | `Abc12345!` | `Abc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINP_05 | Số chữ hoa trong Mật khẩu mới = Min + 1 (2 chữ hoa) | `123456` *(mã đúng)* | `ABc12345!` | `ABc12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINM_05 | Số chữ thường trong Mật khẩu mới = Min - 1 (0 chữ thường) | `123456` *(mã đúng)* | `ABC12345!` | `ABC12345!` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu chữ thường (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MIN_06 | Số chữ thường trong Mật khẩu mới = Min (1 chữ thường) | `123456` *(mã đúng)* | `aBC12345!` | `aBC12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINP_06 | Số chữ thường trong Mật khẩu mới = Min + 1 (2 chữ thường) | `123456` *(mã đúng)* | `abC12345!` | `abC12345!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINM_06 | Số chữ số trong Mật khẩu mới = Min - 1 (0 chữ số) | `123456` *(mã đúng)* | `Abcdefgh!` | `Abcdefgh!` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu chữ số (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MIN_07 | Số chữ số trong Mật khẩu mới = Min (1 chữ số) | `123456` *(mã đúng)* | `Abcdefg1!` | `Abcdefg1!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINP_07 | Số chữ số trong Mật khẩu mới = Min + 1 (2 chữ số) | `123456` *(mã đúng)* | `Abcdef12!` | `Abcdef12!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINM_07 | Số ký tự đặc biệt trong Mật khẩu mới = Min - 1 (0 ký tự đặc biệt) | `123456` *(mã đúng)* | `Abc12345` | `Abc12345` | - Đặt lại mật khẩu thất bại, thông báo lỗi thiếu ký tự đặc biệt (O10)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MIN_08 | Số ký tự đặc biệt trong Mật khẩu mới = Min (1 ký tự đặc biệt) | `123456` *(mã đúng)* | `Abc1234!` | `Abc1234!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
+| FR03_MINP_08 | Số ký tự đặc biệt trong Mật khẩu mới = Min + 1 (2 ký tự đặc biệt) | `123456` *(mã đúng)* | `Abc1234!!` | `Abc1234!!` | - Đặt lại mật khẩu thành công (O9)<br>- Hiển thị "Bước 2 / 2" (O11) |
