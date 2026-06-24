@@ -12,7 +12,7 @@
 ## Coverage
 | Coverage Type | Covered IDs |
 |---|---|
-| [Kỹ thuật kiểm thử (VD: Equivalence Partitioning / Boundary Value Analysis)] | [Mã ID test case thiết kế (VD: FR03_EP_V01)] |
+| [Kỹ thuật kiểm thử (VD: Equivalence Partitioning / Boundary Value Analysis)] | [Mã ID test case thiết kế rút gọn(VD: FR03_EP_V01)] |
 
 ## Preconditions
 1. [Điều kiện tiền đề 1]
