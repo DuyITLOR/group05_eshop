@@ -14,6 +14,11 @@
 |---|---|
 | [Kỹ thuật kiểm thử (VD: Equivalence Partitioning / Boundary Value Analysis)] | [Mã ID test case thiết kế rút gọn(VD: FR03_EP_V01)] |
 
+## Detail
+| ID | Test Objective | [Các cột Input từ file thiết kế] | [Các cột Output / Expected Output từ file thiết kế] |
+|---|---|---|---|
+| [Mã ID test case thiết kế rút gọn] | [Nội dung cột mục tiêu kiểm thử] | [Nội dung cột input tương ứng] | [Nội dung cột kết quả mong đợi tương ứng] |
+
 ## Preconditions
 1. [Điều kiện tiền đề 1]
 2. [Điều kiện tiền đề 2]
