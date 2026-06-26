@@ -4,7 +4,8 @@
 API Admin cập nhật trạng thái đơn hàng cho phép chuyển đổi từ trạng thái kết thúc `canceled` sang trạng thái kết thúc khác `delivered`. Theo đặc tả FR-10: "Trạng thái `delivered` và `canceled` là trạng thái kết thúc — không được phép chuyển sang bất kỳ trạng thái nào khác."
 
 ## Test case coverage: 
-- Lỗi logic thiết kế mã nguồn của API `/api/admin/orders/:id/status` (ảnh hưởng gián tiếp đến tính đúng đắn của máy trạng thái đơn hàng).
+- `TC-FR10-12` (Admin cập nhật từ trạng thái kết thúc `canceled` sang trạng thái khác (`canceled` -> `confirmed`))
+ 
 
 ## Preconditions: 
 1. Đăng nhập hệ thống với tài khoản Admin (`admin@eshop.com` / `Admin123!`) và lấy JWT Token Admin.

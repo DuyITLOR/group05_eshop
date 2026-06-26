@@ -4,7 +4,7 @@
 API Admin cập nhật trạng thái đơn hàng (`PUT /api/admin/orders/:id/status`) không kiểm tra quyền admin (`role === 'admin'`). Người dùng có tài khoản thông thường (role = 'user') vẫn có thể gọi API này để thay đổi trạng thái của bất kỳ đơn hàng nào trong hệ thống.
 
 ## Test case coverage: 
-- [TC-FR10-14](file:///d:/group05_eshop/tests/test-cases/FR10/TC-FR10-14.md)
+- `TC-FR10-14` (Người dùng thường thực hiện thao tác cập nhật của Admin)
 
 ## Preconditions: 
 1. Đăng nhập hệ thống với tài khoản User thường (`test@eshop.com` / `Test1234!`) và lấy JWT Token của User thường.

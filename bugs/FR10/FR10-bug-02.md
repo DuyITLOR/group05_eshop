@@ -5,7 +5,7 @@ Người dùng có thể tự hủy đơn hàng khi đơn hàng đang ở trạn
 Giao diện người dùng cũng hiển thị sai nút "Hủy đơn" đối với đơn hàng ở trạng thái "Đang giao".
 
 ## Test case coverage: 
-- [TC-FR10-19](file:///d:/group05_eshop/tests/test-cases/FR10/TC-FR10-19.md)
+- `TC-FR10-19` (Người dùng tự hủy đơn hàng khi đã ở trạng thái shipping)
 
 ## Preconditions: 
 1. Đăng nhập hệ thống với tài khoản User thường (`test@eshop.com` / `Test1234!`).

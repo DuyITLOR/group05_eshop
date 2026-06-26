@@ -4,11 +4,11 @@
 Màn hình Quên mật khẩu (Bước 1/2) thiếu chỉ báo bước (Step Indicator) "Bước 1 / 2" và thiếu nút/liên kết "Quay lại đăng nhập" như đặc tả yêu cầu.
 
 ## Test case coverage: 
-- `TC-FR03-01` (Yêu cầu OTP thành công với email đã đăng ký)
-- `TC-FR03-18` (Kiểm thử BVA độ dài Email = Min)
-- `TC-FR03-19` (Kiểm thử BVA độ dài Email = Min + 1)
-- `TC-FR03-20` (Kiểm thử BVA độ dài Email = Max - 1)
-- `TC-FR03-21` (Kiểm thử BVA độ dài Email = Max)
+- `TC-FR03-01` (Email hợp lệ đã đăng ký trong miền E1)
+- `TC-FR03-18` (Độ dài Email = Min (5 ký tự))
+- `TC-FR03-19` (Độ dài Email = Min + 1 (6 ký tự))
+- `TC-FR03-20` (Độ dài Email = Max - 1 (253 ký tự))
+- `TC-FR03-21` (Độ dài Email = Max (254 ký tự))
 
 ## Preconditions: 
 - Người dùng đang ở màn hình Quên mật khẩu (`http://localhost:5173/forgot-password`).

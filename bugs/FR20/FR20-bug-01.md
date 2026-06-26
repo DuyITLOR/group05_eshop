@@ -4,7 +4,7 @@
 API backend hủy đơn hàng (`PUT /api/orders/:id/cancel`) không kiểm tra và chặn trường hợp đơn hàng đang ở trạng thái "Đang giao" (`shipping`). Người dùng vẫn có thể gửi yêu cầu hủy trực tiếp đến API để chuyển đổi trạng thái đơn hàng đang đi giao thành "Đã hủy" (`canceled`), vi phạm đặc tả của sơ đồ chuyển đổi trạng thái đơn hàng (State Machine).
 
 ## Test case coverage: 
-- `TC-D9-11` (Người dùng cố gắng hủy đơn hàng ở trạng thái shipping bằng API)
+- `TC-D9-11` (Người dùng cố gắng hủy đơn hàng ở trạng thái `shipping` bằng API)
 
 ## Preconditions: 
 1. Người dùng đã đăng nhập tài khoản khách hàng và lấy JWT Token hợp lệ.

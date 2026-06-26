@@ -5,10 +5,10 @@
 2. Mã OTP được hệ thống tạo ra chỉ có **4 chữ số** thay vì **6 chữ số** như yêu cầu trong đặc tả FR-03.
 
 ## Test case coverage: 
-- `TC-FR03-02` (Đặt lại mật khẩu thành công với thông tin hợp lệ)
-- `TC-FR03-15` (Đặt lại mật khẩu thất bại do Xác nhận mật khẩu mới rỗng)
-- `TC-FR03-16` (Đặt lại mật khẩu thất bại do Xác nhận mật khẩu mới không khớp)
-- `TC-FR03-23`, `TC-FR03-24`, `TC-FR03-25` (Kiểm thử BVA độ dài OTP)
+- `TC-FR03-02` (Mã OTP sinh ra gồm đúng 6 chữ số ngẫu nhiên trong miền O1)
+- `TC-FR03-15` (Xác nhận mật khẩu không khớp trong miền CF2)
+- `TC-FR03-16` (Xác nhận mật khẩu để trống trong miền CF3)
+- `TC-FR03-23` (Độ dài OTP = Min - 1 (5 ký tự))
 
 ## Preconditions: 
 - Người dùng đã nhập email đăng ký ở Bước 1 và nhấn nút "Lấy mã OTP".
