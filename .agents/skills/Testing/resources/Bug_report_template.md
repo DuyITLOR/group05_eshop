@@ -5,7 +5,8 @@
 
 ## Test case coverage: 
 
-[Các test case bị bug này]
+- `TC-<ID>` (Mô tả ngắn gọn về test case, ví dụ: Đăng nhập thành công với admin)
+*(Lưu ý: Chỉ liệt kê mã và mô tả test case, không chèn link liên kết đến file)*
 
 ## Preconditions: 
 [Điều kiện tiên quyết]
