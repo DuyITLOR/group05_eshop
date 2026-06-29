@@ -62,6 +62,21 @@ Sau khi hoàn thành test design (Bước 1–4), tạo các file test case chi 
 - **Actual results**: Để trống hoặc ghi "Chưa thực hiện" (vì chưa test)
 - **Status**: Mặc định `Not Run`
 
+### Bước 6: Thực hiện kiểm thử (Testing) & Báo cáo lỗi (Bug Report)
+
+Sau khi tạo xong các test case, tiến hành thực hiện kiểm thử ứng dụng để tìm ra lỗi so với đặc tả (README.md).
+
+**Quy trình thực hiện:**
+1. Khởi động ứng dụng theo hướng dẫn trong `setup_guide.md` (nếu kiểm thử UI/API thủ công).
+2. Thực hiện từng bước kiểm thử (test steps) trong mỗi test case.
+3. So sánh kết quả thực tế với kết quả mong đợi (Expected results).
+4. Cập nhật các trường sau trong file test case vừa chạy:
+   - `Actual results`: Kết quả thực tế đạt được sau khi chạy test case.
+   - `Status`: Cập nhật thành `Passed` (nếu đạt) hoặc `Failed` (nếu có lỗi/không khớp mong đợi) hoặc `Blocked` (nếu bị chặn).
+5. Nếu test case có trạng thái `Failed`, hãy tạo file báo cáo lỗi (Bug Report) cho lỗi đó theo template Bug report.
+   - Các file bug report được đặt trong folder `HW/week04/Dat/bugs/<function>/` với tên có format: `<function>-bug-<sequence>.md` (VD: `FR09-bug-01.md`).
+   - Nếu phát hiện bug trên giao diện hoặc cần minh chứng, chụp ảnh màn hình lỗi, lưu vào thư mục `HW/week04/Dat/bugs/<function>/images/` và nhúng vào báo cáo lỗi bằng đường dẫn tương đối (VD: `![Mô tả](./images/<function>-bug-01.png)`).
+
 ## Kết quả trả về
 
 ### File test design:
@@ -76,6 +91,9 @@ Trong đó:
 
 Ví dụ: `HW/week04/Dat/test-cases/FR09/TC-FR09-01.md`
 
+### File báo cáo lỗi (nếu có):
+Trả về các file markdown báo cáo lỗi có tên `<function>-bug-<sequence>.md` trong thư mục `HW/week04/Dat/bugs/<function>/` và hình ảnh đính kèm (nếu có) trong thư mục `HW/week04/Dat/bugs/<function>/images/`
+
 ## Sử dụng template & ví dụ
 
 ### Test design:
@@ -86,16 +104,18 @@ Ví dụ: `HW/week04/Dat/test-cases/FR09/TC-FR09-01.md`
 - Template: `.agents/skills/Test case/resources/TC_template.md`
 - Ví dụ: `.agents/skills/Decision table & Parwise Testing/examples/TC-FR09-01.md`
 
+### Báo cáo lỗi (Bug Report):
+- Template: `.agents/skills/Decision table & Parwise Testing/resources/Bug_report_template.md`
+- Ví dụ: `.agents/skills/Decision table & Parwise Testing/examples/FR10-bug-01.md`
+
 ## Lưu ý:
 1. ID test case trong test design theo mẫu: `<function>-DTT-<sequence>` (VD: `FR09-DTT-01`)
 2. Tên file test case theo mẫu: `TC-<function>-<sequence>.md` (VD: `TC-FR09-01.md`)
-
-Trong đó:
-- `<function>` là mã function cần test (VD: FR01, FR02, FR09)
-- `<sequence>` là số thứ tự của test case (bắt đầu từ 01)
-
-3. Mỗi tổ hợp điều kiện phải được xác định kết quả dựa trên đặc tả trong README.md
-4. Nếu một tổ hợp điều kiện không thể xảy ra trong thực tế, đánh dấu là Impossible và loại bỏ khi rút gọn
-5. Khi có nhiều kết quả đồng thời xảy ra cho 1 rule, đánh dấu X ở tất cả các hàng kết quả tương ứng
-6. Pairwise chỉ áp dụng cho các rules có dấu `-`. Nếu bảng rút gọn không có `-` nào thì bỏ qua Bước 4
-7. Mỗi test case ID trong bảng kết quả cuối cùng phải có đúng 1 file test case tương ứng
+3. ID của Bug theo mẫu: `<function>-bug-<sequence>` (VD: `FR09-bug-01`)
+4. Tên file báo cáo lỗi theo mẫu: `<function>-bug-<sequence>.md` (VD: `FR09-bug-01.md`)
+5. Mỗi tổ hợp điều kiện phải được xác định kết quả dựa trên đặc tả trong README.md
+6. Nếu một tổ hợp điều kiện không thể xảy ra trong thực tế, đánh dấu là Impossible và loại bỏ khi rút gọn
+7. Khi có nhiều kết quả đồng thời xảy ra cho 1 rule, đánh dấu X ở tất cả các hàng kết quả tương ứng
+8. Pairwise chỉ áp dụng cho các rules có dấu `-`. Nếu bảng rút gọn không có `-` nào thì bỏ qua Bước 4
+9. Mỗi test case ID trong bảng kết quả cuối cùng phải có đúng 1 file test case tương ứng
+10. Luôn cập nhật trạng thái thực tế của tất cả các file test case sau khi kiểm thử xong. Không để trống trường `Actual results` và `Status` khi đã hoàn thành bước kiểm thử.
