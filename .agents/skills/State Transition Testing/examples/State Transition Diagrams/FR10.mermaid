@@ -1,0 +1,13 @@
+stateDiagram-v2
+    [*] --> pending : Khởi tạo đơn hàng (User)
+    
+    pending --> confirmed : Confirm (Admin)
+    pending --> canceled : Cancel (Admin/User)
+    
+    confirmed --> shipping : Ship (Admin)
+    confirmed --> canceled : Cancel (Admin/User)
+    
+    shipping --> delivered : Deliver (Admin)
+    
+    delivered --> [*] : Trạng thái kết thúc
+    canceled --> [*] : Trạng thái kết thúc
