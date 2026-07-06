@@ -31,10 +31,10 @@ Use Case/UC-CART.md — Extension 4a
 3. Có nút **"Tiếp tục mua sắm"** để quay về trang chủ.
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử)_
+1. Trang giỏ trống chỉ có **chữ** + 1 link, **không có hình minh họa/icon** (thiếu so với spec).
 
 ## Status
-Not Run
+Failed
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-05

@@ -52,10 +52,10 @@ Test Design/ST-CART.md — Kịch bản End-to-End E2E-02
 4. Sau **Checkout thành công** → chuyển sang trạng thái **Đã thanh toán (kết thúc)**; phiên mua sắm dừng lại.
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử. Ghi rõ bước đầu tiên bị sai nếu có.)_
+Kịch bản **Fail**: bước Xóa (bước 2) không hiện dialog xác nhận, xóa ngay (BUG-CART-03) → không thực hiện được nhánh Hủy; khi giỏ về trống thì thiếu hình minh họa (BUG-CART-05).
 
 ## Status
-Not Run
+Failed
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-03, BUG-CART-05
