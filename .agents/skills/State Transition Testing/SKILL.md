@@ -17,7 +17,7 @@ Kiểm tra xem nếu chức năng đó không thể dùng phương pháp state t
 Từ đặc tả chức năng trong README.md:
 1. Xác định tất cả các trạng thái có thể có của đối tượng (ví dụ: `pending`, `confirmed`, `shipping`, `delivered`, `canceled`).
 2. Xác định các hành động/sự kiện (actions/events) gây ra sự chuyển đổi trạng thái (ví dụ: Admin xác nhận, Admin giao hàng, User hủy).
-3. Tạo thư mục `State Transition Diagrams/` trong thư mục `HW/week05/Dat/State Transition Testing/test-design/`.
+3. Tạo thư mục `State Transition Diagrams/` trong thư mục `HW/week05/The Dat/State Transition Testing/test-design/`.
 4. Tạo file `<function>.mermaid` chứa mã nguồn code Mermaid (`stateDiagram-v2`) mô tả chi tiết sơ đồ chuyển trạng thái.
 5. Chụp ảnh sơ đồ Mermaid đó và lưu dưới dạng `<function>.svg` (hoặc `<function>.png`) trong thư mục `State Transition Diagrams/images/`.
 6. Nhúng hình ảnh sơ đồ chuyển trạng thái này vào file test design `STT-<function>.md` bằng cú pháp: `![State Transition Diagram](./State%20Transition%20Diagrams/images/<function>.svg)`.
@@ -50,7 +50,7 @@ Từ bảng ma trận chuyển đổi trạng thái (States x Actions Matrix) �
 **Các trường cần điền:**
 - **Requirement ID**: Mã chức năng (VD: FR10)
 - **Module / Test type / Technique**: [Tên module] / Functional / State Transition Testing
-- **Test design source**: `HW/week05/Dat/State Transition Testing/test-design/STT-<function>.md`
+- **Test design source**: `HW/week05/The Dat/State Transition Testing/test-design/STT-<function>.md`
 - **Coverage**: Liệt kê ID test case trong test design mà TC này bao phủ (VD: `FR10-STT-01`)
 - **Detail**: Bảng chi tiết gồm ID, Test Objective, Trạng thái hiện tại, Hành động kích hoạt, và Trạng thái tiếp theo mong đợi
 - **Test data**: Dữ liệu cụ thể dùng để test
@@ -71,28 +71,28 @@ Sau khi tạo xong các test case, tiến hành thực hiện kiểm thử ứng
    - `Actual results`: Kết quả thực tế đạt được sau khi chạy test case.
    - `Status`: Cập nhật thành `Passed` (nếu đạt) hoặc `Failed` (nếu có lỗi/không khớp mong đợi) hoặc `Blocked` (nếu bị chặn).
 5. Nếu test case có trạng thái `Failed`, hãy tạo file báo cáo lỗi (Bug Report) cho lỗi đó theo template Bug report.
-   - Các file bug report được đặt trong folder `HW/week05/Dat/State Transition Testing/bugs/<function>/` với tên có format: `<function>-bug-<sequence>.md` (VD: `FR10-bug-01.md`).
-   - Nếu phát hiện bug trên giao diện hoặc cần minh chứng, chụp ảnh màn hình lỗi, lưu vào thư mục `HW/week05/Dat/State Transition Testing/bugs/<function>/images/` và nhúng vào báo cáo lỗi bằng đường dẫn tương đối (VD: `![Mô tả](./images/<function>-bug-01.png)`).
+   - Các file bug report được đặt trong folder `HW/week05/The Dat/State Transition Testing/bugs/<function>/` với tên có format: `<function>-bug-<sequence>.md` (VD: `FR10-bug-01.md`).
+   - Nếu phát hiện bug trên giao diện hoặc cần minh chứng, chụp ảnh màn hình lỗi, lưu vào thư mục `HW/week05/The Dat/State Transition Testing/bugs/<function>/images/` và nhúng vào báo cáo lỗi bằng đường dẫn tương đối (VD: `![Mô tả](./images/<function>-bug-01.png)`).
 
 ## Kết quả trả về
 
 ### File test design và Diagram:
-- Trả về 1 file markdown có tên `STT-<function>.md` trong thư mục `HW/week05/Dat/State Transition Testing/test-design/`
-- Trả về 1 thư mục có tên `State Transition Diagrams` nằm trong thư mục `HW/week05/Dat/State Transition Testing/test-design/` bao gồm:
+- Trả về 1 file markdown có tên `STT-<function>.md` trong thư mục `HW/week05/The Dat/State Transition Testing/test-design/`
+- Trả về 1 thư mục có tên `State Transition Diagrams` nằm trong thư mục `HW/week05/The Dat/State Transition Testing/test-design/` bao gồm:
   - File `<function>.mermaid` chứa mã nguồn code Mermaid vẽ sơ đồ chuyển trạng thái.
   - Thư mục con `images/` chứa file hình ảnh `<function>.svg` (hoặc `<function>.png`) chụp từ sơ đồ chuyển trạng thái tương ứng.
 
 ### File test cases:
-- Trả về các file markdown có tên `TC-<function>-<sequence>.md` trong thư mục `HW/week05/Dat/State Transition Testing/test-cases/<function>/`
+- Trả về các file markdown có tên `TC-<function>-<sequence>.md` trong thư mục `HW/week05/The Dat/State Transition Testing/test-cases/<function>/`
 
 Trong đó:
 - `<function>`: là mã yêu cầu chức năng (VD: FR01, FR02, FR10)
 - `<sequence>`: là số thứ tự của test case (VD: 01, 02,...)
 
-Ví dụ: `HW/week05/Dat/State Transition Testing/test-cases/FR10/TC-FR10-01.md`
+Ví dụ: `HW/week05/The Dat/State Transition Testing/test-cases/FR10/TC-FR10-01.md`
 
 ### File báo cáo lỗi (nếu có):
-- Trả về các file markdown báo cáo lỗi có tên `<function>-bug-<sequence>.md` trong thư mục `HW/week05/Dat/State Transition Testing/bugs/<function>/` và hình ảnh đính kèm (nếu có) trong thư mục `HW/week05/Dat/State Transition Testing/bugs/<function>/images/`
+- Trả về các file markdown báo cáo lỗi có tên `<function>-bug-<sequence>.md` trong thư mục `HW/week05/The Dat/State Transition Testing/bugs/<function>/` và hình ảnh đính kèm (nếu có) trong thư mục `HW/week05/The Dat/State Transition Testing/bugs/<function>/images/`
 
 ## Sử dụng template & ví dụ
 

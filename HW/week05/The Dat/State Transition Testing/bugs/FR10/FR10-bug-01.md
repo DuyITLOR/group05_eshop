@@ -4,7 +4,7 @@
 Hệ thống cho phép Admin cập nhật trạng thái đơn hàng đã hủy (`canceled`) sang đã giao hàng (`delivered`). Trái ngược với đặc tả (delivered và canceled là các trạng thái kết thúc, không được phép chuyển sang bất kỳ trạng thái nào khác).
 
 ## Test case coverage: 
-- `TC-FR10-06` (Chuyển trạng thái từ đơn hàng đã hủy (canceled) — Use Case Testing EF1)
+- `TC-FR10-19` (Chặn giao thành công đơn hàng đã bị hủy — State Transition Testing FR10-STT-19)
 
 ## Preconditions: 
 1. Tài khoản đăng nhập có quyền Admin (`role = 'admin'`, sử dụng account mặc định `admin@eshop.com` / `Admin123!`).
@@ -30,5 +30,5 @@ Hệ thống cho phép Admin cập nhật trạng thái đơn hàng đã hủy (
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `HW/week05/The Dat/bugs/FR10/images/FR10-bug-01.png`
+- Chụp màn hình bug và lưu tại: `HW/week05/The Dat/State Transition Testing/bugs/FR10/images/FR10-bug-01.png`
 - ![Mô tả ảnh](./images/FR10-bug-01.png)

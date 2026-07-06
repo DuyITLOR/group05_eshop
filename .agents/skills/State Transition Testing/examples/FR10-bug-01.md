@@ -30,5 +30,5 @@ Hệ thống cho phép Admin cập nhật trạng thái đơn hàng đã hủy (
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `HW/week05/Dat/State Transition Testing/bugs/FR10/images/FR10-bug-01.png`
+- Chụp màn hình bug và lưu tại: `HW/week05/The Dat/State Transition Testing/bugs/FR10/images/FR10-bug-01.png`
 - ![Mô tả ảnh](./images/FR10-bug-01.png)
