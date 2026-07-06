@@ -64,10 +64,10 @@ Test Design/ST-CART.md — Kịch bản End-to-End E2E-01
 5. Sau **Checkout thành công** → chuyển sang trạng thái **Đã thanh toán (kết thúc)**; phiên mua sắm dừng lại.
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử. Ghi rõ bước đầu tiên bị sai nếu có.)_
+Kịch bản **Fail ngay bước 1**: bấm "Thêm vào giỏ" 1 lần không thêm (BUG-CART-06). Các bước sau cũng lỗi: thêm SP đã có tạo dòng mới (BUG-CART-01), không có nút +/- để đổi số lượng (BUG-CART-02), Xóa không có dialog xác nhận (BUG-CART-03), nhãn tổng "Tổng tạm tính" (BUG-CART-04).
 
 ## Status
-Not Run
+Failed
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-06, BUG-CART-01, BUG-CART-02, BUG-CART-03, BUG-CART-04

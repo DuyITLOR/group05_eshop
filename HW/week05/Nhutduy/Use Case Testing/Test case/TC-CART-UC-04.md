@@ -32,10 +32,10 @@ Use Case/UC-CART.md — Extension 5a
 3. Dòng A **vẫn còn** trong giỏ (không tự xóa).
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử)_
+1. **Không có nút −** trong giỏ → không thực hiện được thao tác giảm số lượng (không kiểm được biên = 1).
 
 ## Status
-Not Run
+Blocked
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-02

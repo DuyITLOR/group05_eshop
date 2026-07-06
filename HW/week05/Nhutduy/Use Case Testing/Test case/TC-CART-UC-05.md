@@ -32,10 +32,10 @@ Use Case/UC-CART.md — Extension 8a
 2. SP A **vẫn còn** trong giỏ (không bị xóa); tổng không đổi.
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử)_
+1. Bấm Xóa **không hiện dialog xác nhận** (xóa ngay) → không có nút **Hủy** để kiểm nhánh này.
 
 ## Status
-Not Run
+Blocked
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-03
