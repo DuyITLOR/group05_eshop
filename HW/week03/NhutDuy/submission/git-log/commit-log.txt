@@ -1,0 +1,517 @@
+* 1756a09 | 2026-06-29 | DuyITLOR | test(profile): bổ sung file test case chi tiết TC-PROFILE (đủ 13)| 
+|  test-cases/feature-D/TC-PROFILE-002.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-003.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-004.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-005.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-006.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-007.md | 30 ++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-009.md | 34 ++++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-010.md | 33 +++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-011.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-012.md | 32 ++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-013.md | 32 ++++++++++++++++++++++++++++++
+|  11 files changed, 353 insertions(+)
+
+* 15a8d97 | 2026-06-29 | DuyITLOR | test(product): bổ sung file test case chi tiết TC-PRODUCT-002..020 (đủ 20)| 
+|  test-cases/feature-C/TC-PRODUCT-002.md | 36 +++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-003.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-004.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-005.md | 36 +++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-006.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-007.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-009.md | 37 ++++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-010.md | 34 +++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-011.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-012.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-013.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-014.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-015.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-016.md | 37 ++++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-017.md | 37 ++++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-018.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-019.md | 35 ++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-020.md | 35 ++++++++++++++++++++++++++++++
+|  18 files changed, 637 insertions(+)
+
+* da23e8c | 2026-06-29 | DuyITLOR | test(cart): bổ sung file test case chi tiết TC-CART (đủ 14)| 
+|  test-cases/feature-B/TC-CART-002.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-003.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-004.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-005.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-006.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-008.md | 30 ++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-009.md | 30 ++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-010.md | 30 ++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-011.md | 30 ++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-013.md | 31 +++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-014.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-015.md | 33 +++++++++++++++++++++++++++++++++
+|  12 files changed, 382 insertions(+)
+
+* 743e822 | 2026-06-29 | DuyITLOR | test(register): bổ sung file test case chi tiết TC-REGISTER-002..037 (đủ 37)| 
+|  test-cases/feature-A/TC-REGISTER-002.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-003.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-005.md | 32 +++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-007.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-008.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-009.md | 34 +++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-010.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-012.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-013.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-014.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-015.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-016.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-017.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-018.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-019.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-020.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-021.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-022.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-023.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-024.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-025.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-026.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-027.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-028.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-029.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-030.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-031.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-032.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-033.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-034.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-035.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-036.md | 33 ++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-037.md | 34 +++++++++++++++++++++++++++++++
+|  33 files changed, 1090 insertions(+)
+
+* aeae1bb | 2026-06-29 | DuyITLOR | docs(readme): tự chấm 100/100| 
+|  README.md | 16 ++++++++--------
+|  1 file changed, 8 insertions(+), 8 deletions(-)
+
+* 2146e87 | 2026-06-29 | DuyITLOR | chore: commit-log dạng graph (git log --graph --all --stat)| 
+|  git-log/commit-log.txt | 498 ++++++++++++++++++++++++++++++++++++++++-------
+|  1 file changed, 423 insertions(+), 75 deletions(-)
+
+* 66f9698 | 2026-06-29 | DuyITLOR | docs: xuất PDF main-report + ai-audit-report + ai-critique (deliverable bắt buộc)| 
+|  ai-audit/ai-audit-report.pdf | Bin 0 -> 417651 bytes
+|  ai-audit/ai-critique.pdf     | Bin 0 -> 61126 bytes
+|  report/main-report.pdf       | Bin 0 -> 1402986 bytes
+|  3 files changed, 0 insertions(+), 0 deletions(-)
+
+* 7e99904 | 2026-06-29 | DuyITLOR | docs(readme): thêm link video demo Agent Skill (YouTube)| 
+|  README.md | 2 +-
+|  1 file changed, 1 insertion(+), 1 deletion(-)
+
+* 20e4829 | 2026-06-29 | DuyITLOR | chore: refresh commit-log| 
+|  git-log/commit-log.txt | 142 +++++++++++++++++++++++++----------------------
+|  1 file changed, 75 insertions(+), 67 deletions(-)
+
+* 037a824 | 2026-06-29 | DuyITLOR | style: bỏ emoji/icon khỏi docs (PLAYBOOK + kịch bản video)| 
+|  docs/PLAYBOOK.md                  | 12 ++++++------
+|  docs/kich-ban-video-demo-skill.md |  8 ++++----
+|  2 files changed, 10 insertions(+), 10 deletions(-)
+
+* bad91a7 | 2026-06-29 | DuyITLOR | style: bỏ emoji/icon khỏi bug-report + ai-audit-report| 
+|  ai-audit/ai-audit-report.md | 48 +++++++++++++++++++++----------------------
+|  bug-report/bug-report.md    |  8 ++++----
+|  2 files changed, 28 insertions(+), 28 deletions(-)
+
+* acee988 | 2026-06-29 | DuyITLOR | style: bỏ emoji/icon khỏi test-cases (domain/BVA/test-run/traceability)| 
+|  test-cases/feature-A/boundary-value-analysis.md   | 70 ++++++++++-----------
+|  test-cases/feature-A/domain-testing.md            | 44 ++++++-------
+|  test-cases/feature-B/boundary-value-analysis.md   | 20 +++---
+|  test-cases/feature-B/domain-testing.md            | 28 ++++-----
+|  test-cases/feature-C/boundary-value-analysis.md   | 36 +++++------
+|  test-cases/feature-C/domain-testing.md            | 54 ++++++++--------
+|  test-cases/feature-D/boundary-value-analysis.md   | 20 +++---
+|  test-cases/feature-D/domain-testing.md            | 32 +++++-----
+|  test-cases/test-runs/sprint-1-cart-test-run.md    |  2 +-
+|  test-cases/test-runs/sprint-1-product-test-run.md |  6 +-
+|  test-cases/test-runs/sprint-1-profile-test-run.md |  2 +-
+|  test-cases/test-summary/traceability-matrix.md    | 10 +--
+|  12 files changed, 162 insertions(+), 162 deletions(-)
+
+* 0714bfc | 2026-06-29 | DuyITLOR | style: bỏ emoji/icon khỏi main-report + README (giữ nguyên nội dung & ký hiệu →/·/†)| 
+|  README.md             |  10 +-
+|  report/main-report.md | 260 ++++++++++++++++++++++++------------------------
+|  2 files changed, 135 insertions(+), 135 deletions(-)
+
+* e937ace | 2026-06-29 | DuyITLOR | docs: thêm kịch bản quay video demo Agent Skill (Feature C)| 
+|  docs/kich-ban-video-demo-skill.md | 65 +++++++++++++++++++++++++++++++++++++
+|  1 file changed, 65 insertions(+)
+
+* bfa48f7 | 2026-06-29 | DuyITLOR | docs: điền commit-fork hash 20a1243 (SUT) vào test-runs + bug-report| 
+|  bug-report/bug-report.md                          | 4 ++--
+|  test-cases/test-runs/sprint-1-cart-test-run.md    | 2 +-
+|  test-cases/test-runs/sprint-1-product-test-run.md | 2 +-
+|  test-cases/test-runs/sprint-1-profile-test-run.md | 2 +-
+|  4 files changed, 5 insertions(+), 5 deletions(-)
+
+* d2a83ff | 2026-06-29 | DuyITLOR | test(register): dựng đủ 37 test run (17 Pass/20 Fail) khớp traceability + điền commit-fork hash| 
+|  .../test-runs/sprint-1-register-test-run.md       | 29 +++++++++++++++++++--
+|  1 file changed, 27 insertions(+), 2 deletions(-)
+
+* d266066 | 2026-06-29 | DuyITLOR | docs(git-log): refresh commit log| 
+|  git-log/commit-log.txt | 9 +++++++++
+|  1 file changed, 9 insertions(+)
+
+* fdbd4ea | 2026-06-29 | DuyITLOR | docs(ai-audit): log interaction #31 (khớp lý thuyết EP/BVA Week 03)| 
+|  ai-audit/ai-audit-report.md | 12 ++++++++++++
+|  1 file changed, 12 insertions(+)
+
+* 8f3412d | 2026-06-29 | DuyITLOR | docs(report): thêm Output & miền kết quả + B5 cho A.1/B.1/C.1/D.1| 
+|  report/main-report.md | 59 +++++++++++++++++++++++++++++++++++++++++++++++++
+|  1 file changed, 59 insertions(+)
+
+* 43cd822 | 2026-06-29 | DuyITLOR | docs(feature-D): thêm Output (B2b) + rút gọn TC (B5b)| 
+|  test-cases/feature-D/domain-testing.md | 43 ++++++++++++++++++++++++++++++++
+|  1 file changed, 43 insertions(+)
+
+* 0226b23 | 2026-06-29 | DuyITLOR | docs(feature-C): thêm Output (B2b) + rút gọn TC (B5b)| 
+|  test-cases/feature-C/domain-testing.md | 54 ++++++++++++++++++++++++++++++++
+|  1 file changed, 54 insertions(+)
+
+* f8572a6 | 2026-06-29 | DuyITLOR | docs(feature-B): thêm Output (B2b) + rút gọn TC (B5b)| 
+|  test-cases/feature-B/domain-testing.md | 46 ++++++++++++++++++++++++++++++++
+|  1 file changed, 46 insertions(+)
+
+* bd85e0a | 2026-06-29 | DuyITLOR | docs(feature-A): thêm Output (B2b) + rút gọn TC (B5b) theo lý thuyết EP| 
+|  test-cases/feature-A/domain-testing.md | 39 ++++++++++++++++++++++++++++++++
+|  1 file changed, 39 insertions(+)
+
+* e3dbd16 | 2026-06-29 | DuyITLOR | feat(skill): BVA chuẩn hóa thuật ngữ 3-point/2-point + Valid Min/Max| 
+|  .claude/skills/boundary-value-analysis/SKILL.md | 11 +++++++----
+|  1 file changed, 7 insertions(+), 4 deletions(-)
+
+* 7144e10 | 2026-06-29 | DuyITLOR | feat(skill): domain-testing thêm Output (B1/B2) + B5 rút gọn TC (khớp lý thuyết Week 03)| 
+|  .claude/skills/domain-testing/SKILL.md | 32 ++++++++++++++++++++++++++++----
+|  1 file changed, 28 insertions(+), 4 deletions(-)
+
+* 101a5bd | 2026-06-28 | DuyITLOR | docs(git-log): refresh commit log| 
+|  git-log/commit-log.txt | 5 +++++
+|  1 file changed, 5 insertions(+)
+
+* 933819f | 2026-06-28 | DuyITLOR | docs: làm rõ Feature D thuộc Pool D (Mobile App), nghiệp vụ FR-04| 
+|  README.md             | 4 +++-
+|  report/main-report.md | 5 +++--
+|  2 files changed, 6 insertions(+), 3 deletions(-)
+
+* 86317d3 | 2026-06-28 | DuyITLOR | test(feature-D): thêm file TC chi tiết (TC-PROFILE-001/008)| 
+|  test-cases/feature-D/TC-PROFILE-001.md | 33 ++++++++++++++++++++++++++++++++
+|  test-cases/feature-D/TC-PROFILE-008.md | 32 +++++++++++++++++++++++++++++++
+|  2 files changed, 65 insertions(+)
+
+* 40814a8 | 2026-06-28 | DuyITLOR | test(feature-C): thêm file TC chi tiết (TC-PRODUCT-001/008)| 
+|  test-cases/feature-C/TC-PRODUCT-001.md | 35 ++++++++++++++++++++++++++++++++
+|  test-cases/feature-C/TC-PRODUCT-008.md | 32 +++++++++++++++++++++++++++++
+|  2 files changed, 67 insertions(+)
+
+* 558e171 | 2026-06-28 | DuyITLOR | test(feature-B): thêm file TC chi tiết (TC-CART-001/007) theo template chuẩn| 
+|  test-cases/feature-B/TC-CART-001.md | 33 +++++++++++++++++++++++++++++++++
+|  test-cases/feature-B/TC-CART-007.md | 31 +++++++++++++++++++++++++++++++
+|  2 files changed, 64 insertions(+)
+
+* 0873d15 | 2026-06-28 | DuyITLOR | docs(git-log): refresh commit log (toàn bộ ~52 commit)| 
+|  git-log/commit-log.txt | 38 ++++++++++++++++++++++++++++++++------
+|  1 file changed, 32 insertions(+), 6 deletions(-)
+
+* 2fa6e1b | 2026-06-28 | DuyITLOR | chore: ignore submission/ (folder dẫn xuất để zip nộp)| 
+|  .gitignore | 1 +
+|  1 file changed, 1 insertion(+)
+
+* 80b970e | 2026-06-28 | DuyITLOR | docs(ai-audit): điền khai báo + human review + log #30| 
+|  ai-audit/ai-audit-report.md | 52 ++++++++++++++++++++++++++-----------------
+|  1 file changed, 32 insertions(+), 20 deletions(-)
+
+* 382ebfc | 2026-06-28 | DuyITLOR | docs(ai-audit): viết AI Critique (250 từ, bám sự kiện thật)| 
+|  ai-audit/ai-critique.md | 15 ++++++++++++---
+|  1 file changed, 12 insertions(+), 3 deletions(-)
+
+* befd0cc | 2026-06-28 | DuyITLOR | docs(ai-audit): log interaction #28-29 (Feature D + tạo issue)| 
+|  ai-audit/ai-audit-report.md | 23 +++++++++++++++++++++++
+|  1 file changed, 23 insertions(+)
+
+* 1614091 | 2026-06-28 | DuyITLOR | docs(readme): cập nhật Feature D (84 TC, 20 bug) + link issue 4 pool| 
+|  README.md | 35 ++++++++++++++++++-----------------
+|  1 file changed, 18 insertions(+), 17 deletions(-)
+
+* aaabd08 | 2026-06-28 | DuyITLOR | docs(test-run): backfill số issue cho test run A/B/C| 
+|  test-cases/test-runs/sprint-1-cart-test-run.md     | 18 +++++++++---------
+|  test-cases/test-runs/sprint-1-product-test-run.md  | 16 ++++++++--------
+|  test-cases/test-runs/sprint-1-register-test-run.md | 14 +++++++-------
+|  3 files changed, 24 insertions(+), 24 deletions(-)
+
+* da73b60 | 2026-06-28 | DuyITLOR | docs(traceability): thêm Feature D + backfill issue B| 
+|  test-cases/test-summary/traceability-matrix.md | 42 +++++++++++++++++-------
+|  1 file changed, 31 insertions(+), 11 deletions(-)
+
+* 20bb002 | 2026-06-28 | DuyITLOR | docs(report): thêm Feature D vào main report + backfill issue B| 
+|  report/main-report.md | 140 ++++++++++++++++++++++++++++++++++++++++++------
+|  1 file changed, 125 insertions(+), 15 deletions(-)
+
+* a9c09d7 | 2026-06-28 | DuyITLOR | docs(bug-report): thêm bug Feature D (D1-D4) + link issue #82-85| 
+|  bug-report/bug-report.md | 75 +++++++++++++++++++++++++++++++++++++++++++++-
+|  1 file changed, 74 insertions(+), 1 deletion(-)
+
+* 0f14ddd | 2026-06-28 | DuyITLOR | docs(bug-report): screenshot + video evidence Feature D| 
+|  bug-report/screenshots/feature-D/.gitkeep           |   0
+|  .../feature-D/bug-d1-invalid-phone-accepted.png     | Bin 0 -> 271083 bytes
+|  .../feature-D/bug-d1-invalid-phone-input.png        | Bin 0 -> 159917 bytes
+|  .../feature-D/bug-d1-valid-phone-rejected.jpeg      | Bin 0 -> 576274 bytes
+|  .../feature-D/bug-d2-role-escalation.png            | Bin 0 -> 523439 bytes
+|  .../feature-D/bug-d3-address-not-saved.mp4          | Bin 0 -> 6019038 bytes
+|  .../screenshots/feature-D/bug-d4-put-accepted.png   | Bin 0 -> 502048 bytes
+|  7 files changed, 0 insertions(+), 0 deletions(-)
+
+* 903dbba | 2026-06-28 | DuyITLOR | test(feature-D): REST Client để test BUG-D2/D3/D4 qua API| 
+|  test-cases/feature-D/feature-D-api-tests.rest | 124 ++++++++++++++++++++++++
+|  1 file changed, 124 insertions(+)
+
+* d63a3a5 | 2026-06-28 | DuyITLOR | test(feature-D): test run sprint 1 (profile)| 
+|  test-cases/test-runs/sprint-1-profile-test-run.md | 37 +++++++++++++++++++++
+|  1 file changed, 37 insertions(+)
+
+* e5895db | 2026-06-28 | DuyITLOR | test(feature-D): boundary value analysis FR-04 (phone.length)| 
+|  test-cases/feature-D/boundary-value-analysis.md | 106 ++++++++++++++++++++++
+|  1 file changed, 106 insertions(+)
+
+* 031508e | 2026-06-28 | DuyITLOR | test(feature-D): domain testing FR-04 (hồ sơ cá nhân - mobile)| 
+|  test-cases/feature-D/domain-testing.md | 133 +++++++++++++++++++++++++++++++
+|  1 file changed, 133 insertions(+)
+
+* 87787bb | 2026-06-28 | DuyITLOR | chore: thêm .claude/README mô tả agent skills| 
+|  .claude/README.md | 26 ++++++++++++++++++++++++++
+|  1 file changed, 26 insertions(+)
+
+* 14132be | 2026-06-28 | DuyITLOR | docs: thêm PLAYBOOK quy trình thực hiện pool B/C/D| 
+|  docs/PLAYBOOK.md | 109 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+|  1 file changed, 109 insertions(+)
+
+* 35f1197 | 2026-06-28 | DuyITLOR | docs(ai-audit): log interaction #21-27| 
+|  ai-audit/ai-audit-report.md | 92 +++++++++++++++++++++++++++++++++++++++++++
+|  1 file changed, 92 insertions(+)
+
+* 4aa44f6 | 2026-06-28 | DuyITLOR | docs(readme): cập nhật test summary cho Feature B & C| 
+|  README.md | 41 +++++++++++++++++++++--------------------
+|  1 file changed, 21 insertions(+), 20 deletions(-)
+
+* 5ba3a32 | 2026-06-28 | DuyITLOR | docs(traceability): thêm Feature B & C| 
+|  test-cases/test-summary/traceability-matrix.md | 57 ++++++++++++++++++++++--
+|  1 file changed, 53 insertions(+), 4 deletions(-)
+
+* 33b9dbc | 2026-06-28 | DuyITLOR | docs(report): thêm Feature B & C vào main report| 
+|  report/main-report.md | 253 ++++++++++++++++++++++++++++++++++++++++++++++--
+|  1 file changed, 245 insertions(+), 8 deletions(-)
+
+* d0d644a | 2026-06-28 | DuyITLOR | docs(bug-report): thêm bug Feature B (B1-B6) & C (C1-C4) + issue links| 
+|  bug-report/bug-report.md | 188 +++++++++++++++++++++++++++++++++++++++++----
+|  1 file changed, 171 insertions(+), 17 deletions(-)
+
+* 9a222d8 | 2026-06-28 | DuyITLOR | docs(bug-report): thêm screenshot evidence Feature C| 
+|  bug-report/screenshots/feature-C/.gitkeep            |   0
+|  .../screenshots/feature-C/bug-c1-price-empty.png     | Bin 0 -> 367843 bytes
+|  .../screenshots/feature-C/bug-c1-price-negative.png  | Bin 0 -> 367835 bytes
+|  .../screenshots/feature-C/bug-c1-price-zero.png      | Bin 0 -> 362519 bytes
+|  .../screenshots/feature-C/bug-c2-mass-update.png     | Bin 0 -> 349474 bytes
+|  .../feature-C/bug-c3-long-name-overflow.png          | Bin 0 -> 319909 bytes
+|  6 files changed, 0 insertions(+), 0 deletions(-)
+
+* 293b785 | 2026-06-28 | DuyITLOR | test(feature-C): test run sprint 1 (product)| 
+|  test-cases/test-runs/sprint-1-product-test-run.md | 44 +++++++++++++++++++++
+|  1 file changed, 44 insertions(+)
+
+* ad37ecf | 2026-06-28 | DuyITLOR | test(feature-C): boundary value analysis FR-15| 
+|  test-cases/feature-C/boundary-value-analysis.md | 130 ++++++++++++++++++++++
+|  1 file changed, 130 insertions(+)
+
+* 1f5f952 | 2026-06-28 | DuyITLOR | test(feature-C): domain testing FR-15 (quản lý sản phẩm)| 
+|  test-cases/feature-C/domain-testing.md | 143 +++++++++++++++++++++++++++++++
+|  1 file changed, 143 insertions(+)
+
+* 7e81a7c | 2026-06-28 | DuyITLOR | docs(bug-report): thêm screenshot evidence Feature B| 
+|  bug-report/screenshots/feature-B/.gitkeep            |   0
+|  .../screenshots/feature-B/bug-b1-qty-invalid.png     | Bin 0 -> 244285 bytes
+|  bug-report/screenshots/feature-B/bug-b2-no-merge.png | Bin 0 -> 298005 bytes
+|  .../screenshots/feature-B/bug-b4-label-tamtinh.png   | Bin 0 -> 278473 bytes
+|  .../screenshots/feature-B/bug-b5-no-plusminus.png    | Bin 0 -> 278183 bytes
+|  .../screenshots/feature-B/bug-b6-empty-no-image.png  | Bin 0 -> 230716 bytes
+|  6 files changed, 0 insertions(+), 0 deletions(-)
+
+* edca8a0 | 2026-06-28 | DuyITLOR | test(feature-B): test run sprint 1 (cart)| 
+|  test-cases/test-runs/sprint-1-cart-test-run.md | 38 ++++++++++++++++++++++++
+|  1 file changed, 38 insertions(+)
+
+* fd6aa4f | 2026-06-28 | DuyITLOR | test(feature-B): boundary value analysis FR-07| 
+|  test-cases/feature-B/boundary-value-analysis.md | 84 +++++++++++++++++++++++
+|  1 file changed, 84 insertions(+)
+
+* ee4f387 | 2026-06-28 | DuyITLOR | test(feature-B): domain testing FR-07 (giỏ hàng)| 
+|  test-cases/feature-B/domain-testing.md | 140 +++++++++++++++++++++++++++++++
+|  1 file changed, 140 insertions(+)
+
+* 6b386c0 | 2026-06-28 | DuyITLOR | refactor(screenshots): tách ảnh bug Feature A vào thư mục feature-A/| 
+|  .../{ => feature-A}/bug-a1-strong-rejected.png            | Bin
+|  .../{ => feature-A}/bug-a1-weak-accepted-200.png          | Bin
+|  .../{ => feature-A}/bug-a1-weak-accepted-payload.png      | Bin
+|  bug-report/screenshots/{ => feature-A}/bug-a2-api-200.png | Bin
+|  .../{ => feature-A}/bug-a2-input-invalid-email.png        | Bin
+|  .../{ => feature-A}/bug-a2-tc015-name-blank.png           | Bin
+|  .../{ => feature-A}/bug-a2-tc016-name-digits.png          | Bin
+|  .../{ => feature-A}/bug-a2-tc017-name-html.png            | Bin
+|  .../{ => feature-A}/bug-a2-tc018-email-no-tld.png         | Bin
+|  .../{ => feature-A}/bug-a2-tc019-email-digits.png         | Bin
+|  .../screenshots/{ => feature-A}/bug-a3-payload-dup-1.png  | Bin
+|  .../screenshots/{ => feature-A}/bug-a3-payload-dup-2.png  | Bin
+|  .../{ => feature-A}/bug-a4-no-confirm-field.png           | Bin
+|  13 files changed, 0 insertions(+), 0 deletions(-)
+
+* b7ca80c | 2026-06-27 | DuyITLOR | docs(git-log): export commit log| 
+|  git-log/commit-log.txt | 28 +++++++++++++++++++++++++++-
+|  1 file changed, 27 insertions(+), 1 deletion(-)
+
+* cbff25b | 2026-06-27 | DuyITLOR | chore: relocate agent skills to .claude/skills| 
+|  .../skills}/ai-audit-logger/SKILL.md              |  0
+|  .../skills}/boundary-value-analysis/SKILL.md      |  0
+|  .../skills}/domain-testing/SKILL.md               |  0
+|  .../skills}/report-writer/SKILL.md                |  0
+|  agent-skill/README.md                             | 26 ---------------------
+|  5 files changed, 26 deletions(-)
+
+* 8f6a482 | 2026-06-27 | DuyITLOR | docs(ai-audit): log AI interactions| 
+|  ai-audit/ai-audit-report.md | 108 ++++++++++++++++++++++++++++++++++++++++++
+|  1 file changed, 108 insertions(+)
+
+* 536b774 | 2026-06-27 | DuyITLOR | docs: update README test summary and self-assessment| 
+|  README.md | 67 +++++++++++++++++++++++++++++++++++--------------------------
+|  1 file changed, 38 insertions(+), 29 deletions(-)
+
+* 8d4b587 | 2026-06-27 | DuyITLOR | docs(report): assemble main report (domain + BVA) for FR-01| 
+|  report/main-report.md | 300 +++++++++++++++++++++++++++++++++++++++++-------
+|  1 file changed, 261 insertions(+), 39 deletions(-)
+
+* d5ba74e | 2026-06-27 | DuyITLOR | chore(bug): add GitHub issue creation script| 
+|  bug-report/create-github-issues.sh | 125 +++++++++++++++++++++++++++++++++++
+|  1 file changed, 125 insertions(+)
+
+* 61296ab | 2026-06-27 | DuyITLOR | test(bug): add BUG-A4 evidence screenshot| 
+|  bug-report/screenshots/bug-a4-no-confirm-field.png | Bin 0 -> 274743 bytes
+|  1 file changed, 0 insertions(+), 0 deletions(-)
+
+* 41b105f | 2026-06-27 | DuyITLOR | test(bug): add BUG-A3 evidence screenshots| 
+|  bug-report/screenshots/bug-a3-payload-dup-1.png | Bin 0 -> 582979 bytes
+|  bug-report/screenshots/bug-a3-payload-dup-2.png | Bin 0 -> 603467 bytes
+|  2 files changed, 0 insertions(+), 0 deletions(-)
+
+* 3ffaa74 | 2026-06-27 | DuyITLOR | test(bug): add BUG-A2 evidence screenshots| 
+|  bug-report/screenshots/bug-a2-api-200.png            | Bin 0 -> 597680 bytes
+|  .../screenshots/bug-a2-input-invalid-email.png       | Bin 0 -> 280392 bytes
+|  bug-report/screenshots/bug-a2-tc015-name-blank.png   | Bin 0 -> 617873 bytes
+|  bug-report/screenshots/bug-a2-tc016-name-digits.png  | Bin 0 -> 570839 bytes
+|  bug-report/screenshots/bug-a2-tc017-name-html.png    | Bin 0 -> 578899 bytes
+|  bug-report/screenshots/bug-a2-tc018-email-no-tld.png | Bin 0 -> 561380 bytes
+|  bug-report/screenshots/bug-a2-tc019-email-digits.png | Bin 0 -> 552047 bytes
+|  7 files changed, 0 insertions(+), 0 deletions(-)
+
+* e8cb621 | 2026-06-27 | DuyITLOR | test(bug): add BUG-A1 evidence screenshots| 
+|  bug-report/screenshots/bug-a1-strong-rejected.png    | Bin 0 -> 320783 bytes
+|  bug-report/screenshots/bug-a1-weak-accepted-200.png  | Bin 0 -> 687450 bytes
+|  .../screenshots/bug-a1-weak-accepted-payload.png     | Bin 0 -> 575090 bytes
+|  3 files changed, 0 insertions(+), 0 deletions(-)
+
+* 8887049 | 2026-06-27 | DuyITLOR | docs(bug): add FR-01 register bug report (BUG-A1..A6)| 
+|  bug-report/bug-report.md | 160 ++++++++++++++++++++++++++++++++++++++++-----
+|  1 file changed, 145 insertions(+), 15 deletions(-)
+
+* b6f53e0 | 2026-06-27 | DuyITLOR | test(feature-A): add API test executor script| 
+|  test-cases/run-tests.sh | 157 ++++++++++++++++++++++++++++++++++++++++++++++
+|  1 file changed, 157 insertions(+)
+
+* 6c41a26 | 2026-06-27 | DuyITLOR | test(feature-A): add requirement-testcase-bug traceability matrix| 
+|  test-cases/test-summary/traceability-matrix.md | 60 ++++++++++++++++++++++++
+|  1 file changed, 60 insertions(+)
+
+* 9d06e04 | 2026-06-27 | DuyITLOR | test(feature-A): add sprint-1 register test run| 
+|  .../test-runs/sprint-1-register-test-run.md       | 37 +++++++++++++++++++++
+|  1 file changed, 37 insertions(+)
+
+* e368235 | 2026-06-27 | DuyITLOR | test(feature-A): add individual register test cases| 
+|  test-cases/feature-A/TC-REGISTER-001.md | 33 +++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-004.md | 33 +++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-006.md | 33 +++++++++++++++++++++++++++++++
+|  test-cases/feature-A/TC-REGISTER-011.md | 33 +++++++++++++++++++++++++++++++
+|  4 files changed, 132 insertions(+)
+
+* 5c49451 | 2026-06-27 | DuyITLOR | test(feature-A): add boundary value analysis for FR-01 register| 
+|  test-cases/feature-A/boundary-value-analysis.md | 199 ++++++++++++++++++++++
+|  1 file changed, 199 insertions(+)
+
+* 5d92476 | 2026-06-27 | DuyITLOR | test(feature-A): add domain testing (EP) for FR-01 register| 
+|  test-cases/feature-A/domain-testing.md | 184 +++++++++++++++++++++++++++++++
+|  1 file changed, 184 insertions(+)
+
+* 5dc606d | 2026-06-27 | DuyITLOR | chore(feature-A): add group feature assignment sheet| 
+|  assets/Dang_ky_Feature_Nhom05.xlsx | Bin 0 -> 6837 bytes
+|  1 file changed, 0 insertions(+), 0 deletions(-)
+
+* 9c2d503 | 2026-06-27 | DuyITLOR | chore: ignore SUT fork and Claude internal files| 
+|  .gitignore | 7 +++++++
+|  1 file changed, 7 insertions(+)
+
+* 7c31207 | 2026-06-20 | DuyITLOR | feat: add 4 agent skills (domain-testing, BVA, ai-audit-logger, report-writer)| 
+|  agent-skill/README.md                        | 31 ++++++++---
+|  agent-skill/ai-audit-logger/SKILL.md         | 49 +++++++++++++++++
+|  agent-skill/boundary-value-analysis/SKILL.md | 69 +++++++++++++++++++++++
+|  agent-skill/domain-testing/SKILL.md          | 76 ++++++++++++++++++++++++++
+|  agent-skill/report-writer/SKILL.md           | 63 +++++++++++++++++++++
+|  ai-audit/ai-audit-report.md                  | 22 ++++++++
+|  6 files changed, 301 insertions(+), 9 deletions(-)
+
+* 3e2a8ac | 2026-06-20 | DuyITLOR | docs: add the document for HW02| 
+|  docs/03 - github_bug_management.pptx.pdf          | Bin 0 -> 194282 bytes
+|  docs/03 - github_testcase_management.pptx (1).pdf | Bin 0 -> 418969 bytes
+|  docs/2026.HW02.Domain Testing_En.pdf              | Bin 0 -> 403870 bytes
+|  3 files changed, 0 insertions(+), 0 deletions(-)
+
+* 8677089 | 2026-06-20 | DuyITLOR | docs: add AI audit log (interactions #1-#8)| 
+|  ai-audit/ai-audit-report.md | 101 +++++++++++++++++++++++++++++++++++-------
+|  1 file changed, 86 insertions(+), 15 deletions(-)
+
+* 4719daf | 2026-06-20 | DuyITLOR | chore: initialize HW02 Domain Testing repository structure  
+   .gitignore                      | 15 ++++++++
+   README.md                       | 60 ++++++++++++++++++++++++++++++
+   agent-skill/README.md           | 13 +++++++
+   ai-audit/ai-audit-report.md     | 33 +++++++++++++++++
+   ai-audit/ai-critique.md         |  6 +++
+   assets/.gitkeep                 |  0
+   bug-report/bug-report.md        | 22 +++++++++++
+   bug-report/screenshots/.gitkeep |  0
+   git-log/.gitkeep                |  0
+   git-log/commit-log.txt          |  1 +
+   report/main-report.md           | 78 +++++++++++++++++++++++++++++++++++++++
+   test-cases/feature-A/.gitkeep   |  0
+   test-cases/feature-B/.gitkeep   |  0
+   test-cases/feature-C/.gitkeep   |  0
+   test-cases/feature-D/.gitkeep   |  0
+   15 files changed, 228 insertions(+)
+
+* 4ab12bf | 2026-06-20 | DuyITLOR | docs: ghi nhật ký AI audit (interaction #1-#8)| 
+|  ai-audit/ai-audit-report.md | 101 +++++++++++++++++++++++++++++++++++-------
+|  1 file changed, 86 insertions(+), 15 deletions(-)
+
+* 54650fd | 2026-06-20 | DuyITLOR | chore: khởi tạo cấu trúc repo HW02 Domain Testing  
+   .gitignore                      | 15 ++++++++
+   README.md                       | 60 ++++++++++++++++++++++++++++++
+   agent-skill/README.md           | 13 +++++++
+   ai-audit/ai-audit-report.md     | 33 +++++++++++++++++
+   ai-audit/ai-critique.md         |  6 +++
+   assets/.gitkeep                 |  0
+   bug-report/bug-report.md        | 22 +++++++++++
+   bug-report/screenshots/.gitkeep |  0
+   git-log/.gitkeep                |  0
+   git-log/commit-log.txt          |  1 +
+   report/main-report.md           | 78 +++++++++++++++++++++++++++++++++++++++
+   test-cases/feature-A/.gitkeep   |  0
+   test-cases/feature-B/.gitkeep   |  0
+   test-cases/feature-C/.gitkeep   |  0
+   test-cases/feature-D/.gitkeep   |  0
+   15 files changed, 228 insertions(+)
