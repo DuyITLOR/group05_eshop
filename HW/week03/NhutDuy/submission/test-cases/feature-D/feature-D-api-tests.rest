@@ -1,0 +1,124 @@
+###############################################################################
+# Feature D (FR-04 Hồ sơ cá nhân) — Test bug qua API  (PUT /api/users/me)
+#
+# Cách chạy: cài extension "REST Client" (humao.rest-client) trong VS Code,
+#   rồi bấm "Send Request" phía trên TỪNG request, chạy lần lượt từ trên xuống.
+# Backend phải đang chạy:  cd backend && node server.js   (port 3000)
+#
+#   • BUG-D2 (Critical/P0): user thường tự nâng quyền role = "admin"  -> request 3,4
+#   • BUG-D4 (Major/P1):    backend không validate name rỗng / phone sai -> request 6,7
+###############################################################################
+
+@baseUrl = http://localhost:3000/api
+@email = test@eshop.com
+@password = Test1234!
+
+### 1) Đăng nhập USER THƯỜNG để lấy token (role hiện tại = "user")
+# @name login
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### 2) Xem hồ sơ TRƯỚC — kỳ vọng "role": "user"
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+
+
+# ======================= BUG-D2: LEO THANG ĐẶC QUYỀN =========================
+# SRS FR-04: "không thể tự thay đổi thuộc tính role" => PHẢI bị từ chối/bỏ qua.
+
+### 3) ⚠️ KHAI THÁC — gửi kèm "role":"admin" trong body
+PUT {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "phone": "912345678",
+  "shipping_address": "123 NVA",
+  "role": "admin"
+}
+
+### 4) Xem lại hồ sơ — nếu "role":"admin" => BUG-D2 ĐÚNG ❌  (chụp response này)
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+
+
+# ======================= BUG-D4: BACKEND KHÔNG VALIDATE ======================
+# SRS FR-04: Họ Tên bắt buộc; SĐT đầu 0, 10-11 số. Gọi thẳng API => bỏ qua mobile.
+
+### 5) ⚠️ KHAI THÁC — name RỖNG + phone SAI định dạng ("abc")
+PUT {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "name": "",
+  "phone": "abc",
+  "shipping_address": "123 NVA"
+}
+
+### 6) Xem lại hồ sơ — nếu name "" và phone "abc" được lưu => BUG-D4 ĐÚNG ❌
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+
+
+# ============= BUG-D3: ĐỊA CHỈ KHÔNG LƯU (lệch tên trường) ===================
+# Mobile gửi "shippingAddress" (camelCase) nhưng backend đọc "shipping_address".
+
+### 7) Gửi địa chỉ y HỆT mobile — key "shippingAddress" (camelCase)
+PUT {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "phone": "912345678",
+  "shippingAddress": "456 Le Loi"
+}
+
+### 8) Xem lại — "shipping_address" KHÔNG phải "456 Le Loi" (null/cũ) => BUG-D3 ❌
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+
+### 9) ĐỐI CHỨNG — gửi đúng key "shipping_address" (snake_case)
+PUT {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "phone": "912345678",
+  "shipping_address": "789 Tran Hung"
+}
+
+### 10) Xem lại — lần này "shipping_address":"789 Tran Hung" => key đúng thì LƯU ĐƯỢC
+#     => chứng minh lỗi là do mobile gửi sai tên trường (BUG-D3)
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+
+
+# ============================== DỌN DẸP ======================================
+### 11) Trả hồ sơ về trạng thái hợp lệ ban đầu (role=user, name/phone đúng)
+PUT {{baseUrl}}/users/me
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "phone": "912345678",
+  "shipping_address": "123 NVA",
+  "role": "user"
+}
+
+###############################################################################
+# KỲ VỌNG (đúng spec): bước 3 & 5 bị từ chối; bước 4 vẫn "role":"user";
+#                       bước 6 vẫn giữ name/phone hợp lệ cũ.
+# THỰC TẾ:
+#   • Bước 4 -> "role":"admin"  (BUG-D2)  vì server.js: if (role) { ", role = ?" }
+#   • Bước 6 -> name:"" , phone:"abc"     (BUG-D4)  vì PUT /users/me không validate
+###############################################################################
