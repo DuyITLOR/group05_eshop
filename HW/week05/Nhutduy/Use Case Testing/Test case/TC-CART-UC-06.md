@@ -31,10 +31,11 @@ Use Case/UC-CART.md — Main Success Scenario, bước 4 (bất biến hiển th
 2. Nhãn tổng tiền là **"Tổng cộng"** (đúng spec, **không** phải "Tổng tạm tính").
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử)_
+1. Nhãn tổng là **"Tổng tạm tính"** (sai, phải là "Tổng cộng") — BUG-CART-04.
+2. Cột Số lượng **không có nút +/-** — BUG-CART-02.
 
 ## Status
-Not Run
+Failed
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-04, BUG-CART-02

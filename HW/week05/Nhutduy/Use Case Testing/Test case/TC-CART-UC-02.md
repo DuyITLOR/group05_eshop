@@ -36,10 +36,10 @@ Use Case/UC-CART.md — Extension 1a
 2. Số lượng dòng A **tăng thành 2**; Thành tiền và Tổng cộng cập nhật.
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử)_
+1. Thêm lại SP A tạo **dòng thứ 2** thay vì tăng số lượng → giỏ có 2 dòng A (sai spec).
 
 ## Status
-Not Run
+Failed
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-01

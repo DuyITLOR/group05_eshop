@@ -47,10 +47,14 @@ Use Case/UC-CART.md — Main Success Scenario
 5. Bấm **"Tiếp tục mua sắm"** → quay về trang chủ (bước 10).
 
 ## Actual results
-_(Chưa thực thi — điền khi chạy kiểm thử. Ghi rõ bước đầu tiên bị sai nếu có.)_
+1. Bước 1: bấm "Thêm vào giỏ hàng" **1 lần không thêm được** (phải bấm 2 lần) — BUG-CART-06.
+2. Bước 4: nhãn tổng là **"Tổng tạm tính"** (sai) — BUG-CART-04.
+3. Bước 5: **không có nút +/-** để chỉnh số lượng — BUG-CART-02.
+4. Bước 6: bấm Xóa **không có dialog xác nhận**, xóa ngay — BUG-CART-03.
+5. Bước 7: nút quay lại ghi **"Mua tiếp"** — BUG-CART-07.
 
 ## Status
-Not Run
+Failed
 
 ## Related bugs
-_(điền khi chạy)_
+BUG-CART-06, BUG-CART-04, BUG-CART-02, BUG-CART-03, BUG-CART-07
