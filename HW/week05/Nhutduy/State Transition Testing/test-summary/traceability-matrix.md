@@ -6,10 +6,21 @@
 
 ## Danh sách Test Case
 
-| Test Case | Loại | Kịch bản | Requirement | Result | Status |
+| Test Case | Loại | Kịch bản | Requirement | Result | Bug |
 |---|---|---|---|---|---|
-| TC-CART-E2E-01 | End-to-End | Mua sắm, chỉnh sửa giỏ & thanh toán | FR-07 (+FR-06/08/24) | Not Run | Designed |
-| TC-CART-E2E-02 | End-to-End | Xóa hết giỏ, mua lại & thanh toán | FR-07 (+FR-06/08/24) | Not Run | Designed |
+| TC-CART-E2E-01 | End-to-End | Mua sắm, chỉnh sửa giỏ & thanh toán | FR-07 (+FR-06/08/24) | ❌ Failed | BUG-CART-06, 01, 02, 03, 04 |
+| TC-CART-E2E-02 | End-to-End | Xóa hết giỏ, mua lại & thanh toán | FR-07 (+FR-06/08/24) | ❌ Failed | BUG-CART-03, 05 |
+
+## Bug phát hiện (thư mục `Bug Report/` — dùng chung cho FR-07)
+
+| Bug | Mô tả | Severity | Found by |
+|---|---|---|---|
+| BUG-CART-01 | Thêm lại SP đã có tạo dòng mới (không gộp) | Major | TC-CART-E2E-01 |
+| BUG-CART-02 | Thiếu nút +/- chỉnh số lượng | Major | TC-CART-E2E-01 |
+| BUG-CART-03 | Nút Xóa không có dialog xác nhận | Major | TC-CART-E2E-01, 02 |
+| BUG-CART-04 | Nhãn tổng "Tổng tạm tính" (phải "Tổng cộng") | Minor | TC-CART-E2E-01 |
+| BUG-CART-05 | Giỏ trống thiếu hình minh họa | Minor | TC-CART-E2E-02 |
+| BUG-CART-06 | "Thêm vào giỏ" phải bấm 2 lần | Major | TC-CART-E2E-01 |
 
 ## Truy vết Chuyển tiếp → Test Case (phủ bởi kịch bản E2E)
 
@@ -41,5 +52,5 @@
 
 ## Ghi chú
 
-- Test case ở trạng thái **Designed / Not Run** (thiết kế black-box từ đặc tả).
-- Khi thực thi End-to-End: nếu **một bước** trong chuỗi sai → cả kịch bản **Fail** tại bước đó; ghi rõ bước sai, cập nhật **Result** và liên kết **Bug Report**.
+- Đã **thực thi**: cả 2 kịch bản End-to-End đều **Failed** — mỗi kịch bản dừng ở bước đầu tiên gặp lỗi.
+- Phát hiện **6 bug** (BUG-CART-01…06) trong FR-07, mỗi bug 1 file trong `Bug Report/`, liên kết 2 chiều với test case phát hiện.
