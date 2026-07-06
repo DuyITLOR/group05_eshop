@@ -1,135 +1,153 @@
 # Báo cáo Tổng hợp Nhóm 05 — EShop Testing
 
-**Phạm vi:** bài tập các kỹ thuật thiết kế test — **EP, BVA, DT, PT, ST, UC**
-**Nguồn số liệu:** tổng hợp từ repo (thư mục `HW/`, `tests/`), quy chủ theo git author.
+**Phạm vi:** các bài tập kỹ thuật thiết kế test qua các tuần — **EP, BVA, DT, PT, ST, UC** (week03 → week05).
+**Nguồn số liệu:** tổng hợp từ repo `HW/week03..05/` cho **cả 5 thành viên**, quy chủ theo folder & git author.
 **Thành viên (5):** Nhựt Duy · Thành Dâng · Thành Đạt · Thế Đạt · Huy Quân
 
-> Quy chủ git → thành viên: `DuyITLOR / Lê Nhựt Duy` = **Nhựt Duy**; `NGO THE DAT` = **Thế Đạt**; `trwng-thdat / Thanh Dat` = **Thành Đạt**; `ThanhDang-Vn / Thanh_Dang` = **Thành Dâng**. **Huy Quân**: chưa có commit/artifact nào trong repo.
+> **Ánh xạ folder → thành viên:** `NhutDuy/Nhutduy` = **Nhựt Duy** · `TheDat/Dat` = **Thế Đạt** · `ThanhDat` = **Thành Đạt** · `ThanhDang` = **Thành Dâng** · `Quan` = **Huy Quân**.
 
 ---
 
 ## 1. Tổng số Test Case & phân bổ theo thành viên
 
-**Tổng cộng: 190 test case.**
+**Tổng cộng: 582 test case.**
 
-| Thành viên | Feature (FR) | Kỹ thuật | Số TC | Vị trí |
-|---|---|---|--:|---|
-| **Nhựt Duy** | FR-01 Đăng ký | Decision Table | 6 | `HW/week04/NhutDuy/` |
-| **Nhựt Duy** | FR-07 Giỏ hàng | State Transition | 2 | `HW/week05/Nhutduy/State Transition Testing/` |
-| **Nhựt Duy** | FR-07 Giỏ hàng | Use-Case | 6 | `HW/week05/Nhutduy/Use Case Testing/` |
-| **Thế Đạt** | FR-10 Trạng thái đơn | Decision Table / Pairwise | 50 | `HW/week04/Dat/` |
-| **Thế Đạt** | FR-03, FR-10, FR-16, FR-20 | EP + BVA | 107 | `tests/test-cases/` (FR03 43, FR16 30, FR10 21, D9/FR20 13) |
-| **Thành Đạt** | FR-09 Mã giảm giá | Decision Table + Pairwise | 13 | `HW/week04/ThanhDat/` |
-| **Thành Dâng** | FR-02 Đăng nhập | Decision Table | 6 | `HW/week04/ThanhDang/` |
-| **Huy Quân** | — | — | 0 | *(chưa có trong repo)* |
+| Thành viên | Tuần | Feature (FR) | Kỹ thuật | #TC | #Bug |
+|---|---|---|---|--:|--:|
+| **Nhựt Duy** | week03 | FR-01, FR-07, FR-15, FR-04 | EP + BVA | 84 | 20 |
+| **Nhựt Duy** | week04 | FR-01 Đăng ký | DT | 6 | 4 |
+| **Nhựt Duy** | week05 | FR-07 Giỏ hàng | ST + UC | 8 | 7 |
+| **Thành Dâng** | week03 | FR-02, FR-11, FR-14, FR-07 (Mobile) | EP + BVA | 146 | 29 |
+| **Thành Dâng** | week04 | FR-02 Đăng nhập | DT | 6 | 3 |
+| **Thành Dâng** | week05 | FR-02 Đăng nhập | ST + UC | 15 | 1 |
+| **Thành Đạt** | week03 | FR-04, FR-08, FR-18, FR-01 (Mobile) | EP + BVA | 83 | 20 |
+| **Thành Đạt** | week04 | FR-09 Mã giảm giá | DT + PT | 13 | 5 |
+| **Thành Đạt** | week05 | FR-08 Thanh toán | UC | 8 | 4 |
+| **Thế Đạt** | week03 | FR-20/D9, FR-03, FR-10, FR-16 | EP + BVA | 107 | 0 |
+| **Thế Đạt** | week04 | FR-10 Trạng thái đơn | DT | 50 | 3 |
+| **Thế Đạt** | week05 | FR-10 Trạng thái đơn | ST + UC | 28 | 4* |
+| **Huy Quân** | week04 | FR-09 Mã giảm giá | DT | 9 | 4 |
+| **Huy Quân** | week05 | FR-03 Quên mật khẩu | ST + UC | 19 | 0 |
+
+*\*4 bug week05 của Thế Đạt là báo lại 2 lỗi FR-10 đã có ở week04.*
 
 **Tổng theo người:**
 
-| Thành viên | Tổng TC |
-|---|--:|
-| Thế Đạt | 157 |
-| Nhựt Duy | 14 |
-| Thành Đạt | 13 |
-| Thành Dâng | 6 |
-| Huy Quân | 0 |
-| **Nhóm** | **190** |
+| Thành viên | Tổng #TC | Tổng #Bug (bản ghi) |
+|---|--:|--:|
+| Thế Đạt | 185 | 7 (~3 độc lập) |
+| Thành Dâng | 167 | 33 |
+| Thành Đạt | 104 | 29 |
+| Nhựt Duy | 98 | 31 |
+| Huy Quân | 28 | 4 |
+| **Nhóm** | **582** | **104** (~100 độc lập) |
+
+> Ghi chú đếm TC: week03 của Thành Dâng & Thành Đạt **không tách file TC riêng** (test case gộp trong `report/feature_*` / `test-design`), nên #TC lấy theo số ca execution / số TC-id — là con số hợp lý nhất, không phải đếm file.
 
 ---
 
 ## 2. Coverage của Test Case
 
-### 2.1. Theo Feature (Requirement)
+### 2.1. Theo Feature (Requirement) — **14 / 24 FR** được phủ
 
-| Feature | Kỹ thuật đã áp dụng | Số TC | Người phụ trách |
-|---|---|--:|---|
-| FR-01 Đăng ký | DT | 6 | Nhựt Duy |
-| FR-02 Đăng nhập | DT | 6 | Thành Dâng |
-| FR-03 Quên/Đặt lại MK | EP, BVA | 43 | Thế Đạt |
-| FR-07 Giỏ hàng | ST, UC | 8 | Nhựt Duy |
-| FR-09 Mã giảm giá | DT, PT | 13 | Thành Đạt |
-| FR-10 Trạng thái đơn hàng | EP, DT/PT | 71 | Thế Đạt |
-| FR-16 Import CSV | EP, BVA | 30 | Thế Đạt |
-| FR-20 Hủy đơn (Mobile) | EP | 13 | Thế Đạt |
+| Feature | Kỹ thuật | Người phụ trách |
+|---|---|---|
+| FR-01 Đăng ký | EP, BVA, DT | Nhựt Duy (+ Thành Đạt: mobile) |
+| FR-02 Đăng nhập | EP, BVA, DT, ST, UC | Thành Dâng |
+| FR-03 Quên mật khẩu | EP, BVA, ST, UC | Thế Đạt, Huy Quân |
+| FR-04 Hồ sơ cá nhân | EP, BVA | Nhựt Duy, Thành Đạt |
+| FR-07 Giỏ hàng | EP, BVA, ST, UC | Nhựt Duy (+ Thành Dâng: mobile) |
+| FR-08 Thanh toán | EP, BVA, UC | Thành Đạt |
+| FR-09 Mã giảm giá | DT, PT | Thành Đạt, Huy Quân |
+| FR-10 Trạng thái đơn | EP, BVA, DT, ST, UC | Thế Đạt |
+| FR-11 Lịch sử đơn hàng | EP, BVA | Thành Dâng |
+| FR-14 Quản lý Danh mục | EP, BVA | Thành Dâng |
+| FR-15 Quản lý Sản phẩm | EP, BVA | Nhựt Duy |
+| FR-16 Import CSV | EP, BVA | Thế Đạt |
+| FR-18 Quản lý đơn (Admin) | EP, BVA | Thành Đạt |
+| FR-20 Hủy đơn (Mobile) | EP, BVA | Thế Đạt |
 
-→ **8 / 24 FR** được phủ bởi test case.
+### 2.2. Theo Kỹ thuật thiết kế — **đủ 6 / 6**
 
-### 2.2. Theo Kỹ thuật thiết kế
-
-| Kỹ thuật | Feature phủ | Người | Ghi chú |
-|---|---|---|---|
-| **EP** — Equivalence Partitioning | FR-03, FR-10, FR-16, FR-20 | Thế Đạt | design `tests/test-design/EP-*.md` |
-| **BVA** — Boundary Value Analysis | FR-03, FR-16 | Thế Đạt | design `tests/test-design/BVA-*.md` |
-| **DT** — Decision Table | FR-01, FR-02, FR-09 | Nhựt Duy, Thành Dâng, Thành Đạt | |
-| **PT** — Pairwise Testing | FR-09, FR-10 | Thành Đạt, Thế Đạt | tổ hợp điều kiện |
-| **ST** — State Transition | FR-07 | Nhựt Duy | + Thành Dâng có bản design nháp |
-| **UC** — Use-Case | FR-07 | Nhựt Duy | + Thành Dâng có bản design nháp |
-
-→ Nhóm đã áp dụng **đủ 6/6 kỹ thuật** yêu cầu.
+| Kỹ thuật | Người áp dụng |
+|---|---|
+| **EP** — Equivalence Partitioning | Nhựt Duy, Thành Dâng, Thành Đạt, Thế Đạt |
+| **BVA** — Boundary Value Analysis | Nhựt Duy, Thành Dâng, Thành Đạt, Thế Đạt |
+| **DT** — Decision Table | Nhựt Duy, Thành Dâng, Thành Đạt, Thế Đạt, Huy Quân |
+| **PT** — Pairwise Testing | Thành Đạt |
+| **ST** — State Transition | Nhựt Duy, Thành Dâng, Thế Đạt, Huy Quân |
+| **UC** — Use-Case | Nhựt Duy, Thành Dâng, Thành Đạt, Thế Đạt, Huy Quân |
 
 ---
 
 ## 3. Status của Test Case
 
-Tổng hợp từ trường `Status` trong từng file test case:
+Số liệu tổng hợp **chỉ từ nơi có bảng test-run/execution rõ**; nhiều bộ TC ghi status rải trong từng file nên chưa gộp được toàn bộ:
 
-| Status | Số lượng |
-|---|--:|
-| ✅ Passed | ≈ 100 |
-| ❌ Failed | 75 |
-| ⏸ Not Run | 9 |
-| ⚠ Không ghi rõ | ≈ 6 |
-| **Tổng** | **190** |
+| Nguồn có thống kê | Passed | Failed | Khác |
+|---|--:|--:|---|
+| Thành Dâng — week03 | 99 | 47 | — |
+| Nhựt Duy — week03 | ≈ 25 | ≈ 43 | (một số biến thể Pass\*) |
+| Nhựt Duy — week04 | 2 | 4 | — |
+| Nhựt Duy — week05 (ST+UC) | 0 | 6 | 2 Blocked |
+| Thành Đạt — week05 (UC) | 3 | 5 | — |
 
-*Ghi chú:* 9 ca **Not Run** là bộ ST + UC cho FR-07 (thiết kế black-box, chưa thực thi). Một số file COUPON của Thành Đạt ghi `Status` dạng inline nên gộp vào "Passed".
+*Ghi chú:* phần còn lại (Thế Đạt, Huy Quân, Thành Đạt wk03/04, Thành Dâng wk05…) status nằm trong từng test case, **chưa tổng hợp** → cần chuẩn hóa để có con số toàn nhóm. Tỷ lệ Failed cao vì SUT có nhiều lỗi cài sẵn.
 
 ---
 
 ## 4. Tổng số Bug & phân bổ theo thành viên
 
-**Tổng cộng: 15 bug.**
+**Ghi nhận 104 bản ghi bug — tương đương ≈ 100 lỗi độc lập** (sau khi trừ phần Thế Đạt báo lại FR-10 ở week05).
 
-| Thành viên | Feature | Số bug | Vị trí |
-|---|---|--:|---|
-| **Thành Đạt** | FR-09 Mã giảm giá | 5 | `HW/week04/ThanhDat/bug-report_COUPON.md` (BUG-01..05) |
-| **Nhựt Duy** | FR-01 Đăng ký | 4 | `HW/week04/NhutDuy/Bug Report/` (BUG-REGISTER-01..04) |
-| **Thế Đạt** | FR-10 Trạng thái đơn | 3 | `HW/week04/Dat/bugs/FR10/` (FR10-bug-01..03) |
-| **Thành Dâng** | FR-02 Đăng nhập | 3 | `HW/week04/ThanhDang/bug-reports/` (BUG_01..03) |
-| **Huy Quân** | — | 0 | *(chưa có trong repo)* |
-| **Nhóm** | | **15** | |
+| Thành viên | Bug theo tuần | Tổng |
+|---|---|--:|
+| **Thành Dâng** | wk03: 29 · wk04: 3 · wk05: 1 | 33 |
+| **Nhựt Duy** | wk03: 20 · wk04: 4 · wk05: 7 | 31 |
+| **Thành Đạt** | wk03: 20 · wk04: 5 · wk05: 4 | 29 |
+| **Thế Đạt** | wk03: 0 · wk04: 3 · wk05: 4* | 7 (~3) |
+| **Huy Quân** | wk04: 4 · wk05: 0 | 4 |
+| **Nhóm** | | **104** |
+
+> **Trùng lặp cùng người (test lại feature qua nhiều tuần/kỹ thuật):** Nhựt Duy FR-01 (wk03↔wk04), FR-07 (wk03↔wk05); Thành Dâng FR-02 (wk03↔wk04↔wk05, bug "+2" lặp mỗi tuần); Thế Đạt FR-10 (wk04↔wk05, 2 lỗi báo lại 2 lần) → nhiều bản ghi là "test lại", không phải lỗi mới.
 
 ---
 
 ## 5. Coverage của Bug
 
-### 5.1. Theo Feature (Requirement)
+### 5.1. Theo Feature (nhóm lỗi tiêu biểu)
 
-| Feature | Số bug | Ví dụ lỗi tiêu biểu |
-|---|--:|---|
-| FR-01 Đăng ký | 4 | Regex mật khẩu sai, không kiểm định dạng email, cho email trùng, thiếu ô xác nhận MK |
-| FR-02 Đăng nhập | 3 | Sai `type` input email/password, bộ đếm đăng nhập sai **+2** |
-| FR-09 Mã giảm giá | 5 | Off-by-one ngưỡng tối thiểu, sai công thức % giảm giá, thiếu auth, bypass giới hạn lượt, sai thứ tự kiểm tra |
-| FR-10 Trạng thái đơn | 3 | Chuyển trạng thái không hợp lệ được chấp nhận |
+| Feature | Người | Lỗi tiêu biểu |
+|---|---|---|
+| FR-01 Đăng ký | Nhựt Duy | Regex MK sai, API không validate, email trùng, thiếu field xác nhận, MK plaintext |
+| FR-02 Đăng nhập | Thành Dâng | Sai `type` email/password, bộ đếm đăng nhập **+2** |
+| FR-04 Hồ sơ | Nhựt Duy, Thành Đạt | Validate SĐT sai, leo thang `role`, không lưu địa chỉ |
+| FR-07 Giỏ hàng | Nhựt Duy | Không gộp SP, thiếu +/-, thiếu dialog xác nhận, nhãn "Tổng tạm tính", trống thiếu ảnh, bấm 2 lần |
+| FR-08 Thanh toán | Thành Đạt | Tổng tiền client sửa được, không xóa giỏ sau thanh toán |
+| FR-09 Mã giảm giá | Thành Đạt, Huy Quân | Off-by-one ngưỡng, sai công thức %, giả mạo user_id, bypass giới hạn lượt |
+| FR-10 Trạng thái đơn | Thế Đạt | Chuyển trạng thái không hợp lệ (canceled→delivered), user hủy đơn shipping, bypass phân quyền admin |
+| FR-11 / FR-14 / FR-15 / FR-18 | Thành Dâng, Nhựt Duy, Thành Đạt | Sản phẩm: mass-update, giá không validate; danh mục/lịch sử/admin order (chi tiết trong bug-report từng người) |
 
-→ Bug tập trung ở **4 feature** (FR-01, FR-02, FR-09, FR-10).
+### 5.2. Theo Severity (từ các bảng có gắn nhãn)
 
-### 5.2. Theo Severity
-
-| Severity | Số lượng |
+| Severity | Số lượng (đã tổng hợp) |
 |---|--:|
-| 🔴 Critical | 3 |
-| 🟠 Major | 5 |
-| 🟡 Minor | 1 |
-| ⚪ Chưa gắn nhãn severity | 6 |
-| **Tổng** | **15** |
+| 🔴 Critical | ≈ 15 |
+| 🟠 Major / High | ≈ 40 |
+| 🟡 Minor / Medium | ≈ 30 |
+| ⚪ Trivial / Low | ≈ 8 |
+| ❔ Chưa gắn nhãn | phần còn lại |
 
-*Ghi chú:* 6 bug (chủ yếu nhóm COUPON/FR-10) chưa ghi trường Severity rõ ràng — cần bổ sung để hoàn thiện.
+*Ghi chú:* nhóm dùng **2 thang severity khác nhau** (Critical/Major/Minor/Trivial và Critical/High/Medium/Low). Cần **thống nhất 1 thang** và gắn nhãn cho các bug còn thiếu (nhất là Thế Đạt) để bảng chính xác tuyệt đối.
 
 ---
 
 ## 6. Nhận xét & việc cần bổ sung
 
-- **Đủ 6/6 kỹ thuật** (EP, BVA, DT, PT, ST, UC); phủ **8/24 FR**.
-- **Phân bổ lệch:** Thế Đạt đóng góp phần lớn TC (157 — chủ yếu bộ EP/BVA trong `tests/`); các thành viên khác 6–14 TC.
-- **Huy Quân chưa có artifact** trong repo → cần bổ sung hoặc xác nhận phần đóng góp.
-- **Cần chuẩn hóa:** thống nhất trường `Status` (một số file dùng format inline) và **gắn Severity** cho 6 bug còn thiếu để bảng coverage bug đầy đủ.
-- Một số TC COUPON (Thành Đạt) ghi `Pass` nhưng vẫn phát hiện 5 bug → nên cập nhật lại `Status = Failed` cho các ca dính bug để nhất quán TC ↔ Bug.
+- **Đủ 6/6 kỹ thuật**; phủ **14/24 FR**; **582 TC**; **~100 lỗi độc lập**. Cả nhóm đều đã làm ST & UC ở week05.
+- **Đóng góp:** Thế Đạt (185 TC) và Thành Dâng (167 TC) nhiều nhất; Thành Đạt 104, Nhựt Duy 98, Huy Quân 28.
+- ⚠️ **Cần bổ sung / gaps:**
+  - **Thế Đạt — week03**: 107 TC nhưng **0 bug report** (chưa viết bug dù có test) → cần bổ sung bug report.
+  - **Huy Quân**: **thiếu week03**; và **week05 (19 TC) chưa có bug report**.
+  - **Status & Severity** chưa tổng hợp toàn nhóm (định dạng khác nhau) → cần chuẩn hóa để ra con số chính xác.
+- **Trùng lặp** (cùng người test lại, hoặc 2 người cùng feature FR-09/FR-03/FR-08) là **có chủ đích** (đổi kỹ thuật) — nên ghi rõ để không bị hiểu là đếm trùng.
