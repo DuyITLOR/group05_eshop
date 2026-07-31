@@ -38,6 +38,7 @@
 |---|---|---|---|---|---|
 | GUI-ADM-CAT-006 | Thẻ label & Ký hiệu trường bắt buộc | Ô nhập tên danh mục phải có thẻ `<label>` và ký hiệu `*` đỏ bên cạnh nhãn. | Failed | AI Generated | Ô nhập liệu chỉ dùng placeholder, thiếu thẻ `<label>` và dấu `*` đánh dấu trường bắt buộc. |
 | GUI-ADM-CAT-007 | Vị trí thông báo lỗi | Thông báo lỗi khi thêm/xóa danh mục phải hiển thị inline phía trên nút submit, không dùng alert bật lên. | Failed | AI Generated | Hệ thống hiển thị thông báo lỗi qua `alert()` trình duyệt. |
+| GUI-ADM-CAT-012 | Tự động trim khoảng trắng thừa | Khi nhập tên danh mục chứa khoảng trắng thừa ở đầu/cuối, hệ thống tự động loại bỏ khoảng trắng khi lưu. | Passed | **Student Added** | Mã nguồn xử lý `categoryName.trim()` chính xác trước khi gửi dữ liệu tạo mới. |
 
 ### IA03: Navigation (Yêu cầu về Điều hướng)
 *Kiểm tra thanh điều hướng, menu, link liên kết và vị trí người dùng.*
@@ -61,20 +62,22 @@
 
 | Hạng mục | Số lượng | Tỷ lệ |
 |---|:---:|:---:|
-| **Tổng số Test Cases** | 11 | 100% |
-| **Do AI tự động sinh (AI-Generated)** | 9 | 81.82% |
-| **Do Sinh viên bổ sung (Student-Added)** | 2 | 18.18% |
-| **Pass (Đạt)** | 5 | 45.45% |
-| **Fail (Không đạt)** | 6 | 54.55% |
+| **Tổng số Test Cases** | 12 | 100% |
+| **Do AI tự động sinh (AI-Generated)** | 9 | 75.00% |
+| **Do Sinh viên bổ sung (Student-Added)** | 3 | 25.00% |
+| **Pass (Đạt)** | 6 | 50.00% |
+| **Fail (Không đạt)** | 6 | 50.00% |
 | **Untested (Chưa chạy)** | 0 | 0% |
 
 ---
 
 ## 5. Phân tích các Checklist Items do Sinh viên bổ sung (Lý do AI bỏ sót)
 
-Trong quá trình rà soát bộ Checklist do AI khởi tạo ban đầu, sinh viên đã phát hiện AI bỏ sót 2 tiêu chí kiểm thử quan trọng và đã tiến hành bổ sung trực tiếp:
+Trong quá trình rà soát bộ Checklist do AI khởi tạo ban đầu, sinh viên đã phát hiện AI bỏ sót 3 tiêu chí kiểm thử quan trọng và đã tiến hành bổ sung trực tiếp:
 
 1. **GUI-ADM-CAT-005 — Thứ tự phím Tab (Keyboard Tab Order / Accessibility):**
    - **Vì sao AI bỏ sót:** AI Agent chủ yếu phân tích cú pháp HTML/CSS tĩnh và quét trực quan bố cục cơ bản theo Prompt đầu vào. AI không tự giác mô phỏng hành vi điều hướng bằng phím Tab (Keyboard Navigation) của người dùng khuyết tật và thiếu khả năng đánh giá tiêu chuẩn Accesibility (WCAG 2.1 Focus Order) nếu không được yêu cầu cụ thể trong Prompt.
 2. **GUI-ADM-CAT-011 — Giao diện danh sách trống (Empty State UI / Edge Feedback):**
    - **Vì sao AI bỏ sót:** AI Agent thực thi kiểm thử trên môi trường đã có sẵn dữ liệu danh mục mẫu (Positive Data Flow). AI không tự động thiết lập trạng thái cơ sở dữ liệu rỗng (Zero-Data State) để kiểm tra giao diện phản hồi khi dữ liệu trống nếu không được chỉ định kịch bản ranh giới dữ liệu trong Prompt.
+3. **GUI-ADM-CAT-012 — Tự động loại bỏ khoảng trắng thừa (Input Trim Validation / Passed):**
+   - **Vì sao AI bỏ sót:** AI Agent khi quét cấu trúc HTML JSX chỉ phân tích thuộc tính ô nhập tĩnh (`<input type="text">`), không tự soi sâu vào handler xử lý sự kiện JavaScript/React `handleSubmit` để phát hiện logic `categoryName.trim()` chuẩn hóa chuỗi dữ liệu nếu không được yêu cầu test ranh giới nhập liệu (Boundary Input Validation) trong Prompt.
