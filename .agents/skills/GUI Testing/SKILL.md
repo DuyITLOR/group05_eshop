@@ -24,6 +24,29 @@ Template này bao gồm đầy đủ các mục:
 4. Cập nhật kết quả vào bảng **Test Summary**.
 
 ## Bước 3: Tạo Bug Reports cho các mục Failed
-Đối với mỗi Test Case có kết quả `Failed`, hãy tạo **MỘT FILE RIÊNG BIỆT** trong thư mục chứa báo cáo lỗi (ví dụ: `bug reports/`).
-- **Tên file:** Trùng với ID của test case (VD: `GUI-CART-001.md`).
-- **Nội dung:** Bắt buộc tuân theo định dạng từ template chuẩn tại `resources/Bug_Report_Template.md`. Chú ý đánh giá đúng `Severity` (Minor / Major / Critical) và `Priority` (Low / Medium / High) cho từng bug.
+
+Đối với mỗi Test Case có kết quả `Failed`, hãy thực hiện các bước sau:
+
+1. **Tạo File Báo cáo Lỗi (Bug Report File)**:
+   - Tạo **MỘT FILE RIÊNG BIỆT** trong thư mục chứa báo cáo lỗi (ví dụ: `bug reports/`).
+   - **Tên file:** Trùng với ID của test case (VD: `GUI-CART-001.md`).
+   - **Nội dung:** Bắt buộc tuân theo định dạng từ template chuẩn tại `resources/Bug_Report_Template.md`. Chú ý đánh giá đúng `Severity` (Minor / Major / Critical) và `Priority` (Low / Medium / High) cho từng bug.
+
+2. **Chụp Ảnh Màn hình minh họa lỗi (Bug Screenshot)**:
+   - Sử dụng công cụ tự động hóa trình duyệt (Playwright / Puppeteer) hoặc công cụ chụp ảnh màn hình để chụp hình ảnh thực tế chứng minh bug trên ứng dụng.
+   - Lưu ảnh vào thư mục `images` cùng cấp với thư mục báo cáo lỗi (ví dụ: `bug reports/images/<Bug_ID>.png`).
+   - Nhúng ảnh vào file bug report bằng cú pháp markdown: `![Mô tả](images/<Bug_ID>.png)`.
+
+3. **Tự động tạo Issue trên GitHub từ Bug Report**:
+   - **Định dạng Tiêu đề Issue (Title)**:
+     Format: `[HW03][BUG][screen: <screen>] [<Bug_ID>] <Short Bug Description>`
+     *(ví dụ: `[HW03][BUG][screen: cart] [GUI-CART-001] Sử dụng sai thẻ tiêu đề (Heading) cho trang Giỏ hàng`)*
+   - **Quy đổi Đường dẫn Hình ảnh (Image URL)**:
+     Chuyển đổi các đường dẫn ảnh tương đối (`images/<filename>.png` hoặc `./images/...`) thành URL Raw trên GitHub của branch đang làm việc:
+     `https://raw.githubusercontent.com/<owner>/<repo>/<branch>/<path_to_bug_reports>/images/<filename>`
+     *(ví dụ: `https://raw.githubusercontent.com/DuyITLOR/group05_eshop/HW02/Dat/HW/week07/The%20Dat/GUI_checklist/bug%20reports/images/GUI-CART-001.png`)*
+   - **Gán Labels Chuẩn**:
+     `type: bug`, `found-by: gui-checklist`, `severity: ...`, `priority: ...`, `gui`.
+   - **Gửi Yêu cầu Đăng Issue**:
+     Sử dụng GitHub REST API (`POST /repos/{owner}/{repo}/issues`) hoặc công cụ điều khiển GitHub để đăng Issue lên repository.
+

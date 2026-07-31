@@ -87,7 +87,12 @@ Sau khi tạo xong các test case, tiến hành thực hiện kiểm thử ứng
    - `Status`: Cập nhật thành `Passed` (nếu đạt) hoặc `Failed` (nếu có lỗi/không khớp mong đợi) hoặc `Blocked` (nếu bị chặn).
 5. Nếu test case có trạng thái `Failed`, hãy tạo file báo cáo lỗi (Bug Report) cho lỗi đó theo template Bug report.
    - Các file bug report được đặt trong folder `HW/week05/The Dat/bugs/<function>/` với tên có format: `<function>-bug-<sequence>.md` (VD: `FR10-bug-01.md`).
-   - Nếu phát hiện bug trên giao diện hoặc cần minh chứng, chụp ảnh màn hình lỗi, lưu vào thư mục `HW/week05/The Dat/bugs/<function>/images/` và nhúng vào báo cáo lỗi bằng đường dẫn tương đối (VD: `![Mô tả](./images/<function>-bug-01.png)`).
+   - Nếu phát hiện bug trên giao diện hoặc cần minh chứng, chụp ảnh màn hình lỗi (bug screenshot), lưu vào thư mục `HW/week05/The Dat/bugs/<function>/images/` và nhúng vào báo cáo lỗi bằng đường dẫn tương đối (VD: `![Mô tả](./images/<function>-bug-01.png)`).
+6. **Tự động tạo Issue trên GitHub từ Bug Report**:
+   - **Định dạng Tiêu đề Issue (Title)**: `[HW03][BUG][screen: <screen>] [<Bug_ID>] <Short Bug Description>`
+   - **Quy đổi Đường dẫn Hình ảnh (Image URL)**: Chuyển đổi đường dẫn ảnh tương đối thành URL Raw trên GitHub của branch đang làm việc (`https://raw.githubusercontent.com/<owner>/<repo>/<branch>/bugs/<function>/images/<filename>`).
+   - **Gán Labels Chuẩn**: `type: bug`, `found-by: test-case`, `severity: ...`, `priority: ...`, `module: <function_name>`.
+   - **Đăng Issue**: Gửi yêu cầu qua GitHub REST API (`POST /repos/{owner}/{repo}/issues`) để đăng Issue lên GitHub repository.
 
 ## Kết quả trả về
 

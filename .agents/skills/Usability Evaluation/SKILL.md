@@ -136,6 +136,14 @@ Tự động trích xuất điểm câu trả lời và áp dụng công thức 
   * 🟠 **Moderate**: Lỗi làm giảm trải nghiệm (Ví dụ: Thiếu Toast notification thông báo thành công).
   * 🟡 **Minor**: Lỗi giao diện nhỏ, thao tác không mượt.
 * **Đề xuất cải tiến**: Đưa ra giải pháp UI/UX cụ thể cho từng lỗi phát hiện.
+* **Xuất Bug Report & Chụp ảnh minh họa (Bug Screenshots)**:
+  - Với mỗi lỗi UX phát hiện, xuất 1 file bug report riêng biệt đặt tại `bug reports/<UX_ID>.md`.
+  - Sử dụng công cụ tự động hóa trình duyệt (Playwright / Puppeteer) hoặc chụp ảnh màn hình giao diện thực tế bị lỗi UX, lưu tại `bug reports/images/<UX_ID>.png`.
+* **Tự động tạo Issue trên GitHub từ Bug Report**:
+  - **Định dạng Tiêu đề Issue (Title)**: `[HW03][BUG][screen: <screen>] [<UX_ID>] <Short Bug Description>`
+  - **Quy đổi Đường dẫn Hình ảnh (Image URL)**: Chuyển đổi các đường dẫn ảnh tương đối (`images/<UX_ID>.png`) thành URL Raw trên GitHub của branch đang làm việc (`https://raw.githubusercontent.com/<owner>/<repo>/<branch>/<path_to_bug_reports>/images/<filename>`).
+  - **Gán Labels Chuẩn**: `type: bug`, `found-by: gui-checklist`, `severity: ...`, `priority: ...`, `gui`.
+  - **Đăng Issue**: Sử dụng GitHub REST API (`POST /repos/{owner}/{repo}/issues`) để đăng Issue lên GitHub repository.
 
 ---
 
