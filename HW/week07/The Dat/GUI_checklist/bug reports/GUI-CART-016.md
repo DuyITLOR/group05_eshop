@@ -28,5 +28,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CART-016.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối (Ví dụ: `![Mô tả ảnh](./images/GUI-CART-016.png)`)
+![Giỏ hàng trống thiếu hình ảnh minh họa](./images/GUI-CART-016.png)

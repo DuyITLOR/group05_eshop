@@ -28,5 +28,4 @@ Medium
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CART-012.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối (Ví dụ: `![Mô tả ảnh](./images/GUI-CART-012.png)`)
+![Thiếu badge số lượng sản phẩm trên Navbar](./images/GUI-CART-012.png)

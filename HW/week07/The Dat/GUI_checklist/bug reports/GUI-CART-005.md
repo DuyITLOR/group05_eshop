@@ -28,5 +28,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CART-005.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối (Ví dụ: `![Mô tả ảnh](./images/GUI-CART-005.png)`)
+![Sai nhãn Tổng tạm tính thay vì Tổng cộng](./images/GUI-CART-005.png)

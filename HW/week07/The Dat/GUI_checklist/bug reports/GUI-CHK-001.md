@@ -27,5 +27,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-001.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Thẻ H2 tiêu đề trang Thanh toán](./images/GUI-CHK-001.png)`
+![Thẻ H2 tiêu đề trang Thanh toán](./images/GUI-CHK-001.png)

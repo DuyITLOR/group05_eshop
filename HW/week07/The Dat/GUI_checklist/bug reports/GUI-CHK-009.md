@@ -27,5 +27,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-009.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Thiếu Breadcrumb trang Thanh toán](./images/GUI-CHK-009.png)`
+![Thiếu Breadcrumb trang Thanh toán](./images/GUI-CHK-009.png)

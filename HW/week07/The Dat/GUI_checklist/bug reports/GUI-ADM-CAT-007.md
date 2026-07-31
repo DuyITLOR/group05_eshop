@@ -10,7 +10,7 @@ Khi xảy ra lỗi trong thao tác thêm hoặc xóa danh mục, hệ thống s�
 - Admin đang ở màn hình Quản lý Danh mục.
 
 ## Test steps: 
-1. Nhấn nút "Thêm mới" khi để trống tên danh mục hoặc khi server gặp sự cố.
+1. Nhấn nút "Thêm mới" khi để trống tên danh mục hoặc khi server gặp sự cố.(VD: Hủy kết nối với backend)
 2. Quan sát cách hệ thống hiển thị thông báo lỗi.
 
 ## Expected results: 
@@ -27,5 +27,4 @@ Medium
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-ADM-CAT-007.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Sử dụng alert trình duyệt khi bị lỗi](./images/GUI-ADM-CAT-007.png)`
+![alt text](images/GUI-ADM-CAT-007.png)

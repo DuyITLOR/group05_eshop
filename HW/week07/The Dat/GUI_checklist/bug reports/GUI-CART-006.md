@@ -28,5 +28,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CART-006.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối (Ví dụ: `![Mô tả ảnh](./images/GUI-CART-006.png)`)
+![Nút thanh toán màu xanh lá thay vì xanh dương](./images/GUI-CART-006.png)

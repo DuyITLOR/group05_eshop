@@ -27,5 +27,4 @@ Medium
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-003.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Sai màu sắc nút Xác nhận thanh toán](./images/GUI-CHK-003.png)`
+![Sai màu sắc nút Xác nhận thanh toán](./images/GUI-CHK-003.png)

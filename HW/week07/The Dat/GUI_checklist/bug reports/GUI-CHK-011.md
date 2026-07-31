@@ -30,5 +30,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-011.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Màn hình thành công thiếu H1 và icon](./images/GUI-CHK-011.png)`
+![Màn hình thành công thiếu H1 và icon](./images/GUI-CHK-011.png)

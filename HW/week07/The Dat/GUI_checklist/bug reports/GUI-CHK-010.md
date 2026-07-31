@@ -27,5 +27,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-010.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Không highlight menu Navbar](./images/GUI-CHK-010.png)`
+![Không highlight menu Navbar](./images/GUI-CHK-010.png)

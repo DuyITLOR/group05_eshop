@@ -28,5 +28,4 @@ High
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CART-009.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối (Ví dụ: `![Mô tả ảnh](./images/GUI-CART-009.png)`)
+![Cột số lượng thiếu nút tăng giảm](./images/GUI-CART-009.png)

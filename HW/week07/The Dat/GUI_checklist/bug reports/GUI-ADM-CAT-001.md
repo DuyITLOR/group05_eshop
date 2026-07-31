@@ -27,5 +27,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-ADM-CAT-001.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Thẻ H2 tiêu đề Quản lý Danh mục](./images/GUI-ADM-CAT-001.png)`
+![alt text](images/GUI-ADM-CAT-001.png)

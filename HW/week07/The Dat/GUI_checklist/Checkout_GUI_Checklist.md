@@ -37,14 +37,14 @@
 
 | ID | Check item | Expected result | Results | Notes |
 |---|---|---|---|---|
-| GUI-CHK-007 | Ký hiệu trường bắt buộc | Tất cả các trường thông tin/nhập liệu bắt buộc phải có ký hiệu `*` bên cạnh nhãn. | Failed | Không có ký hiệu `*` đánh dấu các trường bắt buộc trên giao diện. |
-| GUI-CHK-008 | Vị trí thông báo lỗi | Thông báo lỗi khi thực hiện thao tác phải hiển thị phía trên nút submit, không dùng alert bật lên. | Failed | Lỗi thanh toán dùng `alert()` của trình duyệt và lỗi áp dụng coupon xuất hiện bên dưới khung nhập liệu. |
+| GUI-CHK-007 | Vị trí thông báo lỗi | Thông báo lỗi khi thực hiện thao tác phải hiển thị phía trên nút submit, không dùng alert bật lên. | Failed | Lỗi thanh toán dùng `alert()` của trình duyệt và lỗi áp dụng coupon xuất hiện bên dưới khung nhập liệu. |
 
 ### IA03: Navigation (Yêu cầu về Điều hướng)
 *Kiểm tra thanh điều hướng, menu, link liên kết và vị trí người dùng.*
 
 | ID | Check item | Expected result | Results | Notes |
 |---|---|---|---|---|
+| GUI-CHK-008 | Nhãn nút Đăng xuất trên Navbar | Nút đăng xuất trên Navbar phải hiển thị chuẩn nhãn "Đăng xuất" (không dùng từ "Thoát"). | Failed | Thanh Navbar hiển thị nút là `<button>Thoát</button>` thay vì "Đăng xuất". |
 | GUI-CHK-009 | Hiển thị breadcrumb | Trang Thanh toán phải hiển thị thanh điều hướng Breadcrumb (ví dụ: Trang chủ > Giỏ hàng > Thanh toán). | Failed | Trang Thanh toán hoàn toàn thiếu thành phần Breadcrumb. |
 | GUI-CHK-010 | Highlight Navbar menu | Thanh điều hướng (Navbar) phải highlight trang/route đang được chọn. | Failed | Link hoặc menu không có trạng thái highlight khi người dùng truy cập trang Thanh toán. |
 

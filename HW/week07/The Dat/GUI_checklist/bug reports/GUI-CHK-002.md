@@ -30,5 +30,4 @@ High
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-002.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Cho phép sửa tổng tiền thanh toán](./images/GUI-CHK-002.png)`
+![Cho phép sửa tổng tiền thanh toán](./images/GUI-CHK-002.png)

@@ -28,5 +28,4 @@ High
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CART-015.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối (Ví dụ: `![Mô tả ảnh](./images/GUI-CART-015.png)`)
+![Xóa sản phẩm không qua dialog xác nhận](./images/GUI-CART-015.png)

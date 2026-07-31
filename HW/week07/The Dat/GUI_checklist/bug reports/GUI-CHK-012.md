@@ -27,5 +27,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-CHK-012.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Tóm tắt sản phẩm thiếu hình ảnh và alt](./images/GUI-CHK-012.png)`
+![Tóm tắt sản phẩm thiếu hình ảnh và alt](./images/GUI-CHK-012.png)

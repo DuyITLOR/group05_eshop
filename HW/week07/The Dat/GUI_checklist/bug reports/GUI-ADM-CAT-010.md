@@ -27,5 +27,4 @@ High
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-ADM-CAT-010.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Thiếu Dialog xác nhận khi xóa danh mục](./images/GUI-ADM-CAT-010.png)`
+![Thiếu Dialog xác nhận khi xóa danh mục](./images/GUI-ADM-CAT-010.png)

@@ -27,5 +27,4 @@ Low
 
 ### Bug screenshot: 
 
-- Chụp màn hình bug và lưu tại: `./images/GUI-ADM-CAT-011.png`
-- Nhúng screenshot bug tại đây bằng đường dẫn tương đối: `![Thiếu Empty State khi không có danh mục](./images/GUI-ADM-CAT-011.png)`
+![Thiếu Empty State khi không có danh mục](./images/GUI-ADM-CAT-011.png)
