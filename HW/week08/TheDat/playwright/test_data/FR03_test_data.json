@@ -1,0 +1,424 @@
+[
+  {
+    "id": "TC-FR03-01",
+    "title": "Email hợp lệ đã đăng ký trong miền E1",
+    "step": 1,
+    "email": "test@eshop.com",
+    "expected": "otp_generated"
+  },
+  {
+    "id": "TC-FR03-02",
+    "title": "Đặt lại mật khẩu thành công với OTP và mật khẩu hợp lệ",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-03",
+    "title": "Email đúng định dạng nhưng chưa đăng ký trong miền E2",
+    "step": 1,
+    "email": "notexist@eshop.com",
+    "expected": "alert_error",
+    "expectedMessage": "User not found"
+  },
+  {
+    "id": "TC-FR03-04",
+    "title": "Email sai định dạng trong miền E3",
+    "step": 1,
+    "email": "invalidemail",
+    "expected": "invalid_email"
+  },
+  {
+    "id": "TC-FR03-05",
+    "title": "Email để trống trong miền E4",
+    "step": 1,
+    "email": "",
+    "expected": "required_field"
+  },
+  {
+    "id": "TC-FR03-06",
+    "title": "Mã OTP sai không khớp trong miền OTP2",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "000000",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "alert_error",
+    "expectedMessage": "Mã OTP không đúng"
+  },
+  {
+    "id": "TC-FR03-07",
+    "title": "Mã OTP của email khác trong miền OTP3",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "9999",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "alert_error",
+    "expectedMessage": "Mã OTP không đúng"
+  },
+  {
+    "id": "TC-FR03-08",
+    "title": "Mã OTP để trống trong miền OTP4",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "required_field"
+  },
+  {
+    "id": "TC-FR03-09",
+    "title": "Mật khẩu ngắn hơn 8 ký tự trong miền PW2",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Ab1 xyz",
+    "confirmPassword": "Ab1 xyz",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-10",
+    "title": "Mật khẩu không có chữ hoa trong miền PW3",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "newpass 1",
+    "confirmPassword": "newpass 1",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-11",
+    "title": "Mật khẩu không có chữ thường trong miền PW4",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NEWPASS 1",
+    "confirmPassword": "NEWPASS 1",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-12",
+    "title": "Mật khẩu không có chữ số trong miền PW5",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NewPass  ",
+    "confirmPassword": "NewPass  ",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-13",
+    "title": "Mật khẩu không có ký tự đặc biệt / không có khoảng trắng",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NewPass12",
+    "confirmPassword": "NewPass12",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-14",
+    "title": "Mật khẩu để trống trong miền PW7",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "",
+    "confirmPassword": "",
+    "expected": "required_field"
+  },
+  {
+    "id": "TC-FR03-15",
+    "title": "Xác nhận mật khẩu không khớp trong miền CF2",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "DiffPass 1",
+    "expected": "mismatch_password"
+  },
+  {
+    "id": "TC-FR03-16",
+    "title": "Xác nhận mật khẩu để trống trong miền CF3",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "",
+    "expected": "required_field"
+  },
+  {
+    "id": "TC-FR03-17",
+    "title": "BVA Email định dạng không hợp lệ (a@.c)",
+    "step": 1,
+    "email": "a@.c",
+    "expected": "invalid_email"
+  },
+  {
+    "id": "TC-FR03-18",
+    "title": "BVA Email độ dài tối thiểu hợp lệ (a@b.c)",
+    "step": 1,
+    "email": "a@b.c",
+    "expected": "alert_error",
+    "expectedMessage": "User not found"
+  },
+  {
+    "id": "TC-FR03-19",
+    "title": "BVA Email độ dài tối thiểu + 1 (ab@b.c)",
+    "step": 1,
+    "email": "ab@b.c",
+    "expected": "alert_error",
+    "expectedMessage": "User not found"
+  },
+  {
+    "id": "TC-FR03-20",
+    "title": "BVA Email độ dài tối đa - 1 (253 ký tự)",
+    "step": 1,
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "expected": "alert_error",
+    "expectedMessage": "User not found"
+  },
+  {
+    "id": "TC-FR03-21",
+    "title": "BVA Email độ dài tối đa (254 ký tự)",
+    "step": 1,
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "expected": "alert_error",
+    "expectedMessage": "User not found"
+  },
+  {
+    "id": "TC-FR03-22",
+    "title": "BVA Email độ dài tối đa + 1 (255 ký tự)",
+    "step": 1,
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "expected": "alert_error",
+    "expectedMessage": "User not found"
+  },
+  {
+    "id": "TC-FR03-23",
+    "title": "BVA OTP độ dài 5 ký tự (dưới chuẩn 6 số)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "12345",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "alert_error",
+    "expectedMessage": "Mã OTP không đúng"
+  },
+  {
+    "id": "TC-FR03-24",
+    "title": "BVA OTP độ dài 6 ký tự đúng chuẩn",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-25",
+    "title": "BVA OTP độ dài 7 ký tự (vượt quá 6 số)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "1234567",
+    "newPassword": "NewPass 1",
+    "confirmPassword": "NewPass 1",
+    "expected": "alert_error",
+    "expectedMessage": "Mã OTP không đúng"
+  },
+  {
+    "id": "TC-FR03-26",
+    "title": "BVA Mật khẩu độ dài 7 ký tự (Abc 123)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 123",
+    "confirmPassword": "Abc 123",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-27",
+    "title": "BVA Mật khẩu độ dài 8 ký tự biên dưới (Abc 1234)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 1234",
+    "confirmPassword": "Abc 1234",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-28",
+    "title": "BVA Mật khẩu độ dài 9 ký tự (Abc 12345)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 12345",
+    "confirmPassword": "Abc 12345",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-29",
+    "title": "BVA Mật khẩu độ dài 254 ký tự",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 1",
+    "confirmPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 1",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-30",
+    "title": "BVA Mật khẩu độ dài 255 ký tự",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 1",
+    "confirmPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 1",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-31",
+    "title": "BVA Mật khẩu độ dài 256 ký tự",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 1!",
+    "confirmPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb 1!",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-32",
+    "title": "BVA Mật khẩu 0 chữ cái viết hoa",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "abc 12345",
+    "confirmPassword": "abc 12345",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-33",
+    "title": "BVA Mật khẩu 1 chữ cái viết hoa (Abc 12345)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 12345",
+    "confirmPassword": "Abc 12345",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-34",
+    "title": "BVA Mật khẩu 2 chữ cái viết hoa (ABc 12345)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "ABc 12345",
+    "confirmPassword": "ABc 12345",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-35",
+    "title": "BVA Mật khẩu 0 chữ cái viết thường",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "ABC 12345",
+    "confirmPassword": "ABC 12345",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-36",
+    "title": "BVA Mật khẩu 1 chữ cái viết thường (aBC 12345)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "aBC 12345",
+    "confirmPassword": "aBC 12345",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-37",
+    "title": "BVA Mật khẩu 2 chữ cái viết thường (abC 12345)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "abC 12345",
+    "confirmPassword": "abC 12345",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-38",
+    "title": "BVA Mật khẩu 0 chữ số",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc defgh ",
+    "confirmPassword": "Abc defgh ",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-39",
+    "title": "BVA Mật khẩu 1 chữ số (Abc defg1 )",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc defg1 ",
+    "confirmPassword": "Abc defg1 ",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-40",
+    "title": "BVA Mật khẩu 2 chữ số (Abc def12 )",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc def12 ",
+    "confirmPassword": "Abc def12 ",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-41",
+    "title": "BVA Mật khẩu 0 ký tự đặc biệt (không chứa ký tự đặc biệt khác)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 12345",
+    "confirmPassword": "Abc 12345",
+    "expected": "reset_success"
+  },
+  {
+    "id": "TC-FR03-42",
+    "title": "BVA Mật khẩu có ký tự không hợp lệ với SUT regex (!)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 1234!",
+    "confirmPassword": "Abc 1234!",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  },
+  {
+    "id": "TC-FR03-43",
+    "title": "BVA Mật khẩu có ký tự không hợp lệ với SUT regex (!!)",
+    "step": 2,
+    "email": "test@eshop.com",
+    "otp": "auto",
+    "newPassword": "Abc 1234!!",
+    "confirmPassword": "Abc 1234!!",
+    "expected": "alert_error",
+    "expectedMessage": "Mật khẩu quá yếu"
+  }
+]
