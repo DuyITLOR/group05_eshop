@@ -1,6 +1,7 @@
 # BVA-FR16: Test Design — Import Sản phẩm từ CSV
 
 **Phương pháp:** 3-Point Boundary Values (BVA)  
+**Lý do áp dụng:** Áp dụng 3-Point BVA cho các thuộc tính Tên sản phẩm, Giá sản phẩm và Số lượng dòng dữ liệu nhằm kiểm tra chi tiết các ranh giới biên hợp lệ và không hợp lệ, đảm bảo tính toàn vẹn dữ liệu khi import hàng loạt từ file CSV và phát hiện sớm các lỗi lệch 1 đơn vị (off-by-one errors).  
 **Yêu cầu tham chiếu:** FR-16 (Import Sản phẩm từ CSV)
 
 ---
@@ -45,3 +46,4 @@ Bảng dưới đây trình bày các miền giá trị input hợp lệ và cá
 *Lưu ý:*
 - *Các test case kiểm định độ dài chuỗi tên `name` dài 254, 255, 256 ký tự có thể được sinh thủ công bằng cách sử dụng các công cụ đếm ký tự hoặc script sinh chuỗi.*
 - *Trong tất cả các test case trên, giả định tài khoản Admin đã đăng nhập thành công.*
+- *Expected Output chỉ tập trung kiểm tra logic xử lý biên của dữ liệu đầu vào và kết quả đầu ra (nghiệp vụ, thông báo lỗi, lưu CSDL), không kiểm tra các yếu tố giao diện (UI).*
