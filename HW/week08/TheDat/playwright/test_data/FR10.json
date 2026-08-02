@@ -1,0 +1,222 @@
+[
+  {
+    "id": "FR10-STT-01",
+    "title": "Admin xác nhận đơn hàng đang chờ xác nhận (pending -> confirmed)",
+    "type": "positive",
+    "initialStatus": "pending",
+    "action": "Confirm",
+    "targetStatus": "confirmed",
+    "expectedStatusCode": 200,
+    "expectedStatus": "confirmed",
+    "expectedMessage": "Order status updated"
+  },
+  {
+    "id": "FR10-STT-02",
+    "title": "Chặn Admin giao hàng nhảy cóc khi đang chờ xác nhận (pending -> shipping)",
+    "type": "negative",
+    "initialStatus": "pending",
+    "action": "Ship",
+    "targetStatus": "shipping",
+    "expectedStatusCode": 400,
+    "expectedStatus": "pending",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-03",
+    "title": "Chặn Admin hoàn tất đơn hàng nhảy cóc khi đang chờ xác nhận (pending -> delivered)",
+    "type": "negative",
+    "initialStatus": "pending",
+    "action": "Deliver",
+    "targetStatus": "delivered",
+    "expectedStatusCode": 400,
+    "expectedStatus": "pending",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-04",
+    "title": "User/Admin hủy đơn hàng ở trạng thái pending (pending -> canceled)",
+    "type": "positive",
+    "initialStatus": "pending",
+    "action": "Cancel",
+    "targetStatus": "canceled",
+    "expectedStatusCode": 200,
+    "expectedStatus": "canceled",
+    "expectedMessage": "Order status updated"
+  },
+  {
+    "id": "FR10-STT-05",
+    "title": "Chặn Admin xác nhận lại đơn hàng đã xác nhận (confirmed -> confirmed)",
+    "type": "negative",
+    "initialStatus": "confirmed",
+    "action": "Confirm",
+    "targetStatus": "confirmed",
+    "expectedStatusCode": 400,
+    "expectedStatus": "confirmed",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-06",
+    "title": "Admin giao đơn hàng đã xác nhận (confirmed -> shipping)",
+    "type": "positive",
+    "initialStatus": "confirmed",
+    "action": "Ship",
+    "targetStatus": "shipping",
+    "expectedStatusCode": 200,
+    "expectedStatus": "shipping",
+    "expectedMessage": "Order status updated"
+  },
+  {
+    "id": "FR10-STT-07",
+    "title": "Chặn Admin hoàn tất đơn hàng nhảy cóc khi đã xác nhận (confirmed -> delivered)",
+    "type": "negative",
+    "initialStatus": "confirmed",
+    "action": "Deliver",
+    "targetStatus": "delivered",
+    "expectedStatusCode": 400,
+    "expectedStatus": "confirmed",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-08",
+    "title": "User/Admin hủy đơn hàng ở trạng thái confirmed (confirmed -> canceled)",
+    "type": "positive",
+    "initialStatus": "confirmed",
+    "action": "Cancel",
+    "targetStatus": "canceled",
+    "expectedStatusCode": 200,
+    "expectedStatus": "canceled",
+    "expectedMessage": "Order status updated"
+  },
+  {
+    "id": "FR10-STT-09",
+    "title": "Chặn Admin xác nhận đơn hàng khi đang giao (shipping -> confirmed)",
+    "type": "negative",
+    "initialStatus": "shipping",
+    "action": "Confirm",
+    "targetStatus": "confirmed",
+    "expectedStatusCode": 400,
+    "expectedStatus": "shipping",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-10",
+    "title": "Chặn Admin giao hàng lần nữa khi đang giao hàng (shipping -> shipping)",
+    "type": "negative",
+    "initialStatus": "shipping",
+    "action": "Ship",
+    "targetStatus": "shipping",
+    "expectedStatusCode": 400,
+    "expectedStatus": "shipping",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-11",
+    "title": "Admin hoàn tất đơn hàng đang giao (shipping -> delivered)",
+    "type": "positive",
+    "initialStatus": "shipping",
+    "action": "Deliver",
+    "targetStatus": "delivered",
+    "expectedStatusCode": 200,
+    "expectedStatus": "delivered",
+    "expectedMessage": "Order status updated"
+  },
+  {
+    "id": "FR10-STT-12",
+    "title": "Chặn User/Admin hủy đơn hàng khi đã đi giao (shipping -> canceled)",
+    "type": "negative",
+    "initialStatus": "shipping",
+    "action": "Cancel",
+    "targetStatus": "canceled",
+    "expectedStatusCode": 400,
+    "expectedStatus": "shipping",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-13",
+    "title": "Chặn xác nhận lại đơn hàng đã giao thành công (delivered -> confirmed)",
+    "type": "negative",
+    "initialStatus": "delivered",
+    "action": "Confirm",
+    "targetStatus": "confirmed",
+    "expectedStatusCode": 400,
+    "expectedStatus": "delivered",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-14",
+    "title": "Chặn giao lại đơn hàng đã giao thành công (delivered -> shipping)",
+    "type": "negative",
+    "initialStatus": "delivered",
+    "action": "Ship",
+    "targetStatus": "shipping",
+    "expectedStatusCode": 400,
+    "expectedStatus": "delivered",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-15",
+    "title": "Chặn giao thành công lại đơn hàng đã giao thành công (delivered -> delivered)",
+    "type": "negative",
+    "initialStatus": "delivered",
+    "action": "Deliver",
+    "targetStatus": "delivered",
+    "expectedStatusCode": 400,
+    "expectedStatus": "delivered",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-16",
+    "title": "Chặn hủy đơn hàng đã giao thành công (delivered -> canceled)",
+    "type": "negative",
+    "initialStatus": "delivered",
+    "action": "Cancel",
+    "targetStatus": "canceled",
+    "expectedStatusCode": 400,
+    "expectedStatus": "delivered",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-17",
+    "title": "Chặn xác nhận đơn hàng đã bị hủy (canceled -> confirmed)",
+    "type": "negative",
+    "initialStatus": "canceled",
+    "action": "Confirm",
+    "targetStatus": "confirmed",
+    "expectedStatusCode": 400,
+    "expectedStatus": "canceled",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-18",
+    "title": "Chặn giao đơn hàng đã bị hủy (canceled -> shipping)",
+    "type": "negative",
+    "initialStatus": "canceled",
+    "action": "Ship",
+    "targetStatus": "shipping",
+    "expectedStatusCode": 400,
+    "expectedStatus": "canceled",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-19",
+    "title": "Chặn giao thành công đơn hàng đã bị hủy (canceled -> delivered)",
+    "type": "negative",
+    "initialStatus": "canceled",
+    "action": "Deliver",
+    "targetStatus": "delivered",
+    "expectedStatusCode": 400,
+    "expectedStatus": "canceled",
+    "expectedError": "Invalid state transition"
+  },
+  {
+    "id": "FR10-STT-20",
+    "title": "Chặn hủy lại đơn hàng đã bị hủy trước đó (canceled -> canceled)",
+    "type": "negative",
+    "initialStatus": "canceled",
+    "action": "Cancel",
+    "targetStatus": "canceled",
+    "expectedStatusCode": 400,
+    "expectedStatus": "canceled",
+    "expectedError": "Invalid state transition"
+  }
+]
