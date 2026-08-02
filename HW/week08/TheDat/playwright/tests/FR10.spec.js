@@ -1,8 +1,13 @@
 import { test, expect } from '@playwright/test';
 import testData from '../test_data/FR10.json' with { type: 'json' };
 
-// Configure serial mode to maintain predictable order state transitions
-test.describe.configure({ mode: 'serial' });
+// ==============================================================================================
+// [AI Review Fix - Task 2 Demo]:
+// BAN ĐẦU AI SINH RA: test.describe.configure({ mode: 'serial' });
+// LỖI: Khi 1 test case thất bại (TC-19), Playwright ngắt toàn bộ test case phía sau (TC-20 did not run).
+// FIX (HUMAN REVIEW): Mỗi test case đã tự tạo orderId riêng độc lập, việc bỏ mode 'serial' giúp 
+// toàn bộ 60/60 test runs trên 3 trình duyệt chạy hoàn tất 100% mà không bị dừng đột ngột.
+// ==============================================================================================
 
 test.describe('[Run by: 23127340] FR-10: Order State Machine (State Transition Testing)', () => {
   let adminToken = '';
