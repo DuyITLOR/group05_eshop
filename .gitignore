@@ -1,0 +1,10 @@
+frontend-admin/node_modules
+backend/node_modules
+frontend-web/node_modules
+frontend-mobile/node_modules
+frontend-admin/node_modules
+backend/pnpm-lock.yaml
+frontend-web/pnpm-lock.yaml
+frontend-mobile/pnpm-lock.yaml
+frontend-admin/pnpm-lock.yaml
+backend/pnpm-workspace.yaml
