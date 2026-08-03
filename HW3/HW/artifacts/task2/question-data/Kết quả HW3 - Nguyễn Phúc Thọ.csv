@@ -1,0 +1,30 @@
+Kịch bản,"Bạn đang chuẩn bị mua một chiếc điện thoại mới để phục vụ công việc. Do bạn đã tiết kiệm trong một thời gian nên ngân sách của bạn là khoảng 30 triệu đồng. Bạn đã có sẵn tài khoản EShop và đang đăng nhập. Hãy hoàn tất việc mua một thiết bị và tận dụng mã giảm giá `VIP100`.
+
+
+Tóm lại: Thêm điện thoại vào giỏ hàng → Bấm xem giỏ hàng → Checkout với coupon `VIP100` → Thanh Toán đơn hàng",
+Tên người test,Nguyễn Phúc Thọ,
+SĐT,0795557668,
+,,
+Câu hỏi thang đo,(1 = Hoàn toàn không đồng ý → 5 = Hoàn toàn đồng ý),
+STT,Câu hỏi,Trả lời
+1,Tôi nghĩ tôi sẽ muốn dùng hệ thống này thường xuyên.,1
+2,Tôi thấy hệ thống này phức tạp một cách không cần thiết.,2
+3,Tôi thấy hệ thống này dễ sử dụng.,5
+4,Tôi nghĩ mình cần người rành kỹ thuật hỗ trợ mới dùng được hệ thống này.,4
+5,Tôi thấy các chức năng trong hệ thống này được tích hợp tốt với nhau.,2
+6,Tôi thấy hệ thống này có quá nhiều điểm thiếu nhất quán.,5
+7,Tôi nghĩ hầu hết mọi người sẽ học cách dùng hệ thống này rất nhanh.,2
+8,"Tôi thấy hệ thống này rất cồng kềnh, bất tiện khi dùng.",4
+9,Tôi cảm thấy rất tự tin khi dùng hệ thống này.,4
+10,Tôi cần học nhiều thứ trước khi có thể bắt đầu dùng hệ thống này.,4
+,,
+Câu hỏi mở,,
+Nhóm,Câu hỏi,Trả lời
+Clarity,"Phần nào của luồng mua hàng rõ ràng hoặc khó hiểu với bạn, và vì sao?",không có
+Clarity,Có thông tin nào bạn muốn được hiển thị rõ hơn trước khi tiếp tục không?,"hình ảnh sản phẩm, mô tả sản phẩm, review"
+Error recovery,"Khi gặp một điều không như bạn mong đợi, bạn đã làm gì để tiếp tục?",Hỏi admin
+Error recovery,Hệ thống có giúp bạn hiểu cách xử lý vấn đề đó không? Vì sao?,không
+Speed,Bạn cảm nhận thế nào về tốc độ thực hiện luồng mua hàng này?,Xử lý đồng bộ còn chậm
+Speed,Có thời điểm nào bạn phải chờ hoặc không chắc hệ thống đang xử lý gì không?,Khi thêm hàng vào giỏ phải chờ 5s để xuất hiện hàng
+Trust,Điều gì khiến bạn tin tưởng hoặc chưa tin tưởng rằng đơn hàng đã được ghi nhận?,Không tin tưởng vì không có thông báo về mail
+Trust,Bạn cần thấy thêm thông tin gì để tự tin rằng đơn hàng đã hoàn tất?,Cần có thông báo về mail

@@ -1,0 +1,30 @@
+Kịch bản,"Bạn đang chuẩn bị mua một chiếc điện thoại mới để phục vụ công việc. Do bạn đã tiết kiệm trong một thời gian nên ngân sách của bạn là khoảng 30 triệu đồng. Bạn đã có sẵn tài khoản EShop và đang đăng nhập. Hãy hoàn tất việc mua một thiết bị và tận dụng mã giảm giá `VIP100`.
+
+
+Tóm lại: Thêm điện thoại vào giỏ hàng → Bấm xem giỏ hàng → Checkout với coupon `VIP100` → Thanh Toán đơn hàng",
+Tên người test,Nguyễn Lê Hồ Anh Khoa,
+SĐT,0946557515,
+,,
+Câu hỏi thang đo,(1 = Hoàn toàn không đồng ý → 5 = Hoàn toàn đồng ý),
+STT,Câu hỏi,Trả lời
+1,Tôi nghĩ tôi sẽ muốn dùng hệ thống này thường xuyên.,4
+2,Tôi thấy hệ thống này phức tạp một cách không cần thiết.,2
+3,Tôi thấy hệ thống này dễ sử dụng.,4
+4,Tôi nghĩ mình cần người rành kỹ thuật hỗ trợ mới dùng được hệ thống này.,4
+5,Tôi thấy các chức năng trong hệ thống này được tích hợp tốt với nhau.,2
+6,Tôi thấy hệ thống này có quá nhiều điểm thiếu nhất quán.,2
+7,Tôi nghĩ hầu hết mọi người sẽ học cách dùng hệ thống này rất nhanh.,4
+8,"Tôi thấy hệ thống này rất cồng kềnh, bất tiện khi dùng.",2
+9,Tôi cảm thấy rất tự tin khi dùng hệ thống này.,3
+10,Tôi cần học nhiều thứ trước khi có thể bắt đầu dùng hệ thống này.,2
+,,
+Câu hỏi mở,,
+Nhóm,Câu hỏi,Trả lời
+Clarity,"Phần nào của luồng mua hàng rõ ràng hoặc khó hiểu với bạn, và vì sao?",Tổng giá tiền có thể thay đổi bởi người mua hàng
+Clarity,Có thông tin nào bạn muốn được hiển thị rõ hơn trước khi tiếp tục không?,Không
+Error recovery,"Khi gặp một điều không như bạn mong đợi, bạn đã làm gì để tiếp tục?","Bấm thêm vào giỏ hàng không được, bấm tiếp 1 lần nữa thì được"
+Error recovery,Hệ thống có giúp bạn hiểu cách xử lý vấn đề đó không? Vì sao?,"Không, tôi không chắc là do bấm không ăn (chuột không nhận) hay do hệ thống không nhận"
+Speed,Bạn cảm nhận thế nào về tốc độ thực hiện luồng mua hàng này?,Khá giống các web khác
+Speed,Có thời điểm nào bạn phải chờ hoặc không chắc hệ thống đang xử lý gì không?,"Lúc thêm vào giỏ hàng lần đầu, không chắc hệ thống đã nhận chưa"
+Trust,Điều gì khiến bạn tin tưởng hoặc chưa tin tưởng rằng đơn hàng đã được ghi nhận?,Giao diện thành công
+Trust,Bạn cần thấy thêm thông tin gì để tự tin rằng đơn hàng đã hoàn tất?,Không cần
