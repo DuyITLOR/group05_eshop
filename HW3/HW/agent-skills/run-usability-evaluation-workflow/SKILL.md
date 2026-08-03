@@ -37,13 +37,13 @@ description: Thực hiện hoặc tiếp tục usability evaluation của HW03 t
 
 ## Các phase được hỗ trợ
 
-| Phase | Phụ thuộc tối thiểu | Đầu ra mặc định |
-| --- | --- | --- |
-| `plan` | Flow và research goal | `artifacts/task2/usability-plan.md` |
-| `prepare` | Usability plan | `artifacts/task2/moderator-session-kit.md` |
-| `record` | Session thật đã ẩn danh | `artifacts/task2/session-observations.md` |
+| Phase     | Phụ thuộc tối thiểu                     | Đầu ra mặc định                                                               |
+| --------- | --------------------------------------- | ----------------------------------------------------------------------------- |
+| `plan`    | Flow và research goal                   | `artifacts/task2/usability-plan.md`                                           |
+| `prepare` | Usability plan                          | `artifacts/task2/moderator-session-kit.md`                                    |
+| `record`  | Session thật đã ẩn danh                 | `artifacts/task2/session-observations.md`                                     |
 | `analyze` | Observation và instrument response thật | `artifacts/task2/usability-scores.md`, `artifacts/task2/severity-findings.md` |
-| `report` | Plan, observation, score và finding | `artifacts/task2/usability-report.md` |
+| `report`  | Plan, observation, score và finding     | `artifacts/task2/usability-report.md`                                         |
 
 ## Quy trình thực hiện
 

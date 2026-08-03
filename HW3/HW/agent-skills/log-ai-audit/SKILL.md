@@ -73,12 +73,6 @@ Nội dung prompt nguyên văn
 Nội dung câu trả lời cuối cùng nguyên văn
 ```
 
-### Files and Artifacts
-
-| Path | Action | Description | Validation |
-| --- | --- | --- | --- |
-| ... | Created/Modified/Read | ... | Passed/Failed/Not checked |
-
 ### Important Decisions
 
 - Chỉ ghi các quyết định và giả định ảnh hưởng đến kết quả.
@@ -86,19 +80,16 @@ Nội dung câu trả lời cuối cùng nguyên văn
 
 ### Human Review
 
-- Review status: Pending
-- Reviewed by:
-- Review date:
-- Corrections made:
-- Accepted artifacts:
+- Verdict: VALID/INVALID
+- Reasoning: 
+- Student fix:
+
 
 ---
 ````
 
 ## Giữ quyền rà soát cho sinh viên
 
-- Đặt `Review status: Pending` cho mọi interaction mới.
-- Không tự đổi trạng thái thành `Reviewed`, `Accepted` hoặc `Corrected`.
 - Chỉ cập nhật thông tin rà soát khi sinh viên xác nhận và cung cấp nội dung.
 - Thêm phần `Correction` mới khi cần sửa bản ghi; không xóa hoặc sửa nội dung cũ nếu người dùng không yêu cầu.
 
@@ -134,6 +125,4 @@ Nội dung câu trả lời cuối cùng nguyên văn
 - Kiểm tra ID không trùng và đúng ngày tại `Asia/Ho_Chi_Minh`.
 - Kiểm tra prompt được lưu nguyên văn, trừ phần bắt buộc che dữ liệu nhạy cảm.
 - Kiểm tra `AI Output` giống chính xác câu trả lời sắp gửi.
-- Kiểm tra bảng artifact phản ánh các thao tác và validation thực tế.
-- Kiểm tra `Human Review` vẫn là `Pending`.
 - Kiểm tra bản ghi được nối vào cuối tệp và không làm thay đổi bản ghi cũ.
