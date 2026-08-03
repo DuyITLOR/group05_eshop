@@ -9,7 +9,7 @@
 - User role: `admin`
 - Số item: 60
 - Human review: `Reviewed`
-- Execution: Chưa thực hiện
+- Execution: Đã thực hiện
 
 ## Human Review Record
 

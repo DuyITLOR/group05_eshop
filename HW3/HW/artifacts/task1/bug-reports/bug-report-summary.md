@@ -17,12 +17,19 @@
 | BUG-013 | Tên accessible của row action lặp không có ngữ cảnh đơn hàng độc lập | GUI-054 | Admin Orders | Medium | P3 | Đã xác nhận | Chưa tạo |
 | BUG-014 | Thông báo lỗi cập nhật trạng thái không nêu đơn bị ảnh hưởng | GUI-059 | Admin Orders | Medium | P2 | Đã xác nhận | Chưa tạo |
 | BUG-015 | Session hết hạn chuyển về Login mà không có giải thích | GUI-043 | Admin Session | Low | P3 | Đã xác nhận | Chưa tạo |
+| BUG-016 | Trường tổng thanh toán cho phép chỉnh sửa tùy ý — lỗi bảo mật nghiêm trọng | FIND-02 (Task 2) | Checkout | Critical | P0 | Pending | Chưa tạo |
+| BUG-017 | Không có phản hồi tức thời sau khi thêm sản phẩm vào giỏ hàng | FIND-01 (Task 2) | Cart | High | P1 | Pending | Chưa tạo |
+| BUG-018 | Giỏ hàng không được xóa sau khi thanh toán thành công | FIND-04 (Task 2) | Cart / Checkout | High | P1 | Pending | Chưa tạo |
+| BUG-019 | Thêm cùng một sản phẩm nhiều lần tạo ra nhiều dòng riêng biệt | FIND-05 (Task 2) | Cart | Medium | P2 | Pending | Chưa tạo |
 
 ## Thống kê
 
-- Tổng bug đã xác nhận: 15.
-- Severity: Critical 0; High 4; Medium 10; Low 1.
-- Priority: P1 2; P2 8; P3 5; P4 0.
-- Bug từ Live SUT/manual review: 8; từ controlled mocked condition: 7.
-- Accessibility bug: 5; responsive bug: 0.
+- Tổng bug đã xác nhận: 15 (Task 1) + 4 mới (Task 2) = **19 bug**.
+- Bug Task 1 — Severity: Critical 0; High 4; Medium 10; Low 1.
+- Bug Task 2 — Severity: Critical 1 (BUG-016); High 2 (BUG-017, BUG-018); Medium 1 (BUG-019).
+- Tổng hợp — Severity: Critical 1; High 6; Medium 11; Low 1.
+- Priority tổng: P0 1; P1 4; P2 9; P3 5; P4 0.
+- Bug từ Task 1 (Live SUT/manual GUI checklist): 15.
+- Bug từ Task 2 (Usability test): 4.
+- Accessibility bug: 5; Responsive bug: 0; Security bug: 1.
 
