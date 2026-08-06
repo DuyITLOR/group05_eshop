@@ -1,14 +1,16 @@
 [
   {
     "id": "TC-FR03-01",
-    "title": "Email hợp lệ đã đăng ký trong miền E1",
+    "type": "EP",
+    "title": "EP Email hợp lệ đã đăng ký trong miền E1",
     "step": 1,
     "email": "test@eshop.com",
     "expected": "otp_generated"
   },
   {
     "id": "TC-FR03-02",
-    "title": "Đặt lại mật khẩu thành công với OTP và mật khẩu hợp lệ (chứa ký tự đặc biệt !)",
+    "type": "EP",
+    "title": "EP Đặt lại mật khẩu thành công với OTP và mật khẩu hợp lệ (chứa ký tự đặc biệt !)",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -18,7 +20,8 @@
   },
   {
     "id": "TC-FR03-03",
-    "title": "Email đúng định dạng nhưng chưa đăng ký trong miền E2",
+    "type": "EP",
+    "title": "EP Email đúng định dạng nhưng chưa đăng ký trong miền E2",
     "step": 1,
     "email": "notexist@eshop.com",
     "expected": "alert_error",
@@ -26,21 +29,24 @@
   },
   {
     "id": "TC-FR03-04",
-    "title": "Email sai định dạng trong miền E3",
+    "type": "EP",
+    "title": "EP Email sai định dạng trong miền E3",
     "step": 1,
     "email": "invalidemail",
     "expected": "invalid_email"
   },
   {
     "id": "TC-FR03-05",
-    "title": "Email để trống trong miền E4",
+    "type": "EP",
+    "title": "EP Email để trống trong miền E4",
     "step": 1,
     "email": "",
     "expected": "required_field"
   },
   {
     "id": "TC-FR03-06",
-    "title": "Mã OTP sai không khớp trong miền OTP2",
+    "type": "EP",
+    "title": "EP Mã OTP sai không khớp trong miền OTP2",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "000000",
@@ -51,7 +57,8 @@
   },
   {
     "id": "TC-FR03-07",
-    "title": "Mã OTP của email khác trong miền OTP3",
+    "type": "EP",
+    "title": "EP Mã OTP của email khác trong miền OTP3",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "9999",
@@ -62,7 +69,8 @@
   },
   {
     "id": "TC-FR03-08",
-    "title": "Mã OTP để trống trong miền OTP4",
+    "type": "EP",
+    "title": "EP Mã OTP để trống trong miền OTP4",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "",
@@ -72,7 +80,8 @@
   },
   {
     "id": "TC-FR03-09",
-    "title": "Mật khẩu ngắn hơn 8 ký tự trong miền PW2",
+    "type": "EP",
+    "title": "EP Mật khẩu ngắn hơn 8 ký tự trong miền PW2",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -83,7 +92,8 @@
   },
   {
     "id": "TC-FR03-10",
-    "title": "Mật khẩu không có chữ hoa trong miền PW3",
+    "type": "EP",
+    "title": "EP Mật khẩu không có chữ hoa trong miền PW3",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -94,7 +104,8 @@
   },
   {
     "id": "TC-FR03-11",
-    "title": "Mật khẩu không có chữ thường trong miền PW4",
+    "type": "EP",
+    "title": "EP Mật khẩu không có chữ thường trong miền PW4",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -105,7 +116,8 @@
   },
   {
     "id": "TC-FR03-12",
-    "title": "Mật khẩu không có chữ số trong miền PW5",
+    "type": "EP",
+    "title": "EP Mật khẩu không có chữ số trong miền PW5",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -116,7 +128,8 @@
   },
   {
     "id": "TC-FR03-13",
-    "title": "Mật khẩu không có ký tự đặc biệt",
+    "type": "EP",
+    "title": "EP Mật khẩu không có ký tự đặc biệt",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -127,7 +140,8 @@
   },
   {
     "id": "TC-FR03-14",
-    "title": "Mật khẩu để trống trong miền PW7",
+    "type": "EP",
+    "title": "EP Mật khẩu để trống trong miền PW7",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -137,7 +151,8 @@
   },
   {
     "id": "TC-FR03-15",
-    "title": "Xác nhận mật khẩu không khớp trong miền CF2",
+    "type": "EP",
+    "title": "EP Xác nhận mật khẩu không khớp trong miền CF2",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -147,7 +162,8 @@
   },
   {
     "id": "TC-FR03-16",
-    "title": "Xác nhận mật khẩu để trống trong miền CF3",
+    "type": "EP",
+    "title": "EP Xác nhận mật khẩu để trống trong miền CF3",
     "step": 2,
     "email": "test@eshop.com",
     "otp": "auto",
@@ -157,6 +173,7 @@
   },
   {
     "id": "TC-FR03-17",
+    "type": "BVA",
     "title": "BVA Email định dạng không hợp lệ (a@.c)",
     "step": 1,
     "email": "a@.c",
@@ -164,6 +181,7 @@
   },
   {
     "id": "TC-FR03-18",
+    "type": "BVA",
     "title": "BVA Email độ dài tối thiểu hợp lệ (a@b.c)",
     "step": 1,
     "email": "a@b.c",
@@ -172,6 +190,7 @@
   },
   {
     "id": "TC-FR03-19",
+    "type": "BVA",
     "title": "BVA Email độ dài tối thiểu + 1 (ab@b.c)",
     "step": 1,
     "email": "ab@b.c",
@@ -180,6 +199,7 @@
   },
   {
     "id": "TC-FR03-20",
+    "type": "BVA",
     "title": "BVA Email độ dài tối đa - 1 (253 ký tự)",
     "step": 1,
     "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
@@ -188,6 +208,7 @@
   },
   {
     "id": "TC-FR03-21",
+    "type": "BVA",
     "title": "BVA Email độ dài tối đa (254 ký tự)",
     "step": 1,
     "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
@@ -196,6 +217,7 @@
   },
   {
     "id": "TC-FR03-22",
+    "type": "BVA",
     "title": "BVA Email độ dài tối đa + 1 (255 ký tự)",
     "step": 1,
     "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
@@ -204,6 +226,7 @@
   },
   {
     "id": "TC-FR03-26",
+    "type": "BVA",
     "title": "BVA Mật khẩu độ dài 7 ký tự (Abc!123)",
     "step": 2,
     "email": "test@eshop.com",
@@ -215,6 +238,7 @@
   },
   {
     "id": "TC-FR03-27",
+    "type": "BVA",
     "title": "BVA Mật khẩu độ dài 8 ký tự biên dưới (Abc!1234)",
     "step": 2,
     "email": "test@eshop.com",
@@ -225,6 +249,7 @@
   },
   {
     "id": "TC-FR03-28",
+    "type": "BVA",
     "title": "BVA Mật khẩu độ dài 9 ký tự (Abc!12345)",
     "step": 2,
     "email": "test@eshop.com",
@@ -235,6 +260,7 @@
   },
   {
     "id": "TC-FR03-29",
+    "type": "BVA",
     "title": "BVA Mật khẩu độ dài 254 ký tự",
     "step": 2,
     "email": "test@eshop.com",
@@ -245,6 +271,7 @@
   },
   {
     "id": "TC-FR03-30",
+    "type": "BVA",
     "title": "BVA Mật khẩu độ dài 255 ký tự",
     "step": 2,
     "email": "test@eshop.com",
@@ -255,6 +282,7 @@
   },
   {
     "id": "TC-FR03-31",
+    "type": "BVA",
     "title": "BVA Mật khẩu độ dài 256 ký tự",
     "step": 2,
     "email": "test@eshop.com",
@@ -266,6 +294,7 @@
   },
   {
     "id": "TC-FR03-32",
+    "type": "BVA",
     "title": "BVA Mật khẩu 0 chữ cái viết hoa",
     "step": 2,
     "email": "test@eshop.com",
@@ -277,6 +306,7 @@
   },
   {
     "id": "TC-FR03-33",
+    "type": "BVA",
     "title": "BVA Mật khẩu 1 chữ cái viết hoa (Abc!12345)",
     "step": 2,
     "email": "test@eshop.com",
@@ -287,6 +317,7 @@
   },
   {
     "id": "TC-FR03-34",
+    "type": "BVA",
     "title": "BVA Mật khẩu 2 chữ cái viết hoa (ABc!12345)",
     "step": 2,
     "email": "test@eshop.com",
@@ -297,6 +328,7 @@
   },
   {
     "id": "TC-FR03-35",
+    "type": "BVA",
     "title": "BVA Mật khẩu 0 chữ cái viết thường",
     "step": 2,
     "email": "test@eshop.com",
@@ -308,6 +340,7 @@
   },
   {
     "id": "TC-FR03-36",
+    "type": "BVA",
     "title": "BVA Mật khẩu 1 chữ cái viết thường (aBC!12345)",
     "step": 2,
     "email": "test@eshop.com",
@@ -318,6 +351,7 @@
   },
   {
     "id": "TC-FR03-37",
+    "type": "BVA",
     "title": "BVA Mật khẩu 2 chữ cái viết thường (abC!12345)",
     "step": 2,
     "email": "test@eshop.com",
@@ -328,6 +362,7 @@
   },
   {
     "id": "TC-FR03-38",
+    "type": "BVA",
     "title": "BVA Mật khẩu 0 chữ số",
     "step": 2,
     "email": "test@eshop.com",
@@ -339,6 +374,7 @@
   },
   {
     "id": "TC-FR03-39",
+    "type": "BVA",
     "title": "BVA Mật khẩu 1 chữ số (Abc!defg1)",
     "step": 2,
     "email": "test@eshop.com",
@@ -349,6 +385,7 @@
   },
   {
     "id": "TC-FR03-40",
+    "type": "BVA",
     "title": "BVA Mật khẩu 2 chữ số (Abc!def12)",
     "step": 2,
     "email": "test@eshop.com",
@@ -359,6 +396,7 @@
   },
   {
     "id": "TC-FR03-41",
+    "type": "BVA",
     "title": "BVA Mật khẩu 0 ký tự đặc biệt (không chứa ký tự đặc biệt)",
     "step": 2,
     "email": "test@eshop.com",
@@ -370,6 +408,7 @@
   },
   {
     "id": "TC-FR03-42",
+    "type": "BVA",
     "title": "BVA Mật khẩu có ký tự đặc biệt hợp lệ (!)",
     "step": 2,
     "email": "test@eshop.com",
@@ -380,6 +419,7 @@
   },
   {
     "id": "TC-FR03-43",
+    "type": "BVA",
     "title": "BVA Mật khẩu có ký tự đặc biệt hợp lệ (!!)",
     "step": 2,
     "email": "test@eshop.com",
