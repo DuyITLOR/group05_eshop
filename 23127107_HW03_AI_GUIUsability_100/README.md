@@ -10,8 +10,6 @@
 |  4  | Agent Skill                                                                   |     10      |        10        |
 |     | **Tổng cộng**                                                                 |   **100**   |     **100**      |
 
-_(Ghi chú: Điểm tự đánh giá hiện được điền là 100/100, bạn có thể điều chỉnh lại mức điểm phù hợp sau khi hoàn thiện các phần còn thiếu được đề cập trong báo cáo `main.md`)_
-
 ## Báo cáo tóm tắt kiểm thử (Test Summary Report)
 
 - **Số màn hình / luồng đã kiểm thử (Number of screens / flows tested):**
@@ -25,6 +23,7 @@ _(Ghi chú: Điểm tự đánh giá hiện được điền là 100/100, bạn 
   - Không đạt (Failed): 28 mục
 - **Số lỗi (Number of bugs):** Tổng cộng 19 lỗi (15 lỗi Task 1 đã xác nhận, 4 lỗi Task 2 đang pending chờ xác nhận).
 - **Số người tham gia (Number of participants):** 7 người (Mã session từ P01 đến P07).
+- **Link chứa video ghi hình:** [Link đính kèm](https://drive.google.com/drive/folders/1tCJihkIQ3jJyVIOSk414_iFYRQoeUC5C?usp=sharing)
 - **Các video minh họa (Demo videos):**
   - `log-ai-audit`: [YouTube Link](https://youtu.be/bYpBHybMgjE)
   - `run-gui-checklist-workflow`: [YouTube Link](https://youtu.be/bYpBHybMgjE)
