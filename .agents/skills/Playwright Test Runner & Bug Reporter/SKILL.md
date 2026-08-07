@@ -82,6 +82,13 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
 
 ### Mẫu cấu trúc File Bug Report (`bug_report_<Feature_ID>.md`):
 
+> **⚠️ LƯU Ý ĐƯỜNG DẪN ẢNH SCREENSHOT:**
+> - Báo cáo lưu tại `playwright/reports/bug_report_<Feature_ID>.md`.
+> - Thư mục ảnh nằm tại `playwright/test-results/<folder-name>/test-failed-1.png`.
+> - **Đường dẫn tương đối CHUẨN phải là `../test-results/`** (chỉ đi lên 1 cấp thư mục từ `reports/` lên `playwright/`). KHÔNG dùng `../../test-results/`.
+> - Đảm bảo `playwright.config.js` đã bật `use: { screenshot: 'only-on-failure' }` để tự động chụp ảnh `.png` khi test FAIL.
+> - Sau khi tạo file Markdown, phải kiểm tra sự tồn tại của file ảnh `.png` thực tế trước khi hoàn tất.
+
 ```markdown
 # 🐛 Báo Cáo Lỗi Kiểm Thử (Bug Report) - Feature <Feature_ID>
 
@@ -111,12 +118,12 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
 `<Mô tả kết quả đúng theo yêu cầu đặc tả>`
 
 ### 4. Bằng chứng lỗi (Evidence Screenshot)
-![Bug Evidence](../../test-results/<folder-name>/test-failed-1.png)
+![Bug Evidence](../test-results/<folder-name>/test-failed-1.png)
 ```
 
 ---
 
-## 5. Giai đoạn 4: Quy Trình An Toàn Đẩy GitHub Issues (Human-in-the-Loop)
+## 5. Giai đoạn 4: Quy Trình An Toàn & Kỹ Thuật Đẩy GitHub Issues (Human-in-the-Loop)
 
 ⚠️ **QUY TẮC AN TOÀN TUYỆT ĐỐI:** Agent **KHÔNG BẤT KỲ LÚC NÀO** tự ý gọi công cụ đẩy Issue lên GitHub mà chưa có sự đồng ý rõ ràng của người dùng!
 
@@ -133,5 +140,29 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
    > ❓ **Bạn có muốn tôi tự động tạo GitHub Issue cho <X> lỗi này lên repository không?** (Hãy trả lời 'Đồng ý' hoặc 'Không').
 
 2. **Bước 2 (Xử lý phản hồi của User):**
-   - **Trường hợp A (User đồng ý / Approve):** Agent sử dụng GitHub tool để tạo Issue chính thức cho từng bug, kèm nội dung Markdown (gồm Severity & Priority) và link ảnh screenshot. Sau đó thông báo lại link các GitHub Issues đã tạo.
    - **Trường hợp B (User từ chối / Muốn chỉnh sửa):** Agent chỉ lưu file Markdown cục bộ mà KHÔNG thực hiện tạo GitHub Issue.
+   - **Trường hợp A (User đồng ý / Approve):** Thực hiện quy trình tạo Issue chuẩn theo các bước kỹ thuật bên dưới.
+
+---
+
+### 💡 Quy trình Kỹ thuật Tạo Issue & Xử lý Ảnh Screenshot Minh Chứng
+
+#### A. Xử lý Ảnh Screenshot để Không Bị Lỗi Hiển Thị (Broken Image Link):
+1. **Lý do:** Thư mục `test-results/` bị `.gitignore` loại trừ, nếu dùng link trong `test-results/` trên GitHub Issue sẽ bị 404 / broken image.
+2. **Quy trình chuẩn:**
+   - Copy các ảnh screenshot lỗi từ `test-results/.../test-failed-1.png` vào thư mục `reports/assets/` với tên chuẩn ASCII (ví dụ: `assets/bug-fr03-01.png`).
+   - Cập nhật link ảnh trong file `bug_report_<Feature_ID>.md` trỏ tương đối về `assets/bug-<Feature_ID>-01.png`.
+   - Thực hiện `git add reports/`, `git commit -m "docs: add evidence screenshots for <Feature_ID> bug reports"` và `git push origin <current-branch>` (ví dụ branch `HW02/Dat`).
+   - Trong body của GitHub Issue, sử dụng đường dẫn Raw GitHub CDN chính thức của file ảnh đã push:
+     `https://raw.githubusercontent.com/<owner>/<repo>/<branch>/<path_to_assets>/bug-<Feature_ID>-01.png`
+
+#### B. Phương pháp Tạo Issue qua GitHub REST API (Handling Token & MCP):
+1. **Về GitHub MCP Tool:**
+   - Nếu GitHub MCP Tool bị lỗi `Resource not accessible by personal access token` (do MCP PAT chỉ ở chế độ Read-only), Agent sử dụng Token được lưu trong Git Credential Manager cục bộ.
+2. **Lấy Token & Đẩy Issue bằng Lệnh / Node.js Script:**
+   - Chạy lệnh lấy token:
+     ```bash
+     powershell -Command "echo 'url=https://github.com/<owner>/<repo>.git' | git credential fill"
+     ```
+   - Sử dụng Token thu được (`password`) để gọi GitHub REST API `POST /repos/<owner>/<repo>/issues` (hoặc `PATCH /repos/<owner>/<repo>/issues/<issue_number>` nếu cập nhật) với Body chứa tiêu đề, nhãn (`bug`, `Severity`, `Priority`), mô tả lỗi và đường dẫn Raw CDN của ảnh bằng chứng.
+
