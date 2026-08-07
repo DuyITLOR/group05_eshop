@@ -35,4 +35,9 @@
 - Trả về mã lỗi `HTTP 400 Bad Request` cùng thông điệp lỗi chứa `"Invalid state transition"`.
 - Trạng thái lưu trữ thực tế của đơn hàng trong CSDL vẫn giữ nguyên là `canceled`.
 
+### 4. Bằng chứng lỗi (Evidence & Explanation)
+- **Giải thích về ảnh màn hình (Screenshot Note):** Bộ test suite `FR10.spec.js` được thiết kế kiểm thử tự động ở tầng API Backend (REST API Testing) trực tiếp gửi HTTP requests (`POST`, `PUT`, `GET`), không qua giao diện trình duyệt (UI DOM Render). Vì vậy Playwright không xuất file ảnh screenshot `.png`.
+- **Bằng chứng kết quả thực tế (Log Evidence):** Bằng chứng vi phạm được ghi nhận trực tiếp qua đối soát mã phản hồi HTTP (`Received: 200 OK` vs `Expected: 400 Bad Request`) và chi tiết log thất bại Playwright Assertion Error được lưu trong thư mục `test-results/`.
+
 ---
+
