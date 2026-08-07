@@ -14,6 +14,21 @@ import testData from '../test_data/FR16.json' with { type: 'json' };
 //    - FIX (HUMAN REVIEW): Chuyển đổi toàn bộ sang kiểm thử trên giao diện Web Admin (UI Data-Driven Testing) sử dụng `setInputFiles()` của Playwright để nạp file CSV trực tiếp, đảm bảo kiểm thử chính xác 100% kịch bản người dùng thực tế.
 //
 // ==============================================================================================
+// [GIẢI THÍCH CÁC GIÁ TRỊ BIÊN (BVA) NẰM NGOÀI MÔ TẢ TRỰC TIẾP CỦA FR-16 TRONG README.md]:
+//
+// 1. Độ dài tối đa 255 ký tự của tên sản phẩm (name: 254, 255, 256 ký tự — BVA_04, BVA_05, BVA_06):
+//    - README FR-16 chỉ quy định: "name không được rỗng".
+//    - Cơ sở thiết kế: Dựa trên thuộc tính ràng buộc đầu vào của FR-15 (Product CRUD: "Tên sản phẩm tối đa 255 ký tự")
+//      và giới hạn độ dài trường name trong CSDL SQLite.
+//
+// 2. Giá trị giá nhỏ nhất là 1 (price = 1, price = 2 — BVA_08, BVA_09):
+//    - README FR-16 chỉ quy định: "price phải là số dương (> 0)".
+//    - Cơ sở thiết kế: CSDL EShop lưu trữ giá sản phẩm dạng số nguyên (INTEGER), nên số nguyên dương nhỏ nhất thỏa mãn > 0 là 1.
+//
+// 3. Số lượng dòng dữ liệu tối thiểu là 1 dòng (row count = 0, 1, 2 — BVA_11, BVA_12, BVA_13):
+//    - README FR-16 không quy định số lượng dòng tối thiểu trong file CSV.
+//    - Cơ sở thiết kế: Dựa trên logic nghiệp vụ import hàng loạt — file CSV bắt buộc phải chứa ít nhất 1 dòng dữ liệu sản phẩm (bên cạnh dòng header) để thực hiện import.
+// ==============================================================================================
 // [DANH SÁCH CÁC CÂU LỆNH KHẲNG ĐỊNH (ASSERTION PATTERNS) TRONG FR16.spec.js]:
 //  1. Pattern 1: Target Inserted Count Check (`expect(page.locator('p').filter({ hasText: successRegex })).toBeVisible()`)
 //     - Đối soát chính xác số lượng sản phẩm được thêm thành công trên giao diện UI (VD: "Import hoàn tất: 2/2 sản phẩm được thêm").
