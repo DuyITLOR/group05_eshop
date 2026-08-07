@@ -131,7 +131,7 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
 
 1. **Bước 1 (Hiển thị xem trước):** Agent hiển thị tóm tắt danh sách các Bug tìm được lên cửa sổ chat theo dạng:
    > 📢 **Phát hiện <X> lỗi trong quá trình chạy test:**
-   > - **Bug 1:** `[FR-03][BUG-01] Nút Quên mật khẩu không phản hồi khi bấm`
+   > - **Bug 1:** `[HW04][BUG-FR03-01] Nút Quên mật khẩu không phản hồi khi bấm`
    >   - **Severity:** Major | **Priority:** P1 (High)
    >   - **Trình duyệt bị lỗi:** Firefox
    >   - **Báo cáo RTM đã tạo tại:** `playwright/reports/rtm.md`
@@ -147,7 +147,12 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
 
 ### 💡 Quy trình Kỹ thuật Tạo Issue & Xử lý Ảnh Screenshot Minh Chứng
 
-#### A. Xử lý Ảnh Screenshot để Không Bị Lỗi Hiển Thị (Broken Image Link):
+#### A. Định dạng Tiêu đề Issue (Title Prefix Requirement):
+- **Bắt buộc thêm tiền tố `[HW04]` vào trước mỗi tiêu đề Issue.**
+- Cấu trúc tiêu đề chuẩn: `[HW04][<Bug_ID>] <Tóm tắt tiêu đề lỗi ngắn gọn>`  
+  *(Ví dụ: `[HW04][BUG-FR03-01] SUT sinh mã OTP gồm 4 chữ số thay vì 6 chữ số theo đúng yêu cầu đặc tả SRS`)*
+
+#### B. Xử lý Ảnh Screenshot để Không Bị Lỗi Hiển Thị (Broken Image Link):
 1. **Lý do:** Thư mục `test-results/` bị `.gitignore` loại trừ, nếu dùng link trong `test-results/` trên GitHub Issue sẽ bị 404 / broken image.
 2. **Quy trình chuẩn:**
    - Copy các ảnh screenshot lỗi từ `test-results/.../test-failed-1.png` vào thư mục `reports/assets/` với tên chuẩn ASCII (ví dụ: `assets/bug-fr03-01.png`).
@@ -156,7 +161,7 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
    - Trong body của GitHub Issue, sử dụng đường dẫn Raw GitHub CDN chính thức của file ảnh đã push:
      `https://raw.githubusercontent.com/<owner>/<repo>/<branch>/<path_to_assets>/bug-<Feature_ID>-01.png`
 
-#### B. Phương pháp Tạo Issue qua GitHub REST API (Handling Token & MCP):
+#### C. Phương pháp Tạo Issue qua GitHub REST API (Handling Token & MCP):
 1. **Về GitHub MCP Tool:**
    - Nếu GitHub MCP Tool bị lỗi `Resource not accessible by personal access token` (do MCP PAT chỉ ở chế độ Read-only), Agent sử dụng Token được lưu trong Git Credential Manager cục bộ.
 2. **Lấy Token & Đẩy Issue bằng Lệnh / Node.js Script:**
@@ -164,5 +169,5 @@ Nếu phát hiện có ít nhất 1 test case bị **FAILED**, Agent sẽ đọc
      ```bash
      powershell -Command "echo 'url=https://github.com/<owner>/<repo>.git' | git credential fill"
      ```
-   - Sử dụng Token thu được (`password`) để gọi GitHub REST API `POST /repos/<owner>/<repo>/issues` (hoặc `PATCH /repos/<owner>/<repo>/issues/<issue_number>` nếu cập nhật) với Body chứa tiêu đề, nhãn (`bug`, `Severity`, `Priority`), mô tả lỗi và đường dẫn Raw CDN của ảnh bằng chứng.
+   - Sử dụng Token thu được (`password`) để gọi GitHub REST API `POST /repos/<owner>/<repo>/issues` (hoặc `PATCH /repos/<owner>/<repo>/issues/<issue_number>` nếu cập nhật) với Body chứa tiêu đề đã có tiền tố `[HW04]`, nhãn (`bug`, `Severity`, `Priority`), mô tả lỗi và đường dẫn Raw CDN của ảnh bằng chứng.
 
