@@ -84,6 +84,11 @@ export default defineConfig({
       url: 'http://localhost:5173',
       reuseExistingServer: !process.env.CI,
     },
+    {
+      command: 'npm run dev --prefix ../../../../frontend-admin',
+      url: 'http://localhost:5174',
+      reuseExistingServer: !process.env.CI,
+    },
   ],
 });
 

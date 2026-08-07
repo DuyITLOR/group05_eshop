@@ -37,15 +37,15 @@ graph TD
 
 ---
 
-## 3. Giai đoạn 2: Tạo File Ma Trận RTM Độc Lập (`rtm.md`) & Test Summary
+## 3. Giai đoạn 2: Tạo File Ma Trận RTM Độc Lập (`rtm_<Feature_ID>.md`) & Test Summary
 
-Agent đọc kết quả hiển thị từ Terminal log và sinh ra file RTM độc lập tại:
-`playwright/reports/rtm.md` (đồng thời tạo bản sao tại thư mục nộp bài `25127340_HW04_AI_Automation_100/rtm.md` nếu có).
+Agent đọc kết quả hiển thị từ Terminal log và sinh ra file RTM độc lập theo từng chức năng tại:
+`playwright/reports/rtm_<Feature_ID>.md` (Ví dụ: `playwright/reports/rtm_FR01.md`, `playwright/reports/rtm_FR03.md`).
 
-### Cấu trúc file `playwright/reports/rtm.md`:
+### Cấu trúc file `playwright/reports/rtm_<Feature_ID>.md`:
 
 ```markdown
-# 🗺️ Requirements Traceability Matrix (RTM)
+# 🗺️ Requirements Traceability Matrix (RTM) - Feature <Feature_ID>
 
 **MSSV (Run by):** 23127340  
 **Ngày thực thi:** <Date_Time>  
@@ -71,7 +71,7 @@ Agent đọc kết quả hiển thị từ Terminal log và sinh ra file RTM đ�
 ```
 
 > **Lưu ý Reference:** Trong các file `README.md` và `main_report.md`, nhúng bảng RTM hoặc trỏ link reference tới file này:
-> `👉 Xem chi tiết [Requirements Traceability Matrix (RTM)](rtm.md)`
+> `👉 Xem chi tiết [Requirements Traceability Matrix (RTM)](rtm_<Feature_ID>.md)`
 
 ---
 
