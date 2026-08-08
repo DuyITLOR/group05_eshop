@@ -33,7 +33,7 @@ Mã OTP sinh ra phải đúng 6 chữ số theo yêu cầu chuẩn SRS (ví dụ
 ## [BUG-02] Regex xác thực mật khẩu ở Backend SUT bị lỗi cài đặt (bắt buộc chứa khoảng trắng thay vì ký tự đặc biệt)
 
 - **Bug ID:** BUG-FR03-02
-- **Test Case liên quan:** TC-FR03-02, TC-FR03-27, TC-FR03-28, TC-FR03-29, TC-FR03-30, TC-FR03-33, TC-FR03-34, TC-FR03-36, TC-FR03-37, TC-FR03-39, TC-FR03-40, TC-FR03-42, TC-FR03-43
+- **Test Case liên quan:** TC-FR03-02, TC-FR03-24, TC-FR03-25, TC-FR03-27, TC-FR03-28, TC-FR03-30, TC-FR03-31, TC-FR03-33, TC-FR03-34, TC-FR03-36, TC-FR03-37
 - **Trình duyệt bị lỗi:** Chromium, Firefox, WebKit
 - **Severity (Mức độ nghiêm trọng kỹ thuật):** Critical
 - **Priority (Mức độ ưu tiên xử lý kinh doanh):** P1 (High)

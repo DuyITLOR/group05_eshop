@@ -1,16 +1,16 @@
 # 🗺️ Requirements Traceability Matrix (RTM)
 
 **MSSV (Run by):** 23127340  
-**Ngày thực thi:** 2026-08-06  
+**Ngày thực thi:** 2026-08-08  
 **Browsers Tested:** Chromium, Firefox, WebKit  
 
 ---
 
 ### 📊 Test Execution Summary
 - **Total Features:** 1 (FR-03: Quên mật khẩu & Đặt lại mật khẩu)
-- **Total Test Cases:** 40
-- **Total Browser Runs:** 120
-- **Passed:** 48 | **Failed:** 72 | **Skipped:** 0
+- **Total Test Cases:** 37
+- **Total Browser Runs:** 111
+- **Passed:** 48 | **Failed:** 63 | **Skipped:** 0
 
 ---
 
@@ -40,21 +40,18 @@
 | FR-03 | Forgot Password | TC-FR03-20 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
 | FR-03 | Forgot Password | TC-FR03-21 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
 | FR-03 | Forgot Password | TC-FR03-22 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
+| FR-03 | Forgot Password | TC-FR03-23 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
+| FR-03 | Forgot Password | TC-FR03-24 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
+| FR-03 | Forgot Password | TC-FR03-25 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
 | FR-03 | Forgot Password | TC-FR03-26 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
 | FR-03 | Forgot Password | TC-FR03-27 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
 | FR-03 | Forgot Password | TC-FR03-28 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
-| FR-03 | Forgot Password | TC-FR03-29 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
+| FR-03 | Forgot Password | TC-FR03-29 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
 | FR-03 | Forgot Password | TC-FR03-30 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
-| FR-03 | Forgot Password | TC-FR03-31 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
+| FR-03 | Forgot Password | TC-FR03-31 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
 | FR-03 | Forgot Password | TC-FR03-32 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
 | FR-03 | Forgot Password | TC-FR03-33 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
 | FR-03 | Forgot Password | TC-FR03-34 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
 | FR-03 | Forgot Password | TC-FR03-35 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
 | FR-03 | Forgot Password | TC-FR03-36 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
 | FR-03 | Forgot Password | TC-FR03-37 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
-| FR-03 | Forgot Password | TC-FR03-38 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
-| FR-03 | Forgot Password | TC-FR03-39 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
-| FR-03 | Forgot Password | TC-FR03-40 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
-| FR-03 | Forgot Password | TC-FR03-41 | BVA | `tests/FR03.spec.js` | ✅ PASS | ✅ PASS | ✅ PASS | N/A |
-| FR-03 | Forgot Password | TC-FR03-42 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |
-| FR-03 | Forgot Password | TC-FR03-43 | BVA | `tests/FR03.spec.js` | ❌ FAIL | ❌ FAIL | ❌ FAIL | `BUG-FR03-02` |

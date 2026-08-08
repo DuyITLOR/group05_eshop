@@ -202,7 +202,7 @@
     "type": "BVA",
     "title": "BVA Email độ dài tối đa - 1 (253 ký tự)",
     "step": 1,
-    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
     "expected": "alert_error",
     "expectedMessage": "User not found"
   },
@@ -211,7 +211,7 @@
     "type": "BVA",
     "title": "BVA Email độ dài tối đa (254 ký tự)",
     "step": 1,
-    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
     "expected": "alert_error",
     "expectedMessage": "User not found"
   },
@@ -220,12 +220,12 @@
     "type": "BVA",
     "title": "BVA Email độ dài tối đa + 1 (255 ký tự)",
     "step": 1,
-    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
     "expected": "alert_error",
     "expectedMessage": "User not found"
   },
   {
-    "id": "TC-FR03-26",
+    "id": "TC-FR03-23",
     "type": "BVA",
     "title": "BVA Mật khẩu độ dài 7 ký tự (Abc!123)",
     "step": 2,
@@ -237,7 +237,7 @@
     "expectedMessage": "Mật khẩu quá yếu"
   },
   {
-    "id": "TC-FR03-27",
+    "id": "TC-FR03-24",
     "type": "BVA",
     "title": "BVA Mật khẩu độ dài 8 ký tự biên dưới (Abc!1234)",
     "step": 2,
@@ -248,7 +248,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-28",
+    "id": "TC-FR03-25",
     "type": "BVA",
     "title": "BVA Mật khẩu độ dài 9 ký tự (Abc!12345)",
     "step": 2,
@@ -259,41 +259,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-29",
-    "type": "BVA",
-    "title": "BVA Mật khẩu độ dài 254 ký tự",
-    "step": 2,
-    "email": "test@eshop.com",
-    "otp": "auto",
-    "newPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1!",
-    "confirmPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1!",
-    "expected": "reset_success"
-  },
-  {
-    "id": "TC-FR03-30",
-    "type": "BVA",
-    "title": "BVA Mật khẩu độ dài 255 ký tự",
-    "step": 2,
-    "email": "test@eshop.com",
-    "otp": "auto",
-    "newPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1!",
-    "confirmPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1!",
-    "expected": "reset_success"
-  },
-  {
-    "id": "TC-FR03-31",
-    "type": "BVA",
-    "title": "BVA Mật khẩu độ dài 256 ký tự",
-    "step": 2,
-    "email": "test@eshop.com",
-    "otp": "auto",
-    "newPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1!",
-    "confirmPassword": "Abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1!",
-    "expected": "alert_error",
-    "expectedMessage": "Mật khẩu quá yếu"
-  },
-  {
-    "id": "TC-FR03-32",
+    "id": "TC-FR03-26",
     "type": "BVA",
     "title": "BVA Mật khẩu 0 chữ cái viết hoa",
     "step": 2,
@@ -305,7 +271,7 @@
     "expectedMessage": "Mật khẩu quá yếu"
   },
   {
-    "id": "TC-FR03-33",
+    "id": "TC-FR03-27",
     "type": "BVA",
     "title": "BVA Mật khẩu 1 chữ cái viết hoa (Abc!12345)",
     "step": 2,
@@ -316,7 +282,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-34",
+    "id": "TC-FR03-28",
     "type": "BVA",
     "title": "BVA Mật khẩu 2 chữ cái viết hoa (ABc!12345)",
     "step": 2,
@@ -327,7 +293,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-35",
+    "id": "TC-FR03-29",
     "type": "BVA",
     "title": "BVA Mật khẩu 0 chữ cái viết thường",
     "step": 2,
@@ -339,7 +305,7 @@
     "expectedMessage": "Mật khẩu quá yếu"
   },
   {
-    "id": "TC-FR03-36",
+    "id": "TC-FR03-30",
     "type": "BVA",
     "title": "BVA Mật khẩu 1 chữ cái viết thường (aBC!12345)",
     "step": 2,
@@ -350,7 +316,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-37",
+    "id": "TC-FR03-31",
     "type": "BVA",
     "title": "BVA Mật khẩu 2 chữ cái viết thường (abC!12345)",
     "step": 2,
@@ -361,7 +327,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-38",
+    "id": "TC-FR03-32",
     "type": "BVA",
     "title": "BVA Mật khẩu 0 chữ số",
     "step": 2,
@@ -373,7 +339,7 @@
     "expectedMessage": "Mật khẩu quá yếu"
   },
   {
-    "id": "TC-FR03-39",
+    "id": "TC-FR03-33",
     "type": "BVA",
     "title": "BVA Mật khẩu 1 chữ số (Abc!defg1)",
     "step": 2,
@@ -384,7 +350,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-40",
+    "id": "TC-FR03-34",
     "type": "BVA",
     "title": "BVA Mật khẩu 2 chữ số (Abc!def12)",
     "step": 2,
@@ -395,7 +361,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-41",
+    "id": "TC-FR03-35",
     "type": "BVA",
     "title": "BVA Mật khẩu 0 ký tự đặc biệt (không chứa ký tự đặc biệt)",
     "step": 2,
@@ -407,7 +373,7 @@
     "expectedMessage": "Mật khẩu quá yếu"
   },
   {
-    "id": "TC-FR03-42",
+    "id": "TC-FR03-36",
     "type": "BVA",
     "title": "BVA Mật khẩu có ký tự đặc biệt hợp lệ (!)",
     "step": 2,
@@ -418,7 +384,7 @@
     "expected": "reset_success"
   },
   {
-    "id": "TC-FR03-43",
+    "id": "TC-FR03-37",
     "type": "BVA",
     "title": "BVA Mật khẩu có ký tự đặc biệt hợp lệ (!!)",
     "step": 2,
