@@ -98,26 +98,39 @@ function getKeywordRegion(page) {
     .filter({ has: page.locator('span') });
 }
 
-function escapeForCharacterClass(value) {
-  return value.replace(/[\\\]\-^]/g, '\\$&');
+function escapeForRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function assertThousandsGrouped(displayedText, rawPrice, groupingConfig) {
   const rawDigits = String(rawPrice);
-  const separators = groupingConfig.allowedSeparators
-    .map(escapeForCharacterClass)
-    .join('');
-  const numericTokenPattern = new RegExp(`\\d[\\d${separators}]*`, 'gu');
-  const candidates = displayedText.match(numericTokenPattern) || [];
-  const displayedPrice = candidates.find(
-    (candidate) => candidate.replace(/\D/gu, '') === rawDigits,
-  );
+  const candidates = groupingConfig.allowedSeparators.flatMap((separator) => {
+    const escapedSeparator = escapeForRegex(separator);
+    const groupedPricePattern = new RegExp(
+      `\\d{1,3}${escapedSeparator}\\d{3}(?:${escapedSeparator}\\d{3})*`,
+      'gu',
+    );
+
+    return displayedText.match(groupedPricePattern) || [];
+  });
+  const displayedPrice = candidates.find((candidate) => {
+    const separator = groupingConfig.allowedSeparators.find((value) =>
+      candidate.includes(value),
+    );
+
+    return separator && candidate.split(separator).join('') === rawDigits;
+  });
 
   expect(displayedPrice).toBeDefined();
   expect(displayedPrice).not.toBe(rawDigits);
 
+  const separator = groupingConfig.allowedSeparators.find((value) =>
+    displayedPrice.includes(value),
+  );
+  expect(separator).toBeDefined();
+
   const groupedPattern = new RegExp(
-    `^\\d{1,3}([${separators}])\\d{3}(?:\\1\\d{3})*$`,
+    `^\\d{1,3}${escapeForRegex(separator)}\\d{3}(?:${escapeForRegex(separator)}\\d{3})*$`,
     'u',
   );
 
