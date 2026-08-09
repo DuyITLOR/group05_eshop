@@ -1,0 +1,160 @@
+{
+  "featureId": "FR-05",
+  "featureName": "Product listing and search",
+  "schemaVersion": "1.0",
+  "seedCatalog": {
+    "datasetId": "FR05-DATA-001",
+    "testCaseIds": [
+      "FR05-TC-001",
+      "FR05-TC-002",
+      "FR05-TC-003",
+      "FR05-TC-004",
+      "FR05-TC-005",
+      "FR05-TC-006",
+      "FR05-TC-017"
+    ],
+    "source": "backend/database.js",
+    "expectedCount": 5,
+    "products": [
+      {
+        "name": "iPhone 15 Pro Max",
+        "rawPrice": 30000000,
+        "description": "Điện thoại cao cấp của Apple",
+        "imageUrl": "https://placehold.co/300x300/png?text=iPhone+15"
+      },
+      {
+        "name": "Samsung Galaxy S24 Ultra",
+        "rawPrice": 28000000,
+        "description": "Màn hình hiển thị xuất sắc, camera siêu zoom",
+        "imageUrl": "https://placehold.co/300x300/png?text=Samsung+S24"
+      },
+      {
+        "name": "MacBook Pro M3",
+        "rawPrice": 45000000,
+        "description": "Laptop chuyên nghiệp mạnh mẽ",
+        "imageUrl": "https://placehold.co/300x300/png?text=Macbook+Pro"
+      },
+      {
+        "name": "Tai nghe AirPods Pro 2",
+        "rawPrice": 6000000,
+        "description": "Chống ồn chủ động xuất sắc",
+        "imageUrl": "https://placehold.co/300x300/png?text=AirPods+Pro"
+      },
+      {
+        "name": "Bàn phím cơ Keychron Q1",
+        "rawPrice": 4000000,
+        "description": "Gõ cực sướng, thiết kế kim loại",
+        "imageUrl": "https://placehold.co/300x300/png?text=Keychron+Q1"
+      }
+    ],
+    "imageExpectation": {
+      "altAttribute": "PRESENT_AND_NON_EMPTY",
+      "semanticAltTextOracleProvided": false
+    },
+    "priceExpectation": {
+      "currencySymbol": "₫",
+      "thousandGrouping": {
+        "allowedSeparators": [
+          ".",
+          ",",
+          " ",
+          "\u00a0",
+          "\u202f"
+        ],
+        "separatorMustBeConsistent": true,
+        "rawDigitsWithoutGroupingAllowed": false,
+        "hyphenLetterOrMixedSeparatorsAllowed": false,
+        "mandatoryLocaleSeparator": null
+      }
+    },
+    "gridLocatorAnchorProductNames": [
+      "iPhone 15 Pro Max",
+      "Samsung Galaxy S24 Ultra"
+    ]
+  },
+  "searchInputs": [
+    {
+      "datasetId": "FR05-DATA-002",
+      "testCaseIds": ["FR05-TC-007"],
+      "inputType": "EXACT_KNOWN_PRODUCT_NAME",
+      "keyword": "iPhone 15 Pro Max",
+      "expectedProductName": "iPhone 15 Pro Max",
+      "source": "backend/database.js"
+    },
+    {
+      "datasetId": "FR05-DATA-003",
+      "testCaseIds": ["FR05-TC-008"],
+      "inputType": "DESCRIPTION_ONLY_KEYWORD",
+      "keyword": "xuất sắc",
+      "expectedProductResultCount": 0,
+      "excludedProductNames": [
+        "Samsung Galaxy S24 Ultra",
+        "Tai nghe AirPods Pro 2"
+      ],
+      "source": "backend/database.js product names and descriptions"
+    },
+    {
+      "datasetId": "FR05-DATA-007",
+      "testCaseIds": [
+        "FR05-TC-009",
+        "FR05-TC-015",
+        "FR05-TC-016"
+      ],
+      "inputType": "RESERVED_NO_RESULT_KEYWORD",
+      "keyword": "FR05-No-Result-7F3C",
+      "expectedProductResultCount": 0,
+      "inputOnly": true,
+      "automationStatusEffect": "NONE",
+      "source": "Approved test-case input; implementation blockers remain"
+    }
+  ],
+  "safeRenderingInputs": [
+    {
+      "datasetId": "FR05-DATA-004",
+      "testCaseIds": ["FR05-TC-010"],
+      "inputType": "PLAIN_TEXT",
+      "input": "FR05 Plain Keyword",
+      "source": "Approved test case FR05-TC-010"
+    },
+    {
+      "datasetId": "FR05-DATA-005",
+      "testCaseIds": ["FR05-TC-011"],
+      "inputType": "FORMATTING_MARKUP",
+      "input": "<b>FR05 HTML Keyword</b>",
+      "source": "Approved test case FR05-TC-011"
+    },
+    {
+      "datasetId": "FR05-DATA-006",
+      "testCaseIds": ["FR05-TC-012"],
+      "inputType": "EVENT_HANDLER_MARKUP",
+      "input": "<img src=x onerror=alert('FR05-XSS')>",
+      "source": "Approved test case FR05-TC-012"
+    }
+  ],
+  "environmentSetups": [
+    {
+      "datasetId": "FR05-SETUP-001",
+      "testCaseIds": ["FR05-TC-014"],
+      "requiredState": "Public home page with the verified non-empty seed catalog",
+      "businessTestDataRequired": false,
+      "source": "Approved test case FR05-TC-014"
+    },
+    {
+      "datasetId": "FR05-SETUP-002",
+      "testCaseIds": [
+        "FR05-TC-010",
+        "FR05-TC-011",
+        "FR05-TC-012"
+      ],
+      "purpose": "Controlled empty product-search response",
+      "requestMethod": "GET",
+      "requestPath": "/api/products",
+      "requestMatch": {
+        "requiresSearchQuery": true
+      },
+      "responseBody": [],
+      "businessTestDataRequired": false,
+      "source": "Approved automation-plan isolation strategy"
+    }
+  ]
+}
