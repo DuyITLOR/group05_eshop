@@ -1,0 +1,10 @@
+{
+  "name": "group05-eshop-hw04-tests",
+  "private": true,
+  "scripts": {
+    "test:fr05:list": "playwright test tests/fr-05/fr-05.spec.js --list"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}
