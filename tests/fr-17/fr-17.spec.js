@@ -113,4 +113,41 @@ test.describe('FR-17 - Coupon management', () => {
     }
   });
 
+  test('FR17-TC-006 missing code does not create a coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, missingCode);
+      await submitInvalidAndAssertAbsent(page, missingCode, baselineCount);
+    } finally {
+      await isolatedDb.removeOwnedCoupon(missingCode.code);
+    }
+  });
+
+  test('FR17-TC-007 missing discount_value does not create a coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(missingDiscount, 'FR17-TC-007');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
+  test('FR17-TC-008 discount_value zero is rejected', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(zeroDiscount, 'FR17-TC-008');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
 });
