@@ -1,0 +1,185 @@
+{
+  "featureId": "FR-09",
+  "featureName": "Discount coupons",
+  "schemaVersion": "1.0",
+  "runtimeConfiguration": {
+    "frontendBaseUrlEnv": "SUT_BASE_URL",
+    "backendBaseUrlEnv": "SUT_API_BASE_URL",
+    "testUserEmailEnv": "FR09_TEST_USER_EMAIL",
+    "testUserPasswordEnv": "FR09_TEST_USER_PASSWORD",
+    "isolatedDbPathEnv": "FR09_TEST_DB_PATH",
+    "isolatedDbConfirmationEnv": "FR09_ISOLATED_DB"
+  },
+  "datasets": [
+    {
+      "dataId": "FR09-DATA-001",
+      "kind": "COUPON",
+      "testCaseIds": ["FR09-TC-001", "FR09-TC-002", "FR09-TC-003", "FR09-TC-006", "FR09-TC-007", "FR09-TC-012", "FR09-TC-014"],
+      "code": "SAVE10",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 300000,
+      "expiredAt": "2099-12-31",
+      "isActive": 1,
+      "maxUsesPerUser": 1,
+      "source": "README.md FR-09 and verified backend seed"
+    },
+    {
+      "dataId": "FR09-DATA-002",
+      "kind": "COUPON",
+      "testCaseIds": ["FR09-TC-004", "FR09-TC-005", "FR09-TC-008"],
+      "code": "BIGBUY",
+      "type": "fixed",
+      "discountValue": 50000,
+      "minOrderAmount": 500000,
+      "expiredAt": "2099-12-31",
+      "isActive": 1,
+      "maxUsesPerUser": 1,
+      "source": "README.md FR-09 and verified backend seed"
+    },
+    {
+      "dataId": "FR09-DATA-003",
+      "kind": "COUPON",
+      "testCaseIds": ["FR09-TC-015"],
+      "code": "VIP100",
+      "type": "fixed",
+      "discountValue": 100000,
+      "minOrderAmount": 300000,
+      "expiredAt": "2099-12-31",
+      "isActive": 1,
+      "maxUsesPerUser": 2,
+      "source": "README.md FR-09 and verified backend seed"
+    },
+    {
+      "dataId": "FR09-DATA-004",
+      "kind": "COUPON",
+      "testCaseIds": ["FR09-TC-011"],
+      "code": "EXPIRED",
+      "type": "percent",
+      "discountValue": 20,
+      "minOrderAmount": 100000,
+      "expiredAt": "2020-01-01",
+      "isActive": 1,
+      "maxUsesPerUser": 1,
+      "source": "README.md FR-09 and verified backend seed"
+    },
+    {
+      "dataId": "FR09-DATA-005",
+      "kind": "EXISTING_SEED_CART",
+      "testCaseIds": ["FR09-TC-001", "FR09-TC-002", "FR09-TC-003", "FR09-TC-004", "FR09-TC-005", "FR09-TC-009", "FR09-TC-012", "FR09-TC-014", "FR09-TC-015", "FR09-TC-016"],
+      "product": {
+        "name": "Bàn phím cơ Keychron Q1",
+        "quantity": 1,
+        "unitPrice": 4000000
+      },
+      "expectedTotal": 4000000,
+      "source": "Verified backend product seed"
+    },
+    {
+      "dataId": "FR09-DATA-006",
+      "kind": "CONTROLLED_CART_BOUNDARY",
+      "testCaseIds": ["FR09-TC-007"],
+      "expectedTotal": 299999,
+      "controlledProduct": {
+        "id": "fr09-boundary-below-minimum",
+        "name": "FR09 controlled below-minimum item",
+        "price": 299999,
+        "description": "Test-only frontend fixture",
+        "imageUrl": ""
+      },
+      "businessTestDataRequired": false,
+      "source": "Human-approved requirement boundary total"
+    },
+    {
+      "dataId": "FR09-DATA-007",
+      "kind": "CONTROLLED_CART_BOUNDARY",
+      "testCaseIds": ["FR09-TC-006"],
+      "expectedTotal": 300000,
+      "controlledProduct": {
+        "id": "fr09-boundary-exact-minimum",
+        "name": "FR09 controlled exact-minimum item",
+        "price": 300000,
+        "description": "Test-only frontend fixture",
+        "imageUrl": ""
+      },
+      "businessTestDataRequired": false,
+      "source": "Human-approved requirement boundary total"
+    },
+    {
+      "dataId": "FR09-DATA-008",
+      "kind": "CONTROLLED_CART_BOUNDARY",
+      "testCaseIds": ["FR09-TC-008"],
+      "expectedTotal": 500001,
+      "controlledProduct": {
+        "id": "fr09-boundary-above-minimum",
+        "name": "FR09 controlled above-minimum item",
+        "price": 500001,
+        "description": "Test-only frontend fixture",
+        "imageUrl": ""
+      },
+      "businessTestDataRequired": false,
+      "source": "Human-approved requirement boundary total"
+    },
+    {
+      "dataId": "FR09-DATA-009",
+      "kind": "CONTROLLED_CART_BOUNDARY",
+      "testCaseIds": ["FR09-TC-011"],
+      "expectedTotal": 100001,
+      "controlledProduct": {
+        "id": "fr09-expiration-isolation",
+        "name": "FR09 controlled expiration-isolation item",
+        "price": 100001,
+        "description": "Test-only frontend fixture",
+        "imageUrl": ""
+      },
+      "businessTestDataRequired": false,
+      "source": "Human-approved requirement boundary total"
+    },
+    {
+      "dataId": "FR09-DATA-010",
+      "kind": "ABSENT_COUPON",
+      "testCaseIds": ["FR09-TC-009"],
+      "code": "FR09-NOT-FOUND-7F3C",
+      "source": "Approved reserved absent-code oracle"
+    },
+    {
+      "dataId": "FR09-SETUP-001",
+      "kind": "INACTIVE_COUPON_STATE",
+      "testCaseIds": ["FR09-TC-010"],
+      "coupon": {
+        "code": "FR09-INACTIVE-7F3C",
+        "type": "fixed",
+        "discountValue": 10000,
+        "minOrderAmount": 0,
+        "expiredAt": "2099-12-31",
+        "isActive": 0,
+        "maxUsesPerUser": 1
+      },
+      "expectedTotal": 4000000,
+      "businessTestDataRequired": false,
+      "source": "Human-approved isolated test DB fixture strategy"
+    },
+    {
+      "dataId": "FR09-SETUP-002",
+      "kind": "USAGE_AT_MAX_STATE",
+      "testCaseIds": ["FR09-TC-014"],
+      "couponCode": "SAVE10",
+      "usageCount": 1,
+      "maxUsesPerUser": 1,
+      "expectedTotal": 4000000,
+      "source": "Approved FR09-TC-014 C5 isolation correction"
+    },
+    {
+      "dataId": "FR09-SETUP-003",
+      "kind": "USAGE_BELOW_MAX_STATE",
+      "testCaseIds": ["FR09-TC-015"],
+      "couponCode": "VIP100",
+      "usageCount": 1,
+      "maxUsesPerUser": 2,
+      "expectedTotal": 4000000,
+      "expectedDiscountAmount": 100000,
+      "expectedFinalAmount": 3900000,
+      "source": "Approved FR09-TC-015 C5 isolation correction"
+    }
+  ]
+}
