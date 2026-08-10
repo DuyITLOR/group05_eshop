@@ -1,0 +1,52 @@
+name: Newman API tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  api-tests:
+    name: Run Newman API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Install Backend Dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Start Backend Server
+        working-directory: backend
+        run: |
+          node server.js &
+          sleep 3
+
+      - name: Verify Backend Server is running
+        run: |
+          curl -s http://localhost:3000/api/products/1 || exit 1
+
+      - name: Run Newman API Tests (Data-Driven)
+        run: |
+          newman run HW/week09/23127340/mini-products.postman_collection.json \
+            --environment HW/week09/23127340/mini-local.postman_environment.json \
+            --iteration-data HW/week09/23127340/mini-products.data.json \
+            --reporters cli,json \
+            --reporter-json-export HW/week09/23127340/mini-newman-report.json
+
+      - name: Upload Newman Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report-23127340
+          path: HW/week09/23127340/mini-newman-report.json

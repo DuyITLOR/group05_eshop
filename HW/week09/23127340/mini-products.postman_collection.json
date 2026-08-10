@@ -1,0 +1,90 @@
+{
+  "info": {
+    "_postman_id": "23127340-mini-products-collection-id",
+    "name": "mini-products",
+    "description": "Mini Exercise Week 09 - API Testing POST /api/products by Student 23127340",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Product",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const sid = String(pm.environment.get(\"studentId\")).trim();",
+              "pm.request.headers.upsert({",
+              "    key: \"X-Student-Id\",",
+              "    value: sid,",
+              "});",
+              "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+              "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+              "});",
+              "",
+              "pm.test(\"[MINI] Response is JSON\", function () {",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+              "});",
+              "",
+              "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "",
+              "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an(\"object\");",
+              "    pm.expect(jsonData).to.have.property(\"message\");",
+              "    pm.expect(jsonData).to.have.property(\"id\");",
+              "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+              "    pm.expect(jsonData.id).to.be.a(\"number\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

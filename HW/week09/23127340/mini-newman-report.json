@@ -1,0 +1,1581 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "23127340-mini-products-collection-id"
+    },
+    "item": [
+      {
+        "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+        "name": "Create Product",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "{{studentId}}"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "prerequest",
+            "script": {
+              "id": "1d61179f-5584-426b-a087-15ac96031ed9",
+              "type": "text/javascript",
+              "exec": [
+                "const sid = String(pm.environment.get(\"studentId\")).trim();",
+                "pm.request.headers.upsert({",
+                "    key: \"X-Student-Id\",",
+                "    value: sid,",
+                "});",
+                "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+              ],
+              "_lastExecutionId": "d34fe5ec-08e9-4d21-8967-f8b2f9eb44b3"
+            }
+          },
+          {
+            "listen": "test",
+            "script": {
+              "id": "a41f4270-e0fb-48a9-85da-3a963a7f4614",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+                "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                "});",
+                "",
+                "pm.test(\"[MINI] Response is JSON\", function () {",
+                "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                "});",
+                "",
+                "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+                "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                "});",
+                "",
+                "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+                "    const jsonData = pm.response.json();",
+                "    pm.expect(jsonData).to.be.an(\"object\");",
+                "    pm.expect(jsonData).to.have.property(\"message\");",
+                "    pm.expect(jsonData).to.have.property(\"id\");",
+                "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+                "    pm.expect(jsonData.id).to.be.a(\"number\");",
+                "});"
+              ],
+              "_lastExecutionId": "7df977da-516f-4a6f-abc9-f94d994a4932"
+            }
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "23127340-mini-products-collection-id",
+      "name": "mini-products",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Mini Exercise Week 09 - API Testing POST /api/products by Student 23127340",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_at": "2026-08-10T08:15:00.000Z",
+      "postman_exported_using": "Postman/11.0.0"
+    },
+    "id": "23127340-mini-local-environment",
+    "name": "mini-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "baseUrl"
+      },
+      {
+        "type": "any",
+        "value": "23127340",
+        "key": "studentId"
+      }
+    ]
+  },
+  "globals": {
+    "id": "95261fad-2cb2-4962-8822-791e448edf99",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 10,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 20,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 7.6,
+      "responseMin": 3,
+      "responseMax": 21,
+      "responseSd": 6.8,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1786351350204,
+      "completed": 1786351350476
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 5,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "3d951298-1327-4ac5-aa4f-ca552e8c0adf",
+          "httpRequestId": "e4aafe04-bfbd-4009-a3a4-fa51e6f37377"
+        },
+        "item": {
+          "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+          "name": "Create Product",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Student-Id",
+                "value": "{{studentId}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "1d61179f-5584-426b-a087-15ac96031ed9",
+                "type": "text/javascript",
+                "exec": [
+                  "const sid = String(pm.environment.get(\"studentId\")).trim();",
+                  "pm.request.headers.upsert({",
+                  "    key: \"X-Student-Id\",",
+                  "    value: sid,",
+                  "});",
+                  "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+                ],
+                "_lastExecutionId": "d34fe5ec-08e9-4d21-8967-f8b2f9eb44b3"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "a41f4270-e0fb-48a9-85da-3a963a7f4614",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+                  "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an(\"object\");",
+                  "    pm.expect(jsonData).to.have.property(\"message\");",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+                  "    pm.expect(jsonData.id).to.be.a(\"number\");",
+                  "});"
+                ],
+                "_lastExecutionId": "7df977da-516f-4a6f-abc9-f94d994a4932"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127340"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "84a7240a-0c8d-4c03-be8b-7eb1bcd2252d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "217",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Bàn phím cơ AKKO 3087\",\n    \"price\": 1200000,\n    \"description\": \"Switch Cherry chính hãng chất lượng cao\",\n    \"imageUrl\": \"https://placehold.co/300x300/png?text=AKKO\",\n    \"category_id\": 3\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "3ac0af53-de2e-42a1-80af-cda4a66ded83",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-5jsJp2GsvFkNhg89OnVmnCXVBeo\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:42:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              80,
+              114,
+              111,
+              100,
+              117,
+              99,
+              116,
+              32,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              34,
+              44,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              49,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 21,
+          "responseSize": 37
+        },
+        "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+        "assertions": [
+          {
+            "assertion": "[MINI] Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time is under 500ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response body has valid schema (message and id)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "03e11dab-07b7-4f47-bccb-2bbd0b7d756c",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "dee8af56-4bdd-4b17-b0ee-d2e31af4cc76"
+        },
+        "item": {
+          "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+          "name": "Create Product",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Student-Id",
+                "value": "{{studentId}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "1d61179f-5584-426b-a087-15ac96031ed9",
+                "type": "text/javascript",
+                "exec": [
+                  "const sid = String(pm.environment.get(\"studentId\")).trim();",
+                  "pm.request.headers.upsert({",
+                  "    key: \"X-Student-Id\",",
+                  "    value: sid,",
+                  "});",
+                  "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+                ],
+                "_lastExecutionId": "d34fe5ec-08e9-4d21-8967-f8b2f9eb44b3"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "a41f4270-e0fb-48a9-85da-3a963a7f4614",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+                  "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an(\"object\");",
+                  "    pm.expect(jsonData).to.have.property(\"message\");",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+                  "    pm.expect(jsonData.id).to.be.a(\"number\");",
+                  "});"
+                ],
+                "_lastExecutionId": "7df977da-516f-4a6f-abc9-f94d994a4932"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127340"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "09afa5ac-e50c-40f1-8b71-291287457bf8",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "275",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Chuột không dây Logitech Master 3S Tiếng Việt\",\n    \"price\": 2500000,\n    \"description\": \"Chuột công thái học cao cấp hỗ trợ gõ dấu tiếng Việt\",\n    \"imageUrl\": \"https://placehold.co/300x300/png?text=Logitech\",\n    \"category_id\": 3\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "90102055-707f-4326-9ee4-de9355b873d6",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-+vTDPgNnNi6tDyQBWv/euhlpD8k\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:42:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              80,
+              114,
+              111,
+              100,
+              117,
+              99,
+              116,
+              32,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              34,
+              44,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              50,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 6,
+          "responseSize": 37
+        },
+        "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+        "assertions": [
+          {
+            "assertion": "[MINI] Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time is under 500ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response body has valid schema (message and id)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c76cff52-7abe-4533-b0f1-4a6873168adc",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 2,
+          "cr": true,
+          "httpRequestId": "cd12c62e-6d40-4bc3-b5ba-ba8e8d194169"
+        },
+        "item": {
+          "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+          "name": "Create Product",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Student-Id",
+                "value": "{{studentId}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "1d61179f-5584-426b-a087-15ac96031ed9",
+                "type": "text/javascript",
+                "exec": [
+                  "const sid = String(pm.environment.get(\"studentId\")).trim();",
+                  "pm.request.headers.upsert({",
+                  "    key: \"X-Student-Id\",",
+                  "    value: sid,",
+                  "});",
+                  "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+                ],
+                "_lastExecutionId": "d34fe5ec-08e9-4d21-8967-f8b2f9eb44b3"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "a41f4270-e0fb-48a9-85da-3a963a7f4614",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+                  "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an(\"object\");",
+                  "    pm.expect(jsonData).to.have.property(\"message\");",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+                  "    pm.expect(jsonData.id).to.be.a(\"number\");",
+                  "});"
+                ],
+                "_lastExecutionId": "7df977da-516f-4a6f-abc9-f94d994a4932"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127340"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "21b371ca-0b35-440e-8d9c-c5c510964f56",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "225",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Tai nghe Gaming Giá 0 Đ\",\n    \"price\": 0,\n    \"description\": \"Sản phẩm khuyến mại quà tặng kèm đơn hàng\",\n    \"imageUrl\": \"https://placehold.co/300x300/png?text=Headset\",\n    \"category_id\": 3\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "001374cf-1a05-43dd-a3cb-648bb31a4197",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-xeFCXBWChFjGtzZproJLWGWscB4\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:42:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              80,
+              114,
+              111,
+              100,
+              117,
+              99,
+              116,
+              32,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              34,
+              44,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              51,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 37
+        },
+        "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+        "assertions": [
+          {
+            "assertion": "[MINI] Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time is under 500ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response body has valid schema (message and id)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "6019528c-f894-4921-8955-062a806819ee",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 3,
+          "cr": true,
+          "httpRequestId": "435f8d73-6171-4ea1-9b61-dd481c4f7f02"
+        },
+        "item": {
+          "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+          "name": "Create Product",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Student-Id",
+                "value": "{{studentId}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "1d61179f-5584-426b-a087-15ac96031ed9",
+                "type": "text/javascript",
+                "exec": [
+                  "const sid = String(pm.environment.get(\"studentId\")).trim();",
+                  "pm.request.headers.upsert({",
+                  "    key: \"X-Student-Id\",",
+                  "    value: sid,",
+                  "});",
+                  "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+                ],
+                "_lastExecutionId": "d34fe5ec-08e9-4d21-8967-f8b2f9eb44b3"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "a41f4270-e0fb-48a9-85da-3a963a7f4614",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+                  "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an(\"object\");",
+                  "    pm.expect(jsonData).to.have.property(\"message\");",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+                  "    pm.expect(jsonData.id).to.be.a(\"number\");",
+                  "});"
+                ],
+                "_lastExecutionId": "7df977da-516f-4a6f-abc9-f94d994a4932"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127340"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "6ea833e5-ca7d-4e02-bc74-9c012e99b4cf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "227",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Sony WH-1000XM5'; DROP TABLE products; --\",\n    \"price\": 7000000,\n    \"description\": \"Kiểm tra chuỗi chứa SQL Injection\",\n    \"imageUrl\": \"https://placehold.co/300x300/png?text=Sony\",\n    \"category_id\": 3\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "9e079045-c9aa-4d04-97a6-93a496722a48",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-ETn2nQiNxis+GVKoBSDgf5G4Bhs\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:42:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              80,
+              114,
+              111,
+              100,
+              117,
+              99,
+              116,
+              32,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              34,
+              44,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              52,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 37
+        },
+        "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+        "assertions": [
+          {
+            "assertion": "[MINI] Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time is under 500ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response body has valid schema (message and id)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "946f6fa1-2465-4ff8-b99a-0a336cf1494b",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 4,
+          "cr": true,
+          "httpRequestId": "5f3e25ff-4062-482d-8a24-5e2e095ffa08"
+        },
+        "item": {
+          "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+          "name": "Create Product",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Student-Id",
+                "value": "{{studentId}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{name}}\",\n    \"price\": {{price}},\n    \"description\": \"{{description}}\",\n    \"imageUrl\": \"{{imageUrl}}\",\n    \"category_id\": {{category_id}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "1d61179f-5584-426b-a087-15ac96031ed9",
+                "type": "text/javascript",
+                "exec": [
+                  "const sid = String(pm.environment.get(\"studentId\")).trim();",
+                  "pm.request.headers.upsert({",
+                  "    key: \"X-Student-Id\",",
+                  "    value: sid,",
+                  "});",
+                  "console.log(\"[CHECKPOINT] Request Header X-Student-Id: \" + sid);"
+                ],
+                "_lastExecutionId": "d34fe5ec-08e9-4d21-8967-f8b2f9eb44b3"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "a41f4270-e0fb-48a9-85da-3a963a7f4614",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[MINI] Status code is \" + pm.iterationData.get(\"expected_status\"), function () {",
+                  "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response time is under 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "",
+                  "pm.test(\"[MINI] Response body has valid schema (message and id)\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an(\"object\");",
+                  "    pm.expect(jsonData).to.have.property(\"message\");",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.expect(jsonData.message).to.eql(\"Product created\");",
+                  "    pm.expect(jsonData.id).to.be.a(\"number\");",
+                  "});"
+                ],
+                "_lastExecutionId": "7df977da-516f-4a6f-abc9-f94d994a4932"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127340"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "2c313a04-3d39-4444-8968-0b56e429f67d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "189",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"\",\n    \"price\": 500000,\n    \"description\": \"Kiểm tra sản phẩm với tên rỗng\",\n    \"imageUrl\": \"https://placehold.co/300x300/png?text=NoName\",\n    \"category_id\": 1\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "b9372aa2-7364-4a8e-b190-3c8fa7e35255",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-wZz0UBVBmGiXQoGu98uO0jMOD30\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:42:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              80,
+              114,
+              111,
+              100,
+              117,
+              99,
+              116,
+              32,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              34,
+              44,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              53,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 37
+        },
+        "id": "893a2a20-6a03-4349-84e0-138ddc1c6c66",
+        "assertions": [
+          {
+            "assertion": "[MINI] Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time is under 500ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response body has valid schema (message and id)",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 185
+    },
+    "failures": [],
+    "error": null
+  }
+}

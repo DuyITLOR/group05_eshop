@@ -1,0 +1,52 @@
+[
+  {
+    "tc_id": "AI-01",
+    "test_name": "Positive - Full valid product data",
+    "name": "Bàn phím cơ AKKO 3087",
+    "price": 1200000,
+    "description": "Switch Cherry chính hãng chất lượng cao",
+    "imageUrl": "https://placehold.co/300x300/png?text=AKKO",
+    "category_id": 3,
+    "expected_status": 200
+  },
+  {
+    "tc_id": "AI-03",
+    "test_name": "Positive - UTF-8 Vietnamese name and special characters",
+    "name": "Chuột không dây Logitech Master 3S Tiếng Việt",
+    "price": 2500000,
+    "description": "Chuột công thái học cao cấp hỗ trợ gõ dấu tiếng Việt",
+    "imageUrl": "https://placehold.co/300x300/png?text=Logitech",
+    "category_id": 3,
+    "expected_status": 200
+  },
+  {
+    "tc_id": "AI-04",
+    "test_name": "Boundary - Zero price for promotional gift item",
+    "name": "Tai nghe Gaming Giá 0 Đ",
+    "price": 0,
+    "description": "Sản phẩm khuyến mại quà tặng kèm đơn hàng",
+    "imageUrl": "https://placehold.co/300x300/png?text=Headset",
+    "category_id": 3,
+    "expected_status": 200
+  },
+  {
+    "tc_id": "AI-11",
+    "test_name": "Security - SQL Injection payload handled safely by prepared statement",
+    "name": "Sony WH-1000XM5'; DROP TABLE products; --",
+    "price": 7000000,
+    "description": "Kiểm tra chuỗi chứa SQL Injection",
+    "imageUrl": "https://placehold.co/300x300/png?text=Sony",
+    "category_id": 3,
+    "expected_status": 200
+  },
+  {
+    "tc_id": "AI-06",
+    "test_name": "Boundary - Empty product name string",
+    "name": "",
+    "price": 500000,
+    "description": "Kiểm tra sản phẩm với tên rỗng",
+    "imageUrl": "https://placehold.co/300x300/png?text=NoName",
+    "category_id": 1,
+    "expected_status": 200
+  }
+]
