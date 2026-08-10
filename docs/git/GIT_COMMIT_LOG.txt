@@ -1,0 +1,107 @@
+HW04 GIT COMMIT LOG
+===================
+
+Repository: https://github.com/DuyITLOR/group05_eshop
+Local branch: HW04/Quan
+Snapshot HEAD: 3dfc480983c1503e62765e2d45d4f481c4b48d74
+Generated from actual local Git history: 2026-08-10
+
+This file is committed after the snapshot above, so the commit containing this
+log is intentionally not part of its own history snapshot.
+
+FORMAT
+------
+Commit Hash | Author Date | Author | Commit Message
+
+3dfc480983c1503e62765e2d45d4f481c4b48d74 | 2026-08-10T11:09:50+07:00 | Willpact | docs(hw04): add final report critique demo and submission bundle
+c4e894ec18d1f41e11f6704c4aea832f7437e530 | 2026-08-10T11:07:23+07:00 | Willpact | docs(audit): preserve A-001 through A-021 interaction evidence
+682fb546a85a25c84d2b6d4e78b4f310f2f7a1d5 | 2026-08-10T11:06:52+07:00 | Willpact | test-evidence(fr17): preserve corrected cross-browser reports and traces
+4c3f219be14c049a16bb89c5c602c2674217e400 | 2026-08-10T11:06:27+07:00 | Willpact | docs(fr17): add confirmed defects and GitHub issue drafts
+cbaefe62ca507def4887e1f74e25ddfd4b3b4eca | 2026-08-10T11:06:27+07:00 | Willpact | docs(fr17): add automation plan review and gap analysis
+42cb1ed36f833e1a209aebc5908aa3a2de970b75 | 2026-08-10T11:05:49+07:00 | Willpact | test-design(fr17): finalize approved coupon management coverage
+f7cec12b2eff35e8be669fe36234b084b9656001 | 2026-08-10T11:05:49+07:00 | Willpact | docs(fr09): refine finalized defect artifacts
+c9e171797152d8bb2df18bbfd3e3c46acd8cd25b | 2026-08-10T11:05:49+07:00 | Willpact | docs(fr05): align approved design plan and defect draft
+6bfbd1071612568517853de42d9e73b5f895eef9 | 2026-08-10T11:05:49+07:00 | Willpact | chore: ignore local HW04 rendering artifacts
+d08e0a7cbc447a0cdb3444d2172da16e56c23228 | 2026-08-10T11:05:10+07:00 | Willpact | test(fr17): cover unauthenticated and non-admin access
+3e3dc5e775fa4c1c5f3085e8e2f4c63d728c9b13 | 2026-08-10T11:05:10+07:00 | Willpact | test(fr17): cover usage limits and owned coupon deletion
+717b351419a55209f5e3137c6004937e6d7fef50 | 2026-08-10T11:05:09+07:00 | Willpact | test(fr17): cover expiry and minimum order validation
+da55b7439343fd4e96503e0644148a073c98444a | 2026-08-10T11:04:52+07:00 | Willpact | test(fr17): cover required code and discount validation
+ef701a7b95d5c0ed4b7450d9767160ae0ff9a50f | 2026-08-10T11:04:52+07:00 | Willpact | test(fr17): cover fixed creation and duplicate rejection
+16513974b1a7dac2f857b3122abe0b00f49df0ce | 2026-08-10T11:04:32+07:00 | Willpact | test(fr17): add catalog and percent coupon coverage
+7688cf1b191604db5caae913297b0390c5421bc8 | 2026-08-10T07:18:33+07:00 | Willpact | test: requirement-based test design for FR-17
+6d8591545990faf11892c6deb5dcfcd2187ddbec | 2026-08-10T07:17:25+07:00 | Willpact | test: defect report of FR-09
+4d90d7a0a14a9d38ffba2de08775d19aa1affceb | 2026-08-10T07:16:40+07:00 | Willpact | test(fr-09): preserve cross-browser execution evidence
+e3559cd9ab5755a21dae042ecb4d8bb741749fa4 | 2026-08-10T07:14:48+07:00 | Willpact | docs: document execution readiness for FR-09
+1250ccbdb2d83d8e439245f8b6e8a746c116309e | 2026-08-10T07:14:14+07:00 | Willpact | test: implement Playwright automation and test setup for FR-09
+4d02b7d277951fa233fde22c6b45499cf816d266 | 2026-08-10T07:13:23+07:00 | Willpact | docs(fr09): add requirement-based test design
+49192754f0aabb9bf32b3352ee68998382f8bada | 2026-08-10T07:13:10+07:00 | Willpact | test: preserve cross-browser execution evidence for FR-05
+0d78c633510f6cd3bc9aaa4b83e0daaa738f312b | 2026-08-10T07:07:46+07:00 | Willpact | Add gitignore and update audit-ai-log template
+d2146cd8e11b044dfe70f660c64d35677b7d811a | 2026-08-10T04:32:22+07:00 | Willpact | docs: finalize automation evidence and defect reports for FR-05
+653e08f04e598669f2639ba7eb44a9126504021c | 2026-08-10T02:55:00+07:00 | Willpact | test: fix price grouping automation defect (TC-006/FR05)
+3748dab07e1de87342b87c2d3ce999272a27f786 | 2026-08-10T01:51:24+07:00 | Willpact | test: generate reviewed Playwright automation for FR-05
+0a49f595cdc84c081a0b9b916de344cc7397ada4 | 2026-08-10T01:12:58+07:00 | Willpact | test: automation plan and test data for FR-05
+dde229e56099949c1bd8b8b1f32a5e9af5e86acc | 2026-08-10T00:08:59+07:00 | Willpact | docs: requirement-based test design
+4f7ca8e57cbd4fcdc0a6715a0f6d2a3cf1905014 | 2026-08-09T22:57:02+07:00 | Willpact | Add agent skills for HW4
+
+STRICT HW04 TEST-SCRIPT COMMIT VALIDATION
+-----------------------------------------
+
+The validation counts commits that modify .spec.js, .spec.ts, or an equivalent
+automation test-script file.
+
+VALID 3748dab07e1de87342b87c2d3ce999272a27f786
+Date: 2026-08-10T01:51:24+07:00
+Message: test: generate reviewed Playwright automation for FR-05
+Test-script file: tests/fr-05/fr-05.spec.js
+
+VALID 1250ccbdb2d83d8e439245f8b6e8a746c116309e
+Date: 2026-08-10T07:14:14+07:00
+Message: test: implement Playwright automation and test setup for FR-09
+Test-script file: tests/fr-09/fr-09.spec.js
+
+VALID 16513974b1a7dac2f857b3122abe0b00f49df0ce
+Date: 2026-08-10T11:04:32+07:00
+Message: test(fr17): add catalog and percent coupon coverage
+Test-script file: tests/fr-17/fr-17.spec.js
+
+VALID ef701a7b95d5c0ed4b7450d9767160ae0ff9a50f
+Date: 2026-08-10T11:04:52+07:00
+Message: test(fr17): cover fixed creation and duplicate rejection
+Test-script file: tests/fr-17/fr-17.spec.js
+
+VALID da55b7439343fd4e96503e0644148a073c98444a
+Date: 2026-08-10T11:04:52+07:00
+Message: test(fr17): cover required code and discount validation
+Test-script file: tests/fr-17/fr-17.spec.js
+
+VALID 717b351419a55209f5e3137c6004937e6d7fef50
+Date: 2026-08-10T11:05:09+07:00
+Message: test(fr17): cover expiry and minimum order validation
+Test-script file: tests/fr-17/fr-17.spec.js
+
+VALID 3e3dc5e775fa4c1c5f3085e8e2f4c63d728c9b13
+Date: 2026-08-10T11:05:10+07:00
+Message: test(fr17): cover usage limits and owned coupon deletion
+Test-script file: tests/fr-17/fr-17.spec.js
+
+VALID d08e0a7cbc447a0cdb3444d2172da16e56c23228
+Date: 2026-08-10T11:05:10+07:00
+Message: test(fr17): cover unauthenticated and non-admin access
+Test-script file: tests/fr-17/fr-17.spec.js
+
+RESULT
+------
+Valid committed test-script commits on current branch: 8
+Required minimum: 8
+Status: PASS
+
+The distinct-day condition is not evaluated because it was removed according
+to the instructor update reported by the student on 2026-08-10. Actual commit
+timestamps remain unchanged.
+
+NOTES
+-----
+- All six FR-17 commits progressively add distinct approved Test Case IDs.
+- No empty commit or backdated timestamp was used.
+- Commit 653e08f changes a helper and is therefore not included in the strict count.
+- Documentation, JSON, config, HTML-report and evidence-only commits do not count.
