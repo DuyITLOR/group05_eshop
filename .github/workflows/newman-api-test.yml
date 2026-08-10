@@ -1,0 +1,136 @@
+name: Newman API tests
+
+# Mini Exercise - API Testing Pipeline
+# SUT      : eshop-sut backend (Express + SQLite, port 3000)
+# API test : POST /api/apply-coupon
+# MSSV     : 23127178
+#
+# Vi tri that trong repo: .github/workflows/newman-api-test.yml
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  newman:
+    name: "Mini Exercise - POST /api/apply-coupon (23127178)"
+    runs-on: ubuntu-latest
+
+    env:
+      # Thu muc chua collection / environment / data file trong repo
+      WORKDIR: HW/week09/23127178
+      BASE_URL: http://localhost:3000
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # ---------------------------------------------------------------
+      # 1. Khoi dong Provider (eshop-sut backend)
+      # ---------------------------------------------------------------
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Reset and seed SQLite database
+        working-directory: backend
+        # Bat buoc: dua DB ve trang thai seed de 5 iteration cho ket qua tat dinh
+        # (coupons SAVE10 / BIGBUY / VIP100 / EXPIRED, bang coupon_usage rong)
+        run: node database.js
+
+      - name: Start provider in background
+        working-directory: backend
+        run: |
+          nohup node server.js > "${GITHUB_WORKSPACE}/backend-server.log" 2>&1 &
+          echo $! > "${RUNNER_TEMP}/provider.pid"
+
+      - name: Wait until provider is ready
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS "${BASE_URL}/api/products/1" > /dev/null 2>&1; then
+              echo "Provider is up after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Provider did not become ready within 30s"
+          cat "${GITHUB_WORKSPACE}/backend-server.log" || true
+          exit 1
+
+      - name: Smoke check the API under test
+        run: |
+          curl -sS -X POST "${BASE_URL}/api/apply-coupon" \
+            -H 'Content-Type: application/json' \
+            -H 'X-Student-Id: 23127178' \
+            -d '{"code":"BIGBUY","total_amount":600000,"user_id":2}'
+          echo
+
+      # ---------------------------------------------------------------
+      # 2. Chay kiem thu bang Newman (data-driven, 5 iteration)
+      # ---------------------------------------------------------------
+      - name: Install Newman
+        run: npm install --global newman
+
+      - name: Run Newman collection
+        working-directory: ${{ env.WORKDIR }}
+        run: |
+          newman run mini-apply-coupon.postman_collection.json \
+            --environment mini-local.postman_environment.json \
+            --iteration-data mini-apply-coupon.data.json \
+            --reporters cli,json \
+            --reporter-json-export mini-newman-report.json
+
+      # ---------------------------------------------------------------
+      # 3. Thu thap bang chung (chay ca khi test fail)
+      # ---------------------------------------------------------------
+      - name: Summarise Newman result
+        if: always()
+        working-directory: ${{ env.WORKDIR }}
+        run: |
+          if [ ! -f mini-newman-report.json ]; then
+            echo "::warning::mini-newman-report.json not found"
+            exit 0
+          fi
+          node -e '
+            const r = require("./mini-newman-report.json").run;
+            const s = r.stats;
+            const rows = [
+              ["iterations", s.iterations.total, s.iterations.failed],
+              ["requests", s.requests.total, s.requests.failed],
+              ["assertions", s.assertions.total, s.assertions.failed],
+            ];
+            let md = "## Newman result - POST /api/apply-coupon (23127178)\n\n";
+            md += "| metric | executed | failed |\n|---|---|---|\n";
+            for (const [n, t, f] of rows) md += `| ${n} | ${t} | ${f} |\n`;
+            if (r.failures && r.failures.length) {
+              md += "\n### Failed assertions\n\n";
+              for (const f of r.failures) {
+                md += `- **${f.error.test || "(no name)"}** - ${f.error.message}\n`;
+              }
+            }
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, md);
+            console.log(md);
+          '
+
+      - name: Upload Newman report and server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report-23127178
+          path: |
+            ${{ env.WORKDIR }}/mini-newman-report.json
+            backend-server.log
+          if-no-files-found: warn
+
+      - name: Stop provider
+        if: always()
+        run: |
+          kill "$(cat "${RUNNER_TEMP}/provider.pid")" 2>/dev/null || true
