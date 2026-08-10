@@ -39,7 +39,7 @@ Source code và seed data chỉ được dùng để đánh giá feasibility, lo
 | FR17-R03 | Admin có thể xóa coupon. | README FR-17 | Yes | Chỉ xóa controlled record do test sở hữu. |
 | FR17-R04 | `code` là required. | README FR-17 | Yes | Không suy diễn trim/case/format. |
 | FR17-R05 | `code` phải unique. | README FR-17 | Yes | Dùng existing `SAVE10` làm duplicate oracle. |
-| FR17-R06 | `type` là required và domain chỉ gồm `percent`, `fixed`. | README FR-17 | Yes | Một constrained-choice control phải luôn có một trong hai allowed values; không invent type khác. |
+| FR17-R06 | `type` là required và domain chỉ gồm `percent`, `fixed`. | README FR-17 | Yes | Cả hai valid equivalence partitions được exercised qua independent CREATE flows; không invent type khác. |
 | FR17-R07 | `discount_value` là required. | README FR-17 | Yes | Controlled omission phải không tạo record. |
 | FR17-R08 | `discount_value > 0`. | README FR-17 | Yes | Exact invalid boundary `0`; positive control trong valid create. |
 | FR17-R09 | `expired_at` là required. | README FR-17 | Yes | Không suy diễn future-date rule hoặc timezone. |
@@ -55,7 +55,7 @@ Source code và seed data chỉ được dùng để đánh giá feasibility, lo
 
 | Field / Rule | Valid Partition or Boundary | Invalid Partition or Boundary | Technique |
 | --- | --- | --- | --- |
-| `type` | `percent`, `fixed` | Không tạo arbitrary invalid type vì UI control không cho nhập và requirement không nêu error contract. | `EQUIVALENCE_PARTITIONING` |
+| `type` | `percent` qua FR17-TC-003 CREATE; `fixed` qua FR17-TC-004 CREATE | Không tạo arbitrary invalid type vì UI control bị constrained và requirement không nêu error-presentation contract. | `EQUIVALENCE_PARTITIONING` |
 | `discount_value > 0` | `1` | `0` | `BOUNDARY_VALUE_ANALYSIS` |
 | `min_order_amount >= 0` | `0` | `-1` | `BOUNDARY_VALUE_ANALYSIS` |
 | `max_uses_per_user >= 1` | `1` | `0` | `BOUNDARY_VALUE_ANALYSIS` |

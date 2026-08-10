@@ -6,7 +6,7 @@
 | --- | --- | --- | --- | --- | --- |
 | FR17-TCND-001 | FR17-R01 | Valid admin xem complete controlled coupon list. | `USE_CASE_TESTING` | `HIGH` | README FR-17 |
 | FR17-TCND-002 | FR17-R16 | Sáu required coupon fields có visible `*` indicator. | `USE_CASE_TESTING` | `MEDIUM` | README FR-22 |
-| FR17-TCND-003 | FR17-R06 | `type` control luôn chọn một value thuộc `{percent, fixed}`. | `EQUIVALENCE_PARTITIONING` | `HIGH` | README FR-17 |
+| FR17-TCND-003 | FR17-R02, FR17-R06 | Admin tạo valid percent coupon và record mới xuất hiện với đúng submitted type/value. | `EQUIVALENCE_PARTITIONING` | `HIGH` | README FR-17 |
 | FR17-TCND-004 | FR17-R02, FR17-R07–R13 | Admin tạo valid fixed coupon tại các lower valid numeric boundaries. | `BOUNDARY_VALUE_ANALYSIS` | `HIGH` | README FR-17 |
 | FR17-TCND-005 | FR17-R05 | Duplicate `code` bị reject và không tạo record thứ hai. | `EQUIVALENCE_PARTITIONING` | `HIGH` | README FR-17 |
 | FR17-TCND-006 | FR17-R04 | Missing `code` không tạo coupon. | `EQUIVALENCE_PARTITIONING` | `HIGH` | README FR-17 |
@@ -45,7 +45,7 @@
 | Automation Risks | Table rows không có stable test IDs; locator cần scope bằng coupon heading/table và code cell text. |
 | Dependencies | Valid admin auth fixture; verified seed snapshot; stable coupon tab/table locator. |
 | Cleanup / Isolation | `READ_ONLY`; fresh browser context; không submit create/delete; verify baseline before use. |
-| Demo Suitability | `SECONDARY_DEMO_CANDIDATE` |
+| Demo Suitability | `NOT_RECOMMENDED_FOR_DEMO` |
 | Notes | Complete controlled set/count tách khỏi create/delete để failure attribution rõ. |
 
 ### FR17-TC-002 — Required coupon fields có visible indicator
@@ -73,30 +73,30 @@
 | Demo Suitability | `NOT_RECOMMENDED_FOR_DEMO` |
 | Notes | Objective là objective UI requirement riêng, không gộp với business validation. |
 
-### FR17-TC-003 — Type control chỉ cho phép percent hoặc fixed
+### FR17-TC-003 — Tạo valid percent coupon
 
 | Field | Value |
 | --- | --- |
 | Test Case ID | `FR17-TC-003` |
 | Feature ID | `FR-17` |
-| Requirement ID | FR17-R06 |
+| Requirement ID | FR17-R02, FR17-R06 |
 | Test Condition ID | FR17-TCND-003 |
-| Objective | Xác nhận required `type` control luôn có selected value và selectable domain chỉ gồm `percent`, `fixed`. |
+| Objective | Xác nhận Admin có thể tạo một valid coupon với `type=percent` và record mới xuất hiện trong Coupon Management list với đúng submitted type/value. |
 | Actor | Admin |
-| Preconditions | Valid admin session; coupon create form visible. |
-| Test Data | Allowed values: `percent`, `fixed`; expected option count `2`. |
-| Steps | 1. Mở create form. 2. Locate `type` control. 3. Liệt kê option values. 4. Chọn lần lượt mỗi allowed value và đọc selected value. |
-| Expected Result | Control có đúng hai option values `percent`, `fixed`; không có empty option; sau mỗi selection, selected value đúng allowed value đã chọn. |
+| Preconditions | Valid admin session; isolated database at verified baseline; controlled unique test-owned code absent; coupon create form visible. |
+| Test Data | Future external dataset: code `FR17PERCENT01`, type `percent`, `discount_value=10`, non-empty `expired_at=2099-12-31`, `min_order_amount=100000`, `max_uses_per_user=1`. |
+| Steps | 1. Mở create form. 2. Điền controlled external values. 3. Chọn `type=percent` và xác nhận selected value. 4. Submit. 5. Locate new list row by exact controlled code. 6. Quan sát displayed/stored type và discount value. |
+| Expected Result | Exactly one `FR17PERCENT01` record được tạo; controlled code xuất hiện trong Coupon Management list; displayed/stored type là `percent`; submitted `discount_value=10` được hiển thị đúng. Exact success message không được yêu cầu. |
 | Test Type | `POSITIVE` |
 | Test Technique | `EQUIVALENCE_PARTITIONING` |
 | Priority | `HIGH` |
 | Automation Suitability | `AUTOMATION_POSSIBLE_WITH_SETUP` |
-| Assertion Candidates | `COUNT`, `TEXT_OR_VALUE`, `ATTRIBUTE_OR_CLASS` |
-| Automation Risks | Select thiếu explicit label; locator có thể phải scope trong create form và tìm native select ổn định. |
-| Dependencies | Valid admin auth fixture; native select remains observable. |
-| Cleanup / Isolation | `READ_ONLY`; fresh browser context; không submit form. |
-| Demo Suitability | `NOT_RECOMMENDED_FOR_DEMO` |
-| Notes | Không đưa arbitrary third type vào UI; backend validation discrepancy được ghi riêng. |
+| Assertion Candidates | `STATE_TRANSITION`, `COUNT`, `TEXT_OR_VALUE`, `PERSISTENCE`, `VISIBILITY_OR_HIDDEN_STATE` |
+| Automation Risks | Select thiếu explicit label; create feedback dựa vào refreshed list; row phải được scope bằng exact controlled code thay vì broad text. |
+| Dependencies | Valid admin auth fixture; isolated DB copy; future external dataset; observable list refresh và scoped row locator. |
+| Cleanup / Isolation | `STATEFUL_CREATE_CLEANUP`; sau primary assertions, delete only `FR17PERCENT01` hoặc restore exact isolated snapshot; không xóa shared seed coupon. |
+| Demo Suitability | `SECONDARY_DEMO_CANDIDATE` |
+| Notes | `discount_value=10` là normal valid value, không phải boundary; không invent percent maximum hoặc arbitrary third-type UI behavior; không phụ thuộc test order. |
 
 ### FR17-TC-004 — Tạo valid coupon ở lower valid boundaries
 
@@ -438,7 +438,7 @@
 | `NOT_AUTOMATABLE_WITH_CURRENT_INFORMATION` | 0 |
 | `NEEDS_CLARIFICATION` | 0 |
 | Automation Candidate Count | 16 |
-| Stateful Test Count | 11 |
-| Read-Only Test Count | 5 |
+| Stateful Test Count | 12 |
+| Read-Only Test Count | 4 |
 
 Minimum gates: Test Case Count `16 >= 12` — `PASS`; Automation Candidate Count `16 >= 12` — `PASS`.

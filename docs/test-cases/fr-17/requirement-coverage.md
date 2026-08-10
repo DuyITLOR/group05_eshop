@@ -16,11 +16,11 @@
 | Requirement ID | Atomic Requirement | Covered By | Coverage Status | Rationale |
 | --- | --- | --- | --- | --- |
 | FR17-R01 | Admin xem coupon list. | FR17-TC-001 | `FULLY_COVERED` | Complete controlled seed set và count tạo deterministic oracle. |
-| FR17-R02 | Admin tạo valid coupon. | FR17-TC-004 | `FULLY_COVERED` | Valid submitted record phải xuất hiện trong list; cleanup diễn ra sau primary assertion. |
+| FR17-R02 | Admin tạo valid coupon. | FR17-TC-003, FR17-TC-004 | `FULLY_COVERED` | Independent percent/fixed submitted records phải xuất hiện trong list; cleanup diễn ra sau primary assertions. |
 | FR17-R03 | Admin xóa coupon. | FR17-TC-014 | `FULLY_COVERED` | Owned setup record chuyển count 1 → 0; shared seeds không bị xóa. |
 | FR17-R04 | `code` required. | FR17-TC-006 | `FULLY_COVERED` | Single-field omission giữ các field khác valid. |
 | FR17-R05 | `code` unique. | FR17-TC-005 | `FULLY_COVERED` | Existing `SAVE10` cho exact duplicate oracle. |
-| FR17-R06 | `type` required, domain `{percent, fixed}`. | FR17-TC-003, FR17-TC-004 | `FULLY_COVERED` | Control luôn có allowed value; exactly two options; fixed value còn được dùng trong valid create. |
+| FR17-R06 | `type` required, domain `{percent, fixed}`. | FR17-TC-003, FR17-TC-004 | `FULLY_COVERED` | `percent` được exercised bằng actual CREATE ở TC-003; `fixed` bằng actual CREATE ở TC-004. Không invent arbitrary third-type UI test vì Admin UI dùng constrained selector và không có authoritative invalid-type presentation behavior. |
 | FR17-R07 | `discount_value` required. | FR17-TC-007 | `FULLY_COVERED` | Omission outcome tách khỏi positivity. |
 | FR17-R08 | `discount_value > 0`. | FR17-TC-004, FR17-TC-008 | `FULLY_COVERED` | Exact valid/invalid lower boundaries 1/0. |
 | FR17-R09 | `expired_at` required. | FR17-TC-004, FR17-TC-009 | `FULLY_COVERED` | Non-empty positive control và missing-value negative partition. |
@@ -84,10 +84,10 @@ Minimum Automation Candidate Count `12`: `PASS` với 16 legitimate frontend can
 
 | Classification | Test Cases | Count |
 | --- | --- | ---: |
-| `READ_ONLY` | FR17-TC-001–003, FR17-TC-015–016 | 5 |
-| `STATEFUL_CREATE_CLEANUP` | FR17-TC-004 | 1 |
+| `READ_ONLY` | FR17-TC-001–002, FR17-TC-015–016 | 4 |
+| `STATEFUL_CREATE_CLEANUP` | FR17-TC-003–004 | 2 |
 | `STATEFUL_SETUP_REQUIRED` | FR17-TC-005–014 | 10 |
-| Stateful Total | FR17-TC-004–014 | 11 |
+| Stateful Total | FR17-TC-003–014 | 12 |
 
 Stateful cases require isolated database copy and independent restore/cleanup. No test consumes another test's created record.
 
@@ -96,7 +96,7 @@ Stateful cases require isolated database copy and independent restore/cleanup. N
 | Demo Suitability | Test Cases | Count |
 | --- | --- | ---: |
 | `PRIMARY_DEMO_CANDIDATE` | FR17-TC-004 | 1 |
-| `SECONDARY_DEMO_CANDIDATE` | FR17-TC-001, FR17-TC-014 | 2 |
-| `NOT_RECOMMENDED_FOR_DEMO` | FR17-TC-002–003, FR17-TC-005–013, FR17-TC-015–016 | 13 |
+| `SECONDARY_DEMO_CANDIDATE` | FR17-TC-003, FR17-TC-014 | 2 |
+| `NOT_RECOMMENDED_FOR_DEMO` | FR17-TC-001–002, FR17-TC-005–013, FR17-TC-015–016 | 13 |
 
-Primary demo recommendation là FR17-TC-004; hai secondary candidates và cleanup strategy được ghi tại `docs/demo/fr-17-demo-plan.md`.
+Primary demo recommendation vẫn là FR17-TC-004; TC-003 là visible percent-CREATE secondary candidate và TC-014 là independent DELETE secondary candidate.

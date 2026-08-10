@@ -12,18 +12,18 @@ Design đạt minimum gates nhưng chưa được human approve.
 | --- | --- | --- |
 | Authoritative source use | `PASS` | FR-17/FR-12/FR-22 từ README là requirement basis; API spec support contract; source/seed only implementation reference. |
 | Detailed operation scope | `PASS` | Chỉ `VIEW`, `CREATE`, `DELETE`; `UPDATE` là `NOT_IN_DETAILED_REQUIREMENT_SCOPE`. |
-| Atomic objectives | `PASS` | View, markers, type domain, create, each omission/boundary, delete và two auth boundaries đều independent. |
+| Atomic objectives | `PASS` | View, markers, independent percent/fixed create partitions, each omission/boundary, delete và two auth boundaries đều independent. |
 | Duplicate objectives | `PASS` | Requiredness và numeric boundary tách riêng; create và delete không share primary objective. |
 | Invented rules | `PASS` | Không có percent max, code format, normalization, filter, pagination, exact message, future-expiry hoặc delete-dialog assumption. |
 | Boundary validity | `PASS` | Chỉ dùng explicit lower bounds: discount 1/0, minimum 0/-1, max uses 1/0. |
 | Frontend scope | `PASS` | Cases assert Web Admin form/list/access behavior; API/DB chỉ dùng cho setup, evidence và isolation. |
-| State isolation | `PASS_WITH_REQUIRED_SETUP` | 11 stateful cases bắt buộc isolated DB copy; 5 read-only cases dùng fresh contexts. |
+| State isolation | `PASS_WITH_REQUIRED_SETUP` | 12 stateful cases bắt buộc isolated DB copy; 4 read-only cases dùng fresh contexts. |
 | Test-order dependency | `PASS` | Mỗi stateful case restore independently; delete uses its own setup record. |
 | External data strategy | `PASS` | Future `test-data/fr-17.json`; no inline arrays planned; file chưa được tạo trong phase này. |
 | Requirement traceability | `PASS` | 16 atomic requirements mapped; 16 `FULLY_COVERED`. |
 | Test count | `PASS` | 16 >= 12. |
 | Automation candidate count | `PASS` | 16 >= 12. |
-| Demo selection | `PASS` | Primary create/list transition, strong view/delete candidates và negative fallbacks documented. |
+| Demo selection | `PASS` | Fixed CREATE remains primary; percent CREATE và independent DELETE là secondary candidates; final selection vẫn pending runtime evidence. |
 | Prohibited execution | `PASS` | Không run SUT/browser/Playwright, không mutate DB, không generate runtime evidence. |
 
 ## Design Decisions
@@ -39,6 +39,16 @@ Design đạt minimum gates nhưng chưa được human approve.
 | FR17-REV-007 | Valid create can simultaneously exercise explicit lower valid values without adding arbitrary boundaries. | `MERGE_DATA_CONTROLS` | TC-004 uses 1/0/1 as valid controls while primary objective remains successful create/list transition. |
 | FR17-REV-008 | Missing/invalid submits may mutate under a nonconforming implementation. | `ISOLATE` | All such cases use isolated DB snapshot and unconditional restore. |
 | FR17-REV-009 | JWT absence and wrong role can fail independently. | `SPLIT` | TC-015 and TC-016 are separate authorization cases. |
+| FR17-REV-010 | Original TC-003 chỉ inspect/select type control; selectability không chứng minh valid `percent` coupon được functionally accepted qua CREATE. | `MODIFIED` | Human-directed correction đổi TC-003 thành isolated valid-percent CREATE. TC-003/TC-004 hiện exercise cả hai authoritative valid type partitions qua actual creation behavior, với independent owned data và cleanup. |
+
+### FR17-REV-010 Human-Directed Correction
+
+- Original design: TC-003 chỉ inspect/select `type` control.
+- Coverage weakness: valid `percent` partition chưa từng được submit qua CREATE; selectability alone không chứng minh percent coupons được functionally accepted.
+- Correction: TC-003 trở thành isolated valid-percent CREATE Web Admin UI case với future external owned data và post-assertion cleanup.
+- Result: TC-003 exercises `percent`; TC-004 exercises `fixed`; cả hai authoritative valid type partitions được kiểm tra bằng actual Coupon Management creation behavior.
+- Review Decision: `MODIFIED`.
+- Approval Status: `PENDING_HUMAN_REVIEW`; A-015 không được self-approved hoặc updated trong correction này.
 
 ## AI-Fix Policy for Demo
 
@@ -51,6 +61,7 @@ Design đạt minimum gates nhưng chưa được human approve.
 
 | Test Case ID | Isolation Classification | Required Setup | Cleanup |
 | --- | --- | --- | --- |
+| FR17-TC-003 | `STATEFUL_CREATE_CLEANUP` | Isolated DB baseline; unique owned percent-coupon code absent. | Assert percent create/list/type/value first, then delete only owned record or restore exact snapshot. |
 | FR17-TC-004 | `STATEFUL_CREATE_CLEANUP` | Isolated DB baseline; unique absent code. | Assert create/list first, then delete owned record or restore snapshot. |
 | FR17-TC-005 | `STATEFUL_SETUP_REQUIRED` | Seed `SAVE10` exists exactly once. | Restore snapshot after duplicate attempt. |
 | FR17-TC-006–013 | `STATEFUL_SETUP_REQUIRED` | Isolated baseline; unique absent code per case. | Restore snapshot even if nonconforming SUT creates invalid record. |
@@ -64,7 +75,6 @@ No stateful case may use the shared workspace or production-like database. Setup
 | --- | --- |
 | FR17-TC-001 | Observe verified list only. |
 | FR17-TC-002 | Observe required indicators only. |
-| FR17-TC-003 | Inspect/select type options without submit. |
 | FR17-TC-015 | Fresh unauthenticated context, no data operation. |
 | FR17-TC-016 | Controlled non-admin context, no data operation. |
 
@@ -80,7 +90,7 @@ No stateful case may use the shared workspace or production-like database. Setup
 1. Isolated backend/database copy with baseline hash/snapshot and restore.
 2. Valid admin session fixture.
 3. Valid non-admin session fixture whose token role is verified.
-4. External unique coupon datasets and omission/boundary datasets in `test-data/fr-17.json` after approval.
+4. External independent unique percent/fixed coupon datasets and omission/boundary datasets in `test-data/fr-17.json` after approval.
 5. Stable form/list scoping strategy that avoids generated class names and broad repeated-text selectors.
 6. Owned coupon setup for delete and owned-code cleanup for create.
 
