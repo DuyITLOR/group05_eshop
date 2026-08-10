@@ -81,4 +81,36 @@ test.describe('FR-17 - Coupon management', () => {
     }
   });
 
+  test('FR17-TC-004 @demo admin creates a valid fixed coupon at lower valid boundaries', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(validFixed, 'FR17-TC-004');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      await expect(getCouponRow(page, coupon.code)).toHaveCount(0);
+      await fillCouponForm(page, coupon);
+      const response = await submitCoupon(page);
+      expect(response, 'A valid fixed create must reach the approved create endpoint.').not.toBeNull();
+      expect((await response).ok()).toBe(true);
+      const row = await expectOwnedCouponCore(page, coupon);
+      await expectOwnedCouponBoundaryValues(row, coupon);
+    } finally {
+      await isolatedDb.removeOwnedCoupon(coupon.code);
+    }
+  });
+
+  test('FR17-TC-005 duplicate SAVE10 is rejected without a second record', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      await expect(getCouponRow(page, duplicateCode.code)).toHaveCount(1);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, duplicateCode);
+      await submitDuplicateAndAssertUnchanged(page, duplicateCode, baselineCount);
+    } finally {
+      await isolatedDb.assertReady(seedOracle);
+    }
+  });
+
 });
