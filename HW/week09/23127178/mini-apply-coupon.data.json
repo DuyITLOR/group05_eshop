@@ -6,7 +6,7 @@
     "code": "BIGBUY",
     "total_amount": 600000,
     "user_id": 2,
-    "expected_status": 999,
+    "expected_status": 200,
     "expected_coupon_id": 2,
     "expected_discount_amount": 50000,
     "expected_final_amount": 550000,
