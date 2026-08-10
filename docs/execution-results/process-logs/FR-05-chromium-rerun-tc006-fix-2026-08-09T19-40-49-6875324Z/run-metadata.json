@@ -1,0 +1,8 @@
+﻿{
+    "sutBaseUrl":  "http://localhost:5173",
+    "exitCode":  1,
+    "timestamp":  "2026-08-09T19:40:49.6875324Z",
+    "runId":  "FR-05-chromium-rerun-tc006-fix-2026-08-09T19-40-49-6875324Z",
+    "command":  "npx.cmd playwright test tests/fr-05/fr-05.spec.js --project=chromium",
+    "studentId":  "23127107"
+}

@@ -1,0 +1,9 @@
+﻿{
+    "sutBaseUrl":  "http://localhost:5173",
+    "exitCode":  1,
+    "timestamp":  "2026-08-09T19:58:55.6271287Z",
+    "runId":  "FR-05-firefox-2026-08-09T19-58-55-6329954Z",
+    "command":  "npx.cmd playwright test tests/fr-05/fr-05.spec.js --project=firefox --output test-results\\fr-05-runs\\FR-05-firefox-2026-08-09T19-58-55-6329954Z",
+    "browserProject":  "firefox",
+    "studentId":  "23127107"
+}

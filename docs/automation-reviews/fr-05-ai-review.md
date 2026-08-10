@@ -108,3 +108,21 @@ Phần này ghi nhận riêng sự cố runtime đã được Chromium phát hi�
 ## Current Checkpoint After TC-006 Correction
 
 CHECKPOINT: TC006_CORRECTION_REVIEW_REQUIRED
+
+## FR05-REV-006 Multi-Browser Runtime Evidence
+
+`FR05-REV-006` originally remained `NEEDS_MORE_EVIDENCE` because static review could not prove dialog timing across engines. The historical review row is preserved. The following runtime evidence resolves that evidence gap without changing the test or its assertions.
+
+| Engine | Dialog observer active | Dialog count | Dialog messages | Literal-text result | img[onerror] result | Evidence source |
+| --- | --- | ---: | --- | --- | --- | --- |
+| Chromium | Yes | 2 | FR05-XSS; FR05-XSS | FAILED — reflected markup was not literal text | FAILED — count 1 | FR-05-chromium-rerun-tc006-fix-2026-08-09T19-40-49-6875324Z |
+| Firefox | Yes | 2 | FR05-XSS; FR05-XSS | FAILED — reflected markup was not literal text | FAILED — count 1 | FR-05-firefox-2026-08-09T19-58-55-6329954Z |
+| WebKit | Yes | 1 | FR05-XSS | FAILED — reflected markup was not literal text | FAILED — count 1 | FR-05-webkit-2026-08-09T20-00-12-2824300Z |
+
+Final Verification: `RUNTIME_VERIFIED_MULTI_BROWSER`.
+
+The dialog-count difference (2 / 2 / 1) is browser-specific evidence that the unsafe markup executed in all engines. It is classified as `PRODUCT_DEFECT`; the observer captured real dialogs in every engine, so no timing-based `AUTOMATION_DEFECT` or `ENVIRONMENT_FAILURE` was found.
+
+## Current Checkpoint After Cross-Browser Execution
+
+CHECKPOINT: CROSS_BROWSER_EXECUTION_REVIEW_REQUIRED
