@@ -1,0 +1,84 @@
+﻿const { test, expect } = require('./fixtures/fr-17-fixtures');
+const { installNonAdminSession, openAdmin } = require('./helpers/auth');
+const { buildOwnedCoupon, getDataset, loadFr17Data } = require('./helpers/coupon-data');
+const {
+  expectDuplicateCodeRejected,
+  expectOwnedCouponBoundaryValues,
+  expectOwnedCouponCore,
+  expectRejectedCreate,
+  expectVisibleRequiredFieldIndicators,
+  fillCouponForm,
+  getCouponRow,
+  getCouponRows,
+  getCouponSection,
+  getCouponTab,
+  openCouponManagement,
+  submitCoupon,
+} = require('./helpers/coupon-ui');
+const { getAdminBaseUrl } = require('./helpers/runtime-guard');
+
+const data = loadFr17Data();
+const seedOracle = getDataset(data, 'FR17-DATA-001');
+const requiredFieldOracle = getDataset(data, 'FR17-DATA-002');
+const validPercent = getDataset(data, 'FR17-DATA-003');
+const validFixed = getDataset(data, 'FR17-DATA-004');
+const duplicateCode = getDataset(data, 'FR17-DATA-005');
+const missingCode = getDataset(data, 'FR17-DATA-006');
+const missingDiscount = getDataset(data, 'FR17-DATA-007');
+const zeroDiscount = getDataset(data, 'FR17-DATA-008');
+const missingExpiry = getDataset(data, 'FR17-DATA-009');
+const missingMinimum = getDataset(data, 'FR17-DATA-010');
+const negativeMinimum = getDataset(data, 'FR17-DATA-011');
+const missingMaxUses = getDataset(data, 'FR17-DATA-012');
+const zeroMaxUses = getDataset(data, 'FR17-DATA-013');
+const deleteSetup = getDataset(data, 'FR17-SETUP-001');
+
+async function openAdminCoupons(page) {
+  await openAdmin(page);
+  await openCouponManagement(page);
+}
+
+async function submitInvalidAndAssertAbsent(page, coupon, baselineCount) {
+  const response = await submitCoupon(page);
+  if (response) await response;
+  await expectRejectedCreate(page, baselineCount, coupon.code);
+}
+
+async function submitDuplicateAndAssertUnchanged(page, coupon, baselineCount) {
+  const response = await submitCoupon(page);
+  if (response) await response;
+  await expectDuplicateCodeRejected(page, baselineCount, coupon.code);
+}
+
+test.describe('FR-17 - Coupon management', () => {
+  test('FR17-TC-001 admin sees the complete controlled coupon list', async ({ adminSession }) => {
+    const { page } = adminSession;
+    await openAdminCoupons(page);
+    await expect(getCouponRows(page)).toHaveCount(seedOracle.expectedCount);
+    for (const code of seedOracle.expectedCodes) await expect(getCouponRow(page, code)).toHaveCount(1);
+  });
+
+  test('FR17-TC-002 all required coupon fields display an associated visible indicator', async ({ adminSession }) => {
+    const { page } = adminSession;
+    await openAdminCoupons(page);
+    await expectVisibleRequiredFieldIndicators(page, requiredFieldOracle.fields);
+  });
+
+  test('FR17-TC-003 admin creates a valid percent coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(validPercent, 'FR17-TC-003');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      await expect(getCouponRow(page, coupon.code)).toHaveCount(0);
+      await fillCouponForm(page, coupon);
+      const response = await submitCoupon(page);
+      expect(response, 'A valid percent create must reach the approved create endpoint.').not.toBeNull();
+      expect((await response).ok()).toBe(true);
+      await expectOwnedCouponCore(page, coupon);
+    } finally {
+      await isolatedDb.removeOwnedCoupon(coupon.code);
+    }
+  });
+
+});

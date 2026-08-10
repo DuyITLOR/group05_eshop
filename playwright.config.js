@@ -29,7 +29,7 @@ module.exports = defineConfig({
   testDir: './tests',
   outputDir: testResultsDir,
   fullyParallel: true,
-  workers: featureId === 'FR-09' ? 1 : undefined,
+  workers: featureId === 'FR-09' || featureId === 'FR-17' ? 1 : undefined,
   retries: 0,
   use: {
     baseURL: sutBaseUrl,

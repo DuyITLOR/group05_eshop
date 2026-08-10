@@ -1,0 +1,190 @@
+{
+  "featureId": "FR-17",
+  "featureName": "Coupon management",
+  "schemaVersion": "1.0",
+  "runtimeConfiguration": {
+    "adminBaseUrlEnv": "FR17_ADMIN_BASE_URL",
+    "backendBaseUrlEnv": "SUT_API_BASE_URL",
+    "adminEmailEnv": "FR17_TEST_ADMIN_EMAIL",
+    "adminPasswordEnv": "FR17_TEST_ADMIN_PASSWORD",
+    "userEmailEnv": "FR17_TEST_USER_EMAIL",
+    "userPasswordEnv": "FR17_TEST_USER_PASSWORD",
+    "runIdEnv": "FR17_RUN_ID",
+    "isolatedDbPathEnv": "FR17_TEST_DB_PATH",
+    "isolatedDbConfirmationEnv": "FR17_ISOLATED_DB"
+  },
+  "datasets": [
+    {
+      "dataId": "FR17-DATA-001",
+      "kind": "SEED_COUPON_ORACLE",
+      "testCaseIds": ["FR17-TC-001", "FR17-TC-005", "FR17-TC-014"],
+      "expectedCodes": ["SAVE10", "BIGBUY", "VIP100", "EXPIRED"],
+      "expectedCount": 4,
+      "duplicateCode": "SAVE10",
+      "source": "Verified backend seed snapshot; revalidate before runtime"
+    },
+    {
+      "dataId": "FR17-DATA-002",
+      "kind": "REQUIRED_FIELD_ORACLE",
+      "testCaseIds": ["FR17-TC-002"],
+      "fields": ["code", "type", "discount_value", "expired_at", "min_order_amount", "max_uses_per_user"],
+      "source": "README.md FR-22 and approved FR-17 design"
+    },
+    {
+      "dataId": "FR17-DATA-003",
+      "kind": "VALID_PERCENT_CREATE",
+      "testCaseIds": ["FR17-TC-003"],
+      "codePrefix": "FR17-PERCENT",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved FR17-TC-003 valid percent partition"
+    },
+    {
+      "dataId": "FR17-DATA-004",
+      "kind": "VALID_FIXED_CREATE",
+      "testCaseIds": ["FR17-TC-004"],
+      "codePrefix": "FR17-FIXED",
+      "type": "fixed",
+      "discountValue": 1,
+      "minOrderAmount": 0,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved FR17-TC-004 lower valid numeric controls"
+    },
+    {
+      "dataId": "FR17-DATA-005",
+      "kind": "DUPLICATE_CODE",
+      "testCaseIds": ["FR17-TC-005"],
+      "code": "SAVE10",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Existing verified seed coupon and approved duplicate oracle"
+    },
+    {
+      "dataId": "FR17-DATA-006",
+      "kind": "MISSING_CODE",
+      "testCaseIds": ["FR17-TC-006"],
+      "code": "",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved required-field omission"
+    },
+    {
+      "dataId": "FR17-DATA-007",
+      "kind": "MISSING_DISCOUNT_VALUE",
+      "testCaseIds": ["FR17-TC-007"],
+      "codePrefix": "FR17-MISSING-DISCOUNT",
+      "type": "percent",
+      "discountValue": "",
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved required-field omission"
+    },
+    {
+      "dataId": "FR17-DATA-008",
+      "kind": "DISCOUNT_ZERO",
+      "testCaseIds": ["FR17-TC-008"],
+      "codePrefix": "FR17-DISCOUNT-ZERO",
+      "type": "percent",
+      "discountValue": 0,
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved discount_value lower invalid boundary"
+    },
+    {
+      "dataId": "FR17-DATA-009",
+      "kind": "MISSING_EXPIRY",
+      "testCaseIds": ["FR17-TC-009"],
+      "codePrefix": "FR17-MISSING-EXPIRY",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 100000,
+      "expiredAt": "",
+      "maxUsesPerUser": 1,
+      "source": "Approved required-field omission"
+    },
+    {
+      "dataId": "FR17-DATA-010",
+      "kind": "MISSING_MINIMUM_ORDER",
+      "testCaseIds": ["FR17-TC-010"],
+      "codePrefix": "FR17-MISSING-MIN",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": "",
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved required-field omission"
+    },
+    {
+      "dataId": "FR17-DATA-011",
+      "kind": "MINIMUM_ORDER_NEGATIVE",
+      "testCaseIds": ["FR17-TC-011"],
+      "codePrefix": "FR17-MIN-NEGATIVE",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": -1,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "source": "Approved min_order_amount lower invalid boundary"
+    },
+    {
+      "dataId": "FR17-DATA-012",
+      "kind": "MISSING_MAX_USES",
+      "testCaseIds": ["FR17-TC-012"],
+      "codePrefix": "FR17-MISSING-MAX",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": "",
+      "source": "Approved required-field omission"
+    },
+    {
+      "dataId": "FR17-DATA-013",
+      "kind": "MAX_USES_ZERO",
+      "testCaseIds": ["FR17-TC-013"],
+      "codePrefix": "FR17-MAX-ZERO",
+      "type": "percent",
+      "discountValue": 10,
+      "minOrderAmount": 100000,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 0,
+      "source": "Approved max_uses_per_user lower invalid boundary"
+    },
+    {
+      "dataId": "FR17-SETUP-001",
+      "kind": "CONTROLLED_DELETE_RECORD",
+      "testCaseIds": ["FR17-TC-014"],
+      "codePrefix": "FR17-DELETE",
+      "type": "fixed",
+      "discountValue": 1,
+      "minOrderAmount": 0,
+      "expiredAt": "2099-12-31",
+      "maxUsesPerUser": 1,
+      "businessTestDataRequired": false,
+      "source": "Approved isolated DB fixture strategy"
+    },
+    {
+      "dataId": "FR17-SETUP-002",
+      "kind": "AUTHORIZATION_DESCRIPTOR",
+      "testCaseIds": ["FR17-TC-001", "FR17-TC-002", "FR17-TC-003", "FR17-TC-004", "FR17-TC-005", "FR17-TC-006", "FR17-TC-007", "FR17-TC-008", "FR17-TC-009", "FR17-TC-010", "FR17-TC-011", "FR17-TC-012", "FR17-TC-013", "FR17-TC-014", "FR17-TC-015", "FR17-TC-016"],
+      "adminRole": "admin",
+      "nonAdminRole": "user",
+      "browserStorageKey": "adminToken",
+      "credentials": "runtime environment only; never stored in JSON",
+      "businessTestDataRequired": false,
+      "source": "Current Web Admin implementation and approved isolation strategy"
+    }
+  ]
+}
