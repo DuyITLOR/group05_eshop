@@ -1,4 +1,4 @@
-﻿const { test, expect } = require('./fixtures/fr-17-fixtures');
+const { test, expect } = require('./fixtures/fr-17-fixtures');
 const { installNonAdminSession, openAdmin } = require('./helpers/auth');
 const { buildOwnedCoupon, getDataset, loadFr17Data } = require('./helpers/coupon-data');
 const {
@@ -219,10 +219,24 @@ test.describe('FR-17 - Coupon management', () => {
       await openAdminCoupons(page);
       const row = getCouponRow(page, coupon.code);
       await expect(row).toHaveCount(1);
-      await row.getByRole('button', { name: 'X?a', exact: true }).click();
+      await row.getByRole('button', { name: 'Xóa', exact: true }).click();
       await expect(row).toHaveCount(0);
       for (const code of seedOracle.expectedCodes) await expect(getCouponRow(page, code)).toHaveCount(1);
     } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
   });
 
+  test('FR17-TC-015 unauthenticated actor has no usable Coupon Management controls', async ({ page }) => {
+    await page.goto(getAdminBaseUrl());
+    await expect(page.getByRole('heading', { name: 'Admin Login', exact: true })).toBeVisible();
+    await expect(getCouponTab(page)).toHaveCount(0);
+    await expect(getCouponSection(page)).toHaveCount(0);
+  });
+
+  test('FR17-TC-016 non-admin actor has no usable Coupon Management controls', async ({ page, request }) => {
+    await installNonAdminSession(page, request);
+    await page.goto(getAdminBaseUrl());
+    await expect(page.getByRole('heading', { name: 'EShop Admin', exact: true })).toBeVisible();
+    await expect(getCouponTab(page)).toHaveCount(0);
+    await expect(getCouponSection(page)).toHaveCount(0);
+  });
 });
