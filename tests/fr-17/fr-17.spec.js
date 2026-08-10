@@ -150,4 +150,40 @@ test.describe('FR-17 - Coupon management', () => {
     } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
   });
 
+  test('FR17-TC-009 missing expired_at does not create a coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(missingExpiry, 'FR17-TC-009');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
+  test('FR17-TC-010 missing min_order_amount does not create a coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(missingMinimum, 'FR17-TC-010');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
+  test('FR17-TC-011 min_order_amount negative one is rejected', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(negativeMinimum, 'FR17-TC-011');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
 });
