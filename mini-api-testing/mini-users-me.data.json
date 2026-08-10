@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "RUN-01",
+    "description": "Tài khoản test đã seed, xác thực hợp lệ",
+    "auth_mode": "valid",
+    "expected_status": 200,
+    "expected_email": "test@eshop.com",
+    "expected_max_response_time_ms": 1000
+  },
+  {
+    "case_id": "RUN-02",
+    "description": "Không có header Authorization",
+    "auth_mode": "missing",
+    "expected_status": 401,
+    "expected_email": "",
+    "expected_max_response_time_ms": 1000
+  },
+  {
+    "case_id": "RUN-03",
+    "description": "Bearer JWT sai định dạng",
+    "auth_mode": "malformed",
+    "expected_status": 403,
+    "expected_email": "",
+    "expected_max_response_time_ms": 1000
+  },
+  {
+    "case_id": "RUN-04",
+    "description": "Bearer scheme không có token",
+    "auth_mode": "empty_bearer",
+    "expected_status": 401,
+    "expected_email": "",
+    "expected_max_response_time_ms": 1000
+  },
+  {
+    "case_id": "RUN-05",
+    "description": "Lặp lại request hợp lệ và kiểm tra identity",
+    "auth_mode": "valid",
+    "expected_status": 200,
+    "expected_email": "test@eshop.com",
+    "expected_max_response_time_ms": 1000
+  }
+]

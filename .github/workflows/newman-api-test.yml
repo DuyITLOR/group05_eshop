@@ -1,0 +1,71 @@
+name: Newman API tests - API #12
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Lấy source code
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Cài dependencies của provider
+        run: npm ci
+        working-directory: backend
+
+      - name: Cài Newman
+        run: npm install --global newman
+
+      - name: Khởi động EShop backend
+        run: |
+          node backend/server.js > backend/newman-provider.log 2>&1 &
+          echo $! > backend/newman-provider.pid
+
+      - name: Chờ provider sẵn sàng
+        run: |
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error http://localhost:3000/api/products/1 > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo 'Provider không sẵn sàng.' >&2
+          cat backend/newman-provider.log || true
+          exit 1
+
+      - name: Chạy collection theo dữ liệu
+        run: |
+          mkdir -p newman-results
+          newman run mini-api-testing/mini-users-me.postman_collection.json \
+            --environment mini-api-testing/mini-local.postman_environment.json \
+            --iteration-data mini-api-testing/mini-users-me.data.json \
+            --reporters cli,json \
+            --reporter-json-export newman-results/mini-newman-report.json
+
+      - name: Tải lên Newman report và provider log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-api-test-artifacts
+          path: |
+            newman-results/mini-newman-report.json
+            backend/newman-provider.log
+          if-no-files-found: warn
