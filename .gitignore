@@ -14,6 +14,14 @@ backend/pnpm-workspace.yaml
 
 .runtime/
 
+# Local HW04 rendering and Python cache artifacts
+/tmp/
+**/__pycache__/
+*.pyc
+
+# Assignment source retained locally, not part of the submission repository
+/2026.HW04.Automation Testing_En.pdf
+
 
 
 
