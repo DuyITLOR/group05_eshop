@@ -1,0 +1,3028 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "9f1c4b70-23127178-4aa1-9c31-mini-applycoupon"
+    },
+    "item": [
+      {
+        "id": "4661e649-75de-44d0-911c-5816e213c66c",
+        "name": "Apply Coupon (Data-driven)",
+        "description": {
+          "content": "Folder chua request data-driven duy nhat. Newman chay 1 request x 5 iteration = 5 lan thuc thi.",
+          "type": "text/plain"
+        },
+        "item": [
+          {
+            "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+            "name": "POST {{endpointPath}} - {{tc_id}}",
+            "request": {
+              "description": {
+                "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+                "type": "text/plain"
+              },
+              "url": {
+                "host": [
+                  "{{baseUrl}}{{endpointPath}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Accept",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{{requestBody}}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "ccc6e315-c59b-47e4-8c19-2434ce17b953",
+                  "type": "text/javascript",
+                  "exec": [
+                    "// ============================================================",
+                    "// PRE-REQUEST SCRIPT",
+                    "// 1. Gan header X-Student-Id (bat buoc theo de bai B4.3)",
+                    "// 2. Dung body JSON tu iteration data, cho phep BO HAN 1 field",
+                    "//    (de test truong hop thieu field required)",
+                    "// ============================================================",
+                    "",
+                    "pm.request.headers.upsert({",
+                    "  key: \"X-Student-Id\",",
+                    "  value: pm.environment.get(\"studentId\"),",
+                    "});",
+                    "",
+                    "const d = pm.iterationData;",
+                    "const body = {};",
+                    "",
+                    "// Chi bo field khi data file khai bao tuong minh send_<field> = false.",
+                    "if (d.get(\"send_code\") !== false) body.code = d.get(\"code\");",
+                    "if (d.get(\"send_total_amount\") !== false) body.total_amount = d.get(\"total_amount\");",
+                    "if (d.get(\"send_user_id\") !== false) body.user_id = d.get(\"user_id\");",
+                    "",
+                    "pm.collectionVariables.set(\"requestBody\", JSON.stringify(body));",
+                    "",
+                    "console.log(",
+                    "  `>>> [${d.get(\"tc_id\")}] ${d.get(\"title\")}`",
+                    ");",
+                    "console.log(`    body gui di: ${JSON.stringify(body)}`);"
+                  ],
+                  "_lastExecutionId": "a7ba2534-7c79-42e8-b177-6daf625f5bb0"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "2758a6d1-1426-4876-935e-031c9789eb1d",
+                  "type": "text/javascript",
+                  "exec": [
+                    "// ============================================================",
+                    "// TEST SCRIPT - moi ky vong lay tu iteration data",
+                    "// ============================================================",
+                    "const d = pm.iterationData;",
+                    "const tc = d.get(\"tc_id\");",
+                    "const expectedStatus = Number(d.get(\"expected_status\"));",
+                    "const knownBug = d.get(\"known_bug\");",
+                    "const lock = knownBug ? `Regression-lock(${knownBug})` : \"Functional\";",
+                    "",
+                    "// ---- 1. Status code -----------------------------------------",
+                    "pm.test(`[MINI] ${tc} ${lock}: status code = ${expectedStatus}`, function () {",
+                    "  pm.response.to.have.status(expectedStatus);",
+                    "});",
+                    "",
+                    "// ---- 2. Assertion tu viet (yeu cau B4.3): Content-Type ------",
+                    "pm.test(\"[MINI] Response is JSON\", function () {",
+                    "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(",
+                    "    \"application/json\",",
+                    "  );",
+                    "});",
+                    "",
+                    "// ---- 3. Assertion tu viet (yeu cau B4.3): response time -----",
+                    "pm.test(\"[MINI] Functional: response time < 1000ms\", function () {",
+                    "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                    "});",
+                    "",
+                    "// ---- 4. Chung minh header X-Student-Id da duoc gui ----------",
+                    "const studentId = String(pm.environment.get(\"studentId\"));",
+                    "pm.test(`[MINI] Request carries X-Student-Id = ${studentId}`, function () {",
+                    "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(studentId);",
+                    "});",
+                    "console.log(",
+                    "  `    X-Student-Id thuc gui: ${pm.request.headers.get(\"X-Student-Id\")}`,",
+                    ");",
+                    "",
+                    "// ---- 5. Body phai la JSON object ---------------------------",
+                    "let json = {};",
+                    "pm.test(\"[MINI] Contract: body parse duoc thanh JSON object\", function () {",
+                    "  json = pm.response.json();",
+                    "  pm.expect(json).to.be.an(\"object\");",
+                    "});",
+                    "",
+                    "if (expectedStatus === 200) {",
+                    "  // ---- 6a. Schema cua response thanh cong -------------------",
+                    "  const successSchema = {",
+                    "    type: \"object\",",
+                    "    required: [",
+                    "      \"success\",",
+                    "      \"coupon_id\",",
+                    "      \"discount_amount\",",
+                    "      \"final_amount\",",
+                    "      \"message\",",
+                    "    ],",
+                    "    properties: {",
+                    "      success: { type: \"boolean\" },",
+                    "      coupon_id: { type: \"integer\" },",
+                    "      discount_amount: { type: \"number\" },",
+                    "      final_amount: { type: \"number\" },",
+                    "      message: { type: \"string\" },",
+                    "    },",
+                    "    additionalProperties: false,",
+                    "  };",
+                    "  pm.test(",
+                    "    `[MINI] ${tc} Contract: success response dung JSON Schema`,",
+                    "    function () {",
+                    "      pm.response.to.have.jsonSchema(successSchema);",
+                    "    },",
+                    "  );",
+                    "",
+                    "  pm.test(`[MINI] ${tc} Contract: success === true`, function () {",
+                    "    pm.expect(pm.response.json().success).to.eql(true);",
+                    "  });",
+                    "",
+                    "  // ---- 6b. Gia tri nghiep vu (tach rieng khoi schema) ------",
+                    "  const expCoupon = d.get(\"expected_coupon_id\");",
+                    "  if (expCoupon !== undefined && expCoupon !== null && expCoupon !== \"\") {",
+                    "    pm.test(`[MINI] ${tc} Functional: coupon_id = ${expCoupon}`, function () {",
+                    "      pm.expect(pm.response.json().coupon_id).to.eql(Number(expCoupon));",
+                    "    });",
+                    "  }",
+                    "",
+                    "  const expDiscount = d.get(\"expected_discount_amount\");",
+                    "  if (expDiscount !== undefined && expDiscount !== null && expDiscount !== \"\") {",
+                    "    pm.test(",
+                    "      `[MINI] ${tc} ${lock}: discount_amount = ${expDiscount}`,",
+                    "      function () {",
+                    "        pm.expect(pm.response.json().discount_amount).to.eql(",
+                    "          Number(expDiscount),",
+                    "        );",
+                    "      },",
+                    "    );",
+                    "  }",
+                    "",
+                    "  const expFinal = d.get(\"expected_final_amount\");",
+                    "  if (expFinal !== undefined && expFinal !== null && expFinal !== \"\") {",
+                    "    pm.test(",
+                    "      `[MINI] ${tc} ${lock}: final_amount = ${expFinal}`,",
+                    "      function () {",
+                    "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+                    "      },",
+                    "    );",
+                    "  }",
+                    "",
+                    "  const msgFrag = d.get(\"expected_message_contains\");",
+                    "  if (msgFrag) {",
+                    "    pm.test(",
+                    "      `[MINI] ${tc} Functional: message chua \"${msgFrag}\"`,",
+                    "      function () {",
+                    "        pm.expect(pm.response.json().message).to.include(msgFrag);",
+                    "      },",
+                    "    );",
+                    "  }",
+                    "} else {",
+                    "  // ---- 7a. Schema cua response loi -------------------------",
+                    "  const errorSchema = {",
+                    "    type: \"object\",",
+                    "    required: [\"error\"],",
+                    "    properties: { error: { type: \"string\", minLength: 1 } },",
+                    "  };",
+                    "  pm.test(",
+                    "    `[MINI] ${tc} Contract: error response dung JSON Schema`,",
+                    "    function () {",
+                    "      pm.response.to.have.jsonSchema(errorSchema);",
+                    "    },",
+                    "  );",
+                    "",
+                    "  // ---- 7b. Noi dung message loi (khong chi check status) ---",
+                    "  const errFrag = d.get(\"expected_error_contains\");",
+                    "  if (errFrag) {",
+                    "    pm.test(",
+                    "      `[MINI] ${tc} ${lock}: error message chua \"${errFrag}\"`,",
+                    "      function () {",
+                    "        pm.expect(pm.response.json().error).to.include(errFrag);",
+                    "      },",
+                    "    );",
+                    "  }",
+                    "",
+                    "  // ---- 7c. Khong duoc ro ri du lieu giam gia khi that bai --",
+                    "  pm.test(",
+                    "    `[MINI] ${tc} Functional: response loi khong tra ve discount/final_amount`,",
+                    "    function () {",
+                    "      const b = pm.response.json();",
+                    "      pm.expect(b).to.not.have.property(\"discount_amount\");",
+                    "      pm.expect(b).to.not.have.property(\"final_amount\");",
+                    "      pm.expect(b).to.not.have.property(\"success\");",
+                    "    },",
+                    "  );",
+                    "",
+                    "  // ---- 7d. Khong duoc lo stack trace / thong tin noi bo -----",
+                    "  pm.test(",
+                    "    `[MINI] ${tc} Functional: error message khong lo chi tiet noi bo (SQL/stack)`,",
+                    "    function () {",
+                    "      const msg = String(pm.response.json().error).toLowerCase();",
+                    "      pm.expect(msg).to.not.include(\"sqlite\");",
+                    "      pm.expect(msg).to.not.include(\"select \");",
+                    "      pm.expect(msg).to.not.include(\"at object.\");",
+                    "    },",
+                    "  );",
+                    "}",
+                    "",
+                    "// ---- 8. Ghi chu bug da biet ra Console ----------------------",
+                    "if (knownBug) {",
+                    "  console.log(",
+                    "    `    /!\\\\ ${knownBug}: spec ky vong status ${d.get(\"spec_expected_status\")}. ${d.get(\"spec_note\")}`,",
+                    "  );",
+                    "}"
+                  ],
+                  "_lastExecutionId": "35998900-dba2-454e-9c39-fe734c8d4adb"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [
+      {
+        "description": {
+          "content": "Body JSON duoc dung dong trong pre-request script tu iteration data.",
+          "type": "text/plain"
+        },
+        "type": "string",
+        "value": "{}",
+        "key": "requestBody"
+      },
+      {
+        "type": "string",
+        "value": "/api/apply-coupon",
+        "key": "endpointPath"
+      }
+    ],
+    "info": {
+      "_postman_id": "9f1c4b70-23127178-4aa1-9c31-mini-applycoupon",
+      "name": "Mini API Testing - POST /api/apply-coupon (23127178)",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Bo kich ban kiem thu tu dong (data-driven) cho API POST /api/apply-coupon cua eshop-sut.\n\n- SUT: backend/server.js (Express + SQLite), port 3000\n- Chay bang Collection Runner hoac Newman voi --iteration-data mini-apply-coupon.data.json (5 iteration)\n- Moi assertion deu doc gia tri ky vong tu iteration data (expected_status, expected_discount_amount, ...) nen cung 1 request phuc vu ca positive, negative va boundary case.\n- Tien to test: 'Functional:' = hanh vi nghiep vu, 'Contract:' = schema/kieu du lieu, 'Regression-lock:' = khoa hanh vi sai da biet (BUG-01/BUG-02).\n\nMSSV: 23127178",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_using": "Postman/11.x"
+    },
+    "id": "b7e21d40-23127178-4c88-9f02-mini-local-env",
+    "name": "mini-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "baseUrl"
+      },
+      {
+        "type": "any",
+        "value": "23127178",
+        "key": "studentId"
+      }
+    ]
+  },
+  "globals": {
+    "id": "14c2911c-5836-4e7e-9e64-f1d15092e6ad",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 10,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 49,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 6,
+      "responseMin": 2,
+      "responseMax": 15,
+      "responseSd": 4.774934554525328,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1786350073547,
+      "completed": 1786350073702
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 5,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "75b680d5-6878-4dce-8b53-24b3ee9833a4",
+          "httpRequestId": "18740358-d8d1-4615-bae6-b091ab590597"
+        },
+        "item": {
+          "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+          "name": "POST {{endpointPath}} - {{tc_id}}",
+          "request": {
+            "description": {
+              "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{baseUrl}}{{endpointPath}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{{requestBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ccc6e315-c59b-47e4-8c19-2434ce17b953",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// PRE-REQUEST SCRIPT",
+                  "// 1. Gan header X-Student-Id (bat buoc theo de bai B4.3)",
+                  "// 2. Dung body JSON tu iteration data, cho phep BO HAN 1 field",
+                  "//    (de test truong hop thieu field required)",
+                  "// ============================================================",
+                  "",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "const d = pm.iterationData;",
+                  "const body = {};",
+                  "",
+                  "// Chi bo field khi data file khai bao tuong minh send_<field> = false.",
+                  "if (d.get(\"send_code\") !== false) body.code = d.get(\"code\");",
+                  "if (d.get(\"send_total_amount\") !== false) body.total_amount = d.get(\"total_amount\");",
+                  "if (d.get(\"send_user_id\") !== false) body.user_id = d.get(\"user_id\");",
+                  "",
+                  "pm.collectionVariables.set(\"requestBody\", JSON.stringify(body));",
+                  "",
+                  "console.log(",
+                  "  `>>> [${d.get(\"tc_id\")}] ${d.get(\"title\")}`",
+                  ");",
+                  "console.log(`    body gui di: ${JSON.stringify(body)}`);"
+                ],
+                "_lastExecutionId": "a7ba2534-7c79-42e8-b177-6daf625f5bb0"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2758a6d1-1426-4876-935e-031c9789eb1d",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// TEST SCRIPT - moi ky vong lay tu iteration data",
+                  "// ============================================================",
+                  "const d = pm.iterationData;",
+                  "const tc = d.get(\"tc_id\");",
+                  "const expectedStatus = Number(d.get(\"expected_status\"));",
+                  "const knownBug = d.get(\"known_bug\");",
+                  "const lock = knownBug ? `Regression-lock(${knownBug})` : \"Functional\";",
+                  "",
+                  "// ---- 1. Status code -----------------------------------------",
+                  "pm.test(`[MINI] ${tc} ${lock}: status code = ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// ---- 2. Assertion tu viet (yeu cau B4.3): Content-Type ------",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(",
+                  "    \"application/json\",",
+                  "  );",
+                  "});",
+                  "",
+                  "// ---- 3. Assertion tu viet (yeu cau B4.3): response time -----",
+                  "pm.test(\"[MINI] Functional: response time < 1000ms\", function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});",
+                  "",
+                  "// ---- 4. Chung minh header X-Student-Id da duoc gui ----------",
+                  "const studentId = String(pm.environment.get(\"studentId\"));",
+                  "pm.test(`[MINI] Request carries X-Student-Id = ${studentId}`, function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(studentId);",
+                  "});",
+                  "console.log(",
+                  "  `    X-Student-Id thuc gui: ${pm.request.headers.get(\"X-Student-Id\")}`,",
+                  ");",
+                  "",
+                  "// ---- 5. Body phai la JSON object ---------------------------",
+                  "let json = {};",
+                  "pm.test(\"[MINI] Contract: body parse duoc thanh JSON object\", function () {",
+                  "  json = pm.response.json();",
+                  "  pm.expect(json).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // ---- 6a. Schema cua response thanh cong -------------------",
+                  "  const successSchema = {",
+                  "    type: \"object\",",
+                  "    required: [",
+                  "      \"success\",",
+                  "      \"coupon_id\",",
+                  "      \"discount_amount\",",
+                  "      \"final_amount\",",
+                  "      \"message\",",
+                  "    ],",
+                  "    properties: {",
+                  "      success: { type: \"boolean\" },",
+                  "      coupon_id: { type: \"integer\" },",
+                  "      discount_amount: { type: \"number\" },",
+                  "      final_amount: { type: \"number\" },",
+                  "      message: { type: \"string\" },",
+                  "    },",
+                  "    additionalProperties: false,",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: success response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(successSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  pm.test(`[MINI] ${tc} Contract: success === true`, function () {",
+                  "    pm.expect(pm.response.json().success).to.eql(true);",
+                  "  });",
+                  "",
+                  "  // ---- 6b. Gia tri nghiep vu (tach rieng khoi schema) ------",
+                  "  const expCoupon = d.get(\"expected_coupon_id\");",
+                  "  if (expCoupon !== undefined && expCoupon !== null && expCoupon !== \"\") {",
+                  "    pm.test(`[MINI] ${tc} Functional: coupon_id = ${expCoupon}`, function () {",
+                  "      pm.expect(pm.response.json().coupon_id).to.eql(Number(expCoupon));",
+                  "    });",
+                  "  }",
+                  "",
+                  "  const expDiscount = d.get(\"expected_discount_amount\");",
+                  "  if (expDiscount !== undefined && expDiscount !== null && expDiscount !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: discount_amount = ${expDiscount}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().discount_amount).to.eql(",
+                  "          Number(expDiscount),",
+                  "        );",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const expFinal = d.get(\"expected_final_amount\");",
+                  "  if (expFinal !== undefined && expFinal !== null && expFinal !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: final_amount = ${expFinal}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const msgFrag = d.get(\"expected_message_contains\");",
+                  "  if (msgFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} Functional: message chua \"${msgFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().message).to.include(msgFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "} else {",
+                  "  // ---- 7a. Schema cua response loi -------------------------",
+                  "  const errorSchema = {",
+                  "    type: \"object\",",
+                  "    required: [\"error\"],",
+                  "    properties: { error: { type: \"string\", minLength: 1 } },",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: error response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(errorSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7b. Noi dung message loi (khong chi check status) ---",
+                  "  const errFrag = d.get(\"expected_error_contains\");",
+                  "  if (errFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: error message chua \"${errFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().error).to.include(errFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  // ---- 7c. Khong duoc ro ri du lieu giam gia khi that bai --",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: response loi khong tra ve discount/final_amount`,",
+                  "    function () {",
+                  "      const b = pm.response.json();",
+                  "      pm.expect(b).to.not.have.property(\"discount_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"final_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"success\");",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7d. Khong duoc lo stack trace / thong tin noi bo -----",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: error message khong lo chi tiet noi bo (SQL/stack)`,",
+                  "    function () {",
+                  "      const msg = String(pm.response.json().error).toLowerCase();",
+                  "      pm.expect(msg).to.not.include(\"sqlite\");",
+                  "      pm.expect(msg).to.not.include(\"select \");",
+                  "      pm.expect(msg).to.not.include(\"at object.\");",
+                  "    },",
+                  "  );",
+                  "}",
+                  "",
+                  "// ---- 8. Ghi chu bug da biet ra Console ----------------------",
+                  "if (knownBug) {",
+                  "  console.log(",
+                  "    `    /!\\\\ ${knownBug}: spec ky vong status ${d.get(\"spec_expected_status\")}. ${d.get(\"spec_note\")}`,",
+                  "  );",
+                  "}"
+                ],
+                "_lastExecutionId": "35998900-dba2-454e-9c39-fe734c8d4adb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "apply-coupon"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127178"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "226a8a03-d35d-4331-9a01-3fa73e33cc20",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "51",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"code\":\"BIGBUY\",\"total_amount\":600000,\"user_id\":2}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "0992d57d-7b33-4a68-8270-7db24e751380",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "131"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"83-MT4iEnJg08g3cM9uqrd6zeEU02I\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:21:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              34,
+              58,
+              116,
+              114,
+              117,
+              101,
+              44,
+              34,
+              99,
+              111,
+              117,
+              112,
+              111,
+              110,
+              95,
+              105,
+              100,
+              34,
+              58,
+              50,
+              44,
+              34,
+              100,
+              105,
+              115,
+              99,
+              111,
+              117,
+              110,
+              116,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              53,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              102,
+              105,
+              110,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              53,
+              53,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              195,
+              129,
+              112,
+              32,
+              100,
+              225,
+              187,
+              165,
+              110,
+              103,
+              32,
+              116,
+              104,
+              195,
+              160,
+              110,
+              104,
+              32,
+              99,
+              195,
+              180,
+              110,
+              103,
+              33,
+              32,
+              71,
+              105,
+              225,
+              186,
+              163,
+              109,
+              32,
+              53,
+              48,
+              44,
+              48,
+              48,
+              48,
+              32,
+              226,
+              130,
+              171,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 15,
+          "responseSize": 131
+        },
+        "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+        "assertions": [
+          {
+            "assertion": "[MINI] TC-AC-01 Functional: status code = 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Functional: response time < 1000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Request carries X-Student-Id = 23127178",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Contract: body parse duoc thanh JSON object",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-01 Contract: success response dung JSON Schema",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-01 Contract: success === true",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-01 Functional: coupon_id = 2",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-01 Functional: discount_amount = 50000",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-01 Functional: final_amount = 550000",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-01 Functional: message chua \"Áp dụng thành công\"",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "766ca175-02bc-4243-9e0e-088b061c2e68",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "32245321-f270-4bc5-9f32-b21a30f86070"
+        },
+        "item": {
+          "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+          "name": "POST {{endpointPath}} - {{tc_id}}",
+          "request": {
+            "description": {
+              "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{baseUrl}}{{endpointPath}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{{requestBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ccc6e315-c59b-47e4-8c19-2434ce17b953",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// PRE-REQUEST SCRIPT",
+                  "// 1. Gan header X-Student-Id (bat buoc theo de bai B4.3)",
+                  "// 2. Dung body JSON tu iteration data, cho phep BO HAN 1 field",
+                  "//    (de test truong hop thieu field required)",
+                  "// ============================================================",
+                  "",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "const d = pm.iterationData;",
+                  "const body = {};",
+                  "",
+                  "// Chi bo field khi data file khai bao tuong minh send_<field> = false.",
+                  "if (d.get(\"send_code\") !== false) body.code = d.get(\"code\");",
+                  "if (d.get(\"send_total_amount\") !== false) body.total_amount = d.get(\"total_amount\");",
+                  "if (d.get(\"send_user_id\") !== false) body.user_id = d.get(\"user_id\");",
+                  "",
+                  "pm.collectionVariables.set(\"requestBody\", JSON.stringify(body));",
+                  "",
+                  "console.log(",
+                  "  `>>> [${d.get(\"tc_id\")}] ${d.get(\"title\")}`",
+                  ");",
+                  "console.log(`    body gui di: ${JSON.stringify(body)}`);"
+                ],
+                "_lastExecutionId": "a7ba2534-7c79-42e8-b177-6daf625f5bb0"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2758a6d1-1426-4876-935e-031c9789eb1d",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// TEST SCRIPT - moi ky vong lay tu iteration data",
+                  "// ============================================================",
+                  "const d = pm.iterationData;",
+                  "const tc = d.get(\"tc_id\");",
+                  "const expectedStatus = Number(d.get(\"expected_status\"));",
+                  "const knownBug = d.get(\"known_bug\");",
+                  "const lock = knownBug ? `Regression-lock(${knownBug})` : \"Functional\";",
+                  "",
+                  "// ---- 1. Status code -----------------------------------------",
+                  "pm.test(`[MINI] ${tc} ${lock}: status code = ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// ---- 2. Assertion tu viet (yeu cau B4.3): Content-Type ------",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(",
+                  "    \"application/json\",",
+                  "  );",
+                  "});",
+                  "",
+                  "// ---- 3. Assertion tu viet (yeu cau B4.3): response time -----",
+                  "pm.test(\"[MINI] Functional: response time < 1000ms\", function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});",
+                  "",
+                  "// ---- 4. Chung minh header X-Student-Id da duoc gui ----------",
+                  "const studentId = String(pm.environment.get(\"studentId\"));",
+                  "pm.test(`[MINI] Request carries X-Student-Id = ${studentId}`, function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(studentId);",
+                  "});",
+                  "console.log(",
+                  "  `    X-Student-Id thuc gui: ${pm.request.headers.get(\"X-Student-Id\")}`,",
+                  ");",
+                  "",
+                  "// ---- 5. Body phai la JSON object ---------------------------",
+                  "let json = {};",
+                  "pm.test(\"[MINI] Contract: body parse duoc thanh JSON object\", function () {",
+                  "  json = pm.response.json();",
+                  "  pm.expect(json).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // ---- 6a. Schema cua response thanh cong -------------------",
+                  "  const successSchema = {",
+                  "    type: \"object\",",
+                  "    required: [",
+                  "      \"success\",",
+                  "      \"coupon_id\",",
+                  "      \"discount_amount\",",
+                  "      \"final_amount\",",
+                  "      \"message\",",
+                  "    ],",
+                  "    properties: {",
+                  "      success: { type: \"boolean\" },",
+                  "      coupon_id: { type: \"integer\" },",
+                  "      discount_amount: { type: \"number\" },",
+                  "      final_amount: { type: \"number\" },",
+                  "      message: { type: \"string\" },",
+                  "    },",
+                  "    additionalProperties: false,",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: success response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(successSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  pm.test(`[MINI] ${tc} Contract: success === true`, function () {",
+                  "    pm.expect(pm.response.json().success).to.eql(true);",
+                  "  });",
+                  "",
+                  "  // ---- 6b. Gia tri nghiep vu (tach rieng khoi schema) ------",
+                  "  const expCoupon = d.get(\"expected_coupon_id\");",
+                  "  if (expCoupon !== undefined && expCoupon !== null && expCoupon !== \"\") {",
+                  "    pm.test(`[MINI] ${tc} Functional: coupon_id = ${expCoupon}`, function () {",
+                  "      pm.expect(pm.response.json().coupon_id).to.eql(Number(expCoupon));",
+                  "    });",
+                  "  }",
+                  "",
+                  "  const expDiscount = d.get(\"expected_discount_amount\");",
+                  "  if (expDiscount !== undefined && expDiscount !== null && expDiscount !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: discount_amount = ${expDiscount}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().discount_amount).to.eql(",
+                  "          Number(expDiscount),",
+                  "        );",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const expFinal = d.get(\"expected_final_amount\");",
+                  "  if (expFinal !== undefined && expFinal !== null && expFinal !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: final_amount = ${expFinal}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const msgFrag = d.get(\"expected_message_contains\");",
+                  "  if (msgFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} Functional: message chua \"${msgFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().message).to.include(msgFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "} else {",
+                  "  // ---- 7a. Schema cua response loi -------------------------",
+                  "  const errorSchema = {",
+                  "    type: \"object\",",
+                  "    required: [\"error\"],",
+                  "    properties: { error: { type: \"string\", minLength: 1 } },",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: error response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(errorSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7b. Noi dung message loi (khong chi check status) ---",
+                  "  const errFrag = d.get(\"expected_error_contains\");",
+                  "  if (errFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: error message chua \"${errFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().error).to.include(errFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  // ---- 7c. Khong duoc ro ri du lieu giam gia khi that bai --",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: response loi khong tra ve discount/final_amount`,",
+                  "    function () {",
+                  "      const b = pm.response.json();",
+                  "      pm.expect(b).to.not.have.property(\"discount_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"final_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"success\");",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7d. Khong duoc lo stack trace / thong tin noi bo -----",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: error message khong lo chi tiet noi bo (SQL/stack)`,",
+                  "    function () {",
+                  "      const msg = String(pm.response.json().error).toLowerCase();",
+                  "      pm.expect(msg).to.not.include(\"sqlite\");",
+                  "      pm.expect(msg).to.not.include(\"select \");",
+                  "      pm.expect(msg).to.not.include(\"at object.\");",
+                  "    },",
+                  "  );",
+                  "}",
+                  "",
+                  "// ---- 8. Ghi chu bug da biet ra Console ----------------------",
+                  "if (knownBug) {",
+                  "  console.log(",
+                  "    `    /!\\\\ ${knownBug}: spec ky vong status ${d.get(\"spec_expected_status\")}. ${d.get(\"spec_note\")}`,",
+                  "  );",
+                  "}"
+                ],
+                "_lastExecutionId": "35998900-dba2-454e-9c39-fe734c8d4adb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "apply-coupon"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127178"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "8a59ae7e-3f6b-4c8e-bae9-4203373764aa",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "53",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"code\":\"NOTEXIST\",\"total_amount\":600000,\"user_id\":2}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "b92384a4-5fd8-4148-99af-0c279cb6ee19",
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "79"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"4f-Zi25GXkQG92bS4EOxPGgD4Fb01I\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:21:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              77,
+              195,
+              163,
+              32,
+              103,
+              105,
+              225,
+              186,
+              163,
+              109,
+              32,
+              103,
+              105,
+              195,
+              161,
+              32,
+              107,
+              104,
+              195,
+              180,
+              110,
+              103,
+              32,
+              116,
+              225,
+              187,
+              147,
+              110,
+              32,
+              116,
+              225,
+              186,
+              161,
+              105,
+              32,
+              104,
+              111,
+              225,
+              186,
+              183,
+              99,
+              32,
+              196,
+              145,
+              195,
+              163,
+              32,
+              98,
+              225,
+              187,
+              139,
+              32,
+              118,
+              195,
+              180,
+              32,
+              104,
+              105,
+              225,
+              187,
+              135,
+              117,
+              32,
+              104,
+              195,
+              179,
+              97,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 79
+        },
+        "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+        "assertions": [
+          {
+            "assertion": "[MINI] TC-AC-02 Functional: status code = 404",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Functional: response time < 1000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Request carries X-Student-Id = 23127178",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Contract: body parse duoc thanh JSON object",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-02 Contract: error response dung JSON Schema",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-02 Functional: error message chua \"không tồn tại\"",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-02 Functional: response loi khong tra ve discount/final_amount",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-02 Functional: error message khong lo chi tiet noi bo (SQL/stack)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "522a4dbb-e8de-44d2-b86c-4d7a8a1a451d",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 2,
+          "cr": true,
+          "httpRequestId": "70cc6e27-7f9d-4d91-b2c7-2d7a3d751d13"
+        },
+        "item": {
+          "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+          "name": "POST {{endpointPath}} - {{tc_id}}",
+          "request": {
+            "description": {
+              "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{baseUrl}}{{endpointPath}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{{requestBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ccc6e315-c59b-47e4-8c19-2434ce17b953",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// PRE-REQUEST SCRIPT",
+                  "// 1. Gan header X-Student-Id (bat buoc theo de bai B4.3)",
+                  "// 2. Dung body JSON tu iteration data, cho phep BO HAN 1 field",
+                  "//    (de test truong hop thieu field required)",
+                  "// ============================================================",
+                  "",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "const d = pm.iterationData;",
+                  "const body = {};",
+                  "",
+                  "// Chi bo field khi data file khai bao tuong minh send_<field> = false.",
+                  "if (d.get(\"send_code\") !== false) body.code = d.get(\"code\");",
+                  "if (d.get(\"send_total_amount\") !== false) body.total_amount = d.get(\"total_amount\");",
+                  "if (d.get(\"send_user_id\") !== false) body.user_id = d.get(\"user_id\");",
+                  "",
+                  "pm.collectionVariables.set(\"requestBody\", JSON.stringify(body));",
+                  "",
+                  "console.log(",
+                  "  `>>> [${d.get(\"tc_id\")}] ${d.get(\"title\")}`",
+                  ");",
+                  "console.log(`    body gui di: ${JSON.stringify(body)}`);"
+                ],
+                "_lastExecutionId": "a7ba2534-7c79-42e8-b177-6daf625f5bb0"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2758a6d1-1426-4876-935e-031c9789eb1d",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// TEST SCRIPT - moi ky vong lay tu iteration data",
+                  "// ============================================================",
+                  "const d = pm.iterationData;",
+                  "const tc = d.get(\"tc_id\");",
+                  "const expectedStatus = Number(d.get(\"expected_status\"));",
+                  "const knownBug = d.get(\"known_bug\");",
+                  "const lock = knownBug ? `Regression-lock(${knownBug})` : \"Functional\";",
+                  "",
+                  "// ---- 1. Status code -----------------------------------------",
+                  "pm.test(`[MINI] ${tc} ${lock}: status code = ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// ---- 2. Assertion tu viet (yeu cau B4.3): Content-Type ------",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(",
+                  "    \"application/json\",",
+                  "  );",
+                  "});",
+                  "",
+                  "// ---- 3. Assertion tu viet (yeu cau B4.3): response time -----",
+                  "pm.test(\"[MINI] Functional: response time < 1000ms\", function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});",
+                  "",
+                  "// ---- 4. Chung minh header X-Student-Id da duoc gui ----------",
+                  "const studentId = String(pm.environment.get(\"studentId\"));",
+                  "pm.test(`[MINI] Request carries X-Student-Id = ${studentId}`, function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(studentId);",
+                  "});",
+                  "console.log(",
+                  "  `    X-Student-Id thuc gui: ${pm.request.headers.get(\"X-Student-Id\")}`,",
+                  ");",
+                  "",
+                  "// ---- 5. Body phai la JSON object ---------------------------",
+                  "let json = {};",
+                  "pm.test(\"[MINI] Contract: body parse duoc thanh JSON object\", function () {",
+                  "  json = pm.response.json();",
+                  "  pm.expect(json).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // ---- 6a. Schema cua response thanh cong -------------------",
+                  "  const successSchema = {",
+                  "    type: \"object\",",
+                  "    required: [",
+                  "      \"success\",",
+                  "      \"coupon_id\",",
+                  "      \"discount_amount\",",
+                  "      \"final_amount\",",
+                  "      \"message\",",
+                  "    ],",
+                  "    properties: {",
+                  "      success: { type: \"boolean\" },",
+                  "      coupon_id: { type: \"integer\" },",
+                  "      discount_amount: { type: \"number\" },",
+                  "      final_amount: { type: \"number\" },",
+                  "      message: { type: \"string\" },",
+                  "    },",
+                  "    additionalProperties: false,",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: success response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(successSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  pm.test(`[MINI] ${tc} Contract: success === true`, function () {",
+                  "    pm.expect(pm.response.json().success).to.eql(true);",
+                  "  });",
+                  "",
+                  "  // ---- 6b. Gia tri nghiep vu (tach rieng khoi schema) ------",
+                  "  const expCoupon = d.get(\"expected_coupon_id\");",
+                  "  if (expCoupon !== undefined && expCoupon !== null && expCoupon !== \"\") {",
+                  "    pm.test(`[MINI] ${tc} Functional: coupon_id = ${expCoupon}`, function () {",
+                  "      pm.expect(pm.response.json().coupon_id).to.eql(Number(expCoupon));",
+                  "    });",
+                  "  }",
+                  "",
+                  "  const expDiscount = d.get(\"expected_discount_amount\");",
+                  "  if (expDiscount !== undefined && expDiscount !== null && expDiscount !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: discount_amount = ${expDiscount}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().discount_amount).to.eql(",
+                  "          Number(expDiscount),",
+                  "        );",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const expFinal = d.get(\"expected_final_amount\");",
+                  "  if (expFinal !== undefined && expFinal !== null && expFinal !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: final_amount = ${expFinal}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const msgFrag = d.get(\"expected_message_contains\");",
+                  "  if (msgFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} Functional: message chua \"${msgFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().message).to.include(msgFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "} else {",
+                  "  // ---- 7a. Schema cua response loi -------------------------",
+                  "  const errorSchema = {",
+                  "    type: \"object\",",
+                  "    required: [\"error\"],",
+                  "    properties: { error: { type: \"string\", minLength: 1 } },",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: error response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(errorSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7b. Noi dung message loi (khong chi check status) ---",
+                  "  const errFrag = d.get(\"expected_error_contains\");",
+                  "  if (errFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: error message chua \"${errFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().error).to.include(errFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  // ---- 7c. Khong duoc ro ri du lieu giam gia khi that bai --",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: response loi khong tra ve discount/final_amount`,",
+                  "    function () {",
+                  "      const b = pm.response.json();",
+                  "      pm.expect(b).to.not.have.property(\"discount_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"final_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"success\");",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7d. Khong duoc lo stack trace / thong tin noi bo -----",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: error message khong lo chi tiet noi bo (SQL/stack)`,",
+                  "    function () {",
+                  "      const msg = String(pm.response.json().error).toLowerCase();",
+                  "      pm.expect(msg).to.not.include(\"sqlite\");",
+                  "      pm.expect(msg).to.not.include(\"select \");",
+                  "      pm.expect(msg).to.not.include(\"at object.\");",
+                  "    },",
+                  "  );",
+                  "}",
+                  "",
+                  "// ---- 8. Ghi chu bug da biet ra Console ----------------------",
+                  "if (knownBug) {",
+                  "  console.log(",
+                  "    `    /!\\\\ ${knownBug}: spec ky vong status ${d.get(\"spec_expected_status\")}. ${d.get(\"spec_note\")}`,",
+                  "  );",
+                  "}"
+                ],
+                "_lastExecutionId": "35998900-dba2-454e-9c39-fe734c8d4adb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "apply-coupon"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127178"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "0c7a1c8d-2dd8-4694-a4ea-b0fe18d19cb0",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "35",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\":600000,\"user_id\":2}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "54c5be0d-a928-4c6d-b8fc-e220752a7562",
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "44"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2c-srs7aEbKrRU8VAXW41rvAUqQ99Q\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:21:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              86,
+              117,
+              105,
+              32,
+              108,
+              195,
+              178,
+              110,
+              103,
+              32,
+              110,
+              104,
+              225,
+              186,
+              173,
+              112,
+              32,
+              109,
+              195,
+              163,
+              32,
+              103,
+              105,
+              225,
+              186,
+              163,
+              109,
+              32,
+              103,
+              105,
+              195,
+              161,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 44
+        },
+        "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+        "assertions": [
+          {
+            "assertion": "[MINI] TC-AC-03 Functional: status code = 400",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Functional: response time < 1000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Request carries X-Student-Id = 23127178",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Contract: body parse duoc thanh JSON object",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-03 Contract: error response dung JSON Schema",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-03 Functional: error message chua \"Vui lòng nhập mã giảm giá\"",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-03 Functional: response loi khong tra ve discount/final_amount",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-03 Functional: error message khong lo chi tiet noi bo (SQL/stack)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "dd9108af-3880-430d-b6a5-633f1663cc26",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 3,
+          "cr": true,
+          "httpRequestId": "64894292-5d81-48ce-9d1b-6d976cf18d7b"
+        },
+        "item": {
+          "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+          "name": "POST {{endpointPath}} - {{tc_id}}",
+          "request": {
+            "description": {
+              "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{baseUrl}}{{endpointPath}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{{requestBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ccc6e315-c59b-47e4-8c19-2434ce17b953",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// PRE-REQUEST SCRIPT",
+                  "// 1. Gan header X-Student-Id (bat buoc theo de bai B4.3)",
+                  "// 2. Dung body JSON tu iteration data, cho phep BO HAN 1 field",
+                  "//    (de test truong hop thieu field required)",
+                  "// ============================================================",
+                  "",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "const d = pm.iterationData;",
+                  "const body = {};",
+                  "",
+                  "// Chi bo field khi data file khai bao tuong minh send_<field> = false.",
+                  "if (d.get(\"send_code\") !== false) body.code = d.get(\"code\");",
+                  "if (d.get(\"send_total_amount\") !== false) body.total_amount = d.get(\"total_amount\");",
+                  "if (d.get(\"send_user_id\") !== false) body.user_id = d.get(\"user_id\");",
+                  "",
+                  "pm.collectionVariables.set(\"requestBody\", JSON.stringify(body));",
+                  "",
+                  "console.log(",
+                  "  `>>> [${d.get(\"tc_id\")}] ${d.get(\"title\")}`",
+                  ");",
+                  "console.log(`    body gui di: ${JSON.stringify(body)}`);"
+                ],
+                "_lastExecutionId": "a7ba2534-7c79-42e8-b177-6daf625f5bb0"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2758a6d1-1426-4876-935e-031c9789eb1d",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// TEST SCRIPT - moi ky vong lay tu iteration data",
+                  "// ============================================================",
+                  "const d = pm.iterationData;",
+                  "const tc = d.get(\"tc_id\");",
+                  "const expectedStatus = Number(d.get(\"expected_status\"));",
+                  "const knownBug = d.get(\"known_bug\");",
+                  "const lock = knownBug ? `Regression-lock(${knownBug})` : \"Functional\";",
+                  "",
+                  "// ---- 1. Status code -----------------------------------------",
+                  "pm.test(`[MINI] ${tc} ${lock}: status code = ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// ---- 2. Assertion tu viet (yeu cau B4.3): Content-Type ------",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(",
+                  "    \"application/json\",",
+                  "  );",
+                  "});",
+                  "",
+                  "// ---- 3. Assertion tu viet (yeu cau B4.3): response time -----",
+                  "pm.test(\"[MINI] Functional: response time < 1000ms\", function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});",
+                  "",
+                  "// ---- 4. Chung minh header X-Student-Id da duoc gui ----------",
+                  "const studentId = String(pm.environment.get(\"studentId\"));",
+                  "pm.test(`[MINI] Request carries X-Student-Id = ${studentId}`, function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(studentId);",
+                  "});",
+                  "console.log(",
+                  "  `    X-Student-Id thuc gui: ${pm.request.headers.get(\"X-Student-Id\")}`,",
+                  ");",
+                  "",
+                  "// ---- 5. Body phai la JSON object ---------------------------",
+                  "let json = {};",
+                  "pm.test(\"[MINI] Contract: body parse duoc thanh JSON object\", function () {",
+                  "  json = pm.response.json();",
+                  "  pm.expect(json).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // ---- 6a. Schema cua response thanh cong -------------------",
+                  "  const successSchema = {",
+                  "    type: \"object\",",
+                  "    required: [",
+                  "      \"success\",",
+                  "      \"coupon_id\",",
+                  "      \"discount_amount\",",
+                  "      \"final_amount\",",
+                  "      \"message\",",
+                  "    ],",
+                  "    properties: {",
+                  "      success: { type: \"boolean\" },",
+                  "      coupon_id: { type: \"integer\" },",
+                  "      discount_amount: { type: \"number\" },",
+                  "      final_amount: { type: \"number\" },",
+                  "      message: { type: \"string\" },",
+                  "    },",
+                  "    additionalProperties: false,",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: success response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(successSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  pm.test(`[MINI] ${tc} Contract: success === true`, function () {",
+                  "    pm.expect(pm.response.json().success).to.eql(true);",
+                  "  });",
+                  "",
+                  "  // ---- 6b. Gia tri nghiep vu (tach rieng khoi schema) ------",
+                  "  const expCoupon = d.get(\"expected_coupon_id\");",
+                  "  if (expCoupon !== undefined && expCoupon !== null && expCoupon !== \"\") {",
+                  "    pm.test(`[MINI] ${tc} Functional: coupon_id = ${expCoupon}`, function () {",
+                  "      pm.expect(pm.response.json().coupon_id).to.eql(Number(expCoupon));",
+                  "    });",
+                  "  }",
+                  "",
+                  "  const expDiscount = d.get(\"expected_discount_amount\");",
+                  "  if (expDiscount !== undefined && expDiscount !== null && expDiscount !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: discount_amount = ${expDiscount}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().discount_amount).to.eql(",
+                  "          Number(expDiscount),",
+                  "        );",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const expFinal = d.get(\"expected_final_amount\");",
+                  "  if (expFinal !== undefined && expFinal !== null && expFinal !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: final_amount = ${expFinal}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const msgFrag = d.get(\"expected_message_contains\");",
+                  "  if (msgFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} Functional: message chua \"${msgFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().message).to.include(msgFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "} else {",
+                  "  // ---- 7a. Schema cua response loi -------------------------",
+                  "  const errorSchema = {",
+                  "    type: \"object\",",
+                  "    required: [\"error\"],",
+                  "    properties: { error: { type: \"string\", minLength: 1 } },",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: error response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(errorSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7b. Noi dung message loi (khong chi check status) ---",
+                  "  const errFrag = d.get(\"expected_error_contains\");",
+                  "  if (errFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: error message chua \"${errFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().error).to.include(errFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  // ---- 7c. Khong duoc ro ri du lieu giam gia khi that bai --",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: response loi khong tra ve discount/final_amount`,",
+                  "    function () {",
+                  "      const b = pm.response.json();",
+                  "      pm.expect(b).to.not.have.property(\"discount_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"final_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"success\");",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7d. Khong duoc lo stack trace / thong tin noi bo -----",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: error message khong lo chi tiet noi bo (SQL/stack)`,",
+                  "    function () {",
+                  "      const msg = String(pm.response.json().error).toLowerCase();",
+                  "      pm.expect(msg).to.not.include(\"sqlite\");",
+                  "      pm.expect(msg).to.not.include(\"select \");",
+                  "      pm.expect(msg).to.not.include(\"at object.\");",
+                  "    },",
+                  "  );",
+                  "}",
+                  "",
+                  "// ---- 8. Ghi chu bug da biet ra Console ----------------------",
+                  "if (knownBug) {",
+                  "  console.log(",
+                  "    `    /!\\\\ ${knownBug}: spec ky vong status ${d.get(\"spec_expected_status\")}. ${d.get(\"spec_note\")}`,",
+                  "  );",
+                  "}"
+                ],
+                "_lastExecutionId": "35998900-dba2-454e-9c39-fe734c8d4adb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "apply-coupon"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127178"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "bf9171df-814e-42c9-9e61-0161f9edbd59",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "51",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"code\":\"BIGBUY\",\"total_amount\":500000,\"user_id\":2}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "3e443d47-ce9e-4b1e-a28c-2a256d11fabe",
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "98"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"62-pLZexjaFYt6HGA2CQ4AHgRPIlu0\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:21:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              196,
+              144,
+              198,
+              161,
+              110,
+              32,
+              104,
+              195,
+              160,
+              110,
+              103,
+              32,
+              99,
+              104,
+              198,
+              176,
+              97,
+              32,
+              196,
+              145,
+              225,
+              187,
+              167,
+              32,
+              103,
+              105,
+              195,
+              161,
+              32,
+              116,
+              114,
+              225,
+              187,
+              139,
+              32,
+              116,
+              225,
+              187,
+              145,
+              105,
+              32,
+              116,
+              104,
+              105,
+              225,
+              187,
+              131,
+              117,
+              32,
+              53,
+              48,
+              48,
+              44,
+              48,
+              48,
+              48,
+              32,
+              226,
+              130,
+              171,
+              32,
+              196,
+              145,
+              225,
+              187,
+              131,
+              32,
+              195,
+              161,
+              112,
+              32,
+              100,
+              225,
+              187,
+              165,
+              110,
+              103,
+              32,
+              109,
+              195,
+              163,
+              32,
+              110,
+              195,
+              160,
+              121,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 6,
+          "responseSize": 98
+        },
+        "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+        "assertions": [
+          {
+            "assertion": "[MINI] TC-AC-04 Regression-lock(BUG-01): status code = 400",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Functional: response time < 1000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Request carries X-Student-Id = 23127178",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Contract: body parse duoc thanh JSON object",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-04 Contract: error response dung JSON Schema",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-04 Regression-lock(BUG-01): error message chua \"chưa đủ giá trị tối thiểu\"",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-04 Functional: response loi khong tra ve discount/final_amount",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-04 Functional: error message khong lo chi tiet noi bo (SQL/stack)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "ba62f366-f423-479e-806e-52a825a796f6",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 4,
+          "cr": true,
+          "httpRequestId": "7fbb45e9-a9c7-491b-b1c6-9ddd9633a353"
+        },
+        "item": {
+          "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+          "name": "POST {{endpointPath}} - {{tc_id}}",
+          "request": {
+            "description": {
+              "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{baseUrl}}{{endpointPath}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{{requestBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ccc6e315-c59b-47e4-8c19-2434ce17b953",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// PRE-REQUEST SCRIPT",
+                  "// 1. Gan header X-Student-Id (bat buoc theo de bai B4.3)",
+                  "// 2. Dung body JSON tu iteration data, cho phep BO HAN 1 field",
+                  "//    (de test truong hop thieu field required)",
+                  "// ============================================================",
+                  "",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "const d = pm.iterationData;",
+                  "const body = {};",
+                  "",
+                  "// Chi bo field khi data file khai bao tuong minh send_<field> = false.",
+                  "if (d.get(\"send_code\") !== false) body.code = d.get(\"code\");",
+                  "if (d.get(\"send_total_amount\") !== false) body.total_amount = d.get(\"total_amount\");",
+                  "if (d.get(\"send_user_id\") !== false) body.user_id = d.get(\"user_id\");",
+                  "",
+                  "pm.collectionVariables.set(\"requestBody\", JSON.stringify(body));",
+                  "",
+                  "console.log(",
+                  "  `>>> [${d.get(\"tc_id\")}] ${d.get(\"title\")}`",
+                  ");",
+                  "console.log(`    body gui di: ${JSON.stringify(body)}`);"
+                ],
+                "_lastExecutionId": "a7ba2534-7c79-42e8-b177-6daf625f5bb0"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2758a6d1-1426-4876-935e-031c9789eb1d",
+                "type": "text/javascript",
+                "exec": [
+                  "// ============================================================",
+                  "// TEST SCRIPT - moi ky vong lay tu iteration data",
+                  "// ============================================================",
+                  "const d = pm.iterationData;",
+                  "const tc = d.get(\"tc_id\");",
+                  "const expectedStatus = Number(d.get(\"expected_status\"));",
+                  "const knownBug = d.get(\"known_bug\");",
+                  "const lock = knownBug ? `Regression-lock(${knownBug})` : \"Functional\";",
+                  "",
+                  "// ---- 1. Status code -----------------------------------------",
+                  "pm.test(`[MINI] ${tc} ${lock}: status code = ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// ---- 2. Assertion tu viet (yeu cau B4.3): Content-Type ------",
+                  "pm.test(\"[MINI] Response is JSON\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(",
+                  "    \"application/json\",",
+                  "  );",
+                  "});",
+                  "",
+                  "// ---- 3. Assertion tu viet (yeu cau B4.3): response time -----",
+                  "pm.test(\"[MINI] Functional: response time < 1000ms\", function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});",
+                  "",
+                  "// ---- 4. Chung minh header X-Student-Id da duoc gui ----------",
+                  "const studentId = String(pm.environment.get(\"studentId\"));",
+                  "pm.test(`[MINI] Request carries X-Student-Id = ${studentId}`, function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(studentId);",
+                  "});",
+                  "console.log(",
+                  "  `    X-Student-Id thuc gui: ${pm.request.headers.get(\"X-Student-Id\")}`,",
+                  ");",
+                  "",
+                  "// ---- 5. Body phai la JSON object ---------------------------",
+                  "let json = {};",
+                  "pm.test(\"[MINI] Contract: body parse duoc thanh JSON object\", function () {",
+                  "  json = pm.response.json();",
+                  "  pm.expect(json).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // ---- 6a. Schema cua response thanh cong -------------------",
+                  "  const successSchema = {",
+                  "    type: \"object\",",
+                  "    required: [",
+                  "      \"success\",",
+                  "      \"coupon_id\",",
+                  "      \"discount_amount\",",
+                  "      \"final_amount\",",
+                  "      \"message\",",
+                  "    ],",
+                  "    properties: {",
+                  "      success: { type: \"boolean\" },",
+                  "      coupon_id: { type: \"integer\" },",
+                  "      discount_amount: { type: \"number\" },",
+                  "      final_amount: { type: \"number\" },",
+                  "      message: { type: \"string\" },",
+                  "    },",
+                  "    additionalProperties: false,",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: success response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(successSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  pm.test(`[MINI] ${tc} Contract: success === true`, function () {",
+                  "    pm.expect(pm.response.json().success).to.eql(true);",
+                  "  });",
+                  "",
+                  "  // ---- 6b. Gia tri nghiep vu (tach rieng khoi schema) ------",
+                  "  const expCoupon = d.get(\"expected_coupon_id\");",
+                  "  if (expCoupon !== undefined && expCoupon !== null && expCoupon !== \"\") {",
+                  "    pm.test(`[MINI] ${tc} Functional: coupon_id = ${expCoupon}`, function () {",
+                  "      pm.expect(pm.response.json().coupon_id).to.eql(Number(expCoupon));",
+                  "    });",
+                  "  }",
+                  "",
+                  "  const expDiscount = d.get(\"expected_discount_amount\");",
+                  "  if (expDiscount !== undefined && expDiscount !== null && expDiscount !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: discount_amount = ${expDiscount}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().discount_amount).to.eql(",
+                  "          Number(expDiscount),",
+                  "        );",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const expFinal = d.get(\"expected_final_amount\");",
+                  "  if (expFinal !== undefined && expFinal !== null && expFinal !== \"\") {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: final_amount = ${expFinal}`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  const msgFrag = d.get(\"expected_message_contains\");",
+                  "  if (msgFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} Functional: message chua \"${msgFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().message).to.include(msgFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "} else {",
+                  "  // ---- 7a. Schema cua response loi -------------------------",
+                  "  const errorSchema = {",
+                  "    type: \"object\",",
+                  "    required: [\"error\"],",
+                  "    properties: { error: { type: \"string\", minLength: 1 } },",
+                  "  };",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Contract: error response dung JSON Schema`,",
+                  "    function () {",
+                  "      pm.response.to.have.jsonSchema(errorSchema);",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7b. Noi dung message loi (khong chi check status) ---",
+                  "  const errFrag = d.get(\"expected_error_contains\");",
+                  "  if (errFrag) {",
+                  "    pm.test(",
+                  "      `[MINI] ${tc} ${lock}: error message chua \"${errFrag}\"`,",
+                  "      function () {",
+                  "        pm.expect(pm.response.json().error).to.include(errFrag);",
+                  "      },",
+                  "    );",
+                  "  }",
+                  "",
+                  "  // ---- 7c. Khong duoc ro ri du lieu giam gia khi that bai --",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: response loi khong tra ve discount/final_amount`,",
+                  "    function () {",
+                  "      const b = pm.response.json();",
+                  "      pm.expect(b).to.not.have.property(\"discount_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"final_amount\");",
+                  "      pm.expect(b).to.not.have.property(\"success\");",
+                  "    },",
+                  "  );",
+                  "",
+                  "  // ---- 7d. Khong duoc lo stack trace / thong tin noi bo -----",
+                  "  pm.test(",
+                  "    `[MINI] ${tc} Functional: error message khong lo chi tiet noi bo (SQL/stack)`,",
+                  "    function () {",
+                  "      const msg = String(pm.response.json().error).toLowerCase();",
+                  "      pm.expect(msg).to.not.include(\"sqlite\");",
+                  "      pm.expect(msg).to.not.include(\"select \");",
+                  "      pm.expect(msg).to.not.include(\"at object.\");",
+                  "    },",
+                  "  );",
+                  "}",
+                  "",
+                  "// ---- 8. Ghi chu bug da biet ra Console ----------------------",
+                  "if (knownBug) {",
+                  "  console.log(",
+                  "    `    /!\\\\ ${knownBug}: spec ky vong status ${d.get(\"spec_expected_status\")}. ${d.get(\"spec_note\")}`,",
+                  "  );",
+                  "}"
+                ],
+                "_lastExecutionId": "35998900-dba2-454e-9c39-fe734c8d4adb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Ap dung ma giam gia. Body: { code, total_amount, user_id }.\n\n- 200: { success, coupon_id, discount_amount, final_amount, message }\n- 400: thieu code / don chua du min_order_amount / ma het han / vuot max_uses_per_user\n- 404: ma khong ton tai hoac is_active = 0",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "apply-coupon"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127178"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "8aab050a-a61f-48ef-b0ca-fac59770f751",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "51",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"code\":\"SAVE10\",\"total_amount\":400000,\"user_id\":2}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "8d26c9d4-d1c1-4b95-9757-c11b927bab16",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "128"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"80-Ri37GtvvQUupckWOK0B3svKF5+U\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:21:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              34,
+              58,
+              116,
+              114,
+              117,
+              101,
+              44,
+              34,
+              99,
+              111,
+              117,
+              112,
+              111,
+              110,
+              95,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              100,
+              105,
+              115,
+              99,
+              111,
+              117,
+              110,
+              116,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              45,
+              51,
+              54,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              102,
+              105,
+              110,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              52,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              195,
+              129,
+              112,
+              32,
+              100,
+              225,
+              187,
+              165,
+              110,
+              103,
+              32,
+              116,
+              104,
+              195,
+              160,
+              110,
+              104,
+              32,
+              99,
+              195,
+              180,
+              110,
+              103,
+              33,
+              32,
+              71,
+              105,
+              225,
+              186,
+              163,
+              109,
+              32,
+              49,
+              48,
+              37,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 128
+        },
+        "id": "ac7b25cb-14c6-47b6-ae65-e7d0d112fcdd",
+        "assertions": [
+          {
+            "assertion": "[MINI] TC-AC-05 Regression-lock(BUG-02): status code = 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Functional: response time < 1000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Request carries X-Student-Id = 23127178",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Contract: body parse duoc thanh JSON object",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-05 Contract: success response dung JSON Schema",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-05 Contract: success === true",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-05 Functional: coupon_id = 1",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-05 Regression-lock(BUG-02): discount_amount = -3600000",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-05 Regression-lock(BUG-02): final_amount = 4000000",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] TC-AC-05 Functional: message chua \"Áp dụng thành công\"",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 480
+    },
+    "failures": [],
+    "error": null
+  }
+}

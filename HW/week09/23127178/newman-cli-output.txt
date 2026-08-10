@@ -1,0 +1,156 @@
+newman
+
+Mini API Testing - POST /api/apply-coupon (23127178)
+
+Iteration 1/5
+
+❏ Apply Coupon (Data-driven)
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-01] Mã fixed hợp lệ, đơn hàng vượt min_ord
+  │ er_amount -> giảm 50.000đ'
+  │ '    body gui di: {"code":"BIGBUY","total_amount":6000
+  │ 00,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 399B, 15ms]
+  ✓  [MINI] TC-AC-01 Functional: status code = 200
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-01 Contract: success response dung JSON Schema
+  ✓  [MINI] TC-AC-01 Contract: success === true
+  ✓  [MINI] TC-AC-01 Functional: coupon_id = 2
+  ✓  [MINI] TC-AC-01 Functional: discount_amount = 50000
+  ✓  [MINI] TC-AC-01 Functional: final_amount = 550000
+  ✓  [MINI] TC-AC-01 Functional: message chua "Áp dụng thành công"
+
+Iteration 2/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-02] Mã giảm giá không tồn tại -> 404'
+  │ '    body gui di: {"code":"NOTEXIST","total_amount":60
+  │ 0000,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [404 Not Found, 353B, 5ms]
+  ✓  [MINI] TC-AC-02 Functional: status code = 404
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-02 Contract: error response dung JSON Schema
+  ✓  [MINI] TC-AC-02 Functional: error message chua "không tồn tại"
+  ✓  [MINI] TC-AC-02 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-02 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+
+Iteration 3/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ ">>> [TC-AC-03] Thiếu field required 'code' -> 400 kèm
+  │  message chỉ rõ field thiếu"
+  │ '    body gui di: {"total_amount":600000,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 320B, 2ms]
+  ✓  [MINI] TC-AC-03 Functional: status code = 400
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-03 Contract: error response dung JSON Schema
+  ✓  [MINI] TC-AC-03 Functional: error message chua "Vui lòng nhập mã giảm giá"
+  ✓  [MINI] TC-AC-03 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-03 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+
+Iteration 4/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-04] Biên dưới: total_amount == min_order_a
+  │ mount (500.000 == 500.000)'
+  │ '    body gui di: {"code":"BIGBUY","total_amount":5000
+  │ 00,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 6ms]
+  ✓  [MINI] TC-AC-04 Regression-lock(BUG-01): status code = 400
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-04 Contract: error response dung JSON Schema
+  ✓  [MINI] TC-AC-04 Regression-lock(BUG-01): error message chua "chưa đủ giá trị tối thiểu"
+  ✓  [MINI] TC-AC-04 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-04 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+  ┌
+  │ "    /!\\ BUG-01: spec ky vong status 200. Spec: 'đơn 
+  │ hàng từ 500.000đ được áp dụng' => phải 200. Implementa
+  │ tion dùng '>' thay vì '>=' (backend/server.js:379) nên
+  │  từ chối đúng tại điểm biên. Assertion đang KHOÁ hành 
+  │ vi sai hiện tại (regression lock)."
+  └
+
+Iteration 5/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-05] Mã percent 10%: công thức tính discoun
+  │ t_amount / final_amount'
+  │ '    body gui di: {"code":"SAVE10","total_amount":4000
+  │ 00,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 396B, 2ms]
+  ✓  [MINI] TC-AC-05 Regression-lock(BUG-02): status code = 200
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-05 Contract: success response dung JSON Schema
+  ✓  [MINI] TC-AC-05 Contract: success === true
+  ✓  [MINI] TC-AC-05 Functional: coupon_id = 1
+  ✓  [MINI] TC-AC-05 Regression-lock(BUG-02): discount_amount = -3600000
+  ✓  [MINI] TC-AC-05 Regression-lock(BUG-02): final_amount = 4000000
+  ✓  [MINI] TC-AC-05 Functional: message chua "Áp dụng thành công"
+  ┌
+  │ '    /!\\ BUG-02: spec ky vong status 200. Spec: giảm 
+  │ 10% của 400.000 => discount_amount=40.000, final_amoun
+  │ t=360.000. Implementation tính total*(1-discount_value
+  │ ) = 400000*(1-10) = -3.600.000 (backend/server.js:399)
+  │  nên final_amount bị đội lên 4.000.000. Assertion đang
+  │  KHOÁ hành vi sai hiện tại (regression lock).'
+  └
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              49 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 155ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 480B (approx)                          │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 6ms [min: 2ms, max: 15ms, s.d.: 4ms] │
+└─────────────────────────────────────────────────────────────┘

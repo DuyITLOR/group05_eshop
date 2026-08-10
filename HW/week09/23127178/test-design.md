@@ -460,17 +460,37 @@ Các bước workflow thực hiện:
 6. `npm install --global newman` → `newman run ... --iteration-data ... --reporters cli,json`.
 7. `if: always()` → parse `mini-newman-report.json`, ghi bảng kết quả vào **GitHub Step Summary**, upload report + server log thành artifact, rồi kill provider.
 
+Repository: `DuyITLOR/group05_eshop` · nhánh `feature/23127178` · workflow `Newman API tests`.
+
+Lịch sử 3 lần chạy thật trên GitHub Actions (đúng thứ tự pass → fail → pass):
+
+| Run | Commit | Nội dung commit | Kết quả |
+|---|---|---|---|
+| [#1](https://github.com/DuyITLOR/group05_eshop/actions/runs/31370242982) | `342f8066` | Thêm collection + data file + workflow | ✅ **success** — 49 assertions / 0 failed |
+| [#2](https://github.com/DuyITLOR/group05_eshop/actions/runs/31370316445) | `e030efbb` | Phá `expected_status` có chủ đích | ❌ **failure** — 46 assertions / **3 failed** |
+| [#3](https://github.com/DuyITLOR/group05_eshop/actions/runs/31370414324) | `8e615d97` | Khôi phục `expected_status` | ✅ **success** — 49 assertions / 0 failed |
+
 ### C1 — Commit pass
 
 ```bash
 git checkout -b feature/23127178
 git add HW/week09/23127178 .github/workflows/newman-api-test.yml
-git commit -m "test(api): add data-driven Newman tests for POST /api/apply-coupon (23127178)"
+git commit -m "test(api): add data-driven Newman tests for POST /api/apply-coupon"
 git push -u origin feature/23127178
 ```
 
-→ Tab **Actions** → workflow `Newman API tests` → tất cả bước xanh, `assertions: 49 / 0 failed`.
-Ảnh: **`ci-pass.png`**
+→ Tab **Actions** → workflow `Newman API tests` → **16/16 bước xanh**, job `Mini Exercise - POST /api/apply-coupon (23127178)` success trong 26s, artifact `newman-report-23127178` được upload.
+
+Trích log CI (đầy đủ ở `ci-pass-newman-log.txt`):
+
+```
+│              iterations │               5 │               0 │
+│              assertions │              49 │               0 │
+```
+
+Log CI cũng xác nhận header MSSV được gửi ở cả 5 iteration: `'    X-Student-Id thuc gui: 23127178'`.
+
+Ảnh: **`ci-pass.png`** (run #3 — commit cuối cùng của nhánh)
 
 ### C2 — Commit fail (có chủ đích)
 
@@ -482,7 +502,7 @@ Sửa `expected_status` của **TC-AC-01** trong `mini-apply-coupon.data.json` t
 +  "expected_status": 999,
 ```
 
-→ Newman exit code khác `0` → job đỏ. Đã kiểm chứng trước tại local, đúng **3 assertion fail** (một lỗi dữ liệu kỳ vọng lan sang 3 assertion, vì `999` không phải `200` nên nhánh assert bị lái sang nhóm "error response"):
+→ Newman exit code `1` → step `Run Newman collection` đỏ, job đỏ (annotation trên GitHub: *"Process completed with exit code 1"*). Đúng **3 assertion fail** — một giá trị kỳ vọng sai lan sang 3 assertion, vì `999` không phải `200` nên test script lái sang nhánh "error response" và 2 assertion của nhánh đó cũng fail theo (log đầy đủ ở `ci-fail-newman-log.txt`):
 
 ```
   #  failure         detail
@@ -495,11 +515,22 @@ Sửa `expected_status` của **TC-AC-01** trong `mini-apply-coupon.data.json` t
      iteration: 1    expected { success: true, coupon_id: 2, …(3) } to not have property 'discount_amount'
 ```
 
-Ảnh: **`ci-fail.png`**
+Thống kê của lần chạy đỏ: `assertions 46 executed / 3 failed` (46 thay vì 49 vì nhánh "error response" có ít assertion nghiệp vụ hơn nhánh 200).
+
+Ảnh: **`ci-fail.png`** (run #2)
 
 ### C3 — Khôi phục
 
-Sửa `expected_status` về `200`, commit và push lần cuối → pipeline trở lại xanh. Local đã xác nhận: `exit=0`, `49 assertions / 0 failed`.
+Sửa `expected_status` về `200`, commit và push lần cuối → pipeline trở lại xanh (run #3, `8e615d97`, 49 assertions / 0 failed). **Commit cuối cùng trên nhánh `feature/23127178` ở trạng thái pass.**
+
+**Checkpoint Bước 5** — đối chiếu:
+
+| Yêu cầu | Trạng thái |
+|---|---|
+| Có hai ảnh `ci-pass.png` và `ci-fail.png` | ✅ |
+| Commit cuối cùng trên nhánh phải pass | ✅ run #3 `8e615d97` = success |
+
+> Ghi chú về ảnh: hai ảnh được chụp ở chế độ xem công khai (chưa đăng nhập) nên GitHub ẩn phần log chi tiết (*"Sign in to view logs"*). Trạng thái pass/fail, nhánh, commit SHA và artifact đều thấy rõ; phần chi tiết từng assertion được kèm theo dưới dạng log text `ci-pass-newman-log.txt` / `ci-fail-newman-log.txt` lấy trực tiếp từ run bằng `gh run view --log`.
 
 ---
 
@@ -547,8 +578,10 @@ Tệp nộp: **`23127178_Mini_API_Testing.zip`**
 | 4 | `mini-local.postman_environment.json` | Environment: `baseUrl`, `studentId`. |
 | 5 | `mini-newman-report.json` | Báo cáo Newman JSON — 5 iteration, 49 assertion, 0 fail. |
 | 6 | `newman-api-test.yml` | Workflow CI/CD (bản trong repo: `.github/workflows/newman-api-test.yml`). |
-| 7 | `ci-pass.png`, `ci-fail.png` | Ảnh pipeline pass và fail trên GitHub Actions. |
-| + | `newman-cli-output.txt` | Log CLI đầy đủ của lần chạy Newman thành công (bổ sung, không bắt buộc). |
+| 7 | `ci-pass.png`, `ci-fail.png` | Ảnh pipeline pass (run #3) và fail (run #2) trên GitHub Actions. |
+| + | `newman-cli-output.txt` | Log CLI đầy đủ của lần chạy Newman thành công tại local (bổ sung). |
+| + | `ci-pass-newman-log.txt`, `ci-fail-newman-log.txt` | Log Newman lấy từ chính run trên GitHub Actions — chi tiết từng assertion xanh/đỏ (bổ sung). |
+| + | `make-zip.sh` | Script đóng gói lại bài nộp (bổ sung). |
 
 ---
 

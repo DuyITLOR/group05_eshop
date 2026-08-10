@@ -1,0 +1,299 @@
+##[group]Run npm install --global newman
+^[[36;1mnpm install --global newman^[[0m
+shell: /usr/bin/bash -e {0}
+env:
+  WORKDIR: HW/week09/23127178
+  BASE_URL: http://localhost:3000
+##[endgroup]
+npm warn deprecated har-validator@5.1.5: this library is no longer supported
+npm warn deprecated uuid@3.4.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated @faker-js/faker@5.5.3: Please update to a newer version.
+
+added 148 packages in 5s
+
+21 packages are looking for funding
+  run `npm fund` for details
+##[group]Run newman run mini-apply-coupon.postman_collection.json \
+^[[36;1mnewman run mini-apply-coupon.postman_collection.json \^[[0m
+^[[36;1m  --environment mini-local.postman_environment.json \^[[0m
+^[[36;1m  --iteration-data mini-apply-coupon.data.json \^[[0m
+^[[36;1m  --reporters cli,json \^[[0m
+^[[36;1m  --reporter-json-export mini-newman-report.json^[[0m
+shell: /usr/bin/bash -e {0}
+env:
+  WORKDIR: HW/week09/23127178
+  BASE_URL: http://localhost:3000
+##[endgroup]
+newman
+
+Mini API Testing - POST /api/apply-coupon (23127178)
+
+Iteration 1/5
+
+❏ Apply Coupon (Data-driven)
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-01] Mã fixed hợp lệ, đơn hàng vượt min_ord
+  │ er_amount -> giảm 50.000đ'
+  │ '    body gui di: {"code":"BIGBUY","total_amount":6000
+  │ 00,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 399B, 23ms]
+  1. [MINI] TC-AC-01 Functional: status code = 999
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  2. [MINI] TC-AC-01 Contract: error response dung JSON Schema
+  3. [MINI] TC-AC-01 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-01 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+
+Iteration 2/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-02] Mã giảm giá không tồn tại -> 404'
+  │ '    body gui di: {"code":"NOTEXIST","total_amount":60
+  │ 0000,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [404 Not Found, 353B, 5ms]
+  ✓  [MINI] TC-AC-02 Functional: status code = 404
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-02 Contract: error response dung JSON Schema
+  ✓  [MINI] TC-AC-02 Functional: error message chua "không tồn tại"
+  ✓  [MINI] TC-AC-02 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-02 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+
+Iteration 3/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ ">>> [TC-AC-03] Thiếu field required 'code' -> 400 kèm
+  │  message chỉ rõ field thiếu"
+  │ '    body gui di: {"total_amount":600000,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 320B, 5ms]
+  ✓  [MINI] TC-AC-03 Functional: status code = 400
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-03 Contract: error response dung JSON Schema
+  ✓  [MINI] TC-AC-03 Functional: error message chua "Vui lòng nhập mã giảm giá"
+  ✓  [MINI] TC-AC-03 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-03 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+
+Iteration 4/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-04] Biên dưới: total_amount == min_order_a
+  │ mount (500.000 == 500.000)'
+  │ '    body gui di: {"code":"BIGBUY","total_amount":5000
+  │ 00,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 3ms]
+  ✓  [MINI] TC-AC-04 Regression-lock(BUG-01): status code = 400
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-04 Contract: error response dung JSON Schema
+  ✓  [MINI] TC-AC-04 Regression-lock(BUG-01): error message chua "chưa đủ giá trị tối thiểu"
+  ✓  [MINI] TC-AC-04 Functional: response loi khong tra ve discount/final_amount
+  ✓  [MINI] TC-AC-04 Functional: error message khong lo chi tiet noi bo (SQL/stack)
+  ┌
+  │ "    /!\\ BUG-01: spec ky vong status 200. Spec: 'đơn 
+  │ hàng từ 500.000đ được áp dụng' => phải 200. Implementa
+  │ tion dùng '>' thay vì '>=' (backend/server.js:379) nên
+  │  từ chối đúng tại điểm biên. Assertion đang KHOÁ hành 
+  │ vi sai hiện tại (regression lock)."
+  └
+
+Iteration 5/5
+
+↳ POST {{endpointPath}} - {{tc_id}}
+  ┌
+  │ '>>> [TC-AC-05] Mã percent 10%: công thức tính discoun
+  │ t_amount / final_amount'
+  │ '    body gui di: {"code":"SAVE10","total_amount":4000
+  │ 00,"user_id":2}'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 396B, 2ms]
+  ✓  [MINI] TC-AC-05 Regression-lock(BUG-02): status code = 200
+  ✓  [MINI] Response is JSON
+  ✓  [MINI] Functional: response time < 1000ms
+  ✓  [MINI] Request carries X-Student-Id = 23127178
+  ┌
+  │ '    X-Student-Id thuc gui: 23127178'
+  └
+  ✓  [MINI] Contract: body parse duoc thanh JSON object
+  ✓  [MINI] TC-AC-05 Contract: success response dung JSON Schema
+  ✓  [MINI] TC-AC-05 Contract: success === true
+  ✓  [MINI] TC-AC-05 Functional: coupon_id = 1
+  ✓  [MINI] TC-AC-05 Regression-lock(BUG-02): discount_amount = -3600000
+  ✓  [MINI] TC-AC-05 Regression-lock(BUG-02): final_amount = 4000000
+  ✓  [MINI] TC-AC-05 Functional: message chua "Áp dụng thành công"
+  ┌
+  │ '    /!\\ BUG-02: spec ky vong status 200. Spec: giảm 
+  │ 10% của 400.000 => discount_amount=40.000, final_amoun
+  │ t=360.000. Implementation tính total*(1-discount_value
+  │ ) = 400000*(1-10) = -3.600.000 (backend/server.js:399)
+  │  nên final_amount bị đội lên 4.000.000. Assertion đang
+  │  KHOÁ hành vi sai hiện tại (regression lock).'
+  └
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               5 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              46 │               3 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 249ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 480B (approx)                          │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 7ms [min: 2ms, max: 23ms, s.d.: 7ms] │
+└─────────────────────────────────────────────────────────────┘
+
+  #  failure         detail                                                                                
+                                                                                                           
+ 1.  AssertionError  [MINI] TC-AC-01 Functional: status code = 999                                         
+     iteration: 1    expected response to have status code 999 but got 200                                 
+                     at assertion:0 in test-script                                                         
+                     inside "Apply Coupon (Data-driven) / POST {{endpointPath}} - {{tc_id}}"               
+                                                                                                           
+ 2.  AssertionError  [MINI] TC-AC-01 Contract: error response dung JSON Schema                             
+     iteration: 1    expected data to satisfy schema but found following errors:                           
+                     data should have required property 'error'                                            
+                     at assertion:5 in test-script                                                         
+                     inside "Apply Coupon (Data-driven) / POST {{endpointPath}} - {{tc_id}}"               
+                                                                                                           
+ 3.  AssertionError  [MINI] TC-AC-01 Functional: response loi khong tra ve discount/final_amount           
+     iteration: 1    expected { success: true, coupon_id: 2, …(3) } to not have property 'discount_amount' 
+                     at assertion:6 in test-script                                                         
+                     inside "Apply Coupon (Data-driven) / POST {{endpointPath}} - {{tc_id}}"               
+##[error]Process completed with exit code 1.
+##[group]Run if [ ! -f mini-newman-report.json ]; then
+^[[36;1mif [ ! -f mini-newman-report.json ]; then^[[0m
+^[[36;1m  echo "::warning::mini-newman-report.json not found"^[[0m
+^[[36;1m  exit 0^[[0m
+^[[36;1mfi^[[0m
+^[[36;1mnode -e '^[[0m
+^[[36;1m  const r = require("./mini-newman-report.json").run;^[[0m
+^[[36;1m  const s = r.stats;^[[0m
+^[[36;1m  const rows = [^[[0m
+^[[36;1m    ["iterations", s.iterations.total, s.iterations.failed],^[[0m
+^[[36;1m    ["requests", s.requests.total, s.requests.failed],^[[0m
+^[[36;1m    ["assertions", s.assertions.total, s.assertions.failed],^[[0m
+^[[36;1m  ];^[[0m
+^[[36;1m  let md = "## Newman result - POST /api/apply-coupon (23127178)\n\n";^[[0m
+^[[36;1m  md += "| metric | executed | failed |\n|---|---|---|\n";^[[0m
+^[[36;1m  for (const [n, t, f] of rows) md += `| ${n} | ${t} | ${f} |\n`;^[[0m
+^[[36;1m  if (r.failures && r.failures.length) {^[[0m
+^[[36;1m    md += "\n### Failed assertions\n\n";^[[0m
+^[[36;1m    for (const f of r.failures) {^[[0m
+^[[36;1m      md += `- **${f.error.test || "(no name)"}** - ${f.error.message}\n`;^[[0m
+^[[36;1m    }^[[0m
+^[[36;1m  }^[[0m
+^[[36;1m  require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, md);^[[0m
+^[[36;1m  console.log(md);^[[0m
+^[[36;1m'^[[0m
+shell: /usr/bin/bash -e {0}
+env:
+  WORKDIR: HW/week09/23127178
+  BASE_URL: http://localhost:3000
+##[endgroup]
+## Newman result - POST /api/apply-coupon (23127178)
+
+| metric | executed | failed |
+|---|---|---|
+| iterations | 5 | 0 |
+| requests | 5 | 0 |
+| assertions | 46 | 3 |
+
+### Failed assertions
+
+- **[MINI] TC-AC-01 Functional: status code = 999** - expected response to have status code 999 but got 200
+- **[MINI] TC-AC-01 Contract: error response dung JSON Schema** - expected data to satisfy schema but found following errors: 
+data should have required property 'error'
+- **[MINI] TC-AC-01 Functional: response loi khong tra ve discount/final_amount** - expected { success: true, coupon_id: 2, …(3) } to not have property 'discount_amount'
+
+Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+##[group]Run actions/upload-artifact@v4
+with:
+  name: newman-report-23127178
+  path: HW/week09/23127178/mini-newman-report.json
+Mini Exercise - POST /api/apply-coupon (23127178)	UNKNOWN STEP	backend-server.log
+Mini Exercise - POST /api/apply-coupon (23127178)	UNKNOWN STEP	
+  if-no-files-found: warn
+  compression-level: 6
+  overwrite: false
+  include-hidden-files: false
+env:
+  WORKDIR: HW/week09/23127178
+  BASE_URL: http://localhost:3000
+##[endgroup]
+(node:2421) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Multiple search paths detected. Calculating the least common ancestor of all paths
+The least common ancestor is /home/runner/work/group05_eshop/group05_eshop. This will be the root directory of the artifact
+With the provided path, there will be 2 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+(node:2421) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 11471
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is bf8cad06bc17a4f72a1825058e27023b08323b0f72916560db9974c4e1d5b6b3
+Finalizing artifact upload
+Artifact newman-report-23127178.zip successfully finalized. Artifact ID 9055772927
+Artifact newman-report-23127178 has been successfully uploaded! Final size is 11471 bytes. Artifact ID is 9055772927
+Artifact download URL: https://github.com/DuyITLOR/group05_eshop/actions/runs/31370316445/artifacts/9055772927
+##[group]Run kill "$(cat "${RUNNER_TEMP}/provider.pid")" 2>/dev/null || true
+^[[36;1mkill "$(cat "${RUNNER_TEMP}/provider.pid")" 2>/dev/null || true^[[0m
+shell: /usr/bin/bash -e {0}
+env:
+  WORKDIR: HW/week09/23127178
+  BASE_URL: http://localhost:3000
+##[endgroup]
+Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+Post job cleanup.
+[command]/usr/bin/git version
+git version 2.54.0
+Temporarily overriding HOME='/home/runner/work/_temp/732a76f2-063e-41f5-9dcc-b0e44ba26f28' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/group05_eshop/group05_eshop
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+[command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
