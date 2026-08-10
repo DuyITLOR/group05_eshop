@@ -186,4 +186,43 @@ test.describe('FR-17 - Coupon management', () => {
     } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
   });
 
+  test('FR17-TC-012 missing max_uses_per_user does not create a coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(missingMaxUses, 'FR17-TC-012');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
+  test('FR17-TC-013 max_uses_per_user zero is rejected', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(zeroMaxUses, 'FR17-TC-013');
+    await isolatedDb.assertReady(seedOracle);
+    try {
+      await openAdminCoupons(page);
+      const baselineCount = await getCouponRows(page).count();
+      await fillCouponForm(page, coupon);
+      await submitInvalidAndAssertAbsent(page, coupon, baselineCount);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
+  test('FR17-TC-014 admin deletes exactly one owned coupon', async ({ adminSession, isolatedDb }) => {
+    const { page } = adminSession;
+    const coupon = buildOwnedCoupon(deleteSetup, 'FR17-TC-014');
+    await isolatedDb.assertReady(seedOracle);
+    await isolatedDb.insertOwnedCoupon(coupon);
+    try {
+      await openAdminCoupons(page);
+      const row = getCouponRow(page, coupon.code);
+      await expect(row).toHaveCount(1);
+      await row.getByRole('button', { name: 'X?a', exact: true }).click();
+      await expect(row).toHaveCount(0);
+      for (const code of seedOracle.expectedCodes) await expect(getCouponRow(page, code)).toHaveCount(1);
+    } finally { await isolatedDb.removeOwnedCoupon(coupon.code); }
+  });
+
 });
