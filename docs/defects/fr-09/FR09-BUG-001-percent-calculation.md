@@ -14,27 +14,27 @@ Hai test case kiểm tra hai hậu quả độc lập của cùng một lỗi t�
 
 ## Severity / Priority
 
-| Field | Value |
-| --- | --- |
-| Severity | `High` |
-| Priority | `P1` |
-| Reason | Lỗi làm sai trực tiếp số tiền giảm và số tiền phải trả. Với total 4000000 và `SAVE10`, UI trả về magnitude 36000000/40000000 thay vì 400000/3600000, gây rủi ro nghiêm trọng cho tính toàn vẹn tài chính của Checkout. |
+| Field    | Value                                                                                                                                                                                                                  |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Severity | `High`                                                                                                                                                                                                                 |
+| Priority | `P1`                                                                                                                                                                                                                   |
+| Reason   | Lỗi làm sai trực tiếp số tiền giảm và số tiền phải trả. Với total 4000000 và `SAVE10`, UI trả về magnitude 36000000/40000000 thay vì 400000/3600000, gây rủi ro nghiêm trọng cho tính toàn vẹn tài chính của Checkout. |
 
 ## Environment
 
-| Field | Value |
-| --- | --- |
-| SUT | EShop |
-| Feature | FR-09 — Discount coupons |
-| Module | Checkout / Discount Coupon |
-| Browser(s) | Chromium, Firefox, WebKit |
-| Browser version(s) | `NOT_RECORDED_AT_EXECUTION` |
-| OS / Viewport / Zoom | `NOT_RECORDED_AT_EXECUTION` |
-| Frontend URL | `http://localhost:5173` |
-| Backend URL | `http://localhost:3000` |
-| Dataset / Fixture | `FR09-DATA-001` (`SAVE10`, 10%); `FR09-DATA-005` (seed cart total 4000000) |
-| Execution Date | 2026-08-09 |
-| SUT Commit | `NOT_RECORDED_AT_EXECUTION` |
+| Field                | Value                                                                      |
+| -------------------- | -------------------------------------------------------------------------- |
+| SUT                  | EShop                                                                      |
+| Feature              | FR-09 — Discount coupons                                                   |
+| Module               | Checkout / Discount Coupon                                                 |
+| Browser(s)           | Chromium, Firefox, WebKit                                                  |
+| Browser version(s)   | `NOT_RECORDED_AT_EXECUTION`                                                |
+| OS / Viewport / Zoom | `NOT_RECORDED_AT_EXECUTION`                                                |
+| Frontend URL         | `http://localhost:5173`                                                    |
+| Backend URL          | `http://localhost:3000`                                                    |
+| Dataset / Fixture    | `FR09-DATA-001` (`SAVE10`, 10%); `FR09-DATA-005` (seed cart total 4000000) |
+| Execution Date       | 2026-08-09                                                                 |
+| SUT Commit           | `NOT_RECORDED_AT_EXECUTION`                                                |
 
 ## Preconditions
 
@@ -67,11 +67,11 @@ Khách hàng nhận sai discount và payable total. Lỗi làm mất tính đún
 
 ## Cross-Browser Result
 
-| Browser | Result | Run ID | Evidence |
-| --- | --- | --- | --- |
+| Browser  | Result                      | Run ID                                        | Evidence                                             |
+| -------- | --------------------------- | --------------------------------------------- | ---------------------------------------------------- |
 | Chromium | `FAILED` — `PRODUCT_DEFECT` | `FR-09-chromium-2026-08-09T22-35-59-4764573Z` | `docs/execution-results/fr-09-chromium-execution.md` |
-| Firefox | `FAILED` — `PRODUCT_DEFECT` | `FR-09-firefox-2026-08-09T22-38-41-6269203Z` | `docs/execution-results/fr-09-firefox-execution.md` |
-| WebKit | `FAILED` — `PRODUCT_DEFECT` | `FR-09-webkit-2026-08-09T22-41-12-8688590Z` | `docs/execution-results/fr-09-webkit-execution.md` |
+| Firefox  | `FAILED` — `PRODUCT_DEFECT` | `FR-09-firefox-2026-08-09T22-38-41-6269203Z`  | `docs/execution-results/fr-09-firefox-execution.md`  |
+| WebKit   | `FAILED` — `PRODUCT_DEFECT` | `FR-09-webkit-2026-08-09T22-41-12-8688590Z`   | `docs/execution-results/fr-09-webkit-execution.md`   |
 
 ## Evidence
 
