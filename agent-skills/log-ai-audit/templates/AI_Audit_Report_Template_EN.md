@@ -110,6 +110,8 @@ Explain:
 -
 -
 
+<!-- AUDIT_ENTRIES_END -->
+
 ## 4. Summary of AI Accuracy
 
 <!-- AUDIT_SUMMARY_START -->

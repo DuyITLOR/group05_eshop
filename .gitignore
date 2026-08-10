@@ -8,7 +8,11 @@ frontend-web/pnpm-lock.yaml
 frontend-admin/pnpm-lock.yaml
 frontend-mobile/pnpm-lock.yaml
 
+/node_modules/
+
 backend/pnpm-workspace.yaml
+
+.runtime/
 
 
 
