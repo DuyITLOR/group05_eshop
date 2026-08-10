@@ -1,3 +1,53 @@
+# HW04 Automation Testing - Submission Summary
+
+## Submission Links
+
+| Item | Value |
+| --- | --- |
+| Student ID used in reports | `23127107` |
+| Public repository | <https://github.com/DuyITLOR/group05_eshop> |
+| Submission branch | `HW04/Quan` - local; public remote publication must be verified before submission |
+| Main report | [Markdown](docs/report/HW04_MAIN_REPORT.md) / [PDF](output/pdf/23127107_HW04_Main_Report.pdf) |
+| AI Audit | [Markdown](docs/ai-audit/AI_AUDIT_LOG.md) / [PDF](output/pdf/23127107_HW04_AI_Audit_Report.pdf) |
+| AI Critique | [Markdown](docs/ai-critique/AI_CRITIQUE.md) / [PDF](output/pdf/23127107_HW04_AI_Critique.pdf) |
+| Git commit log | [GIT_COMMIT_LOG.txt](docs/git/GIT_COMMIT_LOG.txt) |
+| Pre-submission checklist | [HW04_SUBMISSION_CHECKLIST.md](docs/submission/HW04_SUBMISSION_CHECKLIST.md) |
+| Demo video | `NOT_RECORDED` - use the [FR-17 integrated recording script](docs/demo/HW04-FR17-VIDEO-SCRIPT.md), then add the real unlisted YouTube URL |
+| Agent Skill demo | `NOT_RECORDED` - may be combined with the HW04 demo only if the skill is shown end to end |
+
+## Test Summary
+
+| Metric | Result |
+| --- | ---: |
+| Features | 3 (`FR-05`, `FR-09`, `FR-17`) |
+| Approved Test Cases | 49 |
+| Automated Test Cases | 45 |
+| Blocked Approved Cases | 4 |
+| Final Browser Runs | 9 |
+| Project-Test Combinations Executed | 135 |
+| Passed | 94 |
+| Failed | 41 |
+| Skipped | 0 |
+| Confirmed Underlying Product Defects | 14 |
+| Published GitHub Issues | 0 (`14` local reviewed drafts) |
+
+`Automated Test Cases` counts unique Test Case IDs. Passed/Failed/Skipped count browser project-test combinations. Final runs use Chromium, Firefox and WebKit for every feature.
+
+## Self-Assessment
+
+| No. | Criteria | Maximum Grade | Self-Assessed Grade |
+| --- | --- | ---: | ---: |
+| 1 | Task 1 - Feature A (`FR-05`) | 25 | Student decision required |
+| 1 | Task 1 - Feature B (`FR-09`) | 25 | Student decision required |
+| 1 | Task 1 - Feature C (`FR-17`) | 25 | Student decision required |
+| 2 | Task 2 - Demo video | 15 | Student decision required after recording |
+| 3 | Agent Skills | 10 | Student decision required after skill demo |
+|  | **Total** | **100** | **Student decision required** |
+
+Current pre-submission status: `BLOCKED`. The real video, public branch, published GitHub Issues, student-owned audit fields and strict Git history minimum remain incomplete. See the checklist above; do not infer submission readiness from automation completion alone.
+
+---
+
 # Đặc tả Yêu cầu Hệ thống (System Requirements Specification)
 
 # EShop — Phiên bản dành cho Kiểm thử Phần mềm
