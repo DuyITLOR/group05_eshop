@@ -10,6 +10,5 @@ frontend-mobile/pnpm-lock.yaml
 
 backend/pnpm-workspace.yaml
 
-
-
-
+__pycache__/
+*.pyc
