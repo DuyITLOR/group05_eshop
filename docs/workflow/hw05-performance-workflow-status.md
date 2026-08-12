@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-12` (controlled integration test)
+- Last Updated: `2026-08-13` (Student-approved controlled Stress plan)
 - Workflow Mode: `ENDPOINT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -13,7 +13,7 @@
 
 | Group           | Endpoint                 | Scenario | Phase             | Status                  |
 | --------------- | ------------------------ | -------- | ----------------- | ----------------------- |
-| `TRANSACTIONAL` | `POST /api/apply-coupon` | `STRESS` | `DESIGN_APPROVED` | `MODIFIED_AND_APPROVED` |
+| `TRANSACTIONAL` | `POST /api/apply-coupon` | `STRESS` | `REAL_EXECUTION_REQUIRED` | `APPROVED` |
 
 ## TRANSACTIONAL / STRESS
 
@@ -42,13 +42,19 @@ Fingerprint Evidence:
 
 ### JMeter Plan
 
-Status: `BLOCKED`
+Status: `COMPLETE`
 
-JMX: `NOT_CREATED`
+JMX: `test-plans/23127107_Stress_20260812.jmx`
 
-CSV: `NOT_CREATED`
+CSV: `test-data/transactional.csv` (`APPROVED_SUCCESS_PATH_ROWS`)
 
-Generation Summary: `NOT_CREATED`
+Generation Summary: `docs/jmeter-generation/23127107-stress-generation-summary.md`
+
+Fingerprint: `CURRENT`
+
+- JMX SHA-256: `0A8366B53356FFFF5301C49C3F6D0AA671B20EBB152A8288845F533CFE0DBB3E`
+- CSV SHA-256: `194B43212CEE61226A52F2CC13A15DE54708FBAD95D31BA54E9286D38D5C3CC2`
+- Generation Summary SHA-256: `1A5626302B3165CB080838918A3F4B0584B8B696C7172BDD4DC7913825263FA5`
 
 Builder Prerequisites:
 
@@ -57,26 +63,54 @@ Builder Prerequisites:
 
 Builder Result:
 
-- Status: `BLOCKED`
-- Reason: `DEPENDENCY_MISSING`
+- Status: `COMPLETE`
+- Reason: `NONE`
 - Expected filename: `23127107_Stress_20260812.jmx`
 - Filename precheck: `PASS`
-- JMeter installation: `D:\Tools\apache-jmeter-5.6.3` (`5.6.3` inferred from inspected installation path; JMeter was not executed)
-- Required staged workload component: `Ultimate Thread Group` / JMeter Custom Thread Groups plugin
-- Plugin inventory evidence: no `jpgc`, `ultimate`, `custom-thread`, `plugins-manager` or `cmdrunner` artifact found under the inspected JMeter installation; `lib/ext` contains only core JMeter jars.
-- PLUGIN_CHECK: `FAIL`
-- DEPENDENCY_STATUS: `MISSING`
-- EXECUTION_READY: `NO`
-- Data status: `NEEDS_DATA_SETUP`; no Student-approved coupon/user row exists. No production value was fabricated.
-- Artifact generation: stopped before JMX/CSV/generation summary creation, as required by `$jmeter-plan-builder` for a missing staged-workload dependency.
+- JMeter installation: `D:\Tools\apache-jmeter-5.6.3` (`5.6.3`; JMeter workload was not executed)
+- Student Runtime Verification: `PASS`; `jp@gc - Ultimate Thread Group` xuất hiện và mở thành công trong GUI.
+- Plugin inventory: `jmeter-plugins-casutg-3.1.1.jar`, Plugins Manager `1.12`, `cmdrunner 2.3`.
+- Component evidence: `kg.apc.jmeter.threads.UltimateThreadGroup` và GUI class có trong plugin jar; schedule schema tĩnh có đúng năm field.
+- PLUGIN_CHECK: `PASS`
+- DEPENDENCY_STATUS: `VERIFIED`
+- WORKLOAD_MAPPING: `PASS`
+- Planned Total Duration: `315 giây`
+- Think Time Mapping: `PASS` (`Constant Timer`, `1000 ms`, enabled trong Thread Group scope)
+- EXECUTION_READY: `CONDITIONALLY_READY`; vẫn cần Human Plan Review và runtime precheck trước real execution.
+- CSV Status: `APPROVED_SUCCESS_PATH_ROWS` (`2` rows)
+- Data status: `DATA_SETUP_COMPLETE_REQUIRES_RUNTIME_PRECHECK`; Student đã approve đúng hai row source-backed. Ngay trước real execution phải read-only check coupon active/expiry và quota của `SAVE10` cho user `1` và `2`; không xem đây là execution evidence.
+- Static validation: filename, XML/hashTree, Ultimate Thread Group cohorts, aggregate profile, request/body types, CSV binding, Assertions, Timer, Listener, plugin class và placeholders đều `PASS`.
 
 ### Plan Review
 
-Status: `NOT_STARTED`
+Status: `APPROVED`
 
-Review Artifact: `NOT_CREATED`
+Review Artifact: `docs/performance-reviews/stress-apply-coupon-jmeter-ai-review.md`
 
-Student Decision: `NOT_REVIEWED`
+Review Fingerprint: `CURRENT`
+
+- Review SHA-256: `7147DFE6D61EA6178D7F9E60A57D4C169EECE3426DD4F6116B053424D47F0F45`
+- Open Critical/High Findings: `0 / 0`
+- Open Medium/Low/Info Findings: `1 / 0 / 2`
+- Prior R-001: `RESOLVED_BY_REVIEW_EVIDENCE`
+- Execution Readiness: `CONDITIONALLY_READY`
+
+Student Decision: `APPROVED`
+
+Approval Scope: `CONTROLLED_STRESS_EXECUTION`
+
+Finding Dispositions:
+
+- `R-001`: `RESOLVED`
+- `R-002`: `ACCEPTED_NON_BLOCKING`
+- `R-003`: `DEFERRED_PROJECT_LEVEL_CHECK`
+- `R-004`: `ACCEPTED_DOCUMENTED_DISCREPANCY`
+
+Test Data Proposal: `docs/test-data-reviews/stress-apply-coupon-data-candidates.md` (`APPROVE_DATA`)
+
+R-001 Resolution: `RESOLVED_BY_REVIEW_EVIDENCE`
+
+Required Runtime Precheck: `YES` (read-only coupon active/expiry and quota check immediately before a real run)
 
 ### Execution
 
@@ -114,18 +148,27 @@ Human Review: `NOT_REVIEWED`
 
 ## Audit
 
-Status: `AUDIT_INITIALIZATION_INFORMATION_REQUIRED`
+Status: `AUDIT_LOG_INITIALIZED`
 
-Reason: `docs/ai-audit/AI_AUDIT_LOG.md` chưa tồn tại và repository chưa cung cấp Student Information đầy đủ; không tạo entry giả.
+Artifact: `docs/ai-audit/AI_AUDIT_LOG.md`
+
+Audit Scope: `INCLUDED_HW05_ARTIFACT_INTERACTION`; Agent Skill development/maintenance: `EXCLUDED_AGENT_SKILL_DEVELOPMENT`
+
+Safe Backfill:
+
+- Entries created: `4`
+- `BACKFILL_GAP`: `0`
+- Audit review status: `PENDING_HUMAN_REVIEW`; không suy diễn Student Decision hoặc audit verdict.
+- Current HW05 artifact interaction: `A-007` (`PENDING_HUMAN_REVIEW`).
 
 ## Current Workflow State
 
-`DESIGN_APPROVED`
+`REAL_EXECUTION_REQUIRED`
 
 ## Current Blocker
 
-`DEPENDENCY_MISSING`: JMeter `5.6.3` hiện không có Custom Thread Groups/`Ultimate Thread Group` cần để biểu diễn chính xác approved staged Stress timeline, đặc biệt ramp-down recovery `30 -> 5 VUs` trong `15 giây`.
+`REAL_EXECUTION_REQUIRED`: Plan đã được Student approve trong phạm vi `CONTROLLED_STRESS_EXECUTION`; trước real execution phải thực hiện runtime precheck read-only cho `SAVE10` active/expiry và quota của user `1` và `2`. Không có JTL hoặc execution evidence.
 
 ## Next Allowed Action
 
-Cài đặt và xác minh Custom Thread Groups plugin cung cấp `Ultimate Thread Group` trong JMeter `5.6.3`, sau đó resume `$jmeter-plan-builder` từ state `DESIGN_APPROVED`.
+Perform the mandatory read-only runtime precheck for `SAVE10` active/expiry state and quota for user IDs `1` and `2` immediately before the approved controlled Stress execution.

@@ -1,0 +1,3 @@
+code,total_amount,user_id,coupon_case,iteration_key
+SAVE10,500000,1,success_path_save10,save10-user-1
+SAVE10,500000,2,success_path_save10,save10-user-2
