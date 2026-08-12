@@ -1,0 +1,15 @@
+﻿{
+    "sample_count":  273,
+    "first_timestamp":  "2026-08-13T02:09:00.3807175+07:00",
+    "last_timestamp":  "2026-08-13T02:15:25.9611720+07:00",
+    "system_cpu_percent_min":  11,
+    "system_cpu_percent_average":  32.33,
+    "system_cpu_percent_max":  100,
+    "system_memory_used_bytes_min":  12269441024,
+    "system_memory_used_bytes_average":  12876221819,
+    "system_memory_used_bytes_max":  14146588672,
+    "backend_working_set_bytes_min":  55021568,
+    "backend_working_set_bytes_average":  81304100,
+    "backend_working_set_bytes_max":  95023104,
+    "backend_alive_false_samples":  0
+}

@@ -1,0 +1,48 @@
+﻿{
+    "captured_at":  "2026-08-13T02:08:24.2914732+07:00",
+    "base_url":  "http://localhost:3000",
+    "backend_pid":  18480,
+    "backend_listener_verified":  true,
+    "database_query_mode":  "read-only SELECT",
+    "coupon":  "SAVE10",
+    "coupon_exists":  true,
+    "coupon_active":  true,
+    "coupon_expiry":  "2099-12-31",
+    "coupon_expiry_valid":  true,
+    "min_order_amount":  300000,
+    "max_uses_per_user":  1,
+    "approved_total_amount":  500000,
+    "amount_above_minimum":  true,
+    "users":  [
+                  {
+                      "user_id":  1,
+                      "usage_count":  0,
+                      "quota_pass":  true
+                  },
+                  {
+                      "user_id":  2,
+                      "usage_count":  0,
+                      "quota_pass":  true
+                  }
+              ],
+    "endpoint_checks":  [
+                            {
+                                "user_id":  1,
+                                "success":  true,
+                                "coupon_id":  1,
+                                "discount_amount":  -4500000,
+                                "final_amount":  5000000
+                            },
+                            {
+                                "user_id":  2,
+                                "success":  true,
+                                "coupon_id":  1,
+                                "discount_amount":  -4500000,
+                                "final_amount":  5000000
+                            }
+                        ],
+    "jmeter_version":  "5.6.3",
+    "ultimate_thread_group_jar":  "D:\\Tools\\apache-jmeter-5.6.3\\lib\\ext\\jmeter-plugins-casutg-3.1.1.jar",
+    "output_collision":  false,
+    "result":  "PASS"
+}

@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-13` (Student-approved controlled Stress plan)
+- Last Updated: `2026-08-13` (Student-approved controlled Stress execution evidence)
 - Workflow Mode: `ENDPOINT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -13,7 +13,7 @@
 
 | Group           | Endpoint                 | Scenario | Phase             | Status                  |
 | --------------- | ------------------------ | -------- | ----------------- | ----------------------- |
-| `TRANSACTIONAL` | `POST /api/apply-coupon` | `STRESS` | `REAL_EXECUTION_REQUIRED` | `APPROVED` |
+| `TRANSACTIONAL` | `POST /api/apply-coupon` | `STRESS` | `RAW_JTL_AVAILABLE` | `APPROVED` |
 
 ## TRANSACTIONAL / STRESS
 
@@ -114,17 +114,45 @@ Required Runtime Precheck: `YES` (read-only coupon active/expiry and quota check
 
 ### Execution
 
-Status: `NOT_STARTED`
+Status: `COMPLETE`
 
-Raw JTL: `NOT_CREATED`
+Raw JTL: `results/23127107_Stress_20260812/run-001/raw/23127107_Stress_20260812_run-001.jtl`
 
-HTML Report Folder: `NOT_CREATED`
+Raw JTL SHA-256: `8DDAFB1DBC7975C26DBD1FAC1680D5F2493E015C5DCA29D8948B96A21936DD66`
 
-Resource Monitor Evidence: `NOT_CREATED`
+HTML Report Folder: `results/23127107_Stress_20260812/run-001/html/`
 
-Execution Metadata: `NOT_CREATED`
+Resource Monitor Evidence: `results/23127107_Stress_20260812/run-001/evidence/resource-monitor.csv`; `resource-summary.json`; `hardware-context.json`
 
-REAL_EXECUTION_EVIDENCE_COMPLETE: `NO`
+Execution Metadata: `results/23127107_Stress_20260812/run-001/evidence/execution-metadata.json`
+
+Execution Review Artifact: `docs/performance-executions/stress-apply-coupon-run-001-execution-review.md`
+
+Execution Review SHA-256: `DF9B54BC54B0CA4834E93CC924B419619CDB6B108B1D23F64841B2DDE0965ED0`
+
+Evidence Integrity Review: `docs/performance-executions/stress-apply-coupon-run-001-evidence-review.md`
+
+Evidence Integrity Review SHA-256: `52B5EF575474E681543F5095183E2861DE28AE1064BF6B1E2C2D6504FE3BB1D6`
+
+Evidence Integrity Status: `PASS`
+
+Evidence Review Human Decision: `APPROVED`
+
+Evidence Review Decision Scope: `CONTROLLED_STRESS_EXECUTION_EVIDENCE`
+
+Observed Samples: `4191 total / 4191 successful / 0 failed`
+
+JMeter Completion: `NORMAL`
+
+Workload Rerun Count: `0`
+
+Database SHA-256 Before/After: `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6` / `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`
+
+Human Review: `APPROVED`
+
+Checkpoint Resolution: `EXECUTION_EVIDENCE_APPROVED`
+
+REAL_EXECUTION_EVIDENCE_COMPLETE: `YES`
 
 ### Analysis
 
@@ -158,17 +186,17 @@ Safe Backfill:
 
 - Entries created: `4`
 - `BACKFILL_GAP`: `0`
-- Audit review status: `PENDING_HUMAN_REVIEW`; không suy diễn Student Decision hoặc audit verdict.
-- Current HW05 artifact interaction: `A-007` (`PENDING_HUMAN_REVIEW`).
+- Audit review status: `PARTIALLY_REVIEWED`; `A-009` đã được cập nhật bằng quyết định Student cung cấp, các entry khác giữ nguyên trạng thái và audit chưa được finalize.
+- Current HW05 artifact interaction: `A-009` (`APPROVED`).
 
 ## Current Workflow State
 
-`REAL_EXECUTION_REQUIRED`
+`RAW_JTL_AVAILABLE`
 
 ## Current Blocker
 
-`REAL_EXECUTION_REQUIRED`: Plan đã được Student approve trong phạm vi `CONTROLLED_STRESS_EXECUTION`; trước real execution phải thực hiện runtime precheck read-only cho `SAVE10` active/expiry và quota của user `1` và `2`. Không có JTL hoặc execution evidence.
+`NONE`: Controlled Stress execution evidence is Student-approved; immutable raw JTL is available. Task 2 analysis remains `NOT_STARTED`.
 
 ## Next Allowed Action
 
-Perform the mandatory read-only runtime precheck for `SAVE10` active/expiry state and quota for user IDs `1` and `2` immediately before the approved controlled Stress execution.
+Invoke `$jtl-performance-analyzer` on `results/23127107_Stress_20260812/run-001/raw/23127107_Stress_20260812_run-001.jtl` when beginning Task 2 performance analysis; do not rerun JMeter.

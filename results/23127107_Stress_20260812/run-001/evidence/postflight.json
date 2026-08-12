@@ -1,0 +1,20 @@
+﻿{
+    "captured_at":  "2026-08-13T02:15:27.6518777+07:00",
+    "query_mode":  "read-only SELECT",
+    "coupon":  "SAVE10",
+    "users":  [
+                  {
+                      "user_id":  1,
+                      "usage_count":  0,
+                      "max_uses_per_user":  1,
+                      "quota_pass":  true
+                  },
+                  {
+                      "user_id":  2,
+                      "usage_count":  0,
+                      "max_uses_per_user":  1,
+                      "quota_pass":  true
+                  }
+              ],
+    "handler_usage_mutation_observed":  false
+}

@@ -1,0 +1,16 @@
+﻿{
+    "started_at":  "2026-08-13T02:08:59.9869923+07:00",
+    "jmeter_process_id":  6600,
+    "backend_process_id":  18480,
+    "monitor_process_id":  11772,
+    "plan":  "test-plans/23127107_Stress_20260812.jmx",
+    "plan_sha256":  "0A8366B53356FFFF5301C49C3F6D0AA671B20EBB152A8288845F533CFE0DBB3E",
+    "csv":  "test-data/transactional.csv",
+    "csv_sha256":  "194B43212CEE61226A52F2CC13A15DE54708FBAD95D31BA54E9286D38D5C3CC2",
+    "raw_jtl":  "D:\\Workspace\\HCMUS\\Software Testing\\Homework\\group05_eshop\\results\\23127107_Stress_20260812\\run-001\\raw\\23127107_Stress_20260812_run-001.jtl",
+    "html_report":  "D:\\Workspace\\HCMUS\\Software Testing\\Homework\\group05_eshop\\results\\23127107_Stress_20260812\\run-001\\html",
+    "jmeter_version":  "5.6.3",
+    "base_url":  "http://localhost:3000",
+    "approved_duration_seconds":  315,
+    "rerun_count":  0
+}

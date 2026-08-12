@@ -1,0 +1,12 @@
+﻿{
+    "captured_at":  "2026-08-13T02:09:00.2968081+07:00",
+    "computer_manufacturer":  "LENOVO",
+    "computer_model":  "82RB",
+    "logical_processors":  16,
+    "total_physical_memory_bytes":  16890978304,
+    "operating_system":  "Microsoft Windows 11 Home Single Language",
+    "operating_system_version":  "10.0.26200",
+    "processor_names":  [
+                            "12th Gen Intel(R) Core(TM) i5-12500H"
+                        ]
+}
