@@ -1,4 +1,5 @@
 interface:
-  display_name: "JMeter Performance and Log Analysis"
-  short_description: "Build JMeter tests and verify JTL evidence"
-  default_prompt: "Use $jmeter-performance-log-analysis to design, run, and verify a JMeter performance test for an endpoint workflow."
+  display_name: "Kiểm thử hiệu năng và phân tích log JMeter"
+  short_description: "Thiết kế JMeter và xác minh bằng chứng JTL"
+  default_prompt: "Dùng $jmeter-performance-log-analysis để thiết kế, chạy và kiểm chứng một bài kiểm thử hiệu năng JMeter cho nhóm endpoint."
+

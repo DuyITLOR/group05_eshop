@@ -1,47 +1,47 @@
-# Load example: authenticated purchase workflow
+# Ví dụ Load Test: workflow mua hàng có xác thực
 
-Use this as a structural example only. Do not reuse its values as a threshold for another system.
+Chỉ dùng làm ví dụ cấu trúc. Không tái sử dụng các giá trị này làm threshold cho hệ thống khác.
 
 ## Scenario
 
-- Tool: Apache JMeter 5.6.3 with Ultimate Thread Group.
+- Công cụ: Apache JMeter 5.6.3 với Ultimate Thread Group.
 - Workflow: Login -> Products -> Add to Cart -> Get Cart -> Checkout -> Get Order Detail.
-- Schedule: 30 VU, 60-second ramp-up, 300-second hold, 30-second ramp-down.
-- Think time: 1000 ms constant offset plus up to 2000 ms random delay.
-- Data: one dedicated CSV account per VU.
-- Output: raw JTL, HTML Dashboard, and screenshots tying backend port 3000 to its Node.js PID.
+- Lịch tải: 30 VU, ramp-up 60 giây, hold 300 giây, ramp-down 30 giây.
+- Think time: constant offset 1000 ms cộng tối đa 2000 ms ngẫu nhiên.
+- Dữ liệu: mỗi VU dùng một tài khoản CSV riêng.
+- Output: raw JTL, HTML Dashboard và ảnh liên kết cổng backend 3000 với PID Node.js.
 
-## Correlation and assertions
+## Correlation và assertion
 
-- Extract and assert JWT and user ID after Login.
-- Select and assert a valid product from Products.
-- Assert the Add to Cart response message.
-- Assert that the cart contains the selected product.
-- Extract and assert the order ID after Checkout.
-- Assert that Order Detail matches the created order.
+- Extract và assert JWT cùng user ID sau Login.
+- Chọn và assert một product hợp lệ từ Products.
+- Assert thông báo Add to Cart.
+- Assert cart chứa đúng product đã chọn.
+- Extract và assert order ID sau Checkout.
+- Assert Order Detail khớp order vừa tạo.
 
-For a dependent workflow, `Start Next Thread Loop` prevents meaningless downstream calls after a failed sampler. Verify its actual behavior with the chosen Thread Group plugin.
+Với workflow phụ thuộc, `Start Next Thread Loop` giúp tránh request phía sau vô nghĩa khi sampler lỗi. Phải kiểm tra hành vi thực tế với plugin Thread Group đang dùng.
 
-## Observed run
+## Kết quả quan sát
 
-The verified HTML report recorded:
+HTML Report đã kiểm chứng ghi nhận:
 
-- 1,043 E2E transaction samples.
-- 0 errors.
-- About 2.70 E2E transactions/second.
-- About 16.06 request samples/second.
-- Backend memory around 156 MB in the captured sustained-load evidence.
-- Backend CPU displayed as `00` in Task Manager because usage was below its integer display precision.
+- 1.043 E2E transaction sample.
+- 0 lỗi.
+- Khoảng 2,70 E2E transaction/giây.
+- Khoảng 16,06 request sample/giây.
+- RAM backend khoảng 156 MB trong ảnh sustained load.
+- Task Manager hiển thị CPU backend là `00` vì mức sử dụng thấp hơn độ chính xác số nguyên của giao diện.
 
-These values describe one machine and one run. They are evidence, not a reusable SLO.
+Các giá trị này chỉ mô tả một máy và một lần chạy. Chúng là bằng chứng, không phải SLO dùng lại.
 
-## Lessons from review
+## Bài học từ review
 
-- Resolve test-data paths relative to the JMX location so GUI and CLI runs use the same file.
-- Seed accounts after backend startup when startup recreates the database.
-- Use unique JTL and HTML paths; stale or appended logs can contaminate analysis.
-- A Transaction Controller can make terminal, listener, JTL, and HTML counts appear different.
-- Do not infer loop behavior from one terminal summary. Check raw labels, timestamps, thread names, and HTML statistics.
-- A raw JTL row count includes both transaction parents and request children when subresults are saved.
-- During ramp-down, later steps may have fewer samples because a thread can stop before completing another workflow.
+- Resolve đường dẫn test data theo vị trí JMX để GUI và CLI đọc cùng một file.
+- Seed tài khoản sau khi backend khởi động nếu startup tạo lại database.
+- Dùng đường dẫn JTL và HTML mới; log cũ hoặc nối thêm có thể làm sai phân tích.
+- Transaction Controller có thể khiến terminal, listener, JTL và HTML hiển thị count khác nhau.
+- Không kết luận loop chỉ từ một terminal summary. Kiểm tra label, timestamp, thread name và HTML statistics.
+- Raw JTL có thể chứa cả transaction cha và request con khi bật lưu subresult.
+- Trong ramp-down, request cuối có thể ít sample hơn vì thread dừng trước khi hoàn tất vòng tiếp theo.
 

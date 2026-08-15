@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stream a CSV JMeter JTL and emit reproducible per-label metrics."""
+"""Đọc JTL dạng CSV và xuất metric theo label có thể tái tính."""
 
 from __future__ import annotations
 
@@ -30,9 +30,9 @@ def parse_int(value: str | None, default: int = 0) -> int:
 def segment_rows(rows: list[dict[str, str]], gap_ms: int) -> list[list[dict[str, str]]]:
     if not rows:
         return []
-    # Transaction subresults can be written after their parent even though their
-    # start timestamp is earlier. Sort before gap detection so that normal
-    # concurrent/nested samples are not mistaken for appended test runs.
+    # Subresult có thể được ghi sau sample cha dù timestamp bắt đầu sớm hơn.
+    # Sắp xếp trước khi phát hiện khoảng trống để không nhầm sample đồng thời
+    # hoặc lồng nhau với nhiều test run được nối vào cùng file.
     ordered_rows = sorted(rows, key=lambda row: parse_int(row.get("timeStamp")))
     segments: list[list[dict[str, str]]] = [[ordered_rows[0]]]
     previous = parse_int(ordered_rows[0].get("timeStamp"))
@@ -88,29 +88,29 @@ def summarize(rows: list[dict[str, str]]) -> dict[str, Any]:
             {"label": key[0], "response_code": key[1], "failure_message": key[2], "count": count}
             for key, count in failures.most_common()
         ],
-        "percentile_method": "nearest-rank; JMeter HTML may use a different estimator",
+        "percentile_method": "nearest-rank; JMeter HTML có thể dùng cách ước lượng khác",
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("jtl", type=Path, help="CSV-format JMeter JTL file")
-    parser.add_argument("--json-output", type=Path, help="Write the summary as JSON")
-    parser.add_argument("--start-ms", type=int, help="Include samples at or after this epoch millisecond")
-    parser.add_argument("--end-ms", type=int, help="Include samples at or before this epoch millisecond")
-    parser.add_argument("--segment-gap-seconds", type=int, default=120, help="Gap used to report possible run segments")
-    parser.add_argument("--latest-segment", action="store_true", help="Analyze only the last detected segment")
+    parser.add_argument("jtl", type=Path, help="File JTL JMeter dạng CSV")
+    parser.add_argument("--json-output", type=Path, help="Ghi kết quả tổng hợp ra JSON")
+    parser.add_argument("--start-ms", type=int, help="Chỉ lấy sample từ epoch millisecond này")
+    parser.add_argument("--end-ms", type=int, help="Chỉ lấy sample đến epoch millisecond này")
+    parser.add_argument("--segment-gap-seconds", type=int, default=120, help="Khoảng trống dùng để phát hiện các run có thể tách biệt")
+    parser.add_argument("--latest-segment", action="store_true", help="Chỉ phân tích segment cuối được phát hiện")
     args = parser.parse_args()
 
     if not args.jtl.is_file():
-        parser.error(f"JTL file not found: {args.jtl}")
+        parser.error(f"Không tìm thấy file JTL: {args.jtl}")
 
     with args.jtl.open("r", encoding="utf-8-sig", newline="") as stream:
         reader = csv.DictReader(stream)
         required = {"timeStamp", "elapsed", "label", "success"}
         missing = required - set(reader.fieldnames or [])
         if missing:
-            parser.error(f"JTL must be CSV and include columns: {', '.join(sorted(missing))}")
+            parser.error(f"JTL phải là CSV và có các cột: {', '.join(sorted(missing))}")
         rows = [
             row
             for row in reader

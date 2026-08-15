@@ -1,70 +1,70 @@
 ---
 name: jmeter-performance-log-analysis
-description: Design, human-review, execute, and analyze Apache JMeter performance tests for API endpoint groups. Use when creating or correcting .jmx plans for Load, Stress, Spike, or Endurance scenarios; validating authentication, correlation, assertions, timers, thread schedules, and test data; running JMeter non-GUI with .jtl and HTML artifacts; analyzing raw JTL logs, percentiles, throughput, errors, phase windows, and resource evidence; or auditing AI-generated performance claims against reproducible log evidence.
+description: Thiết kế, human review, thực thi và phân tích kiểm thử hiệu năng Apache JMeter cho một nhóm API. Dùng khi tạo hoặc sửa test plan .jmx cho Load, Stress, Spike hoặc Endurance; kiểm tra xác thực, correlation, assertion, timer, lịch thread và dữ liệu test; chạy JMeter non-GUI để sinh .jtl và HTML Report; phân tích raw JTL, percentile, throughput, lỗi, từng phase và bằng chứng tài nguyên; hoặc kiểm chứng nhận định do AI tạo bằng log có thể tái tính.
 ---
 
-# JMeter Performance and Log Analysis
+# Kiểm thử hiệu năng và phân tích log JMeter
 
-## Objective
+## Mục tiêu
 
-Produce reusable JMeter plans and evidence-backed analysis without inventing metrics. Treat AI output as a draft until raw `.jtl`, HTML reports, API behavior, and observed resource usage support it.
+Tạo test plan JMeter có thể tái sử dụng và phân tích dựa trên bằng chứng, không bịa metric. Xem mọi kết quả AI là bản nháp cho đến khi raw `.jtl`, HTML Report, hành vi API và tài nguyên quan sát được xác nhận kết luận đó.
 
-## Inputs
+## Đầu vào
 
-Locate or request only what the task needs:
+Chỉ tìm hoặc yêu cầu những đầu vào cần thiết:
 
-- API specification, endpoint workflow, authentication rules, and expected responses.
-- Backend/frontend setup instructions and deterministic test accounts.
-- Hardware and runtime constraints.
-- Scenario requirements: VU schedule, duration, think time, report type, and acceptance criteria.
-- Existing `.jmx`, `.jtl`, HTML report, backend logs, and screenshots when reviewing a run.
+- Đặc tả API, workflow endpoint, quy tắc xác thực và response mong đợi.
+- Hướng dẫn chạy backend/frontend và tài khoản test xác định.
+- Giới hạn phần cứng và runtime.
+- Yêu cầu scenario: lịch VU, thời lượng, think time, loại report và tiêu chí chấp nhận.
+- `.jmx`, `.jtl`, HTML Report, backend log và ảnh hiện có khi review một lần chạy.
 
-Never treat example values as the target system's thresholds. Read [references/load-example.md](references/load-example.md) only when a concrete JMeter example is useful. Read [references/review-checklist.md](references/review-checklist.md) before finalizing a plan or analysis.
+Không dùng giá trị trong ví dụ làm threshold cho hệ thống khác. Chỉ đọc [references/load-example.md](references/load-example.md) khi cần một ví dụ JMeter cụ thể. Luôn đọc [references/review-checklist.md](references/review-checklist.md) trước khi chốt test plan hoặc kết quả phân tích.
 
-## Workflow
+## Quy trình
 
-### 1. Model the endpoint group
+### 1. Mô hình hóa nhóm endpoint
 
-Define one business workflow in dependency order. Record for every request:
+Xác định một business workflow theo đúng thứ tự phụ thuộc. Ghi cho từng request:
 
-- Method, URL, headers, body, and expected status.
-- Required input variables and produced variables.
-- Business assertion proving success, not only HTTP `200`.
-- Failure impact on later requests.
+- Method, URL, header, body và status mong đợi.
+- Biến đầu vào cần dùng và biến được tạo ra.
+- Business assertion chứng minh thành công, không chỉ kiểm tra HTTP `200`.
+- Ảnh hưởng của lỗi đến request phía sau.
 
-Use extractors for tokens and IDs. Assert every correlation value before it is consumed. Use unique or isolated accounts when cart, order, or lockout state can interfere across virtual users.
+Dùng extractor cho token và ID. Assert mọi giá trị correlation trước khi dùng. Dùng tài khoản riêng hoặc được cô lập khi cart, order hay lockout có thể gây nhiễu giữa các virtual user.
 
-### 2. Design scenarios
+### 2. Thiết kế scenario
 
-Create separate plans when the rubric requires independent Load, Stress, and Spike artifacts. Add Endurance when a sustained hardware threshold is required.
+Tạo test plan riêng cho Load, Stress và Spike khi rubric yêu cầu artifact độc lập. Thêm Endurance khi cần tìm ngưỡng phần cứng có thể duy trì.
 
-- **Load:** ramp to expected concurrency, hold long enough to observe steady state, then ramp down.
-- **Stress:** increase load in controlled steps until stability criteria fail; record the first failing step.
-- **Spike:** change load abruptly, then measure degradation and recovery.
-- **Endurance:** sustain a verified load for the required period and check latency, errors, throughput, CPU, and memory trend.
+- **Load:** ramp đến mức đồng thời dự kiến, giữ đủ lâu để quan sát steady state rồi ramp-down.
+- **Stress:** tăng tải theo bậc đến khi vi phạm tiêu chí ổn định; ghi bậc lỗi đầu tiên.
+- **Spike:** thay đổi tải đột ngột rồi đo mức suy giảm và thời gian phục hồi.
+- **Endurance:** duy trì một mức tải đã kiểm chứng và theo dõi latency, lỗi, throughput, CPU cùng xu hướng RAM.
 
-Use realistic think time. Prefer randomized timers for user behavior; use constant timers only when fixed pacing is intentional. Keep listeners lightweight for non-GUI runs.
+Dùng think time thực tế. Ưu tiên timer ngẫu nhiên để mô phỏng hành vi người dùng; chỉ dùng timer cố định khi chủ ý tạo nhịp đều. Giữ listener nhẹ khi chạy non-GUI.
 
-### 3. Human-review the plan
+### 3. Human review test plan
 
-Compare the `.jmx` with the API specification and actual smoke responses. Check:
+Đối chiếu `.jmx` với đặc tả API và response smoke thực tế. Kiểm tra:
 
-- Thread schedule, loop behavior, timers, timeouts, and error action.
-- CSV paths in both GUI and CLI working directories.
-- Authentication, headers, request bodies, extractors, and assertions.
-- Cascading-failure behavior for dependent workflows.
-- Data reset, login lockout, database growth, and account isolation.
-- Parent Transaction Controller versus child sampler reporting.
+- Lịch thread, loop, timer, timeout và hành động khi sampler lỗi.
+- Đường dẫn CSV trong cả GUI và CLI.
+- Xác thực, header, request body, extractor và assertion.
+- Cách xử lý lỗi dây chuyền trong workflow phụ thuộc.
+- Reset dữ liệu, login lockout, database tăng dần và cô lập tài khoản.
+- Transaction Controller cha so với sampler con trong report.
 
-Do not alter a working configuration merely to claim an AI correction. Record verified items as retained, and record actual corrections with before/after evidence.
+Không sửa cấu hình đang đúng chỉ để tuyên bố AI có lỗi. Ghi rõ mục đã xác minh và giữ nguyên; với lỗi thật, lưu bằng chứng trước/sau khi sửa.
 
-### 4. Smoke-test before load
+### 4. Smoke test trước khi tạo tải
 
-Run one VU and one workflow iteration in the GUI with `View Results Tree` temporarily enabled. Verify request, response, variables, and assertions step by step. Remove or disable debug listeners and any temporary stop action before the real run.
+Chạy một VU và một vòng workflow trong GUI, tạm bật `View Results Tree`. Kiểm tra lần lượt request, response, biến và assertion. Xóa hoặc disable debug listener và mọi hành động dừng tạm trước lần chạy chính thức.
 
-### 5. Execute reproducibly
+### 5. Thực thi có thể tái tạo
 
-Start the backend, reset/seed test data, health-check it, and then run JMeter non-GUI. Always use new output paths:
+Khởi động backend, reset/seed dữ liệu, health check rồi chạy JMeter non-GUI. Luôn tạo đường dẫn output mới:
 
 ```powershell
 $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
@@ -73,53 +73,52 @@ $report = "results/run_${stamp}_html"
 jmeter -n -t "test-plans/scenario.jmx" -l $jtl -e -o $report
 ```
 
-Capture during the relevant phase, not only after completion:
+Chụp bằng chứng trong phase quan trọng, không chỉ sau khi kết thúc:
 
-- JMeter terminal or tool view.
-- Backend process PID, CPU, and memory.
-- Proof that the PID owns the backend port when multiple runtime processes exist.
-- A completion view showing `end of run`.
+- Terminal JMeter hoặc màn hình công cụ.
+- PID, CPU và RAM của backend.
+- Bằng chứng PID sở hữu cổng backend khi có nhiều tiến trình cùng loại.
+- Màn hình hoàn tất có `end of run`.
 
-Preserve the raw `.jtl`, entire HTML folder, plan, environment metadata, and screenshots. Do not append multiple runs to one JTL unless explicitly required and documented.
+Giữ raw `.jtl`, toàn bộ thư mục HTML, test plan, metadata môi trường và ảnh. Không ghi nhiều lần chạy vào cùng JTL nếu đề bài không yêu cầu và không có tài liệu giải thích.
 
-### 6. Validate and analyze logs
+### 6. Kiểm tra và phân tích log
 
-First inspect data quality:
+Kiểm tra chất lượng dữ liệu trước:
 
-- Confirm timestamp range, labels, sample counts, thread names, success values, and response codes.
-- Detect stale/appended runs and select the intended phase or run window.
-- Distinguish E2E transaction labels from request labels; never add parent and child counts as if they were the same unit.
-- Compare JTL counts with HTML `statistics.json` and explain any listener/summariser difference.
+- Xác nhận khoảng timestamp, label, số sample, thread name, success và response code.
+- Phát hiện log cũ/log nối thêm và chọn đúng run hoặc phase.
+- Tách E2E transaction khỏi request; không cộng sample cha và con như cùng một đơn vị.
+- So sánh JTL với `statistics.json` của HTML và giải thích khác biệt listener/summariser.
 
-Run the bundled analyzer for an independent cross-check:
+Chạy công cụ đi kèm để kiểm tra độc lập:
 
 ```powershell
-python scripts/analyze_jtl.py path/to/results.jtl --json-output analysis.json
+python -X utf8 scripts/analyze_jtl.py path/to/results.jtl --json-output analysis.json
 ```
 
-Use `--latest-segment` only after confirming the reported gap actually separates runs. Use `--start-ms` and `--end-ms` for a known steady-state phase. The script uses a documented nearest-rank percentile; use JMeter HTML values as the official JMeter report when algorithms differ.
+Chỉ dùng `--latest-segment` sau khi xác minh khoảng trống được báo thật sự ngăn cách các run. Dùng `--start-ms` và `--end-ms` cho phase steady-state đã biết. Script dùng nearest-rank; nếu thuật toán khác nhau, dùng HTML Report làm số JMeter chính thức và ghi rõ phương pháp đối chiếu.
 
-Analyze sample count, error rate, latency percentiles, throughput, error groups, breaking point, recovery, and endurance stability only for the correct labels and phase windows.
+Chỉ phân tích sample count, error rate, percentile latency, throughput, nhóm lỗi, breaking point, recovery và endurance stability trên đúng label và phase.
 
-### 7. Audit AI claims
+### 7. Kiểm chứng nhận định AI
 
-For every important claim, store:
+Với mỗi nhận định quan trọng, lưu:
 
-- Claim and source artifact.
-- Reproducible calculation or report field.
-- Scenario, label, sample type, timestamp window, unit, and sample count.
-- Status: `VERIFIED-BY-STUDENT`, `CORRECTED-BY-STUDENT`, or `REJECTED-BY-STUDENT`.
+- Nhận định và artifact nguồn.
+- Phép tính có thể tái tạo hoặc field trong report.
+- Scenario, label, loại sample, khoảng timestamp, đơn vị và sample count.
+- Trạng thái: `VERIFIED-BY-STUDENT`, `CORRECTED-BY-STUDENT` hoặc `REJECTED-BY-STUDENT`.
 
-Classify optimization suggestions as feasible, conditional, unsupported, or hallucinated only after checking logs and relevant source/database behavior. Never claim an improvement percentage without comparable before/after runs.
+Chỉ phân loại đề xuất tối ưu là khả thi, có điều kiện, thiếu bằng chứng hoặc hallucinated sau khi kiểm tra log và source/database liên quan. Không tuyên bố phần trăm cải thiện nếu chưa có hai lần chạy before/after có thể so sánh.
 
-## Completion criteria
+## Tiêu chí hoàn thành
 
-Finish only when:
+Chỉ hoàn tất khi:
 
-- Smoke validation passes and real scenarios use reproducible data.
-- Every run has a unique JTL and HTML report.
-- Evidence covers the active load phase and completion.
-- Metrics identify scenario, label, unit, time window, and sample count.
-- Thresholds come from observed Stress/Endurance results, not the example or AI guess.
-- Human review explicitly accepts, corrects, or rejects material AI claims.
-
+- Smoke validation pass và các scenario chính dùng dữ liệu có thể tái tạo.
+- Mỗi run có JTL và HTML Report riêng.
+- Bằng chứng bao phủ phase đang tạo tải và thời điểm hoàn tất.
+- Metric nêu rõ scenario, label, đơn vị, khoảng thời gian và sample count.
+- Threshold đến từ Stress/Endurance quan sát được, không lấy từ ví dụ hoặc AI đoán.
+- Human review chấp nhận, sửa hoặc bác bỏ rõ từng nhận định AI quan trọng.
