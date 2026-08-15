@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (READ_HEAVY / LOAD JMeter plan Student-approved; mandatory runtime preflight required before execution)
+- Last Updated: `2026-08-16` (READ_HEAVY / LOAD run-001 failure triaged; monitor remediation validated; run-002 authorization pending)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -13,7 +13,7 @@
 
 | Group | Endpoint | Scenario | Phase | Status |
 |---|---|---|---|---|
-| `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `REAL_EXECUTION_REQUIRED` | `PLAN_APPROVED_PREFLIGHT_REQUIRED` |
+| `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `REAL_EXECUTION_REQUIRED` | `BLOCKED` |
 | `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 | `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 
@@ -87,7 +87,7 @@ Metrics: `NOT_CREATED`
 
 AI Analysis: `NOT_CREATED`
 
-Human Review: `NOT_REVIEWED`
+Human Review: `MODIFIED_AND_APPROVED`
 
 ## READ_HEAVY / LOAD
 
@@ -223,40 +223,73 @@ Checkpoint Resolution: `PLAN_APPROVED`
 
 ### Execution
 
-Status: `NOT_STARTED`
+Status: `BLOCKED`
 
-Execution Preflight Required: `YES`
+Execution Preflight Result: `FAIL`
 
-Mandatory preflight immediately before any real Load run:
+Core Runtime/Data/Auth Preflight: `PASS`
 
-- recreate `DISPOSABLE_BACKEND_RUNTIME_COPY`;
-- insert/verify exactly orders `2312710701` và `2312710702`;
-- confirm source `backend/database.sqlite` SHA-256 remains `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`;
-- create temporary external `hw05.auth_token` without recording the secret;
-- verify `GET /api/users/me` returns HTTP `200`, `id == 2`;
-- verify both approved order-detail smoke requests and exact expected fields;
-- confirm no concurrent checkout/cancel/admin-order mutation.
+Resource Monitoring Preflight: `FAIL`
 
-Preflight Failure Behavior: `DO_NOT_RUN_JMETER`
+Failed Attempt Identity: `run-001`
 
-Expected Real Evidence after one approved run:
+Failure Classification: `EVIDENCE_FAILURE`
 
-- raw JTL;
-- HTML report;
-- resource monitor/hardware evidence;
-- execution metadata.
+Failure Reason: Windows denied `Get-CimInstance Win32_ComputerSystem`; resource monitor stopped before JMeter.
+
+Root Cause Category: `PERMISSION_FAILURE`
+
+Root Cause Evidence: `results/23127107_Load_20260812/run-001/evidence/resource-monitor-stderr.log` (`PermissionDenied`, HRESULT `0x80041003`).
+
+Preflight Evidence: `results/23127107_Load_20260812/run-001/evidence/preflight.json`
+
+Execution Metadata: `results/23127107_Load_20260812/run-001/evidence/execution-metadata.json`
 
 Raw JTL: `NOT_CREATED`
 
 HTML Report: `NOT_CREATED`
 
-Resource Evidence: `NOT_CREATED`
+Resource Evidence: `FAILED_BEFORE_CAPTURE`; failure log `results/23127107_Load_20260812/run-001/evidence/resource-monitor-stderr.log`
 
-Execution Metadata: `NOT_CREATED`
+Execution Review: `docs/performance-executions/load-order-detail-run-001-execution-review.md`
 
-Checkpoint: `REAL_EXECUTION_REQUIRED`
+JMeter Invocation Count: `0`
 
-Next allowed action: perform mandatory runtime preflight, then execute exactly one approved production READ_HEAVY / LOAD run only if every check `PASS`.
+Workload Rerun Count: `0`
+
+No Silent Rerun: `PASS`
+
+Source DB SHA-256 Before/After Cleanup: `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6` / `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`
+
+Temporary Secret: `DELETED`; token value/hash/Authorization header not recorded.
+
+Disposable Runtime: `DELETED`; backend PID absent and port `3000` not listening after cleanup verification.
+
+Human Review: `NOT_REVIEWED`
+
+Failure Review Decision: `MODIFIED_AND_APPROVED`
+
+Failure Review Scope: `RUN001_FAILURE_TRIAGE_AND_MONITOR_REMEDIATION`
+
+Monitor Remediation: `PASS`; only `scripts/performance/monitor-load-resources.ps1` changed from the failed-attempt copy.
+
+Monitor-only Validation: `PASS` (`DIAGNOSTIC_ONLY`)
+
+Diagnostic Evidence: `tmp/hw05-load-monitor-diagnostic-20260816-001/diagnostic-summary.json`; `3` samples; monitor exit `0`; no JMeter/JTL/HTML.
+
+JMX / CSV / Design Change Required: `NO / NO / NO`
+
+Rerun Required: `YES`
+
+Recommended New Run Identity: `run-002`
+
+Retry Reason: `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE`
+
+Retry Authorization: `PENDING_STUDENT_APPROVAL`
+
+Checkpoint: `RETRY_REVIEW_REQUIRED`
+
+Next allowed action: Student approve or reject one new production Load attempt using `run-002`; do not execute before explicit approval.
 
 ## AUTH_HEAVY / SPIKE
 
@@ -527,7 +560,9 @@ Safe Backfill:
 - `A-014` đã nhận Human Decision `MODIFY_DATA`; original proposal verdict `INCOMPLETE`, corrected strategy verification `PASSED`.
 - `A-015` đã nhận Human Decision `APPROVE_DATA`; verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, fixture implementation/dataset `APPROVED`.
 - `A-016` đã nhận Human Decision `APPROVED`; verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, JMeter plan `APPROVED` với mandatory preflight.
-- Current HW05 artifact interaction: `NONE_PENDING_FOR_READ_HEAVY_PLAN`; audit chưa được finalize toàn project.
+- `A-017` đã nhận Human Decision `MODIFIED_AND_APPROVED`; verdict `INCOMPLETE`, Student Decision `MODIFIED`, monitor remediation diagnostic `PASSED`; real retry chưa được authorize.
+- `A-018` ghi failure triage và monitor remediation interaction; `Review Status: PENDING_HUMAN_REVIEW`, chưa có verdict hoặc Student Decision.
+- Current HW05 artifact interaction: `A-018_PENDING_HUMAN_REVIEW`; audit chưa được finalize toàn project.
 
 ## Current Workflow State
 
@@ -535,8 +570,8 @@ Safe Backfill:
 
 ## Current Blocker
 
-`EXECUTION_PREFLIGHT_REQUIRED`: plan đã Student approve nhưng disposable runtime, exact fixtures, external token identity và smoke checks chưa được recreated cho real run. Bất kỳ preflight failure nào cũng chặn JMeter.
+`RETRY_AUTHORIZATION_REQUIRED`: run-001 được giữ nguyên dưới dạng failed pre-execution evidence; non-CIM monitor remediation đã diagnostic PASS nhưng chưa có Student authorization cho một real Load attempt mới bằng `run-002`.
 
 ## Next Allowed Action
 
-Perform mandatory runtime preflight, then execute exactly one approved production READ_HEAVY / LOAD run only if all checks `PASS`. Preserve JTL, HTML, resource evidence and execution metadata; do not infer performance results before analysis.
+Student review the validated monitor remediation and explicitly approve or reject one new production Load attempt using `run-002`; do not run JMeter or start Task 2 before that decision.
