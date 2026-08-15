@@ -1,0 +1,3 @@
+order_id,expected_user_id,expected_status,expected_total_amount,order_case,iteration_key
+2312710701,2,pending,30000000,deterministic_success_a,load-order-a
+2312710702,2,pending,28000000,deterministic_success_b,load-order-b
