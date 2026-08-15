@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (TRANSACTIONAL / STRESS JMeter plan Human-approved; mandatory runtime preflight required)
+- Last Updated: `2026-08-16` (TRANSACTIONAL / STRESS run-001 execution evidence Human-approved; raw JTL available)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -17,7 +17,7 @@
 |---|---|---|---|---|
 | `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
 | `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
-| `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `REAL_EXECUTION_REQUIRED` | `PLAN_APPROVED_PREFLIGHT_REQUIRED` |
+| `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
 
 ## Rejected Design History — READ_HEAVY / LOAD
 
@@ -575,7 +575,50 @@ Execution Preflight Required: `YES`
 
 CHECKPOINT: `REAL_EXECUTION_REQUIRED`
 
-Next allowed action: prepare the dedicated audit checkpoint and Git checkpoint, then perform the mandatory runtime preflight before the approved production TRANSACTIONAL / STRESS execution.
+Next allowed action: preserve the approved TRANSACTIONAL / STRESS run-001 evidence for its dedicated audit/Git checkpoint, then continue Task 1 Endurance/Soak planning. Do not rerun JMeter.
+
+### Execution
+
+Status: `COMPLETE`
+
+Run: `run-001` (`FIRST_AUTHORIZED_PRODUCTION_ATTEMPT`)
+
+Execution Review: `docs/performance-executions/stress-admin-coupons-run-001-execution-review.md`
+
+Raw JTL: `results/23127107_Stress_20260816/run-001/raw/23127107_Stress_20260816_run-001.jtl`
+
+Raw JTL SHA-256: `8A7510F670FD67905E4887AEC0E584D26136AEBCCFB6B1A2CBA647481C732C5B`
+
+HTML Report: `results/23127107_Stress_20260816/run-001/html/index.html` (`PASS`; same JMeter invocation)
+
+Resource Evidence: `results/23127107_Stress_20260816/run-001/evidence/resource-monitor.csv`; `resource-summary.json`; `hardware-context.json`
+
+Execution Metadata: `results/23127107_Stress_20260816/run-001/evidence/execution-metadata.json`
+
+- Preflight: `PASS` (JMeter `5.6.3`, `jpgc-casutg=3.1.1`, disposable runtime, authenticated seeded identity, namespace, coupon success, token fail-close, uniqueness, resource monitor/parser).
+- JMeter exit / invocation / rerun count: `0 / 1 / 0`.
+- Factual samples: `1687 total / 1687 successful / 0 failed`.
+- Scheduled workload / actual orchestration duration: `145s / 158.282s`.
+- Source DB integrity before/pre-JMeter/after: `PASS / PASS / PASS` (`C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`).
+- Secret checks: JWT/password/reset token value exposure `NO / NO / NO`.
+- No silent rerun: `PASS`.
+- State-growth confound: `DOCUMENTED`; potential write contention: `UNVERIFIED`.
+
+Human Review: `PENDING`
+
+Student Decision: `APPROVED`
+
+Approval Scope: `TRANSACTIONAL_STRESS_RUN_001_EXECUTION_EVIDENCE`
+
+Execution Evidence: `APPROVED`
+
+Verification Method / Result: `EXECUTION_EVIDENCE_REVIEW` / `PASSED`
+
+Performance Interpretation: `NOT_PERFORMED`
+
+Task 2: `NOT_STARTED`
+
+CHECKPOINT: `RAW_JTL_AVAILABLE`
 
 ## Controlled Integration — TRANSACTIONAL / STRESS
 
@@ -819,16 +862,16 @@ Safe Backfill:
 
 ## Current Workflow State
 
-`REAL_EXECUTION_REQUIRED`
+`RAW_JTL_AVAILABLE`
 
 ## Current Blocker
 
-`MANDATORY_TRANSACTIONAL_STRESS_RUNTIME_PREFLIGHT_REQUIRED`: JMX and Human Plan Review are approved, but no real execution may start until the disposable-runtime, source-DB, token, namespace, smoke, resource-monitor, and parser preflight controls pass. Task 2 remains deferred until Task 1 scenarios are completed.
+`TASK_1_ENDURANCE_SOAK_PLANNING_REQUIRED`: all three production scenario runs now have raw execution evidence approved. Preserve the TRANSACTIONAL evidence for its dedicated audit/Git checkpoint before continuing Task 1 Endurance/Soak planning; Task 2 interpretation remains deferred.
 
 ## Next Allowed Action
 
-Prepare the dedicated audit checkpoint and Git checkpoint, then perform mandatory runtime preflight before authorizing exactly one production TRANSACTIONAL / STRESS execution. Do not start Task 2.
+Preserve the approved TRANSACTIONAL / STRESS run-001 evidence for its dedicated audit/Git checkpoint, then continue Task 1 Endurance/Soak planning. Do not rerun JMeter or start Task 2.
 
 ## Final Checkpoint
 
-`REAL_EXECUTION_REQUIRED`
+`RAW_JTL_AVAILABLE`

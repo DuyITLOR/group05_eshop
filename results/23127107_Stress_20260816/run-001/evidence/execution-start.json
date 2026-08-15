@@ -1,0 +1,20 @@
+{
+  "run_id": "run-001",
+  "started_at": "2026-08-15T22:24:02.486Z",
+  "endpoint": "POST /api/admin/coupons",
+  "group": "TRANSACTIONAL",
+  "scenario": "STRESS",
+  "jmx_path": "test-plans/23127107_Stress_20260816.jmx",
+  "csv_path": "test-data/transactional-admin-coupons.csv",
+  "backend_pid": 24564,
+  "monitor_pid": 30092,
+  "jmeter_version": "5.6.3",
+  "plugin": "jpgc-casutg=3.1.1",
+  "planned_duration_seconds": 145,
+  "think_time": "1000-1500 ms",
+  "listener": "Aggregate Report",
+  "run_tag": "run-001",
+  "preflight": "PASS",
+  "token_recorded": false,
+  "jmeter_invocation_number": 1
+}

@@ -1,0 +1,13 @@
+{
+  "evidence_type": "POST_EXECUTION_CLEANUP_FINAL_VERIFICATION",
+  "captured_at": "2026-08-16T05:27:33.0487141+07:00",
+  "run_id": "run-001",
+  "backend_pid_recorded": 24564,
+  "backend_process_running_at_verification": false,
+  "resource_monitor_pid_recorded": 30092,
+  "resource_monitor_process_running_at_verification": false,
+  "backend_port_3000_listener_present_at_verification": false,
+  "disposable_runtime_present_at_verification": false,
+  "result": "PASS",
+  "note": "Bản postflight ban đầu ghi backend_stopped=false do trạng thái child-process tại thời điểm ghi. Xác minh thực tế sau đó không tìm thấy backend, monitor, listener port hoặc runtime tạm. Raw JTL và HTML không bị thay đổi."
+}

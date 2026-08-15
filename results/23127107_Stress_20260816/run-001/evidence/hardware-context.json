@@ -1,0 +1,21 @@
+﻿{
+    "captured_at":  "2026-08-16T05:24:01.3217100+07:00",
+    "capture_source":  "WINDOWS_NATIVE_API_NO_CIM",
+    "computer_name":  "23127107-QUAN",
+    "computer_manufacturer":  null,
+    "computer_model":  null,
+    "logical_processors":  16,
+    "total_physical_memory_bytes":  16890978304,
+    "operating_system":  "Microsoft Windows 10.0.26200 ",
+    "operating_system_version":  "10.0.26200.0",
+    "operating_system_architecture":  "X64",
+    "process_architecture":  "X64",
+    "processor_names":  [
+                            "12th Gen Intel(R) Core(TM) i5-12500H"
+                        ],
+    "unavailable_fields":  [
+                               "computer_manufacturer",
+                               "computer_model"
+                           ],
+    "unavailable_reason":  "CIM intentionally not used because run-001 recorded HRESULT 0x80041003."
+}

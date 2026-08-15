@@ -1,0 +1,64 @@
+{
+  "evidence_type": "HW05_PRODUCTION_TRANSACTIONAL_STRESS_PREFLIGHT",
+  "result": "PASS",
+  "captured_at": "2026-08-15T22:24:02.484Z",
+  "run_id": "run-001",
+  "endpoint": "POST /api/admin/coupons",
+  "group": "TRANSACTIONAL",
+  "scenario": "STRESS",
+  "source_database_sha256_before": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_pre_jmeter": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "approved_artifact_fingerprints": {
+    "jmx": "4F6F14C557792B6E45694B6DD370366D7560BB3A672B348DA472801357B4B322",
+    "csv": "0F6BA43A82A60493EA1B7BBAFC5990E4170064CDE20FA22A2A61777BC3B4E655",
+    "design": "A4D101A39F9A3EE2436AE44FC9CB4B87862A2423D77128AAA890EBFA5F28A235",
+    "plan_review": "3A98FFA23571138F0FAA4FEBEA884BC7BF6CA075C70DB901723A4BC66903CE95",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "runtime_isolation": "DISPOSABLE_BACKEND_RUNTIME_COPY",
+  "runtime_database_is_source_database": false,
+  "authenticated_identity": {
+    "id": 1,
+    "email": "admin@eshop.com",
+    "role": "admin"
+  },
+  "server_side_admin_role_check": "NOT_IMPLEMENTED",
+  "implementation_spec_conflict": "PRESERVED",
+  "token_value_recorded": false,
+  "run_tag": "run-001",
+  "namespace_separation": "PASS",
+  "success_preflight": {
+    "result": "PASS",
+    "http_status": 200,
+    "positive_id": true,
+    "measured_traffic": false
+  },
+  "token_fail_closed": {
+    "result": "PASS",
+    "http_status": 401,
+    "measured_traffic": false
+  },
+  "unique_code_model": {
+    "result": "PASS",
+    "generated_diagnostic_codes": 90,
+    "cross_thread": "PASS",
+    "cross_iteration": "PASS",
+    "cross_run": "PASS"
+  },
+  "jmeter_version": "5.6.3",
+  "plugin_verification": {
+    "result": "PASS",
+    "custom_thread_groups": "jpgc-casutg=3.1.1",
+    "component": "UltimateThreadGroup",
+    "aggregate_report": "CORE_JMETER_COMPONENT"
+  },
+  "resource_monitor": {
+    "result": "PASS",
+    "backend_pid": 24564,
+    "monitor_pid": 30092,
+    "initial_sample_count": 1
+  },
+  "jmeter_invocation_count_before_execution": 0
+}

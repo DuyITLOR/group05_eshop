@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "backend_stopped": false,
+  "temporary_secret_deleted": true,
+  "disposable_runtime_deleted": true,
+  "source_database_sha256_after": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_integrity_after": "PASS",
+  "failure_reason": null
+}

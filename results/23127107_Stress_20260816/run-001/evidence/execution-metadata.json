@@ -1,0 +1,41 @@
+{
+  "evidence_type": "HW05_PRODUCTION_TRANSACTIONAL_STRESS_EXECUTION_METADATA",
+  "student_id": "23127107",
+  "run_id": "run-001",
+  "endpoint": "POST /api/admin/coupons",
+  "group": "TRANSACTIONAL",
+  "scenario": "STRESS",
+  "execution_status": "COMPLETE",
+  "started_at": "2026-08-15T22:23:57.424Z",
+  "jmeter_started_at": "2026-08-15T22:24:02.486Z",
+  "jmeter_ended_at": "2026-08-15T22:26:40.768Z",
+  "actual_duration_seconds": 158.282,
+  "jmeter_exit_code": 0,
+  "jmeter_invocation_count": 1,
+  "rerun_count": 0,
+  "no_silent_rerun": true,
+  "preflight_passed": true,
+  "raw_jtl": "results/23127107_Stress_20260816/run-001/raw/23127107_Stress_20260816_run-001.jtl",
+  "raw_jtl_sha256": "8A7510F670FD67905E4887AEC0E584D26136AEBCCFB6B1A2CBA647481C732C5B",
+  "html_report": "results/23127107_Stress_20260816/run-001/html/index.html",
+  "resource_monitor": "results/23127107_Stress_20260816/run-001/evidence/resource-monitor.csv",
+  "resource_summary": "results/23127107_Stress_20260816/run-001/evidence/resource-summary.json",
+  "jtl_facts": {
+    "total_samples": 1687,
+    "successful_samples": 1687,
+    "failed_samples": 0
+  },
+  "source_database_sha256_before": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_pre_jmeter": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_after_cleanup": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_integrity_after": "PASS",
+  "sensitive_value_exposure": {
+    "jwt": "NO",
+    "password": "NO",
+    "reset_token": "NO",
+    "paths": []
+  },
+  "performance_interpretation": "NOT_PERFORMED",
+  "task2_analysis": "NOT_STARTED",
+  "failure_reason": null
+}
