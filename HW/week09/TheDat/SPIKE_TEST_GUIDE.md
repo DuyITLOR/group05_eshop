@@ -5,7 +5,7 @@
 - Test plan: `test-plans/23127340_Spike_20260815.jmx`
 - Dữ liệu test: `test-data/accounts_spike.csv`
 - Script chuẩn bị tài khoản: `scripts/prepare-spike-users.js`
-- Report view riêng: `View Results Tree` (chỉ bật khi smoke test, tắt khi chạy chính thức)
+- Report view riêng: `View Results Tree` được bật và cấu hình `Errors` only khi chạy chính thức.
 
 ## Lịch Spike Test
 
@@ -29,8 +29,8 @@ Ultimate Thread Group dùng hai dòng cộng dồn: 10 VU nền chạy xuyên su
 node HW/week09/TheDat/scripts/prepare-spike-users.js
 ```
 
-3. Smoke test với 1 VU, 1 loop và tạm bật `View Results Tree` để kiểm tra request, response, correlation và assertion.
-4. Trả lại lịch Spike chuẩn và **disable View Results Tree** trước khi chạy chính thức để tránh tốn RAM.
+3. Smoke test với 1 VU, 1 loop; tạm bỏ chọn `Errors` trong `View Results Tree` để kiểm tra cả request thành công, response, correlation và assertion.
+4. Trả lại lịch Spike chuẩn và chọn lại `Log/Display Only -> Errors` trước khi chạy chính thức để giảm lượng dữ liệu listener giữ trong RAM.
 
 ## Chạy chính thức bằng non-GUI
 
