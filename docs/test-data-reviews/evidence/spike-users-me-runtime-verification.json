@@ -1,0 +1,64 @@
+{
+  "evidence_type": "HW05_AUTH_HEAVY_SPIKE_TEST_DATA_VERIFICATION",
+  "endpoint": "GET /api/users/me",
+  "group": "AUTH_HEAVY",
+  "scenario": "SPIKE",
+  "verification_status": "PASS",
+  "runtime_isolation": "DISPOSABLE_BACKEND_RUNTIME_COPY",
+  "runtime_location": "OS_TEMP_OUTSIDE_REPOSITORY",
+  "runtime_database_belongs_to_copied_backend": true,
+  "runtime_deleted_after_verification": true,
+  "source_database_opened_for_write": false,
+  "source_fingerprints_before": {
+    "database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "source_fingerprints_after": {
+    "database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "source_fingerprints_unchanged": true,
+  "seeded_identity": {
+    "id": 2,
+    "name": "Test User",
+    "email": "test@eshop.com",
+    "role": "user"
+  },
+  "setup_authentication": {
+    "measured": false,
+    "token_present": true,
+    "token_storage": "IN_MEMORY_ONLY",
+    "token_value_recorded": false,
+    "token_hash_recorded": false,
+    "authorization_header_recorded": false
+  },
+  "response_contract": {
+    "http_status": 200,
+    "json_object": true,
+    "verified_identity_fields": [
+      "id",
+      "email",
+      "name"
+    ],
+    "returned_field_names": [
+      "email",
+      "id",
+      "locked_until",
+      "login_attempts",
+      "name",
+      "password",
+      "phone",
+      "reset_token",
+      "role",
+      "shipping_address"
+    ],
+    "sensitive_field_values_recorded": false
+  },
+  "final_csv_created": false,
+  "jmx_created": false,
+  "jmeter_executed": false,
+  "performance_interpretation": "NOT_PERFORMED",
+  "failure_reason": null
+}

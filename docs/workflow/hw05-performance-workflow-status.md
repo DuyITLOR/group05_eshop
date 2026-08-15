@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (READ_HEAVY / LOAD run-002 execution evidence approved; raw JTL available for Task 2)
+- Last Updated: `2026-08-16` (AUTH_HEAVY / SPIKE JMeter plan approved by Student; mandatory execution preflight required)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -14,7 +14,7 @@
 | Group | Endpoint | Scenario | Phase | Status |
 |---|---|---|---|---|
 | `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
-| `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
+| `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `REAL_EXECUTION_REQUIRED` | `PLAN_APPROVED` |
 | `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 
 ## Rejected Design History — READ_HEAVY / LOAD
@@ -287,19 +287,133 @@ Next allowed action: Invoke `$jtl-performance-analyzer` for Task 2 using immutab
 
 ## AUTH_HEAVY / SPIKE
 
-Status: `NOT_STARTED`
+### Design
+
+Status: `APPROVED`
 
 Endpoint: `GET /api/users/me`
 
+Artifact: `docs/performance-design/spike-users-me-design.md`
+
+Design Status: `APPROVED`
+
+Human Review: `Student Decision: APPROVED`
+
+Approval Scope: `AUTH_HEAVY_SPIKE_DESIGN`
+
+Profile Decision: `APPROVED`
+
+Data Strategy Decision: `APPROVED`
+
 Listener: `Response Time Graph`
 
-CSV: `test-data/auth-heavy-users-me.csv` (`NOT_CREATED`)
+CSV: `test-data/auth-heavy-users-me.csv` (`CREATED`; `1` approved `SUCCESS_PATH_ONLY` row; `TRACEABILITY_ONLY`; `DATA_DRIVEN_FIT: RISK_ACCEPTED`)
+
+Data Candidates: `FOUND` (`1` runtime-verified success-path row)
+
+Data Review Artifact: `docs/test-data-reviews/spike-users-me-data-candidates.md`
+
+Runtime Verification Evidence: `docs/test-data-reviews/evidence/spike-users-me-runtime-verification.json` (`PASS`)
 
 Hard Exclusion Check: `PASS`
 
 Cross-member Ownership: `PASS_BY_STUDENT_CONFIRMATION`
 
-Next scenario order: chỉ bắt đầu sau READ_HEAVY / LOAD design gate theo orchestrator order.
+Audit Status: `NOT_CREATED_BY_EXPLICIT_INSTRUCTION`; dedicated design audit is deferred until the separate requested step.
+
+Data Review: `FINALIZED`; Student Data Decision: `APPROVE_DATA`; Approval Scope: `AUTH_HEAVY_SPIKE_DATASET`.
+
+CHECKPOINT: `JMETER_AI_REVIEW_REQUIRED`
+
+Next allowed action: complete the mandatory AUTH_HEAVY / SPIKE execution preflight before the single approved production run.
+
+### JMeter Plan
+
+Status: `COMPLETE`
+
+JMX: `test-plans/23127107_Spike_20260816.jmx`
+
+JMX SHA-256: `64E17D39739D7656296840EA84A429BDD3F60FCC5C0F95CFAC907F30F5E144B6`
+
+CSV: `test-data/auth-heavy-users-me.csv` (`CREATED`; `UTF-8`; comma-delimited; header plus exactly `1` row)
+
+Generation Summary: `docs/jmeter-generation/23127107-spike-generation-summary.md`
+
+Generation Summary SHA-256: `22B38199D48F02F5F04676A53BDBBDE4FD6C3737D38A3487EF435DC2C0B5A04E`
+
+Builder Result:
+
+- Status: `COMPLETE`
+- Reason: `NONE`
+- Filename: `23127107_Spike_20260816.jmx` (`FILENAME_PRECHECK: PASS`)
+- Approved workload mapping: two `Ultimate Thread Group` cohorts preserve `5 VUs / 20s -> 25 VUs in 3s -> 25 VUs / 20s -> 5 VUs in 5s -> 5 VUs / 20s` (`68s`).
+- Required mapping term: `Response Time Graph`.
+- Resolved primary Listener: `jp@gc - Response Times Over Time`; this is not Apache JMeter core `Graph Results`.
+- Required plugin: `jpgc-graphs-basic` (`3 Basic Graphs`, version `2.0` per official JMeter-Plugins metadata).
+- Required component class: `kg.apc.jmeter.vizualizers.ResponseTimesOverTimeGui`.
+- Plugins Manager: `INSTALLED` (`jmeter-plugins-manager-1.12.jar`; `PluginsManagerCMD.bat` exists).
+- Target plugin installed: `YES`; JAR `lib/ext/jmeter-plugins-graphs-basic-2.0.jar` and target GUI class are present.
+- Static plugin evidence: JMeter `5.6.3` has `jmeter-plugins-graphs-basic-2.0.jar`, `jmeter-plugins-casutg-3.1.1.jar`, `jmeter-plugins-manager-1.12.jar`, `cmdrunner-2.3.jar`, and `jmeter-plugins-cmn-jmeter-0.7.jar`.
+- Component verification: `ResponseTimesOverTimeGui`, `CorrectedResultCollector`, and `UltimateThreadGroup` were loaded with `Class.forName` from the local JMeter classpath; no relevant missing dependency was reported.
+- Previous blocker: `RESOLVED_BY_STUDENT_LOCAL_INSTALLATION`; no plugin installation is represented as AI-generated assignment evidence.
+- PLUGIN_CHECK: `PASS`
+- DEPENDENCY_STATUS: `VERIFIED`
+- Static validation: XML/hashTree, CSV binding, profile, Timer, endpoint, auth guard, assertions, Listener, secret safety, and project mapping are `PASS`; `DATA_DRIVEN_FIT` remains `RISK_ACCEPTED`.
+- EXECUTION_READY: `CONDITIONALLY_READY`; Student approved the plan and mandatory runtime preflight is still required.
+
+### Plan Review
+
+Status: `APPROVED`
+
+Review Artifact: `docs/performance-reviews/spike-users-me-jmeter-ai-review.md`
+
+Review SHA-256: `68A2651FB66B46C2545C27DCB6542DCEDDBF3B431D5C4FB89AEAEDC31D5EEB10`
+
+- Critical / High / Medium / Low / Info: `0 / 0 / 1 / 0 / 3`
+- Execution Readiness: `CONDITIONALLY_READY`
+- `R-001 MEDIUM`: disposable runtime, source DB hash, temporary external token, identity/fail-close checks, resource monitor, and cleanup must be verified immediately before real execution.
+- `R-002 INFO`: `TRACEABILITY_ONLY` CSV remains `DATA_DRIVEN_FIT: RISK_ACCEPTED`.
+- `R-003 INFO`: sensitive-field `SELECT *` implementation/spec conflict remains documented; no sensitive value is stored.
+- `R-004 INFO`: recheck project Listener uniqueness when production STRESS JMX exists.
+
+Student Decision: `APPROVED`
+
+Approval Scope: `AUTH_HEAVY_SPIKE_JMETER_PLAN`
+
+Finding Dispositions:
+
+- `R-001`: `ACCEPTED_PRE_EXECUTION_DEPENDENCY`
+- `R-002`: `ACCEPTED_DOCUMENTED_LIMITATION`
+- `R-003`: `ACCEPTED_DOCUMENTED_DISCREPANCY`
+- `R-004`: `DEFERRED_PROJECT_LEVEL_CHECK`
+
+Plan Status: `PLAN_APPROVED`
+
+Execution Preflight Required: `YES`
+
+Checkpoint Resolution: `PLAN_APPROVED`
+
+### Execution
+
+Status: `NOT_STARTED`
+
+Raw JTL: `NOT_CREATED`
+
+HTML Report Folder: `NOT_CREATED`
+
+Resource Monitor Evidence: `NOT_CREATED`
+
+Execution Metadata: `NOT_CREATED`
+
+### Analysis
+
+Status: `NOT_STARTED`
+
+Metrics: `NOT_CREATED`
+
+AI Analysis: `NOT_CREATED`
+
+Human Review: `NOT_REVIEWED`
 
 ## TRANSACTIONAL / STRESS
 
@@ -534,7 +648,7 @@ Next Global Action: Task 2 raw JTL analysis using the approved production READ_H
 | Scenario uniqueness | `PASS` | Human-approved matrix dùng `LOAD`, `SPIKE`, `STRESS` đúng một lần. |
 | Separate CSV        | `PASS` | READ_HEAVY final CSV tồn tại riêng; AUTH_HEAVY/TRANSACTIONAL reserved paths khác nhau. |
 | Data-driven fit     | `PASS` | Load `${order_id}` drive request path và expected columns drive Assertions. |
-| Listener uniqueness | `PASS` | `Summary Report`, `Response Time Graph`, `Aggregate Report` là ba built-in types khác nhau. |
+| Listener uniqueness | `PASS_WITH_DEPENDENCY_BLOCKER` | Mapping da chon `Summary Report`, `Response Time Graph`, `Aggregate Report` la khac nhau; static JMeter inventory chua co component `Response Time Graph`, nen AUTH_HEAVY JMX bi block. |
 | Hard exclusion check | `PASS` | Không revised endpoint nào thuộc năm Human-provided excluded workflows. |
 | Endpoint ownership across group members | `PASS_BY_STUDENT_CONFIRMATION` | Human confirmation cho đúng ba selected workflows; không suy ra từ repository. |
 
@@ -556,17 +670,17 @@ Safe Backfill:
 - `A-016` đã nhận Human Decision `APPROVED`; verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, JMeter plan `APPROVED` với mandatory preflight.
 - `A-017` có verdict `VALID`, Student Decision `ACCEPTED_AS_IS` trong scope execution-safety/failure-handling; điều này không phải performance PASS.
 - `A-018` có verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, Approval Status `MODIFIED_AND_APPROVED`; Human authorize đúng một retry `run-002` với reason `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE`.
-- `A-019` ghi production Load `run-002` execution/evidence interaction; `Review Status: PENDING_HUMAN_REVIEW`, chưa có verdict hoặc Student Decision.
-- Current HW05 artifact interaction: `A-019_PENDING_HUMAN_REVIEW`; audit chưa được finalize toàn project.
+- `A-019` ghi production Load `run-002` execution/evidence interaction; `Review Status: FINALIZED`, verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, Approval Status `APPROVED`.
+- No audit entry was created for the current AUTH_HEAVY design interaction by explicit instruction; the dedicated audit step remains deferred.
 
 ## Current Workflow State
 
-`RAW_JTL_AVAILABLE`
+`REAL_EXECUTION_REQUIRED`
 
 ## Current Blocker
 
-`NONE` for starting Task 2 with approved READ_HEAVY / LOAD `run-002` raw JTL. Project submission remains `NOT_READY` because the production AUTH_HEAVY / SPIKE and TRANSACTIONAL / STRESS workflows have not started.
+`EXECUTION_PREFLIGHT_REQUIRED`: Student da approve JMX scope `AUTH_HEAVY_SPIKE_JMETER_PLAN`; `R-001` van la pre-execution dependency bat buoc. Phai PASS disposable runtime, source DB integrity, temporary external token, authenticated identity, fail-close token, va resource-monitor initial sample truoc real execution. Task 2 van duoc hoan lai den khi Task 1 production da hoan tat.
 
 ## Next Allowed Action
 
-Task 2 raw JTL analysis using the approved production READ_HEAVY / LOAD `run-002` evidence. Do not rerun JMeter.
+Perform mandatory AUTH_HEAVY / SPIKE execution preflight. Run the approved JMX exactly once only if every preflight check passes; otherwise preserve evidence and stop for Human Review. Do not start Task 2.

@@ -1,0 +1,2 @@
+expected_user_id,expected_email,expected_name,auth_case,iteration_key
+2,test@eshop.com,Test User,authenticated_success,auth-users-me-success-001
