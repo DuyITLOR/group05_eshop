@@ -11,12 +11,13 @@ const { spawn, spawnSync } = require("child_process");
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 const SOURCE_BACKEND = path.join(REPO_ROOT, "backend");
 const SOURCE_DB = path.join(SOURCE_BACKEND, "database.sqlite");
-const RUN_ID = "run-001";
+const runIdArgumentIndex = process.argv.indexOf("--run-id");
+const RUN_ID = runIdArgumentIndex >= 0 ? process.argv[runIdArgumentIndex + 1] : "run-001";
 const RUN_ROOT = path.join(REPO_ROOT, "results", "23127107_Spike_20260816", RUN_ID);
 const RAW_DIR = path.join(RUN_ROOT, "raw");
 const HTML_DIR = path.join(RUN_ROOT, "html");
 const EVIDENCE_DIR = path.join(RUN_ROOT, "evidence");
-const RAW_JTL = path.join(RAW_DIR, "23127107_Spike_20260816_run-001.jtl");
+const RAW_JTL = path.join(RAW_DIR, `23127107_Spike_20260816_${RUN_ID}.jtl`);
 const JMX = path.join(REPO_ROOT, "test-plans", "23127107_Spike_20260816.jmx");
 const CSV = path.join(REPO_ROOT, "test-data", "auth-heavy-users-me.csv");
 const DESIGN = path.join(REPO_ROOT, "docs", "performance-design", "spike-users-me-design.md");
@@ -291,10 +292,58 @@ async function stopChild(child) {
   if (child.exitCode === null) child.kill("SIGKILL");
 }
 
-function summarizeResources() {
-  const rows = fs.readFileSync(path.join(EVIDENCE_DIR, "resource-monitor.csv"), "utf8").trim().split(/\r?\n/);
-  const headers = rows.shift().split(",");
-  const items = rows.map((line) => Object.fromEntries(line.split(",").map((value, index) => [headers[index], value])));
+const RESOURCE_CSV_HEADERS = Object.freeze([
+  "timestamp",
+  "system_cpu_percent",
+  "system_memory_used_bytes",
+  "system_memory_free_bytes",
+  "backend_pid",
+  "backend_alive",
+  "backend_cpu_seconds",
+  "backend_working_set_bytes",
+  "backend_private_memory_bytes",
+  "backend_thread_count",
+]);
+
+function parseResourceCsv(resourceCsv = path.join(EVIDENCE_DIR, "resource-monitor.csv")) {
+  const content = fs.readFileSync(resourceCsv, "utf8").replace(/^\uFEFF/, "");
+  const rows = content.split(/\r?\n/).filter((line) => line.trim() !== "");
+  if (rows.length < 2) throw new Error("EVIDENCE_FAILURE: resource monitor CSV has no samples");
+
+  const headers = parseCsvLine(rows.shift());
+  if (headers.length !== RESOURCE_CSV_HEADERS.length
+    || !headers.every((header, index) => header === RESOURCE_CSV_HEADERS[index])) {
+    throw new Error("EVIDENCE_FAILURE: resource monitor CSV schema mismatch");
+  }
+
+  return rows.map((line, rowIndex) => {
+    const fields = parseCsvLine(line);
+    if (fields.length !== headers.length) {
+      throw new Error(`EVIDENCE_FAILURE: resource monitor CSV row ${rowIndex + 2} has ${fields.length} columns`);
+    }
+    const item = Object.fromEntries(fields.map((value, index) => [headers[index], value]));
+    const numericFields = [
+      "system_cpu_percent",
+      "system_memory_used_bytes",
+      "system_memory_free_bytes",
+      "backend_pid",
+    ];
+    if (!item.timestamp || !Number.isFinite(Date.parse(item.timestamp))
+      || numericFields.some((field) => !Number.isFinite(Number(item[field])))
+      || !["true", "false"].includes(item.backend_alive.toLowerCase())) {
+      throw new Error(`EVIDENCE_FAILURE: resource monitor CSV row ${rowIndex + 2} is invalid`);
+    }
+    if (item.backend_alive.toLowerCase() === "true"
+      && ["backend_cpu_seconds", "backend_working_set_bytes", "backend_private_memory_bytes", "backend_thread_count"]
+        .some((field) => !Number.isFinite(Number(item[field])))) {
+      throw new Error(`EVIDENCE_FAILURE: live backend metrics missing in resource monitor CSV row ${rowIndex + 2}`);
+    }
+    return item;
+  });
+}
+
+function summarizeResources(resourceCsv) {
+  const items = parseResourceCsv(resourceCsv);
   const values = (field) => items.map((item) => Number(item[field])).filter(Number.isFinite);
   const aggregate = (field) => {
     const sample = values(field);
@@ -330,6 +379,7 @@ function parseCsvLine(line) {
       if (quoted && line[index + 1] === '"') { value += '"'; index += 1; } else quoted = !quoted;
     } else if (character === "," && !quoted) { values.push(value); value = ""; } else value += character;
   }
+  if (quoted) throw new Error("EVIDENCE_FAILURE: CSV has an unterminated quoted field");
   values.push(value);
   return values;
 }
@@ -378,6 +428,7 @@ function deleteRuntime(runtimeRoot) {
 }
 
 async function main() {
+  if (!/^run-\d{3}$/.test(RUN_ID)) throw new Error("INVALID_RUN_ID");
   if (fs.existsSync(RUN_ROOT)) throw new Error(`RUN_ID_COLLISION: ${relative(RUN_ROOT)}`);
   fs.mkdirSync(RAW_DIR, { recursive: true });
   fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
@@ -648,9 +699,27 @@ async function diagnosticVersionOnly() {
   }
 }
 
-const command = process.argv[2];
-const action = command === "--diagnostic-version-only" ? diagnosticVersionOnly() : main();
-action.catch((error) => {
+function diagnosticResourceCsv(resourceCsv) {
+  const summary = summarizeResources(resourceCsv);
+  process.stdout.write(`${JSON.stringify({
+    classification: "DIAGNOSTIC_ONLY",
+    result: "PASS",
+    resource_csv: relative(resourceCsv),
+    resource_csv_headers: RESOURCE_CSV_HEADERS,
+    resource_samples: summary.sample_count,
+    first_timestamp: summary.first_timestamp,
+    backend_not_alive_samples: summary.backend_not_alive_samples,
+    workload_executed: false,
+  })}\n`);
+}
+
+const resourceCsvDiagnosticIndex = process.argv.indexOf("--diagnostic-resource-csv");
+const action = process.argv.includes("--diagnostic-version-only")
+  ? diagnosticVersionOnly()
+  : resourceCsvDiagnosticIndex >= 0
+    ? Promise.resolve().then(() => diagnosticResourceCsv(path.resolve(process.argv[resourceCsvDiagnosticIndex + 1] || "")))
+    : main();
+Promise.resolve(action).catch((error) => {
   process.stderr.write(`AUTH_HEAVY_SPIKE_EXECUTION_ABORTED: ${error.message}\n`);
   process.exitCode = 1;
 });

@@ -1,0 +1,2 @@
+﻿"timestamp","system_cpu_percent","system_memory_used_bytes","system_memory_free_bytes","backend_pid","backend_alive","backend_cpu_seconds","backend_working_set_bytes","backend_private_memory_bytes","backend_thread_count"
+"2026-08-16T03:25:26.7058411+07:00","14.35","14378524672","2512453632","30600","True","0.484375","61812736","66920448","16"

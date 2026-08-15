@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (AUTH_HEAVY / SPIKE run-001 remediation validated; retry authorization remains required)
+- Last Updated: `2026-08-16` (AUTH_HEAVY / SPIKE run-002 parser remediation and diagnostic-only validation passed; retry authorization for run-003 is required)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -14,7 +14,7 @@
 | Group | Endpoint | Scenario | Phase | Status |
 |---|---|---|---|---|
 | `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
-| `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `REAL_EXECUTION_REQUIRED` | `RETRY_AUTHORIZATION_REQUIRED` |
+| `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `RETRY_REVIEW_REQUIRED` | `FAILED_PRE_EXECUTION_ATTEMPT` |
 | `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 
 ## Rejected Design History — READ_HEAVY / LOAD
@@ -397,9 +397,15 @@ Checkpoint Resolution: `PLAN_APPROVED`
 
 Status: `FAILED_PRE_EXECUTION_ATTEMPT`
 
-Run: `run-001`
+Run: `run-002`
 
-Failure Classification: `ENVIRONMENT_FAILURE`
+Retry Authorization: `APPROVED`
+
+Retry Reason: `RETRY_AFTER_PRE_EXECUTION_ENVIRONMENT_FAILURE`
+
+Previous Run: `run-001` (`FAILED_PRE_EXECUTION_ATTEMPT` / `ENVIRONMENT_FAILURE`; preserved)
+
+Failure Classification: `EVIDENCE_FAILURE`
 
 JMeter Invocation Count: `0`
 
@@ -409,33 +415,41 @@ Raw JTL: `NOT_CREATED`
 
 HTML Report Folder: `NOT_CREATED`
 
-Resource Monitor Evidence: `NOT_CREATED`
+Resource Monitor Evidence: `PARTIAL`; `results/23127107_Spike_20260816/run-002/evidence/resource-monitor.csv` has one valid initial sample, but no summary was created.
 
-Execution Metadata: `results/23127107_Spike_20260816/run-001/evidence/execution-metadata.json`
+Execution Metadata: `results/23127107_Spike_20260816/run-002/evidence/execution-metadata.json`
 
-Execution Review: `docs/performance-executions/spike-users-me-run-001-execution-review.md`
+Execution Review: `docs/performance-executions/spike-users-me-run-002-execution-review.md`
 
 Source DB Integrity Before / After: `PASS` / `PASS`
 
-JMeter Version-only Preflight: `FAIL`; `jmeter-version-check.log` is empty.
+JMeter Version-only Preflight: `PASS` (`5.6.3`).
 
-Disposable Runtime / Token / Identity / Fail-closed / Plugin / Monitor: `NOT_REACHED`
+Plugin Preflight: `PASS`.
+
+Disposable Runtime / Token / Identity / Fail-closed: `PASS`.
+
+Resource Monitor: `PARTIAL`; one valid initial sample was written, then wrapper CSV parsing failed before JMeter.
 
 No Silent Rerun: `PASS`
 
+Root Cause Category: `CSV_HEADER_PARSE_FAILURE` / `PARSER_IMPLEMENTATION_DEFECT`
+
+Root Cause: `summarizeResources()` parsed a quoted `Export-Csv` header with `split(",")`, leaving the object key `"backend_alive"`; `item.backend_alive` was therefore undefined.
+
+Remediation: `PASS`; only `scripts/performance/auth-heavy-spike-execute.js` resource-monitor parser/validation was corrected. JMX, CSV and design remain unchanged.
+
+Diagnostic Validation: `PASS`; a preserved CSV copy parsed correctly and header-only/wrong-schema fixtures were rejected fail-closed under `DIAGNOSTIC_ONLY`.
+
 Failure Triage Decision: `MODIFIED_AND_APPROVED`
 
-Decision Scope: `AUTH_HEAVY_SPIKE_RUN_001_ENVIRONMENT_REMEDIATION`
+Decision Scope: `AUTH_HEAVY_SPIKE_RUN_002_EVIDENCE_PARSER_REMEDIATION`
 
-Root Cause: `PROCESS_INVOCATION_FAILURE`; direct Node.js `spawnSync` of `jmeter.bat` returned `EINVAL` before any JMeter invocation.
+Retry Authorization Required: `YES` (a new run identity requires a separate Student decision).
 
-Remediation: `PASS`; the version guard now invokes the existing PowerShell launcher in version-only mode and remains fail-closed for spawn, exit-code, or version detection failures.
+Recommended New Run Identity: `run-003`
 
-Diagnostic Validation: `PASS` / `DIAGNOSTIC_ONLY`; JMeter `5.6.3`, `jpgc-graphs-basic=2.0`, `jpgc-casutg=3.1.1`, `jpgc-plugins-manager=1.12`, `ResponseTimesOverTimeGui`, and `UltimateThreadGroup` passed without workload execution.
-
-Retry Authorization Required: `YES`
-
-Recommended New Run Identity: `run-002` (`RETRY_AFTER_PRE_EXECUTION_ENVIRONMENT_FAILURE`)
+Retry Reason: `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_PARSER_FAILURE`
 
 CHECKPOINT: `RETRY_REVIEW_REQUIRED`
 
@@ -713,11 +727,11 @@ Safe Backfill:
 
 ## Current Blocker
 
-`RETRY_AUTHORIZATION_REQUIRED`: the `run-001` failure remains immutable `FAILED_PRE_EXECUTION_ATTEMPT` evidence. Its confirmed process-invocation remediation and diagnostic-only validation are approved, but a new production attempt is not authorized. Task 2 remains deferred.
+`RETRY_AUTHORIZATION_REQUIRED`: run-002 remains immutable `FAILED_PRE_EXECUTION_ATTEMPT` / `EVIDENCE_FAILURE` evidence with `jmeter_invocation_count: 0`. The resource-monitor parser remediation and diagnostic-only validation are approved; Student must separately authorize or reject exactly one `run-003` attempt. Task 2 remains deferred.
 
 ## Next Allowed Action
 
-Student authorize or reject exactly one new production AUTH_HEAVY / SPIKE attempt using `run-002`. Do not start Task 2.
+Student authorize or reject exactly one new production AUTH_HEAVY / SPIKE attempt using `run-003`. Do not start Task 2.
 
 ## Final Checkpoint
 
