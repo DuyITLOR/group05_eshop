@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="23127340 Spike - Authenticated Cart Integrity and Order Verification">
-      <stringProp name="TestPlan.comments">Spike test: 10 VU baseline for 60s, ramp to 120 VU in 10s, hold peak for 90s, ramp back to 10 VU in 10s, observe recovery for 120s, then ramp down in 10s. Each VU uses one dedicated spike CSV account.</stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="23127340 Endurance - 500 VU Sustained Cart and Order Workflow">
+      <stringProp name="TestPlan.comments">Endurance test: ramp 500 VU over 120s, sustain 500 VU for 600s, then ramp down over 60s. Each VU uses one dedicated endurance CSV account.</stringProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
@@ -41,19 +41,19 @@
         <boolProp name="DNSCacheManager.isCustomResolver">false</boolProp>
       </DNSCacheManager>
       <hashTree/>
-      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Spike Profile - 10 to 120 to 10 VU">
+      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Endurance Profile - 500 VU for 10 minutes">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
-          <intProp name="LoopController.loops">1</intProp>
+          <intProp name="LoopController.loops">-1</intProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
         <collectionProp name="ultimatethreadgroupdata">
           <collectionProp name="-1172410540">
-            <stringProp name="53">5</stringProp>
+            <stringProp name="52469">500</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="49">1</stringProp>
+            <stringProp name="48687">120</stringProp>
+            <stringProp name="53430">600</stringProp>
             <stringProp name="1722">60</stringProp>
-            <stringProp name="49">1</stringProp>
           </collectionProp>
         </collectionProp>
       </kg.apc.jmeter.threads.UltimateThreadGroup>
@@ -80,14 +80,14 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Load dedicated spike CSV row once per VU">
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Load dedicated endurance CSV row once per VU">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="script">if (vars.get(&apos;accountLoaded&apos;) != &apos;true&apos;) {
     def jmxBaseDir = org.apache.jmeter.services.FileServer.getFileServer().getBaseDir()
     def csvPath = java.nio.file.Paths.get(jmxBaseDir)
-        .resolve(&apos;../HW/week09/TheDat/test-data/accounts_spike.csv&apos;)
+        .resolve(&apos;../test-data/accounts_endurance.csv&apos;)
         .normalize()
     def lines = java.nio.file.Files.readAllLines(csvPath, java.nio.charset.StandardCharsets.UTF_8)
     int lineIndex = ctx.getThreadNum() + 1
@@ -466,8 +466,8 @@ vars.put(&apos;totalAmount&apos;, price.multiply(quantity).stripTrailingZeros().
           </hashTree>
         </hashTree>
       </hashTree>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree - Errors Only" enabled="true">
-        <boolProp name="ResultCollector.error_logging">true</boolProp>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report (GUI review only - disabled for full Endurance)" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
           <value class="SampleSaveConfiguration">
