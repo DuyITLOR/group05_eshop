@@ -1,0 +1,20 @@
+2026-08-16 03:51:10,669 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2026-08-16 03:51:12,294 INFO o.a.j.JMeter: Loading user properties from: D:\Tools\apache-jmeter-5.6.3\bin\user.properties
+2026-08-16 03:51:12,295 INFO o.a.j.JMeter: Loading system properties from: D:\Tools\apache-jmeter-5.6.3\bin\system.properties
+2026-08-16 03:51:12,302 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2026-08-16 03:51:12,302 INFO o.a.j.JMeter: Version 5.6.3
+2026-08-16 03:51:12,302 INFO o.a.j.JMeter: java.version=17.0.20
+2026-08-16 03:51:12,302 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2026-08-16 03:51:12,303 INFO o.a.j.JMeter: os.name=Windows 11
+2026-08-16 03:51:12,303 INFO o.a.j.JMeter: os.arch=amd64
+2026-08-16 03:51:12,304 INFO o.a.j.JMeter: os.version=10.0
+2026-08-16 03:51:12,304 INFO o.a.j.JMeter: file.encoding=UTF-8
+2026-08-16 03:51:12,304 INFO o.a.j.JMeter: java.awt.headless=null
+2026-08-16 03:51:12,304 INFO o.a.j.JMeter: Max memory     =1073741824
+2026-08-16 03:51:12,304 INFO o.a.j.JMeter: Available Processors =16
+2026-08-16 03:51:12,313 INFO o.a.j.JMeter: Default Locale=English (EN)
+2026-08-16 03:51:12,313 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2026-08-16 03:51:12,313 INFO o.a.j.JMeter: JMeterHome=D:\Tools\apache-jmeter-5.6.3
+2026-08-16 03:51:12,313 INFO o.a.j.JMeter: user.dir  =D:\Workspace\HCMUS\Software Testing\Homework\group05_eshop\results\23127107_Spike_20260816\run-003\evidence
+2026-08-16 03:51:12,314 INFO o.a.j.JMeter: PWD       =D:\Workspace\HCMUS\Software Testing\Homework\group05_eshop\results\23127107_Spike_20260816\run-003\evidence
+2026-08-16 03:51:12,315 INFO o.a.j.JMeter: IP: 192.168.1.23 Name: 23127107-Quan FullName: 23127107-Quan

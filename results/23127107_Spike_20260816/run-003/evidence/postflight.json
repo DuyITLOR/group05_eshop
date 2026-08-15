@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "captured_at": "2026-08-15T20:52:45.925Z",
+  "backend_stopped": false,
+  "temporary_external_properties_file_deleted": true,
+  "disposable_runtime_deleted": true,
+  "source_database_sha256_after": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_unchanged": true,
+  "failure_reason": null
+}

@@ -1,0 +1,70 @@
+{
+  "evidence_type": "HW05_PRODUCTION_AUTH_HEAVY_SPIKE_EXECUTION_METADATA",
+  "student_id": "23127107",
+  "run_id": "run-003",
+  "scenario": "SPIKE",
+  "group": "AUTH_HEAVY",
+  "endpoint": "GET /api/users/me",
+  "execution_status": "COMPLETE",
+  "started_at": "2026-08-15T20:51:09.590Z",
+  "jmeter_started_at": "2026-08-15T20:51:21.309Z",
+  "jmeter_ended_at": "2026-08-15T20:52:43.587Z",
+  "wall_clock_execution_seconds": 82.278,
+  "jmeter_version": "5.6.3",
+  "jmeter_exit_code": 0,
+  "jmeter_invocation_count": 1,
+  "rerun_count": 0,
+  "no_silent_rerun": true,
+  "preflight_passed": true,
+  "approved_artifact_fingerprints": {
+    "jmx": "64E17D39739D7656296840EA84A429BDD3F60FCC5C0F95CFAC907F30F5E144B6",
+    "csv": "B511539176DA16D396DFA2B3FC1DF02DFFA4236B2DF4C48A0FB33721A5877A3C",
+    "design": "A4E26C5DE9EC71B7293961D9E943B05C4F35F1ADD6D18E5C81C02AF5CBC11921",
+    "plan_review": "68A2651FB66B46C2545C27DCB6542DCEDDBF3B431D5C4FB89AEAEDC31D5EEB10",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "approved_workload_traceability": {
+    "result": "PASS",
+    "approved_profile": "5 VUs / 20s -> 25 VUs in 3s -> 25 VUs / 20s -> 5 VUs in 5s -> 5 VUs / 20s",
+    "planned_window_seconds": 68,
+    "think_time": "Uniform Random Timer 250-500 ms",
+    "listener": "jp@gc - Response Times Over Time",
+    "checks": {
+      "baseline_5": true,
+      "baseline_window_68": true,
+      "spike_20_additional": true,
+      "spike_timing": true,
+      "uniform_timer_250_plus_250": true,
+      "external_token": true,
+      "response_times_listener": true,
+      "csv_binding": true
+    }
+  },
+  "raw_jtl": "results/23127107_Spike_20260816/run-003/raw/23127107_Spike_20260816_run-003.jtl",
+  "raw_jtl_sha256": "B5484DF66137CFB3A7B2787D02DFB2D12B69F4AFFA2127D7A05EF524586E30AB",
+  "html_report": "results/23127107_Spike_20260816/run-003/html/index.html",
+  "resource_monitor": "results/23127107_Spike_20260816/run-003/evidence/resource-monitor.csv",
+  "resource_summary": "results/23127107_Spike_20260816/run-003/evidence/resource-summary.json",
+  "jtl_facts": {
+    "total_samples": 2123,
+    "successful_samples": 2123,
+    "failed_samples": 0
+  },
+  "source_database_sha256_before": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_before_jmeter": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_after_cleanup": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_integrity_after": "PASS",
+  "temporary_secret_deleted": true,
+  "disposable_runtime_deleted": true,
+  "sensitive_value_exposure": {
+    "jwt": "NO",
+    "password": "NO",
+    "reset_token": "NO",
+    "paths_recorded_without_secret_values": []
+  },
+  "performance_interpretation": "NOT_PERFORMED",
+  "task2_analysis": "NOT_STARTED",
+  "failure_reason": null
+}

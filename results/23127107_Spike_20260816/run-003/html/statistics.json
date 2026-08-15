@@ -1,0 +1,34 @@
+{
+  "GET /api/users/me" : {
+    "transaction" : "GET /api/users/me",
+    "sampleCount" : 2123,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2.9637305699481917,
+    "medianResTime" : 3.0,
+    "minResTime" : 1.0,
+    "maxResTime" : 55.0,
+    "pct1ResTime" : 4.0,
+    "pct2ResTime" : 4.0,
+    "pct3ResTime" : 6.0,
+    "throughput" : 32.02449730740802,
+    "receivedKBytesPerSec" : 14.13581326459807,
+    "sentKBytesPerSec" : 8.944342021404974
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 2123,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2.9637305699481917,
+    "medianResTime" : 3.0,
+    "minResTime" : 1.0,
+    "maxResTime" : 55.0,
+    "pct1ResTime" : 4.0,
+    "pct2ResTime" : 4.0,
+    "pct3ResTime" : 6.0,
+    "throughput" : 32.02449730740802,
+    "receivedKBytesPerSec" : 14.13581326459807,
+    "sentKBytesPerSec" : 8.944342021404974
+  }
+}

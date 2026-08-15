@@ -1,0 +1,17 @@
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Creating summariser <summary>
+Created the tree successfully using D:\Workspace\HCMUS\Software Testing\Homework\group05_eshop\test-plans\23127107_Spike_20260816.jmx
+Starting standalone test @ 2026 Aug 16 03:51:24 ICT (1786827084446)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +     43 in 00:00:05 =    8.5/s Avg:     8 Min:     2 Max:    55 Err:     0 (0.00%) Active: 5 Started: 5 Finished: 0
+summary +   1097 in 00:00:30 =   36.6/s Avg:     3 Min:     1 Max:     8 Err:     0 (0.00%) Active: 25 Started: 25 Finished: 0
+summary =   1140 in 00:00:35 =   32.5/s Avg:     3 Min:     1 Max:    55 Err:     0 (0.00%)
+summary +    948 in 00:00:30 =   31.5/s Avg:     2 Min:     1 Max:     8 Err:     0 (0.00%) Active: 5 Started: 25 Finished: 20
+summary =   2088 in 00:01:05 =   32.1/s Avg:     2 Min:     1 Max:    55 Err:     0 (0.00%)
+summary +     35 in 00:00:03 =   12.6/s Avg:     2 Min:     2 Max:     4 Err:     0 (0.00%) Active: 0 Started: 25 Finished: 25
+summary =   2123 in 00:01:08 =   31.3/s Avg:     2 Min:     1 Max:    55 Err:     0 (0.00%)
+Tidying up ...    @ 2026 Aug 16 03:52:32 ICT (1786827152854)
+... end of run

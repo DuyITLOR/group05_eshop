@@ -1,0 +1,25 @@
+{
+  "started_at": "2026-08-15T20:51:21.309Z",
+  "student_id": "23127107",
+  "run_id": "run-003",
+  "scenario": "SPIKE",
+  "group": "AUTH_HEAVY",
+  "endpoint": "GET /api/users/me",
+  "jmx_path": "test-plans/23127107_Spike_20260816.jmx",
+  "csv_path": "test-data/auth-heavy-users-me.csv",
+  "backend_pid": 16632,
+  "monitor_pid": 30424,
+  "jmeter_version": "5.6.3",
+  "plugin_versions": {
+    "graphs_basic": "2.0",
+    "casutg": "3.1.1"
+  },
+  "approved_profile": "5 VUs / 20s -> 25 VUs in 3s -> 25 VUs / 20s -> 5 VUs in 5s -> 5 VUs / 20s",
+  "planned_window_seconds": 68,
+  "think_time": "250-500 ms",
+  "listener": "jp@gc - Response Times Over Time",
+  "preflight_result": "PASS",
+  "command": "jmeter -n -t <approved-jmx> -q <temporary-secret-properties-file> -JbaseUrl=http://127.0.0.1:3000 -l <raw-jtl> -e -o <html> -j <jmeter-log>",
+  "token_recorded": false,
+  "jmeter_invocation_number": 1
+}

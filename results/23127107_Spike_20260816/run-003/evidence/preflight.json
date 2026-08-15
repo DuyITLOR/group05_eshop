@@ -1,0 +1,85 @@
+{
+  "evidence_type": "HW05_PRODUCTION_AUTH_HEAVY_SPIKE_PREFLIGHT",
+  "captured_at": "2026-08-15T20:51:21.307Z",
+  "result": "PASS",
+  "student_id": "23127107",
+  "run_id": "run-003",
+  "endpoint": "GET /api/users/me",
+  "group": "AUTH_HEAVY",
+  "scenario": "SPIKE",
+  "source_database_sha256_before": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_before_jmeter": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_unchanged_before_jmeter": true,
+  "approved_artifact_fingerprints": {
+    "jmx": "64E17D39739D7656296840EA84A429BDD3F60FCC5C0F95CFAC907F30F5E144B6",
+    "csv": "B511539176DA16D396DFA2B3FC1DF02DFFA4236B2DF4C48A0FB33721A5877A3C",
+    "design": "A4E26C5DE9EC71B7293961D9E943B05C4F35F1ADD6D18E5C81C02AF5CBC11921",
+    "plan_review": "68A2651FB66B46C2545C27DCB6542DCEDDBF3B431D5C4FB89AEAEDC31D5EEB10",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "approved_artifact_integrity": "PASS",
+  "runtime_isolation": "DISPOSABLE_BACKEND_RUNTIME_COPY",
+  "runtime_location": "OS_TEMP_OUTSIDE_REPOSITORY",
+  "runtime_database_path_is_source_database": false,
+  "seeded_identity": {
+    "id": 2,
+    "name": "Test User",
+    "email": "test@eshop.com",
+    "role": "user"
+  },
+  "setup_login": {
+    "measured_traffic": false,
+    "result": "PASS",
+    "token_value_recorded": false
+  },
+  "authenticated_identity": {
+    "result": "PASS",
+    "http_status": 200,
+    "id": 2,
+    "email": "test@eshop.com",
+    "name": "Test User"
+  },
+  "fail_closed_token_check": {
+    "result": "PASS",
+    "measured_traffic": false,
+    "missing_token_http_status": 401
+  },
+  "plugin_verification": {
+    "result": "PASS",
+    "jmeter_version": "5.6.3",
+    "graphs_basic": "jpgc-graphs-basic=2.0",
+    "custom_thread_groups": "jpgc-casutg=3.1.1",
+    "plugins_manager": "jpgc-plugins-manager=1.12",
+    "listener": "jp@gc - Response Times Over Time",
+    "listener_gui_class": "kg.apc.jmeter.vizualizers.ResponseTimesOverTimeGui"
+  },
+  "workload_traceability": {
+    "result": "PASS",
+    "approved_profile": "5 VUs / 20s -> 25 VUs in 3s -> 25 VUs / 20s -> 5 VUs in 5s -> 5 VUs / 20s",
+    "planned_window_seconds": 68,
+    "think_time": "Uniform Random Timer 250-500 ms",
+    "listener": "jp@gc - Response Times Over Time",
+    "checks": {
+      "baseline_5": true,
+      "baseline_window_68": true,
+      "spike_20_additional": true,
+      "spike_timing": true,
+      "uniform_timer_250_plus_250": true,
+      "external_token": true,
+      "response_times_listener": true,
+      "csv_binding": true
+    }
+  },
+  "resource_monitor": {
+    "result": "PASS",
+    "backend_pid": 16632,
+    "monitor_pid": 30424,
+    "initial_samples": 1,
+    "stderr_empty": true
+  },
+  "token_value_recorded": false,
+  "full_response_body_recorded": false,
+  "jmeter_invocation_count_before_execution": 0
+}
