@@ -4,11 +4,11 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (Task 1 supporting Endurance JMX Human-approved; real Endurance execution preflight required)
+- Last Updated: `2026-08-16` (supporting Endurance run-001 Human-approved; Task 1 complete and audit catch-up required before Task 2)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
-- Task 1: `IN_PROGRESS`
+- Task 1: `COMPLETE`
 - Task 2: `NOT_STARTED`
 
 ## Endpoint Mapping
@@ -779,7 +779,7 @@ Human Review: `NOT_REVIEWED`
 
 ## Endurance / Soak
 
-Status: `REAL_ENDURANCE_EXECUTION_REQUIRED`
+Status: `COMPLETE`
 
 Design: `docs/performance-design/endurance-soak-design.md`
 
@@ -811,19 +811,53 @@ Static Validation: `XML_PARSE=PASS`; `THREAD_GROUP=PASS`; `CSV_MAPPING=PASS`; `R
 
 Dependency: JMeter `5.6.3`; `jpgc-casutg=3.1.1` verified
 
-Raw JTL: `NONE`
+Run: `run-001` (`FIRST_AND_ONLY_AUTHORIZED_SUPPORTING_ENDURANCE_RUN`)
 
-HTML Report: `NONE`
+Raw JTL: `results/supporting-endurance/23127107_Endurance_20260816/run-001/raw/23127107_Endurance_20260816_run-001.jtl`
 
-Resource Evidence: `NOT_CREATED`
+Raw JTL SHA-256: `2B4E8A398EAD44F438B11D83758B6087E31B298D6DDA48A678DF43D9E7DF4B10`
 
-Execution: `NOT_RUN`
+HTML Report: `results/supporting-endurance/23127107_Endurance_20260816/run-001/html/index.html` (`PASS`; same JMeter invocation)
 
-Performance Interpretation: `NOT_PERFORMED`
+Resource Evidence: `results/supporting-endurance/23127107_Endurance_20260816/run-001/evidence/resource-monitor.csv`; `resource-summary.json`; `hardware-context.json`
+
+Execution Evidence Review: `docs/performance-executions/endurance-soak-run-001-execution-review.md`
+
+Execution: `COMPLETE`
+
+Preflight: `PASS` (JMeter `5.6.3`, `jpgc-casutg=3.1.1`, disposable runtime, exact fixtures, endpoint smoke, resource parser)
+
+JMeter exit / invocation / rerun count: `0 / 1 / 0`
+
+Approved profile traceability: `PASS` - JMX `60s -> 10 VUs for 600s -> 60s`; immutable raw JTL has `0` non-10-VU samples during the aligned 600-second steady interval.
+
+Factual samples: `8740 total / 8740 successful / 0 failed`; steady measurement samples: `7962 total / 7962 successful / 0 failed`.
+
+JMeter process interval: `733.775 seconds` (recorded process fact; not used to redefine the approved workload).
+
+Resource monitor: `PASS`; `725` samples; backend-not-alive `0`; restart count `0`.
+
+Source DB SHA-256 before / pre-JMeter / after cleanup: `PASS / PASS / PASS` (`C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`).
+
+Temporary runtime/properties cleanup: `PASS`; JWT/password/reset token exposure: `NO / NO / NO`.
+
+No silent rerun: `PASS`; `run-002` not created.
+
+Endurance Threshold Evaluation: `COMPLETE` - response `0.666667 <= 1.25`; resource RSS `1.019652 <= 1.15`; measured failures `0`; result `STABLE_WITHIN_PROPOSED_THRESHOLD`.
+
+Threshold Evidence: `results/supporting-endurance/23127107_Endurance_20260816/run-001/evidence/endurance-threshold-calculation.json`
 
 Review Status: `FINALIZED`
 
 Student Decision: `APPROVED`
+
+Approval Scope: `TASK1_ENDURANCE_SOAK_RUN_001_EXECUTION_EVIDENCE`
+
+Verification Method / Result: `EXECUTION_EVIDENCE_REVIEW` / `PASSED`
+
+Execution Evidence: `APPROVED`
+
+Endurance Stability Evaluation: `APPROVED`
 
 Design Approval Scope: `TASK1_ENDURANCE_SOAK_DESIGN`
 
@@ -839,11 +873,15 @@ R-002 Decision: `ACCEPT` (`INFO`, documented source/spec limitation)
 
 Static Review Readiness: `CONDITIONALLY_READY`
 
-Execution Readiness: `REAL_ENDURANCE_EXECUTION_REQUIRED`
+Execution Readiness: `COMPLETE`
 
 Threshold Source: `AI_PROPOSED_AND_STUDENT_APPROVED` (không phải official SLA hoặc production SLA; no JMX calculation)
 
-Next Allowed Action: Create the Git checkpoint for the approved supporting Endurance plan, then authorize exactly one real Endurance execution with a 600-second measured soak after mandatory preflight passes.
+Performance Interpretation: `NOT_PERFORMED`; Task 2: `NOT_STARTED`.
+
+Task 1 Completion: `COMPLETE` - READ_HEAVY/LOAD, AUTH_HEAVY/SPIKE, TRANSACTIONAL/STRESS, và supporting ENDURANCE/SOAK đã có execution evidence Human-approved trong phạm vi Task 1.
+
+Next Allowed Action: Dedicated AI Audit catch-up cho substantive TRANSACTIONAL/STRESS và Endurance interactions trước khi bắt đầu Task 2. Do not rerun JMeter.
 
 ## Production Matrix Proposal
 
@@ -930,16 +968,16 @@ Safe Backfill:
 
 ## Current Workflow State
 
-`REAL_ENDURANCE_EXECUTION_REQUIRED`
+`TASK1_COMPLETE_TASK2_READY`
 
 ## Current Blocker
 
-`ENDURANCE_RUNTIME_PREFLIGHT_REQUIRED`: Supporting Endurance JMX được Student approve. R-001 vẫn là mandatory preflight/evidence dependency; Git checkpoint và toàn bộ preflight phải pass trước đúng một real 600-second measured soak. Ba final production JMX/JTL/HTML remains unchanged; Task 2 interpretation remains deferred.
+`DEDICATED_AI_AUDIT_CATCH_UP_REQUIRED`: Task 1 đã complete và Task 2 chưa được bắt đầu. Phải hoàn tất dedicated audit catch-up cho substantive TRANSACTIONAL/STRESS và Endurance interactions trước khi bắt đầu Task 2; không có rerun được ủy quyền.
 
 ## Next Allowed Action
 
-Create the Git checkpoint for the approved supporting Endurance plan, then authorize exactly one real Endurance execution with a 600-second measured soak after mandatory preflight passes. Do not start Task 2.
+Perform dedicated AI Audit catch-up for outstanding TRANSACTIONAL/STRESS and Endurance substantive interactions before starting Task 2. Do not rerun JMeter or start Task 2.
 
 ## Final Checkpoint
 
-`REAL_ENDURANCE_EXECUTION_REQUIRED`
+`TASK1_COMPLETE_TASK2_READY`

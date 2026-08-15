@@ -1,0 +1,49 @@
+{
+  "threshold_source": "AI_PROPOSED_AND_STUDENT_APPROVED",
+  "scope": "TASK1_ENDURANCE_ONLY_NOT_TASK2",
+  "raw_jtl_sha256": "2B4E8A398EAD44F438B11D83758B6087E31B298D6DDA48A678DF43D9E7DF4B10",
+  "window_alignment_method": "first sustained allThreads=10 sample in immutable raw JTL",
+  "previous_process_invocation_baseline_replaced": true,
+  "alignment_note": "Cua so do duoc tinh lai tu allThreads trong raw JTL; raw JTL va HTML report khong bi sua doi.",
+  "windows": {
+    "measured_start": "2026-08-15T23:16:59.071Z",
+    "measured_end": "2026-08-15T23:26:59.071Z",
+    "early_start": "2026-08-15T23:17:59.071Z",
+    "early_end": "2026-08-15T23:19:59.071Z",
+    "late_start": "2026-08-15T23:23:59.071Z",
+    "late_end": "2026-08-15T23:26:59.071Z"
+  },
+  "full_run": {
+    "total_samples": 8740,
+    "successful_samples": 8740,
+    "failed_samples": 0,
+    "sample_timestamp_start": "2026-08-15T23:16:05.773Z",
+    "sample_timestamp_end": "2026-08-15T23:27:59.006Z"
+  },
+  "measured_soak": {
+    "total_samples": 7962,
+    "successful_samples": 7962,
+    "failed_samples": 0,
+    "error_stability": "PASS"
+  },
+  "response": {
+    "early_p95_ms": 3,
+    "late_p95_ms": 2,
+    "ratio": 0.666667,
+    "result": "STABLE_WITHIN_PROPOSED_THRESHOLD",
+    "early_success_samples": 1592,
+    "late_success_samples": 2394
+  },
+  "resource": {
+    "metric": "backend_working_set_bytes",
+    "early_median_rss_bytes": 66072576,
+    "late_median_rss_bytes": 67371008,
+    "ratio": 1.019652,
+    "backend_restart_count": 0,
+    "result": "STABLE_WITHIN_PROPOSED_THRESHOLD",
+    "early_samples": 119,
+    "late_samples": 177,
+    "continuity": "PASS"
+  },
+  "overall_result": "STABLE_WITHIN_PROPOSED_THRESHOLD"
+}

@@ -1,0 +1,59 @@
+{
+  "evidence_type": "HW05_SUPPORTING_ENDURANCE_PREFLIGHT",
+  "result": "PASS",
+  "run_id": "run-001",
+  "artifact_classification": "SUPPORTING_ENDURANCE_EXECUTION_ARTIFACT",
+  "submission_set_membership": "EXCLUDED_FROM_FINAL_3_JMX_JTL_HTML_SET",
+  "endpoint": "GET /api/orders/:id",
+  "jmeter_version": "5.6.3",
+  "plugin_version": "3.1.1",
+  "source_database_sha256_before": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_sha256_pre_jmeter": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "approved_artifact_fingerprints": {
+    "supporting_jmx": "EA79A126049E64BF13349A53A0D5F820C4CC5B0F73D14F1CF6A91957C09E858B",
+    "reused_csv": "CA8770F8795EC6C7E21DDE68704BE35B19758940B4A41D54D89D0A4FE1D1EECF",
+    "design": "CC19C51290565D90CB12DDCA921888B8EA6BE95B7406622613C44E6E49D57AF3",
+    "plan_review": "560D2EE30E9D0B314226A7D1974FE442A2830B6923F963DAFBB53C5629825FEA",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "final_load_jmx": "13BBDA897DC17E4907FF1E7BB1C05AD87AE33768D2B896862C18172F61F2D2B7",
+    "final_spike_jmx": "64E17D39739D7656296840EA84A429BDD3F60FCC5C0F95CFAC907F30F5E144B6",
+    "final_stress_jmx": "4F6F14C557792B6E45694B6DD370366D7560BB3A672B348DA472801357B4B322",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "runtime_isolation": "DISPOSABLE_BACKEND_RUNTIME_COPY",
+  "runtime_database_source_path": "OS_TEMP_OUTSIDE_REPOSITORY",
+  "backend_pid": 28752,
+  "monitor_pid": 30264,
+  "fixtures": [
+    {
+      "id": 2312710701,
+      "user_id": 2,
+      "total_amount": 30000000,
+      "status": "pending",
+      "created_at_present": true
+    },
+    {
+      "id": 2312710702,
+      "user_id": 2,
+      "total_amount": 28000000,
+      "status": "pending",
+      "created_at_present": true
+    }
+  ],
+  "endpoint_success_smoke": {
+    "setup_only": true,
+    "order_id": 2312710701,
+    "http_status": 200,
+    "exact_fields_match": true,
+    "authentication_used": false
+  },
+  "resource_monitor": {
+    "result": "PASS",
+    "sample_count": 1,
+    "backend_pid": 28752,
+    "monitor_pid": 30264,
+    "parser": "quoted-CSV parser with UTF-8 BOM/CRLF support"
+  },
+  "no_authentication_used_for_current_source_handler": true
+}

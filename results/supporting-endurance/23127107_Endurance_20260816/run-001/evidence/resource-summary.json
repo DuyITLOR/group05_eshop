@@ -1,0 +1,10 @@
+{
+  "evidence_type": "FACTUAL_RESOURCE_CAPTURE_SUMMARY",
+  "interpretation_performed": false,
+  "sample_count": 725,
+  "first_timestamp": "2026-08-15T23:15:55.736Z",
+  "last_timestamp": "2026-08-15T23:28:09.364Z",
+  "backend_pid": 28752,
+  "backend_not_alive_samples": 0,
+  "resource_monitor_continuity": "PASS"
+}

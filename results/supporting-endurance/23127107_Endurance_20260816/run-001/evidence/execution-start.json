@@ -1,0 +1,27 @@
+{
+  "run_id": "run-001",
+  "artifact_classification": "SUPPORTING_ENDURANCE_EXECUTION_ARTIFACT",
+  "endpoint": "GET /api/orders/:id",
+  "jmx_path": "test-plans/supporting/23127107_Endurance_20260816.jmx",
+  "csv_path": "test-data/read-heavy-orders.csv",
+  "jmeter_version": "5.6.3",
+  "plugin_version": "3.1.1",
+  "backend_pid": 28752,
+  "monitor_pid": 30264,
+  "planned_ramp_up_seconds": 60,
+  "planned_measured_soak_seconds": 600,
+  "planned_ramp_down_seconds": 60,
+  "planned_total_seconds": 720,
+  "steady_concurrency_vus": 10,
+  "think_time_ms": "500-1000",
+  "timeline": {
+    "jmeter_process_invocation_at": "2026-08-15T23:15:55.814Z",
+    "ramp_up_start_ms": 1786835755814,
+    "steady_state_start_ms": 1786835815814,
+    "steady_state_end_ms": 1786836415814,
+    "ramp_down_end_ms": 1786836475814,
+    "backend_pid": 28752
+  },
+  "command_redacted": "jmeter -n -t <supporting-jmx> -q <empty-non-secret-properties> -JbaseUrl=<disposable-runtime-url> -l <run-001-jtl> -e -o <run-001-html> -j <run-001-log>",
+  "authorized_jmeter_invocation_number": 1
+}

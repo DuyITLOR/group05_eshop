@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "source_database_integrity_after": true,
+  "final_3_production_jmx_unchanged": true,
+  "supporting_artifacts_unchanged": true,
+  "cleanup": {
+    "backend_stopped": true,
+    "monitor_stopped": true,
+    "disposable_runtime_deleted": true,
+    "empty_non_secret_properties_deleted": true
+  },
+  "cleanup_verification": "results/supporting-endurance/23127107_Endurance_20260816/run-001/evidence/cleanup-verification.json",
+  "cleanup_verification_at": "2026-08-15T23:29:07.9452931Z",
+  "no_silent_rerun": true,
+  "failure_reason": null
+}

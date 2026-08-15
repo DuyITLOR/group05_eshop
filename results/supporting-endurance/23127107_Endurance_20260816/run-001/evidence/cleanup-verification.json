@@ -1,0 +1,13 @@
+{
+  "evidence_type": "HW05_SUPPORTING_ENDURANCE_CLEANUP_VERIFICATION",
+  "captured_at": "2026-08-15T23:29:07.9452931Z",
+  "run_id": "run-001",
+  "backend_pid": 28752,
+  "backend_process_running": false,
+  "monitor_pid": 30264,
+  "monitor_process_running": false,
+  "port_3000_listener_count": 0,
+  "source_database_sha256": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_integrity_after": true,
+  "note": "Post-run process verification corrected the child-process bookkeeping field without modifying raw JTL or HTML evidence."
+}

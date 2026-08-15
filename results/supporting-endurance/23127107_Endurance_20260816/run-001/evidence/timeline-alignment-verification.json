@@ -1,0 +1,21 @@
+{
+  "evidence_type": "HW05_SUPPORTING_ENDURANCE_TIMELINE_ALIGNMENT",
+  "result": "PASS",
+  "source": "immutable raw JTL",
+  "raw_jtl": "results/supporting-endurance/23127107_Endurance_20260816/run-001/raw/23127107_Endurance_20260816_run-001.jtl",
+  "raw_jtl_sha256": "2B4E8A398EAD44F438B11D83758B6087E31B298D6DDA48A678DF43D9E7DF4B10",
+  "approved_profile": {
+    "ramp_up_seconds": 60,
+    "steady_vus": 10,
+    "steady_seconds": 600,
+    "ramp_down_seconds": 60,
+    "total_planned_seconds": 720
+  },
+  "observed": {
+    "first_all_threads_10": "2026-08-15T23:16:59.071Z",
+    "steady_end": "2026-08-15T23:26:59.071Z",
+    "non_ten_threads_during_600_second_steady_hold": 0,
+    "maximum_all_threads": 10
+  },
+  "note": "Thong tin nay chi can chinh moc cua so do cho output dan xuat; raw JTL va HTML report khong bi sua doi."
+}
