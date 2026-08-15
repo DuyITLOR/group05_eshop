@@ -23,7 +23,7 @@ const products = [
   { id: 2, name: "Samsung Galaxy S24 Ultra", price: 28000000 },
   { id: 3, name: "MacBook Pro M3", price: 45000000 },
   { id: 4, name: "Tai nghe AirPods Pro 2", price: 6000000 },
-  { id: 5, name: "Ban phim co Keychron Q1", price: 4000000 },
+  { id: 5, name: "Bàn phím cơ Keychron Q1", price: 4000000 },
 ];
 
 const csvRows = [
