@@ -13,15 +13,29 @@ const {
   applyOrderFixtures,
 } = require("./load-order-detail-setup");
 
+function requiredArgument(name) {
+  const index = process.argv.indexOf(name);
+  const value = index >= 0 ? process.argv[index + 1] : null;
+  if (!value || value.startsWith("--")) throw new Error(`Thiếu argument bắt buộc ${name}.`);
+  return value;
+}
+
+const RUN_ID = requiredArgument("--run-id");
+const RETRY_REASON = requiredArgument("--retry-reason");
+if (RUN_ID !== "run-002") throw new Error(`Run identity không được authorize: ${RUN_ID}.`);
+if (RETRY_REASON !== "RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE") {
+  throw new Error(`Retry reason không được authorize: ${RETRY_REASON}.`);
+}
+
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 const SOURCE_BACKEND = path.join(REPO_ROOT, "backend");
 const PORT = 3000;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
-const RUN_ROOT = path.join(REPO_ROOT, "results", "23127107_Load_20260812", "run-001");
+const RUN_ROOT = path.join(REPO_ROOT, "results", "23127107_Load_20260812", RUN_ID);
 const RAW_DIR = path.join(RUN_ROOT, "raw");
 const HTML_DIR = path.join(RUN_ROOT, "html");
 const EVIDENCE_DIR = path.join(RUN_ROOT, "evidence");
-const RAW_JTL = path.join(RAW_DIR, "23127107_Load_20260812_run-001.jtl");
+const RAW_JTL = path.join(RAW_DIR, `23127107_Load_20260812_${RUN_ID}.jtl`);
 const JMETER = "D:\\Tools\\apache-jmeter-5.6.3\\bin\\jmeter.bat";
 const JMX = path.join(REPO_ROOT, "test-plans", "23127107_Load_20260812.jmx");
 const CSV = path.join(REPO_ROOT, "test-data", "read-heavy-orders.csv");
@@ -232,14 +246,16 @@ function verifyApprovedCsv() {
 }
 
 function getJmeterVersion() {
+  const versionLog = path.join(EVIDENCE_DIR, "jmeter-version-check.log");
   const result = spawnSync("powershell.exe", [
     "-NoProfile",
     "-ExecutionPolicy", "Bypass",
     "-File", JMETER_LAUNCHER,
     "-JMeterPath", JMETER,
     "-VersionOnly",
+    "-VersionLogPath", versionLog,
   ], {
-    cwd: REPO_ROOT,
+    cwd: EVIDENCE_DIR,
     encoding: "utf8",
     windowsHide: true,
   });
@@ -481,6 +497,7 @@ async function main() {
   let jmeterStartedAt = null;
   let jmeterEndedAt = null;
   let jmeterInvocationCount = 0;
+  let corePreflightPassed = false;
   let preflightPassed = false;
   let executionFailure = null;
   let cleanupFailure = null;
@@ -496,6 +513,7 @@ async function main() {
   let workloadTraceability;
   let csvTraceability;
   let jmeterVersion;
+  let monitorInitialSummary;
 
   fs.mkdirSync(RAW_DIR, { recursive: true });
   fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
@@ -560,17 +578,21 @@ async function main() {
     verifyRuntimeOrders(runtimeOrdersBefore);
     sourceBeforeLoad = fingerprints();
     assertExpectedFingerprints(sourceBeforeLoad);
-    preflightPassed = true;
+    corePreflightPassed = true;
 
     writeJson(path.join(EVIDENCE_DIR, "preflight.json"), {
       evidence_type: "HW05_PRODUCTION_LOAD_PREFLIGHT",
       captured_at: new Date().toISOString(),
-      result: "PASS",
+      result: "CORE_PASS_MONITOR_PENDING",
       student_id: "23127107",
       endpoint: "GET /api/orders/:id",
       group: "READ_HEAVY",
       scenario: "LOAD",
-      run_id: "run-001",
+      run_id: RUN_ID,
+      retry_reason: RETRY_REASON,
+      previous_run: "run-001",
+      previous_run_classification: "FAILED_PRE_EXECUTION_ATTEMPT",
+      previous_run_preserved: true,
       output_collision: false,
       jmeter_version: jmeterVersion,
       jmeter_installation: "D:/Tools/apache-jmeter-5.6.3",
@@ -612,22 +634,70 @@ async function main() {
       30000,
     );
 
+    const monitorStderr = path.join(EVIDENCE_DIR, "resource-monitor-stderr.log");
+    if (fs.statSync(monitorStderr).size !== 0) {
+      throw new Error("Resource monitor stderr không rỗng sau initial sample.");
+    }
+    monitorInitialSummary = summarizeResources();
+    const monitorInitialValid = monitorInitialSummary.sample_count >= 1
+      && monitorInitialSummary.backend_not_alive_samples === 0
+      && Number.isFinite(monitorInitialSummary.system_cpu_percent.minimum)
+      && Number.isFinite(monitorInitialSummary.system_memory_used_bytes.minimum)
+      && Number.isFinite(monitorInitialSummary.backend_working_set_bytes.minimum);
+    if (!monitorInitialValid) throw new Error("Initial resource monitor sample không hợp lệ.");
+    writeJson(path.join(EVIDENCE_DIR, "monitor-preflight.json"), {
+      captured_at: new Date().toISOString(),
+      result: "PASS",
+      run_id: RUN_ID,
+      monitor_pid: monitor.pid,
+      backend_pid: backend.pid,
+      initial_sample_count: monitorInitialSummary.sample_count,
+      backend_not_alive_samples: monitorInitialSummary.backend_not_alive_samples,
+      stderr_empty: true,
+      capture_source: "WINDOWS_NATIVE_API_NO_CIM",
+      jmeter_invocation_count: jmeterInvocationCount,
+    });
+    const preflightPath = path.join(EVIDENCE_DIR, "preflight.json");
+    const preflightEvidence = JSON.parse(fs.readFileSync(preflightPath, "utf8"));
+    preflightEvidence.result = "PASS";
+    preflightEvidence.monitor_verified_at = new Date().toISOString();
+    preflightEvidence.resource_monitor_preflight = {
+      result: "PASS",
+      monitor_pid: monitor.pid,
+      backend_pid: backend.pid,
+      initial_sample_count: monitorInitialSummary.sample_count,
+      stderr_empty: true,
+      capture_source: "WINDOWS_NATIVE_API_NO_CIM",
+    };
+    writeJson(preflightPath, preflightEvidence);
+    preflightPassed = true;
+
     jmeterStartedAt = new Date();
-    jmeterInvocationCount += 1;
-    jmeter = runJmeterOnce(secretFile);
-    fs.writeFileSync(path.join(EVIDENCE_DIR, "jmeter.pid"), `${jmeter.pid}\n`, "utf8");
     writeJson(path.join(EVIDENCE_DIR, "execution-start.json"), {
       started_at: jmeterStartedAt.toISOString(),
       student_id: "23127107",
       scenario: "LOAD",
-      run_id: "run-001",
+      run_id: RUN_ID,
+      retry_reason: RETRY_REASON,
+      previous_run: "run-001",
+      previous_run_preserved: true,
+      jmx_path: relative(JMX),
+      jmx_sha256: sourceBeforeLoad.jmx,
+      csv_path: relative(CSV),
+      csv_sha256: sourceBeforeLoad.csv,
       backend_pid: backend.pid,
-      jmeter_pid: jmeter.pid,
+      monitor_pid: monitor.pid,
+      hardware_context: relative(path.join(EVIDENCE_DIR, "hardware-context.json")),
+      preflight_result: "PASS",
       approved_duration_seconds: 120,
-      command: "jmeter -n -t <approved-jmx> -q <temporary-secret-properties-file> -JbaseUrl=http://127.0.0.1:3000 -l <run-001-jtl> -e -o <run-001-html> -j <run-001-log>",
+      command: `jmeter -n -t <approved-jmx> -q <temporary-secret-properties-file> -JbaseUrl=http://127.0.0.1:3000 -l <${RUN_ID}-jtl> -e -o <${RUN_ID}-html> -j <${RUN_ID}-log>`,
       token_recorded: false,
-      jmeter_invocation_number: jmeterInvocationCount,
+      jmeter_invocation_authorized: true,
+      jmeter_invocation_number: 1,
     });
+    jmeterInvocationCount += 1;
+    jmeter = runJmeterOnce(secretFile);
+    fs.writeFileSync(path.join(EVIDENCE_DIR, "jmeter.pid"), `${jmeter.pid}\n`, "utf8");
     [jmeterExitCode] = await once(jmeter, "exit");
     jmeterEndedAt = new Date();
     if (jmeterExitCode !== 0) throw new Error(`JMeter kết thúc với exit code ${jmeterExitCode}.`);
@@ -721,8 +791,17 @@ async function main() {
     endpoint: "GET /api/orders/:id",
     group: "READ_HEAVY",
     plan_identity_date: "20260812",
-    actual_execution_date: startedAt.toISOString().slice(0, 10),
-    run_id: "run-001",
+    actual_execution_date: new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Ho_Chi_Minh",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(startedAt),
+    run_id: RUN_ID,
+    retry_reason: RETRY_REASON,
+    previous_run: "run-001",
+    previous_run_classification: "FAILED_PRE_EXECUTION_ATTEMPT",
+    previous_run_preserved: true,
     execution_status: executionFailure ? "FAILED" : "COMPLETE",
     started_at: startedAt.toISOString(),
     jmeter_started_at: jmeterStartedAt?.toISOString() || null,
@@ -736,8 +815,12 @@ async function main() {
     jmeter_exit_code: jmeterExitCode,
     jmeter_invocation_count: jmeterInvocationCount,
     rerun_count: 0,
+    authorized_retry_attempt: true,
+    automatic_run_003_allowed: false,
     no_silent_rerun: jmeterInvocationCount <= 1,
     preflight_passed: preflightPassed,
+    core_preflight_passed: corePreflightPassed,
+    monitor_preflight_passed: Boolean(monitorInitialSummary),
     approved_workload_traceability: workloadTraceability || null,
     approved_csv_traceability: csvTraceability || null,
     approved_artifact_fingerprints: sourceBeforeLoad || sourceBefore || null,
@@ -759,7 +842,7 @@ async function main() {
     source_database_sha256_before_load: sourceBeforeLoad?.source_database || null,
     source_database_sha256_after_cleanup: sourceAfter?.source_database || null,
     source_fingerprints_unchanged: sourceUnchanged,
-    runtime_database_modified_only: preflightPassed,
+    runtime_database_modified_only: corePreflightPassed,
     temporary_secret_deleted: secretDeleted,
     disposable_runtime_deleted: runtimeDeleted,
     resource_evidence_complete: Boolean(resourceSummary && resourceSummary.sample_count > 0),
@@ -775,6 +858,8 @@ async function main() {
     process.stderr.write(`LOAD_EXECUTION_FAILED: ${executionFailure.message}\n`);
     process.stderr.write(`${JSON.stringify({
       preflight: preflightPassed ? "PASS" : "FAIL",
+      run_id: RUN_ID,
+      retry_reason: RETRY_REASON,
       jmeter_invocation_count: jmeterInvocationCount,
       rerun_count: 0,
       evidence: relative(EVIDENCE_DIR),
@@ -785,6 +870,8 @@ async function main() {
 
   process.stdout.write(`${JSON.stringify({
     status: "PASS",
+    run_id: RUN_ID,
+    retry_reason: RETRY_REASON,
     preflight: "PASS",
     jmeter_exit_code: jmeterExitCode,
     jmeter_invocation_count: jmeterInvocationCount,

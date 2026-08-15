@@ -1,0 +1,16 @@
+﻿{
+    "evidence_type":  "HW05_LOAD_POST_CLEANUP_VERIFICATION",
+    "captured_at":  "2026-08-16T00:59:54.1396318+07:00",
+    "run_id":  "run-002",
+    "backend_pid":  31600,
+    "backend_process_present":  false,
+    "port_3000_listening":  false,
+    "source_database_sha256":  "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "expected_source_database_sha256":  "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_database_integrity":  "PASS",
+    "temporary_secret_present":  false,
+    "disposable_runtime_present":  false,
+    "jmeter_or_java_process_count":  0,
+    "run_003_exists":  false,
+    "performance_interpretation":  "NOT_PERFORMED"
+}

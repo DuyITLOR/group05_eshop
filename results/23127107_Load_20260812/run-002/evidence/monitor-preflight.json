@@ -1,0 +1,12 @@
+{
+  "captured_at": "2026-08-15T17:55:54.256Z",
+  "result": "PASS",
+  "run_id": "run-002",
+  "monitor_pid": 31204,
+  "backend_pid": 31600,
+  "initial_sample_count": 1,
+  "backend_not_alive_samples": 0,
+  "stderr_empty": true,
+  "capture_source": "WINDOWS_NATIVE_API_NO_CIM",
+  "jmeter_invocation_count": 0
+}

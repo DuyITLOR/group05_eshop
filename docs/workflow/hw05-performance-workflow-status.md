@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (READ_HEAVY / LOAD run-001 failure triaged; monitor remediation validated; run-002 authorization pending)
+- Last Updated: `2026-08-16` (READ_HEAVY / LOAD run-002 execution evidence approved; raw JTL available for Task 2)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -13,7 +13,7 @@
 
 | Group | Endpoint | Scenario | Phase | Status |
 |---|---|---|---|---|
-| `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `REAL_EXECUTION_REQUIRED` | `BLOCKED` |
+| `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
 | `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 | `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 
@@ -223,73 +223,67 @@ Checkpoint Resolution: `PLAN_APPROVED`
 
 ### Execution
 
-Status: `BLOCKED`
+Status: `COMPLETE`
 
-Execution Preflight Result: `FAIL`
+#### Historical failed attempt — run-001
 
-Core Runtime/Data/Auth Preflight: `PASS`
+- Classification: `FAILED_PRE_EXECUTION_ATTEMPT`
+- Failure: `EVIDENCE_FAILURE` / `PERMISSION_FAILURE`
+- JMeter invocation count: `0`
+- Raw JTL / HTML / performance result: `NONE / NONE / NONE`
+- Evidence: `results/23127107_Load_20260812/run-001/evidence/`
+- Review: `docs/performance-executions/load-order-detail-run-001-execution-review.md`
+- Preservation: `PASS`; all `10` evidence files match triage hashes.
+- Human Decision: `MODIFIED_AND_APPROVED` for failure remediation; A-017 audit later scoped the original safety/failure handling as `VALID` / `ACCEPTED_AS_IS`.
 
-Resource Monitoring Preflight: `FAIL`
+#### Authorized retry — run-002
 
-Failed Attempt Identity: `run-001`
+- Retry authorization: `APPROVED`
+- Retry reason: `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE`
+- Preflight: `PASS`
+- Disposable runtime / exact fixtures / token identity / order smoke checks: `PASS`
+- Remediated resource monitor preflight: `PASS`; initial valid sample, backend PID resolved, stderr empty.
+- JMeter: `5.6.3`, exit code `0`, invocation count `1`, automatic rerun count `0`.
+- Raw JTL: `results/23127107_Load_20260812/run-002/raw/23127107_Load_20260812_run-002.jtl`
+- Raw JTL SHA-256: `35B7055E06C290A43358ECA8380C42F18A04507B0F41F58E23C4F1E31E9F3A66`
+- HTML report: `results/23127107_Load_20260812/run-002/html/index.html` (`PASS`, `127` files)
+- Resource evidence: `results/23127107_Load_20260812/run-002/evidence/resource-monitor.csv`; `resource-summary.json`; `hardware-context.json`
+- Resource samples: `133`; backend-not-alive samples: `0`
+- Execution metadata: `results/23127107_Load_20260812/run-002/evidence/execution-metadata.json`
+- Cleanup verification: `results/23127107_Load_20260812/run-002/evidence/cleanup-verification.json`
+- Observed sample counts: `1250 total / 1250 successful / 0 failed`
+- JMeter invocation wall-clock duration: `134.458 seconds`
+- Raw JTL timestamp span: `118.071 seconds`
+- Source DB SHA-256 before/after: `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6` / `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`
+- Temporary secret / disposable runtime: `DELETED / DELETED`
+- No silent rerun: `PASS`; `run-003` not created.
+- Execution review: `docs/performance-executions/load-order-detail-run-002-execution-review.md`
+- Human Review: `APPROVED`
+- Approval Scope: `READ_HEAVY_LOAD_RUN_002_EXECUTION_EVIDENCE`
+- Verification Result: `PASSED`
+- Execution Evidence: `APPROVED`
+- Performance interpretation: `NOT_PERFORMED`
+- `REAL_EXECUTION_EVIDENCE_COMPLETE: YES`
 
-Failure Classification: `EVIDENCE_FAILURE`
+Checkpoint Resolution: `EXECUTION_EVIDENCE_APPROVED`
 
-Failure Reason: Windows denied `Get-CimInstance Win32_ComputerSystem`; resource monitor stopped before JMeter.
+Checkpoint: `RAW_JTL_AVAILABLE`
 
-Root Cause Category: `PERMISSION_FAILURE`
+Next allowed action: Task 2 raw JTL analysis using the approved production READ_HEAVY / LOAD `run-002` evidence.
 
-Root Cause Evidence: `results/23127107_Load_20260812/run-001/evidence/resource-monitor-stderr.log` (`PermissionDenied`, HRESULT `0x80041003`).
+### Analysis
 
-Preflight Evidence: `results/23127107_Load_20260812/run-001/evidence/preflight.json`
+Status: `NOT_STARTED`
 
-Execution Metadata: `results/23127107_Load_20260812/run-001/evidence/execution-metadata.json`
+Approved Raw JTL: `results/23127107_Load_20260812/run-002/raw/23127107_Load_20260812_run-002.jtl`
 
-Raw JTL: `NOT_CREATED`
+Metrics: `NOT_CREATED`
 
-HTML Report: `NOT_CREATED`
-
-Resource Evidence: `FAILED_BEFORE_CAPTURE`; failure log `results/23127107_Load_20260812/run-001/evidence/resource-monitor-stderr.log`
-
-Execution Review: `docs/performance-executions/load-order-detail-run-001-execution-review.md`
-
-JMeter Invocation Count: `0`
-
-Workload Rerun Count: `0`
-
-No Silent Rerun: `PASS`
-
-Source DB SHA-256 Before/After Cleanup: `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6` / `C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6`
-
-Temporary Secret: `DELETED`; token value/hash/Authorization header not recorded.
-
-Disposable Runtime: `DELETED`; backend PID absent and port `3000` not listening after cleanup verification.
+AI Analysis: `NOT_CREATED`
 
 Human Review: `NOT_REVIEWED`
 
-Failure Review Decision: `MODIFIED_AND_APPROVED`
-
-Failure Review Scope: `RUN001_FAILURE_TRIAGE_AND_MONITOR_REMEDIATION`
-
-Monitor Remediation: `PASS`; only `scripts/performance/monitor-load-resources.ps1` changed from the failed-attempt copy.
-
-Monitor-only Validation: `PASS` (`DIAGNOSTIC_ONLY`)
-
-Diagnostic Evidence: `tmp/hw05-load-monitor-diagnostic-20260816-001/diagnostic-summary.json`; `3` samples; monitor exit `0`; no JMeter/JTL/HTML.
-
-JMX / CSV / Design Change Required: `NO / NO / NO`
-
-Rerun Required: `YES`
-
-Recommended New Run Identity: `run-002`
-
-Retry Reason: `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE`
-
-Retry Authorization: `PENDING_STUDENT_APPROVAL`
-
-Checkpoint: `RETRY_REVIEW_REQUIRED`
-
-Next allowed action: Student approve or reject one new production Load attempt using `run-002`; do not execute before explicit approval.
+Next allowed action: Invoke `$jtl-performance-analyzer` for Task 2 using immutable `run-002` raw JTL. Do not rerun JMeter.
 
 ## AUTH_HEAVY / SPIKE
 
@@ -530,7 +524,7 @@ Controlled Stress State Preserved: `RAW_JTL_AVAILABLE`
 
 Project Checkpoint Resolution: `PRODUCTION_MATRIX_APPROVED`
 
-Next Global Action: Student Human Review của `docs/performance-design/load-order-detail-design.md`.
+Next Global Action: Task 2 raw JTL analysis using the approved production READ_HEAVY / LOAD `run-002` evidence.
 
 ## Global Compliance
 
@@ -560,18 +554,19 @@ Safe Backfill:
 - `A-014` đã nhận Human Decision `MODIFY_DATA`; original proposal verdict `INCOMPLETE`, corrected strategy verification `PASSED`.
 - `A-015` đã nhận Human Decision `APPROVE_DATA`; verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, fixture implementation/dataset `APPROVED`.
 - `A-016` đã nhận Human Decision `APPROVED`; verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, JMeter plan `APPROVED` với mandatory preflight.
-- `A-017` đã nhận Human Decision `MODIFIED_AND_APPROVED`; verdict `INCOMPLETE`, Student Decision `MODIFIED`, monitor remediation diagnostic `PASSED`; real retry chưa được authorize.
-- `A-018` ghi failure triage và monitor remediation interaction; `Review Status: PENDING_HUMAN_REVIEW`, chưa có verdict hoặc Student Decision.
-- Current HW05 artifact interaction: `A-018_PENDING_HUMAN_REVIEW`; audit chưa được finalize toàn project.
+- `A-017` có verdict `VALID`, Student Decision `ACCEPTED_AS_IS` trong scope execution-safety/failure-handling; điều này không phải performance PASS.
+- `A-018` có verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, Approval Status `MODIFIED_AND_APPROVED`; Human authorize đúng một retry `run-002` với reason `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE`.
+- `A-019` ghi production Load `run-002` execution/evidence interaction; `Review Status: PENDING_HUMAN_REVIEW`, chưa có verdict hoặc Student Decision.
+- Current HW05 artifact interaction: `A-019_PENDING_HUMAN_REVIEW`; audit chưa được finalize toàn project.
 
 ## Current Workflow State
 
-`REAL_EXECUTION_REQUIRED`
+`RAW_JTL_AVAILABLE`
 
 ## Current Blocker
 
-`RETRY_AUTHORIZATION_REQUIRED`: run-001 được giữ nguyên dưới dạng failed pre-execution evidence; non-CIM monitor remediation đã diagnostic PASS nhưng chưa có Student authorization cho một real Load attempt mới bằng `run-002`.
+`NONE` for starting Task 2 with approved READ_HEAVY / LOAD `run-002` raw JTL. Project submission remains `NOT_READY` because the production AUTH_HEAVY / SPIKE and TRANSACTIONAL / STRESS workflows have not started.
 
 ## Next Allowed Action
 
-Student review the validated monitor remediation and explicitly approve or reject one new production Load attempt using `run-002`; do not run JMeter or start Task 2 before that decision.
+Task 2 raw JTL analysis using the approved production READ_HEAVY / LOAD `run-002` evidence. Do not rerun JMeter.

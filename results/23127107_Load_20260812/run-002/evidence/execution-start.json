@@ -1,0 +1,22 @@
+{
+  "started_at": "2026-08-15T17:55:54.258Z",
+  "student_id": "23127107",
+  "scenario": "LOAD",
+  "run_id": "run-002",
+  "retry_reason": "RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE",
+  "previous_run": "run-001",
+  "previous_run_preserved": true,
+  "jmx_path": "test-plans/23127107_Load_20260812.jmx",
+  "jmx_sha256": "13BBDA897DC17E4907FF1E7BB1C05AD87AE33768D2B896862C18172F61F2D2B7",
+  "csv_path": "test-data/read-heavy-orders.csv",
+  "csv_sha256": "CA8770F8795EC6C7E21DDE68704BE35B19758940B4A41D54D89D0A4FE1D1EECF",
+  "backend_pid": 31600,
+  "monitor_pid": 31204,
+  "hardware_context": "results/23127107_Load_20260812/run-002/evidence/hardware-context.json",
+  "preflight_result": "PASS",
+  "approved_duration_seconds": 120,
+  "command": "jmeter -n -t <approved-jmx> -q <temporary-secret-properties-file> -JbaseUrl=http://127.0.0.1:3000 -l <run-002-jtl> -e -o <run-002-html> -j <run-002-log>",
+  "token_recorded": false,
+  "jmeter_invocation_authorized": true,
+  "jmeter_invocation_number": 1
+}

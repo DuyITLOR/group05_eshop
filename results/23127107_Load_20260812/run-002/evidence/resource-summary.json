@@ -1,0 +1,34 @@
+{
+  "evidence_type": "FACTUAL_RESOURCE_CAPTURE_SUMMARY",
+  "interpretation_performed": false,
+  "sample_count": 133,
+  "first_timestamp": "2026-08-16T00:55:53.9622385+07:00",
+  "last_timestamp": "2026-08-16T00:58:08.0443296+07:00",
+  "backend_pid": 31600,
+  "backend_not_alive_samples": 0,
+  "system_cpu_percent": {
+    "minimum": 9.19,
+    "average": 19.83,
+    "maximum": 54.67
+  },
+  "system_memory_used_bytes": {
+    "minimum": 13220945920,
+    "average": 13539550816.24,
+    "maximum": 13667581952
+  },
+  "system_memory_free_bytes": {
+    "minimum": 3223396352,
+    "average": 3351427487.76,
+    "maximum": 3670032384
+  },
+  "backend_working_set_bytes": {
+    "minimum": 56045568,
+    "average": 63772810.59,
+    "maximum": 67702784
+  },
+  "backend_private_memory_bytes": {
+    "minimum": 58179584,
+    "average": 65362089.38,
+    "maximum": 69881856
+  }
+}
