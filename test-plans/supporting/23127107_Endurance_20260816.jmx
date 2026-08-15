@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="HW05 SUPPORTING ENDURANCE - Order Detail" enabled="true">
+      <stringProp name="TestPlan.comments">Artifact Classification: SUPPORTING_EXECUTION_ARTIFACT. Submission Set Membership: EXCLUDED_FROM_FINAL_3_JMX_SET. This plan does not replace or modify the approved LOAD, SPIKE, or STRESS JMX artifacts. Future harness supplies baseUrl, raw JTL, HTML, logs, resource monitoring, execution metadata, and disposable-runtime preflight outside this JMX. No performance threshold is evaluated in JMeter.</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="baseUrl" elementType="Argument">
+            <stringProp name="Argument.name">baseUrl</stringProp>
+            <stringProp name="Argument.value">${__P(baseUrl,http://127.0.0.1:3000)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="ENDURANCE - Order Detail - 0 to 10 VUs - 600s Soak - 0 VUs" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">-1</stringProp>
+        </elementProp>
+        <collectionProp name="ultimatethreadgroupdata">
+          <collectionProp name="endurance-steady-cohort">
+            <stringProp name="endurance-start-threads">10</stringProp>
+            <stringProp name="endurance-initial-delay">0</stringProp>
+            <stringProp name="endurance-startup-time">60</stringProp>
+            <stringProp name="endurance-hold-load">600</stringProp>
+            <stringProp name="endurance-shutdown-time">60</stringProp>
+          </collectionProp>
+        </collectionProp>
+      </kg.apc.jmeter.threads.UltimateThreadGroup>
+      <hashTree>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV - READ_HEAVY Approved Orders - Endurance" enabled="true">
+          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="filename">test-data/read-heavy-orders.csv</stringProp>
+          <boolProp name="ignoreFirstLine">true</boolProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="variableNames">order_id,expected_user_id,expected_status,expected_total_amount,order_case,iteration_key</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think Time - 500 to 1000 ms - Endurance" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">500</stringProp>
+        </UniformRandomTimer>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Order Detail - Endurance" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${baseUrl}/api/orders/${order_id}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert HTTP 200 - Endurance" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="expected-http-200">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected HTTP 200 for an approved READ_HEAVY deterministic success-path row.</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Assert Order JSON Contract - Endurance" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script"><![CDATA[
+import groovy.json.JsonSlurper
+
+try {
+    def body = new JsonSlurper().parseText(prev.getResponseDataAsString())
+    if (!(body instanceof Map)) throw new IllegalStateException('Response must be a JSON object')
+    def required = ['id', 'user_id', 'total_amount', 'status', 'shipping_address', 'created_at']
+    def missing = required.findAll { !body.containsKey(it) }
+    if (!missing.isEmpty()) throw new IllegalStateException('Missing required fields: ' + missing.join(','))
+    if (body.id.toString() != vars.get('order_id')) throw new IllegalStateException('id does not match CSV order_id')
+    if (body.user_id.toString() != vars.get('expected_user_id')) throw new IllegalStateException('user_id does not match CSV expectation')
+    if (body.status.toString() != vars.get('expected_status')) throw new IllegalStateException('status does not match CSV expectation')
+    if (body.total_amount.toString() != vars.get('expected_total_amount')) throw new IllegalStateException('total_amount does not match CSV expectation')
+    if (!(body.created_at instanceof String) || body.created_at.trim().isEmpty()) throw new IllegalStateException('created_at must be a non-empty string')
+    if (body.containsKey('error')) throw new IllegalStateException('Response must not contain error field')
+} catch (Exception error) {
+    AssertionResult.setFailure(true)
+    AssertionResult.setFailureMessage('Order response assertion failed: ' + error.getMessage())
+}
+]]></stringProp>
+          </JSR223Assertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

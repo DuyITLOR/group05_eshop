@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (TRANSACTIONAL / STRESS run-001 execution evidence Human-approved; raw JTL available)
+- Last Updated: `2026-08-16` (Task 1 supporting Endurance JMX Human-approved; real Endurance execution preflight required)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -777,6 +777,74 @@ AI Analysis: `NOT_CREATED`
 
 Human Review: `NOT_REVIEWED`
 
+## Endurance / Soak
+
+Status: `REAL_ENDURANCE_EXECUTION_REQUIRED`
+
+Design: `docs/performance-design/endurance-soak-design.md`
+
+Requirement Verification: `PARTIAL_BUT_ACCEPTED_BY_STUDENT` (đã search repository/project materials; không có assignment source cao hơn workflow contract, và Student chấp nhận limitation này)
+
+Required Duration: `10-15 minutes`; Proposed Measured Soak: `600 seconds` (`10 minutes`)
+
+Selected Endpoint: `GET /api/orders/:id`
+
+Sustained Concurrency: `10 VUs` (`AI_PROPOSED_FOR_HUMAN_REVIEW`, `APPROVED_BY_STUDENT`)
+
+Artifact Strategy: `CREATE_SUPPORTING_ENDURANCE_PLAN_NOT_COUNTED_AS_FOURTH_FINAL_SCENARIO`
+
+Artifact Strategy Decision: `APPROVED`
+
+Final Artifact Count Constraint: `3 JMX / 3 raw JTL / 3 HTML report folders`
+
+Supporting Endurance JMX: `test-plans/supporting/23127107_Endurance_20260816.jmx`
+
+Generation Summary: `docs/jmeter-generation/23127107-endurance-supporting-generation-summary.md`
+
+Static Review: `docs/performance-reviews/endurance-soak-jmeter-ai-review.md`
+
+Artifact Classification: `SUPPORTING_EXECUTION_ARTIFACT`
+
+Submission Set Membership: `EXCLUDED_FROM_FINAL_3_JMX_SET`
+
+Static Validation: `XML_PARSE=PASS`; `THREAD_GROUP=PASS`; `CSV_MAPPING=PASS`; `REQUEST_ASSERTION_MAPPING=PASS`; `WINDOW_ALIGNMENT_SUPPORT=PASS`; `ABSOLUTE_LOCAL_PATHS=0`; `EMBEDDED_SECRETS=0`
+
+Dependency: JMeter `5.6.3`; `jpgc-casutg=3.1.1` verified
+
+Raw JTL: `NONE`
+
+HTML Report: `NONE`
+
+Resource Evidence: `NOT_CREATED`
+
+Execution: `NOT_RUN`
+
+Performance Interpretation: `NOT_PERFORMED`
+
+Review Status: `FINALIZED`
+
+Student Decision: `APPROVED`
+
+Design Approval Scope: `TASK1_ENDURANCE_SOAK_DESIGN`
+
+Supporting Plan Decision: `APPROVED`
+
+Human Plan Review: `APPROVED`
+
+Static Review Findings: `0 Critical / 0 High / 1 Medium / 0 Low / 1 Info`
+
+R-001 Decision: `ACCEPT_AS_PREFLIGHT_DEPENDENCY` (`MEDIUM`, execution-blocking until preflight passes; not a JMX defect)
+
+R-002 Decision: `ACCEPT` (`INFO`, documented source/spec limitation)
+
+Static Review Readiness: `CONDITIONALLY_READY`
+
+Execution Readiness: `REAL_ENDURANCE_EXECUTION_REQUIRED`
+
+Threshold Source: `AI_PROPOSED_AND_STUDENT_APPROVED` (không phải official SLA hoặc production SLA; no JMX calculation)
+
+Next Allowed Action: Create the Git checkpoint for the approved supporting Endurance plan, then authorize exactly one real Endurance execution with a 600-second measured soak after mandatory preflight passes.
+
 ## Production Matrix Proposal
 
 PRODUCTION_MATRIX_STATUS: `MODIFIED_AND_APPROVED`
@@ -862,16 +930,16 @@ Safe Backfill:
 
 ## Current Workflow State
 
-`RAW_JTL_AVAILABLE`
+`REAL_ENDURANCE_EXECUTION_REQUIRED`
 
 ## Current Blocker
 
-`TASK_1_ENDURANCE_SOAK_PLANNING_REQUIRED`: all three production scenario runs now have raw execution evidence approved. Preserve the TRANSACTIONAL evidence for its dedicated audit/Git checkpoint before continuing Task 1 Endurance/Soak planning; Task 2 interpretation remains deferred.
+`ENDURANCE_RUNTIME_PREFLIGHT_REQUIRED`: Supporting Endurance JMX được Student approve. R-001 vẫn là mandatory preflight/evidence dependency; Git checkpoint và toàn bộ preflight phải pass trước đúng một real 600-second measured soak. Ba final production JMX/JTL/HTML remains unchanged; Task 2 interpretation remains deferred.
 
 ## Next Allowed Action
 
-Preserve the approved TRANSACTIONAL / STRESS run-001 evidence for its dedicated audit/Git checkpoint, then continue Task 1 Endurance/Soak planning. Do not rerun JMeter or start Task 2.
+Create the Git checkpoint for the approved supporting Endurance plan, then authorize exactly one real Endurance execution with a 600-second measured soak after mandatory preflight passes. Do not start Task 2.
 
 ## Final Checkpoint
 
-`RAW_JTL_AVAILABLE`
+`REAL_ENDURANCE_EXECUTION_REQUIRED`
