@@ -1,0 +1,10 @@
+{
+  "result": "FAIL",
+  "captured_at": "2026-08-15T19:41:56.295Z",
+  "backend_stopped": true,
+  "temporary_external_properties_file_deleted": false,
+  "disposable_runtime_deleted": false,
+  "source_database_sha256_after": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+  "source_database_unchanged": true,
+  "failure_reason": "ENVIRONMENT_FAILURE: JMeter CLI 5.6.3 verification failed"
+}
