@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="HW05 TRANSACTIONAL STRESS - Create Coupons" enabled="true">
+      <stringProp name="TestPlan.comments">Production TRANSACTIONAL/STRESS plan for POST /api/admin/coupons. It requires a disposable backend runtime plus external baseUrl, hw05.auth_token, and hw05.run_tag properties. No execution evidence or performance conclusion is implied.</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="baseUrl" elementType="Argument">
+            <stringProp name="Argument.name">baseUrl</stringProp>
+            <stringProp name="Argument.value">${__P(baseUrl,)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="STRESS - Create Coupons - 5 to 10 to 20 to 30 to 5 VUs" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">-1</stringProp>
+        </elementProp>
+        <collectionProp name="ultimatethreadgroupdata">
+          <collectionProp name="baseline-cohort">
+            <stringProp name="baseline-start-threads">5</stringProp>
+            <stringProp name="baseline-initial-delay">0</stringProp>
+            <stringProp name="baseline-startup-time">0</stringProp>
+            <stringProp name="baseline-hold-load">145</stringProp>
+            <stringProp name="baseline-shutdown-time">0</stringProp>
+          </collectionProp>
+          <collectionProp name="increment-five-cohort">
+            <stringProp name="increment-five-start-threads">5</stringProp>
+            <stringProp name="increment-five-initial-delay">20</stringProp>
+            <stringProp name="increment-five-startup-time">10</stringProp>
+            <stringProp name="increment-five-hold-load">80</stringProp>
+            <stringProp name="increment-five-shutdown-time">15</stringProp>
+          </collectionProp>
+          <collectionProp name="increment-ten-a-cohort">
+            <stringProp name="increment-ten-a-start-threads">10</stringProp>
+            <stringProp name="increment-ten-a-initial-delay">50</stringProp>
+            <stringProp name="increment-ten-a-startup-time">10</stringProp>
+            <stringProp name="increment-ten-a-hold-load">50</stringProp>
+            <stringProp name="increment-ten-a-shutdown-time">15</stringProp>
+          </collectionProp>
+          <collectionProp name="increment-ten-b-cohort">
+            <stringProp name="increment-ten-b-start-threads">10</stringProp>
+            <stringProp name="increment-ten-b-initial-delay">80</stringProp>
+            <stringProp name="increment-ten-b-startup-time">10</stringProp>
+            <stringProp name="increment-ten-b-hold-load">20</stringProp>
+            <stringProp name="increment-ten-b-shutdown-time">15</stringProp>
+          </collectionProp>
+        </collectionProp>
+      </kg.apc.jmeter.threads.UltimateThreadGroup>
+      <hashTree>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV - TRANSACTIONAL Approved Success Path" enabled="true">
+          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="filename">test-data/transactional-admin-coupons.csv</stringProp>
+          <boolProp name="ignoreFirstLine">true</boolProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="variableNames">coupon_code_prefix,type,discount_value,min_order_amount,expired_at,max_uses_per_user,coupon_case,iteration_key</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Per-thread Coupon Iteration Counter" enabled="true">
+          <stringProp name="CounterConfig.start">1</stringProp>
+          <stringProp name="CounterConfig.end">2147483647</stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">coupon_iteration</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">true</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers - External JWT and JSON" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="Authorization" elementType="Header">
+              <stringProp name="Header.name">Authorization</stringProp>
+              <stringProp name="Header.value">Bearer ${__P(hw05.auth_token,)}</stringProp>
+            </elementProp>
+            <elementProp name="Content-Type" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think Time - 1000 to 1500 ms" enabled="true">
+          <stringProp name="ConstantTimer.delay">1000</stringProp>
+          <stringProp name="RandomTimer.range">500</stringProp>
+        </UniformRandomTimer>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/admin/coupons" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{
+  &quot;code&quot;: &quot;${generated_coupon_code}&quot;,
+  &quot;type&quot;: &quot;${type}&quot;,
+  &quot;discount_value&quot;: ${discount_value},
+  &quot;min_order_amount&quot;: ${min_order_amount},
+  &quot;expired_at&quot;: &quot;${expired_at}&quot;,
+  &quot;max_uses_per_user&quot;: ${max_uses_per_user}
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${baseUrl}/api/admin/coupons</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Fail Closed - Runtime Properties and Unique Coupon Code" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script"><![CDATA[
+def baseUrl = props.get('baseUrl')
+def token = props.get('hw05.auth_token')
+def runTag = props.get('hw05.run_tag')
+def prefix = vars.get('coupon_code_prefix')
+def iteration = vars.get('coupon_iteration')
+
+if (baseUrl == null || baseUrl.toString().trim().isEmpty()) {
+    throw new IllegalStateException('Missing required JMeter property baseUrl for the disposable backend runtime.')
+}
+if (token == null || token.toString().trim().isEmpty()) {
+    throw new IllegalStateException('Missing required JMeter property hw05.auth_token.')
+}
+if (runTag == null || runTag.toString().trim().isEmpty()) {
+    throw new IllegalStateException('Missing required JMeter property hw05.run_tag.')
+}
+if (prefix == null || prefix.trim().isEmpty() || iteration == null || iteration.trim().isEmpty()) {
+    throw new IllegalStateException('Approved CSV prefix or deterministic per-thread iteration counter is unavailable.')
+}
+
+def threadIdentity = ctx.getThreadNum() + 1
+vars.put('generated_coupon_code', "${prefix}-${runTag}-t${threadIdentity}-i${iteration}")
+]]></stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert HTTP 200" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="expected-http-200">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected HTTP 200 for a generated approved success-path coupon.</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Assert Coupon Created JSON Contract" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script"><![CDATA[
+import groovy.json.JsonSlurper
+
+try {
+    def body = new JsonSlurper().parseText(prev.getResponseDataAsString())
+    if (!(body instanceof Map)) throw new IllegalStateException('Response must be a JSON object')
+    if (body.message != 'Coupon created') throw new IllegalStateException('message must equal Coupon created')
+    def id = body.id
+    if (!(id instanceof Number) || id.longValue() <= 0) throw new IllegalStateException('id must be a positive number')
+} catch (Exception error) {
+    AssertionResult.setFailure(true)
+    AssertionResult.setFailureMessage('Coupon creation JSON assertion failed: ' + error.getMessage())
+}
+]]></stringProp>
+          </JSR223Assertion>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

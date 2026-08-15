@@ -4,10 +4,12 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (AUTH_HEAVY / SPIKE run-003 execution evidence approved; Task 2 remains deferred)
+- Last Updated: `2026-08-16` (TRANSACTIONAL / STRESS JMeter plan Human-approved; mandatory runtime preflight required)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
+- Task 1: `IN_PROGRESS`
+- Task 2: `NOT_STARTED`
 
 ## Endpoint Mapping
 
@@ -15,7 +17,7 @@
 |---|---|---|---|---|
 | `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
 | `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
-| `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
+| `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `REAL_EXECUTION_REQUIRED` | `PLAN_APPROVED_PREFLIGHT_REQUIRED` |
 
 ## Rejected Design History — READ_HEAVY / LOAD
 
@@ -438,21 +440,142 @@ Human Review: `NOT_REVIEWED`
 
 ## TRANSACTIONAL / STRESS
 
-Status: `NOT_STARTED`
+### Design
+
+Status: `MODIFIED_AND_APPROVED`
 
 Endpoint: `POST /api/admin/coupons`
 
+Artifact: `docs/performance-design/stress-admin-coupons-design.md`
+
 Listener: `Aggregate Report`
 
-CSV: `test-data/transactional-admin-coupons.csv` (`NOT_CREATED`)
+Design Status: `NEEDS_DATA_SETUP`
+
+Approval Scope: `TRANSACTIONAL_STRESS_DESIGN`
+
+Profile Decision: `APPROVED_WITH_DURATION_CORRECTION`
+
+Approved Total Planned Duration: `145 giây`
+
+Think Time Decision: `APPROVED` (`1000-1500 ms`)
+
+Data Strategy Decision: `APPROVED_FOR_FINALIZATION`
+
+Uniqueness Strategy Decision: `APPROVED` (`DETERMINISTIC_PER_RUN_THREAD_ITERATION`)
+
+Isolation Strategy Decision: `APPROVED` (`DISPOSABLE_BACKEND_RUNTIME_COPY`)
+
+Listener Decision: `APPROVED` (`Aggregate Report`)
 
 Hard Exclusion Check: `PASS`
 
 Cross-member Ownership: `PASS_BY_STUDENT_CONFIRMATION`
 
-Required future controls: isolated database, unique coupon codes, deterministic pre-state, explicit cleanup/restore, dataset-exhaustion/duplicate protection và giữ admin-role discrepancy.
+Source Verification: `PASS`
 
-Next scenario order: chỉ bắt đầu sau các Human Review gate trước đó theo orchestrator order.
+State Mutation: `CONFIRMED` (`INSERT coupons`)
+
+Implementation-Spec Conflicts: `2` (`ADMIN_ROLE_AUTHORIZATION`, `BUSINESS_VALIDATION`)
+
+### Test Data
+
+Status: `APPROVED`
+
+CSV: `test-data/transactional-admin-coupons.csv` (`CREATED`; UTF-8; comma-delimited; header plus exactly `1` canonical `SUCCESS_PATH_ONLY` row; `REQUEST_DRIVEN`)
+
+Data Review Artifact: `docs/test-data-reviews/stress-admin-coupons-data-review.md`
+
+CSV Schema: `coupon_code_prefix,type,discount_value,min_order_amount,expired_at,max_uses_per_user,coupon_case,iteration_key`
+
+Measured Prefix: `HW05S`
+
+Run Tag Source: `EXTERNAL_RUNTIME_PROPERTY` (`hw05.run_tag`)
+
+Uniqueness Model: `PASS` (`DETERMINISTIC_PER_RUN_THREAD_ITERATION`)
+
+Expiration Stability: `PASS` (`2099-12-31`)
+
+Runtime Verification / Response Verification: `NOT_REQUIRED / NOT_REQUIRED`; disposable-runtime success smoke remains mandatory execution preflight.
+
+Source DB Integrity: `PASS` (`C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6` unchanged after read-only verification)
+
+Data Quality: CSV header/parse `PASS`; duplicate static rows `0`; unsupported fields `0`; invalid business rows `0`; secret values `0`.
+
+Student Data Decision: `APPROVED`
+
+Approval Scope: `TRANSACTIONAL_STRESS_TEST_DATA`
+
+CSV / Business Data / Uniqueness Model: `APPROVED / APPROVED / APPROVED`
+
+Runtime Verification Decision: `DEFERRED_TO_MANDATORY_PRE_EXECUTION_PREFLIGHT`
+
+JMX: `test-plans/23127107_Stress_20260816.jmx`
+
+JMX SHA-256: `4F6F14C557792B6E45694B6DD370366D7560BB3A672B348DA472801357B4B322`
+
+Generation Summary: `docs/jmeter-generation/23127107-stress-generation-summary.md`
+
+Generation Summary SHA-256: `62B09ADE55F0C4FD620E4521AA27377D15BA54406635BA959655BF9F7238CCE0`
+
+### JMeter Plan
+
+Status: `COMPLETE_AWAITING_HUMAN_REVIEW`
+
+Builder Result:
+
+- Filename: `23127107_Stress_20260816.jmx` (`PASS`).
+- JMeter: `5.6.3`; Custom Thread Groups `jpgc-casutg=3.1.1`; required `UltimateThreadGroup` class exists (`PASS`).
+- Workload: exact `5 -> 10 -> 20 -> 30 -> 5 VUs`; three `10s` ramps, holds `20/20/20/20s`, `15s` ramp-down and `20s` recovery; total `145s` (`PASS`).
+- Think Time: enabled `Uniform Random Timer`, offset `1000ms`, range `500ms`, effective `1000-1500ms` (`PASS`).
+- Request: JSON `POST ${baseUrl}/api/admin/coupons`; generated `code` plus five approved request-driven CSV fields (`PASS`).
+- Authentication/namespace: external `baseUrl`, `hw05.auth_token`, `hw05.run_tag`; enabled JSR223 fail-closed guard (`PASS`).
+- Uniqueness: per-user `CounterConfig` plus prefix/run-tag/thread/iteration (`PASS`).
+- Assertions: HTTP `200`, JSON object, exact `message == Coupon created`, positive numeric `id` (`PASS`).
+- Listener: exactly one core `Aggregate Report`; project mapping `Summary Report` / `Response Time Graph` / `Aggregate Report` is unique (`PASS`).
+- Static safety: XML parse, relative CSV path, no hard-coded run output, absolute local paths `0`, embedded secrets `0` (`PASS`).
+- JMeter workload execution: `NOT_RUN`; raw JTL/HTML/resource evidence: `NONE`.
+
+### Plan Review
+
+Status: `APPROVED`
+
+Review Artifact: `docs/performance-reviews/stress-admin-coupons-jmeter-ai-review.md`
+
+Review SHA-256: `356E3E9336F500FE838A98B1553EEAC049BDF173A6EDE423D84C4D345440BC34`
+
+- Critical / High / Medium / Low / Info: `0 / 0 / 1 / 0 / 2`.
+- Static Review Readiness: `CONDITIONALLY_READY`.
+- Execution Readiness: `REAL_EXECUTION_REQUIRED`.
+- R-001: `ACCEPT_AS_PREFLIGHT_DEPENDENCY` (`EXECUTION_PREFLIGHT_REQUIRED`; execution-blocking until a fresh disposable-runtime preflight passes).
+- R-002: `ACCEPT` (`IMPLEMENTATION_SPEC_CONFLICT`; current handler authenticates JWT but has no server-side admin-role check).
+- R-003: `ACCEPT` (`STATE_GROWTH_CONFOUND_DOCUMENTED`; later-stage interpretation must retain this limitation).
+
+Human Review: `FINALIZED`
+
+Student Decision: `APPROVED`
+
+Approval Scope: `TRANSACTIONAL_STRESS_JMETER_PLAN`
+
+JMX Approval: `APPROVED`
+
+Execution: `NOT_RUN`
+
+Raw JTL: `NONE`
+
+HTML Report: `NONE`
+
+Performance Interpretation: `NOT_PERFORMED`
+
+Required future controls: `DISPOSABLE_BACKEND_RUNTIME_COPY`, source DB SHA-256 before setup/before JMeter/after cleanup, deterministic generated code, separate preflight namespace/cleanup, external temporary token, success smoke, fail-closed checks, resource monitor và parser-safe resource CSV.
+
+Plan Status: `PLAN_APPROVED`
+
+Execution Preflight Required: `YES`
+
+CHECKPOINT: `REAL_EXECUTION_REQUIRED`
+
+Next allowed action: prepare the dedicated audit checkpoint and Git checkpoint, then perform the mandatory runtime preflight before the approved production TRANSACTIONAL / STRESS execution.
 
 ## Controlled Integration — TRANSACTIONAL / STRESS
 
@@ -495,13 +618,13 @@ JMX: `test-plans/23127107_Stress_20260812.jmx`
 
 CSV: `test-data/transactional.csv` (`APPROVED_SUCCESS_PATH_ROWS`)
 
-Generation Summary: `docs/jmeter-generation/23127107-stress-generation-summary.md`
+Generation Summary: `docs/jmeter-generation/controlled-23127107-stress-20260812-generation-summary.md`
 
 Fingerprint: `CURRENT`
 
 - JMX SHA-256: `0A8366B53356FFFF5301C49C3F6D0AA671B20EBB152A8288845F533CFE0DBB3E`
 - CSV SHA-256: `194B43212CEE61226A52F2CC13A15DE54708FBAD95D31BA54E9286D38D5C3CC2`
-- Generation Summary SHA-256: `1A5626302B3165CB080838918A3F4B0584B8B696C7172BDD4DC7913825263FA5`
+- Generation Summary SHA-256: `1A5626302B3165CB080838918A3F4B0584B8B696C7172BDD4DC7913825263FA5` (archived controlled artifact)
 
 Builder Prerequisites:
 
@@ -659,7 +782,7 @@ Controlled Stress State Preserved: `RAW_JTL_AVAILABLE`
 
 Project Checkpoint Resolution: `PRODUCTION_MATRIX_APPROVED`
 
-Next Global Action: Task 2 raw JTL analysis using the approved production READ_HEAVY / LOAD `run-002` evidence.
+Next Global Action: generate the TRANSACTIONAL / STRESS JMeter plan before any Task 2 analysis.
 
 ## Global Compliance
 
@@ -667,9 +790,9 @@ Next Global Action: Task 2 raw JTL analysis using the approved production READ_H
 | ------------------- | --------------------- | ----------------------------------------------------------------------------- |
 | Group uniqueness    | `PASS` | Human-approved production matrix có đúng một row cho mỗi group. |
 | Scenario uniqueness | `PASS` | Human-approved matrix dùng `LOAD`, `SPIKE`, `STRESS` đúng một lần. |
-| Separate CSV        | `PASS` | READ_HEAVY final CSV tồn tại riêng; AUTH_HEAVY/TRANSACTIONAL reserved paths khác nhau. |
-| Data-driven fit     | `PASS` | Load `${order_id}` drive request path và expected columns drive Assertions. |
-| Listener uniqueness | `PASS_WITH_DEPENDENCY_BLOCKER` | Mapping da chon `Summary Report`, `Response Time Graph`, `Aggregate Report` la khac nhau; static JMeter inventory chua co component `Response Time Graph`, nen AUTH_HEAVY JMX bi block. |
+| Separate CSV        | `PASS` | Ba production paths khác nhau; TRANSACTIONAL CSV có đúng một approved `SUCCESS_PATH_ONLY` row. |
+| Data-driven fit     | `PASS` | Load `${order_id}` drive request path; TRANSACTIONAL CSV business fields drive POST body và generated unique code. |
+| Listener uniqueness | `PASS` | Ba production JMX tĩnh xác nhận mapping `Summary Report`, `Response Time Graph`, `Aggregate Report` khác nhau. |
 | Hard exclusion check | `PASS` | Không revised endpoint nào thuộc năm Human-provided excluded workflows. |
 | Endpoint ownership across group members | `PASS_BY_STUDENT_CONFIRMATION` | Human confirmation cho đúng ba selected workflows; không suy ra từ repository. |
 
@@ -684,7 +807,7 @@ Audit Scope: `INCLUDED_HW05_ARTIFACT_INTERACTION`; Agent Skill development/maint
 Safe Backfill:
 
 - Entries created: `4`
-- `BACKFILL_GAP`: `0`
+- `BACKFILL_GAP`: `1`; AUTH_HEAVY / SPIKE `run-003` có transcript gap không Artifact ID, không rollback Human-approved execution evidence và không chặn Task 1.
 - Audit review status: `PARTIALLY_REVIEWED`; `A-013` nhận Human Decision `MODIFIED_AND_APPROVED` với finding `NON_DETERMINISTIC_ORDER_SNAPSHOT`; audit chưa được finalize.
 - `A-014` đã nhận Human Decision `MODIFY_DATA`; original proposal verdict `INCOMPLETE`, corrected strategy verification `PASSED`.
 - `A-015` đã nhận Human Decision `APPROVE_DATA`; verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, fixture implementation/dataset `APPROVED`.
@@ -692,20 +815,20 @@ Safe Backfill:
 - `A-017` có verdict `VALID`, Student Decision `ACCEPTED_AS_IS` trong scope execution-safety/failure-handling; điều này không phải performance PASS.
 - `A-018` có verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, Approval Status `MODIFIED_AND_APPROVED`; Human authorize đúng một retry `run-002` với reason `RETRY_AFTER_PRE_EXECUTION_EVIDENCE_FAILURE`.
 - `A-019` ghi production Load `run-002` execution/evidence interaction; `Review Status: FINALIZED`, verdict `VALID`, Student Decision `ACCEPTED_AS_IS`, Approval Status `APPROVED`.
-- No audit entry was created for the current AUTH_HEAVY design interaction by explicit instruction; the dedicated audit step remains deferred.
+- No new audit entry is created for the current TRANSACTIONAL design interaction by explicit instruction.
 
 ## Current Workflow State
 
-`RAW_JTL_AVAILABLE`
+`REAL_EXECUTION_REQUIRED`
 
 ## Current Blocker
 
-`RUN_003_AUDIT_FINALIZATION_REQUIRED`: Human Execution Review approved immutable run-003 evidence. The dedicated audit interaction must be finalized before moving to production `TRANSACTIONAL` / `STRESS`; Task 2 remains deferred.
+`MANDATORY_TRANSACTIONAL_STRESS_RUNTIME_PREFLIGHT_REQUIRED`: JMX and Human Plan Review are approved, but no real execution may start until the disposable-runtime, source-DB, token, namespace, smoke, resource-monitor, and parser preflight controls pass. Task 2 remains deferred until Task 1 scenarios are completed.
 
 ## Next Allowed Action
 
-Finalize the dedicated audit for AUTH_HEAVY / SPIKE `run-003`, then resume production `TRANSACTIONAL` / `STRESS` design. Do not start Task 2.
+Prepare the dedicated audit checkpoint and Git checkpoint, then perform mandatory runtime preflight before authorizing exactly one production TRANSACTIONAL / STRESS execution. Do not start Task 2.
 
 ## Final Checkpoint
 
-`RAW_JTL_AVAILABLE`
+`REAL_EXECUTION_REQUIRED`

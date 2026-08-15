@@ -2,137 +2,112 @@
 
 ## 1. Input Design
 
-- Design file: `docs/performance-design/stress-apply-coupon-design.md`
-- Approval status: `MODIFIED_AND_APPROVED`
-- Human Review Scope: `CONTROLLED_INTEGRATION_TEST`
-- Final HW05 Transactional Endpoint: `NOT_YET_APPROVED`
-- Endpoint / Group / Scenario: `POST /api/apply-coupon` / `TRANSACTIONAL` / `STRESS`
-- Student ID / Execution Date: `23127107` / `2026-08-12`
+- Design file: `docs/performance-design/stress-admin-coupons-design.md`.
+- Test-data review: `docs/test-data-reviews/stress-admin-coupons-data-review.md`.
+- Final CSV: `test-data/transactional-admin-coupons.csv`.
+- Endpoint / Group / Scenario: `POST /api/admin/coupons` / `TRANSACTIONAL` / `STRESS`.
+- Student ID / execution-design date: `23127107` / `2026-08-16`.
+- Design approval: `MODIFIED_AND_APPROVED`; test data approval: `APPROVED`.
+- Output JMX: `test-plans/23127107_Stress_20260816.jmx`.
 
-## 2. Artifacts đã tạo
+## 2. Thread Group và mapping workload
 
-- JMX: `test-plans/23127107_Stress_20260812.jmx`
-- CSV: `test-data/transactional.csv`
-- CSV Status: `TEMPLATE_ONLY`
-- CSV chỉ có header; không có production row do chưa có Student approval cho dữ liệu thực thi.
+- Implementation: `kg.apc.jmeter.threads.UltimateThreadGroup` từ `jpgc-casutg=3.1.1`.
+- Planned duration: `145 giây`.
 
-## 3. Mapping workload
+| Cohort cộng dồn | Threads | Initial delay | Startup | Hold | Shutdown | Hiệu ứng aggregate |
+|---|---:|---:|---:|---:|---:|---|
+| Baseline | 5 | 0s | 0s | 145s | 0s | Giữ 5 VUs trong toàn bộ cửa sổ. |
+| Increment 5 | 5 | 20s | 10s | 80s | 15s | Tạo `5 -> 10`, rồi cùng các cohort khác ramp-down `30 -> 5`. |
+| Increment 10 A | 10 | 50s | 10s | 50s | 15s | Tạo `10 -> 20`, rồi cùng ramp-down. |
+| Increment 10 B | 10 | 80s | 10s | 20s | 15s | Tạo `20 -> 30`, giữ 30 VUs và cùng ramp-down. |
 
-- Threads/VUs: target total concurrency `5 -> 10 -> 20 -> 30 -> 5 VUs`; không diễn giải thành số thread mới ở từng stage.
-- Ramp-up: bốn ramp tăng `15 giây` và một recovery ramp `15 giây`.
-- Duration: `315 giây`.
-- Think Time: `1000 ms`.
-- JMeter Timer Mapping: `Constant Timer`, Delay `1000 ms`, enabled trong scope Ultimate Thread Group; `PASS`.
+Timeline aggregate materialized: `5 VUs / 20s` -> `5 -> 10 / 10s` -> `10 VUs / 20s` -> `10 -> 20 / 10s` -> `20 VUs / 20s` -> `20 -> 30 / 10s` -> `30 VUs / 20s` -> `30 -> 5 / 15s` -> `5 VUs / 20s`.
 
-### Ultimate Thread Group cohort schedule
+## 3. Think Time và request
 
-| Cohort | Threads | Initial Delay | Startup | Hold | Shutdown | Kết thúc |
-|---|---:|---:|---:|---:|---:|---:|
-| A | 5 | 0s | 15s | 300s | 0s | 315s |
-| B | 5 | 60s | 15s | 165s | 15s | 255s |
-| C | 10 | 120s | 15s | 105s | 15s | 255s |
-| D | 10 | 180s | 15s | 45s | 15s | 255s |
+- `Uniform Random Timer` được enabled trong measured Thread Group scope.
+- Constant Delay Offset: `1000 ms`; Random Delay Maximum: `500 ms`.
+- Effective Think Time: `1000-1500 ms`.
+- Measured request: `POST ${baseUrl}/api/admin/coupons`.
+- `baseUrl` chỉ nhận từ external JMeter property và guard dừng trước sampler khi blank; không có default port/runtime source path trong JMX.
+- Setup smoke, token provisioning, preflight cleanup và resource monitor không nằm trong measured plan.
 
-Mapping aggregate:
+## 4. CSV, uniqueness và authentication
 
-| Khoảng thời gian | Target total concurrency |
-|---|---|
-| 0-15s | `0 -> 5` |
-| 15-60s | `5` |
-| 60-75s | `5 -> 10` |
-| 75-120s | `10` |
-| 120-135s | `10 -> 20` |
-| 135-180s | `20` |
-| 180-195s | `20 -> 30` |
-| 195-240s | `30` |
-| 240-255s | `30 -> 5` |
-| 255-315s | `5` |
+- CSV relative path: `test-data/transactional-admin-coupons.csv`.
+- Schema: `coupon_code_prefix,type,discount_value,min_order_amount,expired_at,max_uses_per_user,coupon_case,iteration_key`.
+- CSV mode: `SUCCESS_PATH_ONLY`; `CSV_MODE: REQUEST_DRIVEN`; `DATA_DRIVEN_FIT: PASS`.
+- Business fields `type`, `discount_value`, `min_order_amount`, `expired_at`, `max_uses_per_user` trực tiếp drive JSON body. `coupon_code_prefix` drive final `code`; `coupon_case` và `iteration_key` trace-only.
+- `CSVDataSet`: `recycle=true`, `stopThread=false`, `shareMode=shareMode.all`.
+- `CounterConfig` `coupon_iteration` starts at `1`, increments `1`, and is `per_user=true`.
+- Final code is created once in the sampler's JSR223 preprocessor as `<coupon_code_prefix>-<hw05.run_tag>-t<thread>-i<coupon_iteration>`; không dùng timestamp, random hoặc UUID làm nguồn uniqueness chính.
+- Required external properties: `hw05.run_tag`, `hw05.auth_token`, `baseUrl`. Missing/blank property hoặc unavailable prefix/counter ném exception trước measured sampler.
+- Header: `Authorization: Bearer ${__P(hw05.auth_token,)}` và `Content-Type: application/json`. Không có JWT/secret trong JMX, CSV hoặc summary.
 
-- `WORKLOAD_MAPPING: PASS`. Mỗi cohort kết thúc tại `Initial Delay + Startup + Hold + Shutdown`; B/C/D cùng ramp down trong 240-255s, A duy trì 5 VUs tới 315s.
-- Đây là `RECOMMENDATION`, không phải claimed capacity của hệ thống hay phần cứng.
+## 5. Request body và assertions
 
-## 4. Cấu hình request
-
-- Method / Route: `POST /api/apply-coupon`.
-- Base URL: `${baseUrl}` với default có evidence `${__P(baseUrl,http://localhost:3000)}`; có thể override bằng JMeter property.
-- Headers: `Content-Type: application/json`; không có `Authorization`.
-- Authentication: `CURRENT_IMPLEMENTATION_BEHAVIOR`; current handler không enforce JWT.
-- `IMPLEMENTATION_DOCUMENTATION_DISCREPANCY`: README yêu cầu JWT quanh coupon/checkout, nhưng current apply-coupon handler không gắn middleware authentication.
-- JSON body:
+Body JSON source-backed:
 
 ```json
 {
-  "code": "${code}",
-  "total_amount": ${total_amount},
-  "user_id": ${user_id}
+  "code": "${generated_coupon_code}",
+  "type": "${type}",
+  "discount_value": ${discount_value},
+  "min_order_amount": ${min_order_amount},
+  "expired_at": "${expired_at}",
+  "max_uses_per_user": ${max_uses_per_user}
 }
 ```
 
-- `total_amount` và `user_id` giữ numeric semantics; `coupon_case` và `iteration_key` không được gửi vào request.
-- Boundary discrepancy được giữ lại: source dùng `total_amount > min_order_amount`, README dùng `>=`; primary dataset phải chọn giá trị rõ ràng lớn hơn threshold.
+- `coupon_code_prefix` không được gửi như API field.
+- `Response Assertion` yêu cầu HTTP `200`.
+- `JSR223 Assertion` yêu cầu response parse được JSON object, `message == "Coupon created"`, và `id` là số dương.
+- Vì vậy duplicate, validation failure, `401`, `403`, `5xx`, non-JSON hoặc response contract sai không được tính là success sample.
 
-## 5. Assertions
+## 6. Listener và dependency
 
-- Response Assertion: HTTP status bằng `200`.
-- JSONPath Assertion: `$.success` bằng `true`.
-- JSONPath existence Assertions: `$.coupon_id`, `$.discount_amount`, `$.final_amount`, `$.message`.
-- Không có exact numeric discount Assertion.
-- Không có intentional `400`/`404` flow trong primary sampler.
+- Exactly one primary Listener: `Aggregate Report` (`ResultCollector`, `guiclass=StatVisualizer`).
+- `Summary Report`, `Graph Results`, `View Results Tree`, và `Response Times Over Time` không có trong plan này.
+- Project mapping static check: `LOAD -> Summary Report`; `SPIKE -> Response Time Graph`; `STRESS -> Aggregate Report` (`PASS`).
+- JMeter: `5.6.3` (version-only command; no plan/workload execution).
+- Required Custom Thread Groups dependency: JAR `jmeter-plugins-casutg-3.1.1.jar`; `UltimateThreadGroup` class found (`PASS`).
 
-## 6. Listener
-
-- Listener: `Aggregate Report`.
-- Global Listener Uniqueness: `NEEDS_CLARIFICATION`; production LOAD/SPIKE artifacts chưa đủ để kết luận toàn project.
-
-## 7. Kiểm tra dependency
-
-- JMeter: `5.6.3`, path `D:\Tools\apache-jmeter-5.6.3`.
-- Student GUI verification: `PASS`; `jp@gc - Ultimate Thread Group` xuất hiện và mở được.
-- Plugins Manager: `jmeter-plugins-manager-1.12.jar` (`AVAILABLE`).
-- Custom Thread Groups: `jmeter-plugins-casutg-3.1.1.jar` (`INSTALLED`).
-- Component: `kg.apc.jmeter.threads.UltimateThreadGroup` và `kg.apc.jmeter.threads.UltimateThreadGroupGui` có trong plugin jar.
-- Static schema evidence: class constants xác nhận `ultimatethreadgroupdata` và năm field theo thứ tự Threads, Initial Delay, Startup, Hold, Shutdown.
-- `PLUGIN_CHECK: PASS`
-- `DEPENDENCY_STATUS: VERIFIED`
-
-## 8. An toàn dữ liệu
-
-- CSV_MODE: `REQUEST_DRIVEN`
-- DATA_DRIVEN_FIT: `PASS`
-- Primary Dataset: `SUCCESS_PATH_ONLY`
-- CSV schema: `code,total_amount,user_id,coupon_case,iteration_key`
-- Data status: `NEEDS_DATA_SETUP`
-- DATA_RISK: `HIGH` trước execution vì CSV chưa có Student-approved row.
-- Current repository evidence có data candidate `code=SAVE10`, `total_amount=500000`, `user_id=1`: API specification dùng đúng request này; current SQLite có active `SAVE10`, user `1`, và không có row trong `coupon_usage` tại thời điểm kiểm tra. Đây chỉ là `DATA_CANDIDATE`, không phải Student-approved production row và không được ghi vào CSV.
-- Handler apply-coupon chỉ đọc coupon/usage và không tự consume quota; database state vẫn phải được re-check trước run.
-
-## 9. Tuân thủ HW05
+## 7. Static validation
 
 | Check | Status | Evidence |
 |---|---|---|
-| Filename convention | PASS | `23127107_Stress_20260812.jmx` khớp regex. |
-| Separate CSV | PASS | `test-data/transactional.csv` dành riêng cho `TRANSACTIONAL`. |
-| Listener unique | NEEDS_CLARIFICATION | `Aggregate Report`; thiếu production LOAD/SPIKE evidence. |
-| Data-driven request | PASS | `${code}`, `${total_amount}`, `${user_id}` drive JSON body. |
-| Assertions implemented | PASS | HTTP 200, business success và required field existence. |
-| Design parameters preserved | PASS | Exact target profile, 315s, Constant Timer 1000ms. |
+| Filename convention | `PASS` | `23127107_Stress_20260816.jmx`. |
+| XML parse / component loadability evidence | `PASS` | XML parse succeeds; JMeter 5.6.3 and required `UltimateThreadGroup` class were verified without executing this plan. |
+| STRESS profile / duration | `PASS` | Four additive cohorts end at `145s` and materialize approved timeline. |
+| Timer mapping | `PASS` | `1000 + 0..500 ms`, enabled in measured group. |
+| CSV / request mapping | `PASS` | Exact dedicated relative path, approved header/row, request-driven fields and generated code. |
+| External property guards | `PASS` | `baseUrl`, `hw05.auth_token`, `hw05.run_tag` fail closed before sampler. |
+| Assertions | `PASS` | HTTP 200 plus source-backed JSON `message`/positive `id`. |
+| Listener uniqueness | `PASS` | Exactly one Aggregate Report and unique project mapping. |
+| Absolute local paths | `PASS` | `0` matches. |
+| Embedded secrets | `PASS` | `0` JWT-shaped/password-literal matches. |
 
-## 10. Execution readiness
+## 8. Isolation, limitations và no-execution boundary
 
-`NOT_READY`
+- Runtime isolation remains `DISPOSABLE_BACKEND_RUNTIME_COPY`; the JMX neither reads nor mutates `backend/database.sqlite` directly and contains no cleanup SQL.
+- `STATE_GROWTH_CONFOUND: DOCUMENTED`: measured successful requests add coupon rows. Deleting each coupon would change the approved workload; whole runtime is discarded later.
+- `IMPLEMENTATION_SPEC_CONFLICT`: server requires JWT but does not enforce an admin role, although the documented contract says it should. This plan does not claim server-side role-authorization coverage.
+- Mandatory preflight remains required before any real execution: disposable runtime, source DB SHA-256, external temporary token, success smoke, fail-closed auth/run-tag checks, separate preflight namespace, resource monitor, and parser-safe resource CSV.
+- JMeter execution: `NOT_RUN`. Raw JTL: `NONE`. HTML report: `NONE`. Task 2 interpretation: `NOT_PERFORMED`.
 
-Reasons:
+## 9. Execution readiness
 
-- CSV là `TEMPLATE_ONLY`, chưa có Student-approved success-path row.
-- Chưa có hardware baseline/SLA.
-- Plan chỉ được static review; JMeter workload chưa được chạy.
+Status: `CONDITIONALLY_READY_FOR_HUMAN_REVIEW`
 
-## 11. Human Review
+Static construction is complete, but it neither approves the plan nor authorizes production execution.
+
+## 10. Human Review
 
 Status: `PENDING`
 
 Student Decision: `NOT_REVIEWED`
 
-CHECKPOINT: JMETER_PLAN_REVIEW_REQUIRED
+CHECKPOINT: `JMETER_PLAN_REVIEW_REQUIRED`
 
-Execution: `NOT_STARTED`
+Next allowed action: run the independent static AI review, then Student must `APPROVE`, `MODIFY`, or `REJECT` the JMeter plan before any real execution.

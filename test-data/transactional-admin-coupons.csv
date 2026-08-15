@@ -1,0 +1,2 @@
+coupon_code_prefix,type,discount_value,min_order_amount,expired_at,max_uses_per_user,coupon_case,iteration_key
+HW05S,percent,10,300000,2099-12-31,1,success_path,stress-admin-coupon-001
