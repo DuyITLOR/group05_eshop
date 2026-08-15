@@ -1,0 +1,108 @@
+{
+  "evidence_type": "HW05_PRODUCTION_LOAD_PREFLIGHT",
+  "captured_at": "2026-08-15T17:24:34.567Z",
+  "result": "PASS",
+  "student_id": "23127107",
+  "endpoint": "GET /api/orders/:id",
+  "group": "READ_HEAVY",
+  "scenario": "LOAD",
+  "run_id": "run-001",
+  "output_collision": false,
+  "jmeter_version": "5.6.3",
+  "jmeter_installation": "D:/Tools/apache-jmeter-5.6.3",
+  "approved_artifact_fingerprints": {
+    "jmx": "13BBDA897DC17E4907FF1E7BB1C05AD87AE33768D2B896862C18172F61F2D2B7",
+    "csv": "CA8770F8795EC6C7E21DDE68704BE35B19758940B4A41D54D89D0A4FE1D1EECF",
+    "design": "5773CF4CDB56E7B3C27328A66B8635496ADC394C13B231E688C2361CF119B728",
+    "plan_review": "ED3DC35D2339157BED5840165A6028B5CB9DDFDF08C78FCDD3966CDB7CEA8E4C",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "expected_fingerprints_match": true,
+  "workload_traceability": {
+    "result": "PASS",
+    "approved_profile": "0 -> 5 -> 10 VUs / 120 seconds",
+    "timer": "Uniform Random Timer 500-1000 ms",
+    "listener": "Summary Report",
+    "checks": {
+      "phase_a_threads_5": true,
+      "phase_a_ramp_10": true,
+      "phase_a_duration_120": true,
+      "phase_b_delay_40": true,
+      "phase_b_ramp_20": true,
+      "phase_b_duration_80": true,
+      "uniform_timer_500_plus_500": true,
+      "summary_report": true,
+      "approved_csv": true,
+      "external_token": true
+    }
+  },
+  "csv_traceability": {
+    "result": "PASS",
+    "data_rows": 2,
+    "request_driving_field": "order_id",
+    "assertion_driving_fields": [
+      "expected_user_id",
+      "expected_status",
+      "expected_total_amount"
+    ]
+  },
+  "runtime_isolation": "DISPOSABLE_BACKEND_RUNTIME_COPY",
+  "runtime_location": "OS_TEMP_OUTSIDE_REPOSITORY",
+  "runtime_database_belongs_to_copied_backend": true,
+  "source_database_opened_for_write": false,
+  "fixture_transaction": "COMMITTED_IN_DISPOSABLE_RUNTIME",
+  "historical_runtime_orders_cleared": true,
+  "fixture_count": 2,
+  "fixtures": [
+    {
+      "id": 2312710701,
+      "user_id": 2,
+      "total_amount": 30000000,
+      "status": "pending",
+      "shipping_address": "HW05_LOAD_FIXTURE_A",
+      "order_case": "deterministic_success_a",
+      "iteration_key": "load-order-a",
+      "created_at_present": true
+    },
+    {
+      "id": 2312710702,
+      "user_id": 2,
+      "total_amount": 28000000,
+      "status": "pending",
+      "shipping_address": "HW05_LOAD_FIXTURE_B",
+      "order_case": "deterministic_success_b",
+      "iteration_key": "load-order-b",
+      "created_at_present": true
+    }
+  ],
+  "token_preflight": {
+    "setup_login_measured": false,
+    "setup_login_requests": 1,
+    "token_present": true,
+    "token_value_recorded": false,
+    "token_hash_recorded": false,
+    "authorization_header_recorded": false,
+    "temporary_external_properties_file": true,
+    "verified_user_id": 2
+  },
+  "smoke_checks": [
+    {
+      "order_id": 2312710701,
+      "http_status": 200,
+      "exact_fields_match": true,
+      "created_at_present": true
+    },
+    {
+      "order_id": 2312710702,
+      "http_status": 200,
+      "exact_fields_match": true,
+      "created_at_present": true
+    }
+  ],
+  "authentication_coverage_claimed": false,
+  "port_exclusive_before_runtime_start": true,
+  "concurrent_mutating_order_workflow_detected": false,
+  "jmeter_invocation_count_before_execution": 0
+}

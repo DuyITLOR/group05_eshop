@@ -1,0 +1,33 @@
+{
+  "captured_at": "2026-08-15T17:24:40.140Z",
+  "result": "FAIL",
+  "runtime_order_rows_unchanged": false,
+  "runtime_order_count_after": 0,
+  "concurrent_mutating_order_workflow_detected": null,
+  "backend_stopped": false,
+  "temporary_external_properties_file_deleted": true,
+  "disposable_runtime_deleted": true,
+  "source_fingerprints_before": {
+    "jmx": "13BBDA897DC17E4907FF1E7BB1C05AD87AE33768D2B896862C18172F61F2D2B7",
+    "csv": "CA8770F8795EC6C7E21DDE68704BE35B19758940B4A41D54D89D0A4FE1D1EECF",
+    "design": "5773CF4CDB56E7B3C27328A66B8635496ADC394C13B231E688C2361CF119B728",
+    "plan_review": "ED3DC35D2339157BED5840165A6028B5CB9DDFDF08C78FCDD3966CDB7CEA8E4C",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "source_fingerprints_after": {
+    "jmx": "13BBDA897DC17E4907FF1E7BB1C05AD87AE33768D2B896862C18172F61F2D2B7",
+    "csv": "CA8770F8795EC6C7E21DDE68704BE35B19758940B4A41D54D89D0A4FE1D1EECF",
+    "design": "5773CF4CDB56E7B3C27328A66B8635496ADC394C13B231E688C2361CF119B728",
+    "plan_review": "ED3DC35D2339157BED5840165A6028B5CB9DDFDF08C78FCDD3966CDB7CEA8E4C",
+    "source_database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "source_server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "source_database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "source_fingerprints_unchanged": true,
+  "token_value_recorded": false,
+  "token_hash_recorded": false,
+  "authorization_header_recorded": false,
+  "failure_reason": "Tiến trình evidence dừng sớm với exit code 1."
+}

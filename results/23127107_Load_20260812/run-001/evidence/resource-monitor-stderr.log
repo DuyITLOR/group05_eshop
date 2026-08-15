@@ -1,0 +1,9 @@
+Get-CimInstance : Access denied 
+At D:\Workspace\HCMUS\Software 
+Testing\Homework\group05_eshop\results\23127107_Load_20260812\run-001\evidence\monitor-load-resources.ps1:16 char:13
++ $computer = Get-CimInstance Win32_ComputerSystem
++             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (root\cimv2:Win32_ComputerSystem:String) [Get-CimInstance], CimExcepti 
+   on
+    + FullyQualifiedErrorId : HRESULT 0x80041003,Microsoft.Management.Infrastructure.CimCmdlets.GetCimInstanceCommand
+ 

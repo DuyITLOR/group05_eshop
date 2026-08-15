@@ -1,0 +1,77 @@
+{
+  "evidence_type": "HW05_LOAD_TEST_DATA_SETUP_VERIFICATION",
+  "endpoint": "GET /api/orders/:id",
+  "group": "READ_HEAVY",
+  "scenario": "LOAD",
+  "verification_status": "PASS",
+  "runtime_isolation": "DISPOSABLE_BACKEND_RUNTIME_COPY",
+  "runtime_location": "OS_TEMP_OUTSIDE_REPOSITORY",
+  "runtime_database_belongs_to_copied_backend": true,
+  "runtime_deleted_after_verification": true,
+  "source_database_opened_for_write": false,
+  "source_fingerprints_before": {
+    "database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "source_fingerprints_after": {
+    "database": "C63F00544180BA1FBB1427A9B9DD3F1784842698809972F33CE90482E7420BA6",
+    "server": "E2263811A1690A63A7DBB4446C3FD33FB87F50D073D9F8CDFAB7083A52F5E8ED",
+    "database_config": "50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717"
+  },
+  "source_fingerprints_unchanged": true,
+  "historical_runtime_orders_cleared": true,
+  "fixture_transaction": "COMMITTED_IN_DISPOSABLE_RUNTIME",
+  "fixture_count": 2,
+  "fixtures": [
+    {
+      "id": 2312710701,
+      "user_id": 2,
+      "total_amount": 30000000,
+      "status": "pending",
+      "shipping_address": "HW05_LOAD_FIXTURE_A",
+      "order_case": "deterministic_success_a",
+      "iteration_key": "load-order-a",
+      "created_at_present": true
+    },
+    {
+      "id": 2312710702,
+      "user_id": 2,
+      "total_amount": 28000000,
+      "status": "pending",
+      "shipping_address": "HW05_LOAD_FIXTURE_B",
+      "order_case": "deterministic_success_b",
+      "iteration_key": "load-order-b",
+      "created_at_present": true
+    }
+  ],
+  "token_preflight": {
+    "setup_login_measured": false,
+    "setup_login_requests": 1,
+    "token_present": true,
+    "token_value_recorded": false,
+    "token_hash_recorded": false,
+    "authorization_header_recorded": false,
+    "external_properties_file_deleted": true,
+    "verified_user_id": 2
+  },
+  "smoke_checks": [
+    {
+      "order_id": 2312710701,
+      "http_status": 200,
+      "exact_fields_match": true,
+      "created_at_present": true
+    },
+    {
+      "order_id": 2312710702,
+      "http_status": 200,
+      "exact_fields_match": true,
+      "created_at_present": true
+    }
+  ],
+  "authentication_coverage_claimed": false,
+  "performance_execution_performed": false,
+  "final_csv_created": false,
+  "jmx_created": false,
+  "failure_reason": null
+}
