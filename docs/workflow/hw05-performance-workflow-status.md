@@ -4,7 +4,7 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (AUTH_HEAVY / SPIKE JMeter plan approved by Student; mandatory execution preflight required)
+- Last Updated: `2026-08-16` (AUTH_HEAVY / SPIKE run-001 remediation validated; retry authorization remains required)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
@@ -14,7 +14,7 @@
 | Group | Endpoint | Scenario | Phase | Status |
 |---|---|---|---|---|
 | `READ_HEAVY` | `GET /api/orders/:id` | `LOAD` | `RAW_JTL_AVAILABLE` | `EXECUTION_EVIDENCE_APPROVED` |
-| `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `REAL_EXECUTION_REQUIRED` | `PLAN_APPROVED` |
+| `AUTH_HEAVY` | `GET /api/users/me` | `SPIKE` | `REAL_EXECUTION_REQUIRED` | `RETRY_AUTHORIZATION_REQUIRED` |
 | `TRANSACTIONAL` | `POST /api/admin/coupons` | `STRESS` | `ENDPOINT_SELECTED` | `NOT_STARTED` |
 
 ## Rejected Design History — READ_HEAVY / LOAD
@@ -87,7 +87,7 @@ Metrics: `NOT_CREATED`
 
 AI Analysis: `NOT_CREATED`
 
-Human Review: `MODIFIED_AND_APPROVED`
+Human Review: `NOT_REVIEWED`
 
 ## READ_HEAVY / LOAD
 
@@ -395,7 +395,15 @@ Checkpoint Resolution: `PLAN_APPROVED`
 
 ### Execution
 
-Status: `NOT_STARTED`
+Status: `FAILED_PRE_EXECUTION_ATTEMPT`
+
+Run: `run-001`
+
+Failure Classification: `ENVIRONMENT_FAILURE`
+
+JMeter Invocation Count: `0`
+
+Automatic Rerun Count: `0`
 
 Raw JTL: `NOT_CREATED`
 
@@ -403,7 +411,33 @@ HTML Report Folder: `NOT_CREATED`
 
 Resource Monitor Evidence: `NOT_CREATED`
 
-Execution Metadata: `NOT_CREATED`
+Execution Metadata: `results/23127107_Spike_20260816/run-001/evidence/execution-metadata.json`
+
+Execution Review: `docs/performance-executions/spike-users-me-run-001-execution-review.md`
+
+Source DB Integrity Before / After: `PASS` / `PASS`
+
+JMeter Version-only Preflight: `FAIL`; `jmeter-version-check.log` is empty.
+
+Disposable Runtime / Token / Identity / Fail-closed / Plugin / Monitor: `NOT_REACHED`
+
+No Silent Rerun: `PASS`
+
+Failure Triage Decision: `MODIFIED_AND_APPROVED`
+
+Decision Scope: `AUTH_HEAVY_SPIKE_RUN_001_ENVIRONMENT_REMEDIATION`
+
+Root Cause: `PROCESS_INVOCATION_FAILURE`; direct Node.js `spawnSync` of `jmeter.bat` returned `EINVAL` before any JMeter invocation.
+
+Remediation: `PASS`; the version guard now invokes the existing PowerShell launcher in version-only mode and remains fail-closed for spawn, exit-code, or version detection failures.
+
+Diagnostic Validation: `PASS` / `DIAGNOSTIC_ONLY`; JMeter `5.6.3`, `jpgc-graphs-basic=2.0`, `jpgc-casutg=3.1.1`, `jpgc-plugins-manager=1.12`, `ResponseTimesOverTimeGui`, and `UltimateThreadGroup` passed without workload execution.
+
+Retry Authorization Required: `YES`
+
+Recommended New Run Identity: `run-002` (`RETRY_AFTER_PRE_EXECUTION_ENVIRONMENT_FAILURE`)
+
+CHECKPOINT: `RETRY_REVIEW_REQUIRED`
 
 ### Analysis
 
@@ -679,8 +713,12 @@ Safe Backfill:
 
 ## Current Blocker
 
-`EXECUTION_PREFLIGHT_REQUIRED`: Student da approve JMX scope `AUTH_HEAVY_SPIKE_JMETER_PLAN`; `R-001` van la pre-execution dependency bat buoc. Phai PASS disposable runtime, source DB integrity, temporary external token, authenticated identity, fail-close token, va resource-monitor initial sample truoc real execution. Task 2 van duoc hoan lai den khi Task 1 production da hoan tat.
+`RETRY_AUTHORIZATION_REQUIRED`: the `run-001` failure remains immutable `FAILED_PRE_EXECUTION_ATTEMPT` evidence. Its confirmed process-invocation remediation and diagnostic-only validation are approved, but a new production attempt is not authorized. Task 2 remains deferred.
 
 ## Next Allowed Action
 
-Perform mandatory AUTH_HEAVY / SPIKE execution preflight. Run the approved JMX exactly once only if every preflight check passes; otherwise preserve evidence and stop for Human Review. Do not start Task 2.
+Student authorize or reject exactly one new production AUTH_HEAVY / SPIKE attempt using `run-002`. Do not start Task 2.
+
+## Final Checkpoint
+
+`RETRY_REVIEW_REQUIRED`
