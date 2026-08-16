@@ -4,13 +4,13 @@
 
 - Student ID: `23127107`
 - Execution Date: `2026-08-12`
-- Last Updated: `2026-08-16` (Task 2 optimization Human Review finalized; dedicated audit required before Task 3)
+- Last Updated: `2026-08-16` (Task 3 proposal Human Review finalized; dedicated AI Audit required before final packaging)
 - Workflow Mode: `HW05_PROJECT`
 - CORE_PERFORMANCE_WORKFLOW: `IN_PROGRESS`
 - HW05_SUBMISSION_READINESS: `NOT_READY`
 - Task 1: `COMPLETE`
 - Task 2: `COMPLETE`
-- Task 3: `NOT_STARTED`
+- Task 3: `COMPLETE`
 
 ## Endpoint Mapping
 
@@ -996,7 +996,69 @@ Controlled Stress State Preserved: `RAW_JTL_AVAILABLE`
 
 Project Checkpoint Resolution: `PRODUCTION_MATRIX_APPROVED`
 
-Next Global Action: Dedicated AI Audit for Task 2 optimization proposal and Human Review before Task 3 begins.
+Next Global Action: Student Human Review of the Task 3 continuous performance testing proposal. CI implementation remains not started.
+
+## Task 3 — Continuous Performance Testing
+
+Status: `IN_PROGRESS`
+
+Proposal: `docs/performance-analysis/task3-continuous-performance-testing-proposal.md`
+
+TASK3_REQUIREMENT_VERIFICATION: `PARTIAL`
+
+Requirement Evidence: Repository có workflow/artifact HW05 nhưng không có assignment rubric hay CI/CD requirement authoritative cho Task 3. Current Task 3 instruction xác định deliverable `PROPOSAL_ONLY`; không suy ra CI YAML, scheduled execution hoặc threshold enforcement là bắt buộc.
+
+Existing CI Platform: `NONE`
+
+Proposed CI Platform: `GitHub Actions` (`PROPOSED_PLATFORM`, platform-neutral flow)
+
+Continuous Strategy: `FAST_PERFORMANCE_CHECK` via separate `SUPPORTING_CI_PROFILE`, `WEEKLY_SCHEDULED_VALIDATION`, `FULL_PERFORMANCE_VALIDATION`; Supporting Endurance remains `SUPPORTING_ENDURANCE_EXECUTION_ARTIFACT` and is not promoted into the three production scenarios.
+
+Environment Isolation: `DISPOSABLE_BACKEND_RUNTIME_COPY` required; source `backend/database.sqlite` must not receive mutating STRESS traffic.
+
+Baseline/Guardrails: Latest Student-approved comparable run or explicit release baseline; Task 2 p95/error values are `COURSEWORK_REGRESSION_GUARDRAIL`, not SLA.
+
+CI Implementation: `NOT_STARTED`
+
+Audit: `NOT_UPDATED_BY_EXPLICIT_INSTRUCTION`
+
+Review Status: `FINALIZED`
+
+Student Decision: `MODIFIED_AND_APPROVED`
+
+Approval Scope: `TASK3_CONTINUOUS_PERFORMANCE_TESTING_PROPOSAL`
+
+Requirement Decision: `MODIFIED_AND_APPROVED`; `PARTIAL` limitation preserved.
+
+Tier Strategy Decision: `MODIFIED_AND_APPROVED`; weekly scheduled validation and separate fast supporting profile approved.
+
+Threshold Strategy Decision: `MODIFIED_AND_APPROVED`; values remain `COURSEWORK_REGRESSION_GUARDRAIL` only.
+
+Issue Policy Decision: `MODIFIED_AND_APPROVED`; reproducible comparable evidence and Human confirmation required.
+
+AI Governance Decision: `APPROVED`
+
+Checkpoint: `TASK3_CONTINUOUS_PERFORMANCE_PROPOSAL_REVIEW_REQUIRED`
+
+Next Allowed Action: Dedicated AI Audit for the Task 3 proposal plus Human Review before final bug/performance-finding and report packaging.
+
+Human Review Artifact: `docs/performance-analysis/task3-continuous-performance-testing-human-review.md`
+
+Technical Review: `COMPLETE`
+
+Technical Verification: Requirement scope `PARTIAL`; CI platform `NONE` / GitHub Actions `PROPOSED_PLATFORM`; source DB protection, mutating STRESS isolation, deterministic data, secret fail-closed handling, resource causation boundary, baseline comparability, failure classification and AI governance are `PASS` within the proposal scope.
+
+Human Review Status: `FINALIZED`
+
+Human Decision: `MODIFIED_AND_APPROVED`
+
+Human Decision Reason: Student finalized proposal-only scope, weekly scheduled validation, supporting fast profile, Endurance cadence, guardrail/issue policy and AI governance while preserving requirement limitation.
+
+Implementation Required: `NO`
+
+CI Implementation: `NOT_STARTED`
+
+Next Allowed Action: Dedicated AI Audit for Task 3 proposal plus Human Review before final packaging.
 
 ## Global Compliance
 
@@ -1033,16 +1095,16 @@ Safe Backfill:
 
 ## Current Workflow State
 
-`TASK2_COMPLETE_TASK3_READY`
+`TASK3_COMPLETE_FINALIZATION_READY`
 
 ## Current Blocker
 
-`TASK2_OPTIMIZATION_AUDIT_REQUIRED`: Task 2 Human Review đã finalized; dedicated audit cho Task 2 optimization proposal và Human Review phải hoàn tất trước Task 3.
+`TASK3_AUDIT_REQUIRED`: Task 3 proposal và Student Human Review đã finalized. Dedicated AI Audit phải ghi interaction substantive này trước final bug/performance-finding và report packaging.
 
 ## Next Allowed Action
 
-Perform dedicated AI Audit for Task 2 optimization proposal + Human Review. Không implement, không chạy JMeter và không bắt đầu Task 3.
+Dedicated AI Audit cho Task 3 proposal và Human Review. Không implement CI, không chạy JMeter, không sửa Task 1/2 artifacts và không final-package trước checkpoint audit.
 
 ## Final Checkpoint
 
-`TASK2_COMPLETE_TASK3_READY`
+`TASK3_COMPLETE_FINALIZATION_READY`
