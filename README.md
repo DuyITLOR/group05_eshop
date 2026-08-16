@@ -286,3 +286,77 @@ Tại bước Checkout, người dùng có thể nhập mã giảm giá. Hệ th
 ---
 
 _Tài liệu này phục vụ cho mục đích học tập và thực hành Kiểm thử Phần mềm. Phiên bản: 2.0 — Cập nhật: 2026-05-14._
+
+---
+
+## 10. HW05 — Performance Testing
+
+| Thông tin | Giá trị |
+| --- | --- |
+| Student ID | `23127107` |
+| Branch | `HW05/23127107` |
+| Public repository | <https://github.com/DuyITLOR/group05_eshop> |
+| Canonical Final Report | [docs/final-report/main.md](docs/final-report/main.md) |
+| AI Critique | [docs/ai-critique/hw05-ai-critique.md](docs/ai-critique/hw05-ai-critique.md) |
+
+### Final scenario summary
+
+| Endpoint group | Scenario | Endpoint | Listener / Report view |
+| --- | --- | --- | --- |
+| `READ_HEAVY` | `LOAD` | `GET /api/orders/:id` | `Summary Report` |
+| `AUTH_HEAVY` | `SPIKE` | `GET /api/users/me` | `jp@gc - Response Times Over Time` |
+| `TRANSACTIONAL` | `STRESS` | `POST /api/admin/coupons` | `Aggregate Report` |
+
+Supporting Endurance dùng `GET /api/orders/:id` và có trạng thái `SUPPORTING_ONLY`; đây không phải scenario production thứ tư.
+
+| Scenario | Samples | Failures | p95 | Throughput |
+| --- | ---: | ---: | ---: | ---: |
+| `LOAD` | 1250 | 0 | 2 ms | 10.58685 req/s |
+| `SPIKE` | 2123 | 0 | 4 ms | 32.025463 req/s |
+| `STRESS` | 1687 | 0 | 8 ms | 11.865158 req/s |
+
+Các workload và endpoint khác nhau, vì vậy bảng này không dùng để xếp hạng endpoint. `0` JMeter failures cũng không chứng minh business correctness, security correctness, SLA hoặc production readiness.
+
+### Supporting Endurance
+
+Ngưỡng được Student duyệt cho profile Endurance là `late_p95 / early_p95 <= 1.25` và `late_median_RSS / early_median_RSS <= 1.15`.
+
+| Chỉ số | Observed |
+| --- | ---: |
+| Early p95 | 3 ms |
+| Late p95 | 2 ms |
+| Latency ratio | 0.666667 |
+| Early median RSS | 66072576 |
+| Late median RSS | 67371008 |
+| RSS ratio | 1.019652 |
+
+Kết luận trong phạm vi profile đã kiểm thử là `STABLE_WITHIN_PROPOSED_THRESHOLD`. Đây là coursework threshold, không phải SLA.
+
+### Findings và artifact
+
+- Confirmed Bugs: `3`; Confirmed Performance Issues: `0`.
+- [BUG-001: `/api/users/me` sensitive data exposure](docs/bug-reports/hw05/BUG-001-users-me-sensitive-data-exposure.md) — [GitHub #291](https://github.com/DuyITLOR/group05_eshop/issues/291).
+- [BUG-002: `/api/admin/coupons` missing Admin authorization](docs/bug-reports/hw05/BUG-002-admin-coupons-missing-admin-authorization.md) — [GitHub #290](https://github.com/DuyITLOR/group05_eshop/issues/290).
+- [BUG-003: `/api/orders/:id` missing access control](docs/bug-reports/hw05/BUG-003-orders-detail-missing-access-control.md) — [GitHub #292](https://github.com/DuyITLOR/group05_eshop/issues/292).
+- Final JMeter plans: [test-plans](test-plans/).
+- Final execution results: [results](results/).
+- Primary Agent Skill: [agent-skills/hw05-performance-workflow](agent-skills/hw05-performance-workflow/).
+
+### Demo video
+
+- HW05 Performance Demo: <https://youtu.be/LyOTvRytMkE>
+- HW05 Agent Skill Demo: <https://youtu.be/s_ABgvshVx0>
+
+### Self-assessment
+
+| Official visible criterion | Maximum | Proposed score | Evidence and limitation |
+| --- | ---: | ---: | --- |
+| Task 1 — Load testing | 20 | 20 | Approved JMX, CSV, raw JTL, HTML report and resource evidence for `run-002`; result remains workload-specific. |
+| Task 1 — Stress testing | 20 | 20 | Approved JMX, CSV, raw JTL, HTML report and resource evidence for `run-001`; state-growth limitation is documented. |
+| Task 1 — Spike testing | 20 | 20 | Approved JMX, CSV, raw JTL, HTML report and resource evidence for `run-003`; stage-map limitation is documented. |
+| Task 2 — AI analysis + misinterpretation hunt | 10 | 10 | Raw JTL analysis, review and misinterpretation boundaries are present; no SLA/capacity claim is made. |
+| Task 3 — Continuous Performance Testing proposal | 10 | 10 | Human-reviewed Continuous Performance Testing proposal đáp ứng criterion; CI remains `NOT_IMPLEMENTED` because implementation is not required by this proposal criterion. |
+| Agent Skills | 10 | 10 | Reusable HW05 workflow skill and demonstration video are provided; final submission review remains required. |
+| **Visible-criteria total** | **90** | **90** | The official visible rows total 90, while its printed total is 100. No missing 10-point criterion is invented here. |
+
+Self-Assessed Grade: `090`. The official template prints Total = 100 although its visible criteria total 90; no missing criterion is invented.

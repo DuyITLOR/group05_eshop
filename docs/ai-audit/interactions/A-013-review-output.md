@@ -1,0 +1,59 @@
+DETERMINISTIC_FIXTURE_STRATEGY:
+PROPOSED
+
+DATA_CANDIDATES:
+NOT_FOUND
+
+SOURCE_BACKED:
+PARTIAL
+
+ISOLATED_DB:
+NEEDS_SETUP
+
+DATA_DRIVEN_FIT:
+PASS
+
+AUTH_TOKEN_STRATEGY:
+PASS
+
+CURRENT ORDER IDS 2/3:
+SNAPSHOT_REFERENCE_ONLY
+
+DESIGN HUMAN DECISION:
+MODIFIED_AND_APPROVED
+
+CURRENT DATA STATUS:
+NEEDS_DETERMINISTIC_FIXTURE_SETUP
+
+DATA PROPOSAL:
+docs/test-data-reviews/load-order-detail-data-candidates.md
+
+FINAL CSV:
+NOT_CREATED
+
+WORKFLOW STATE:
+TEST_DATA_REVIEW_REQUIRED
+
+Next Allowed Action:
+Student Human Review of deterministic Load order fixture/data proposal.
+
+NO JMETER.
+NO JMX.
+NO JTL.
+NO REAL LOAD EXECUTION.
+NO FINAL CSV BEFORE HUMAN REVIEW.
+NO SECRET TOKEN IN REPOSITORY.
+NO COMMIT.
+NO PUSH.
+
+Final checkpoint:
+TEST_DATA_REVIEW_REQUIRED
+
+<oai-mem-citation>
+<citation_entries>
+MEMORY.md:71-95|note=[prior production matrix and controlled evidence context]
+</citation_entries>
+<rollout_ids>
+019ff18e-7c64-7d42-85bc-896431439201
+</rollout_ids>
+</oai-mem-citation>

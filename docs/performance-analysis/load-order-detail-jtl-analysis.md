@@ -13,35 +13,35 @@
 
 Raw JTL có một sampler label `GET Order Detail - Baseline` và `GET Order Detail - Increment`. Không có setup/preflight request trong JTL này.
 
-| Metric | Overall |
-|---|---:|
-| Test start timestamp | `2026-08-15T17:55:59.854Z` |
-| Test end timestamp | `2026-08-15T17:57:57.925Z` |
-| Observed JTL duration | `118.071 s` |
-| Total samples | `1250` |
-| Successful / failed | `1250 / 0` |
-| Error rate | `0%` |
-| Min / max | `0 / 28 ms` |
-| Mean | `1.5824 ms` |
-| Median / p50 | `2 / 2 ms` |
-| p90 / p95 / p99 | `2 / 2 / 3 ms` |
-| Throughput | `10.58685 RPS` |
+| Metric                |                    Overall |
+| --------------------- | -------------------------: |
+| Test start timestamp  | `2026-08-15T17:55:59.854Z` |
+| Test end timestamp    | `2026-08-15T17:57:57.925Z` |
+| Observed JTL duration |                `118.071 s` |
+| Total samples         |                     `1250` |
+| Successful / failed   |                 `1250 / 0` |
+| Error rate            |                       `0%` |
+| Min / max             |                `0 / 28 ms` |
+| Mean                  |                `1.5824 ms` |
+| Median / p50          |                 `2 / 2 ms` |
+| p90 / p95 / p99       |             `2 / 2 / 3 ms` |
+| Throughput            |             `10.58685 RPS` |
 
 Response code breakdown: HTTP `200` = `1250`.
 
 Per-label facts:
 
-| Label | Samples | Mean | p50 | p95 | p99 | Max | Throughput |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Baseline | 774 | 1.624031 ms | 2 ms | 3 ms | 4 ms | 28 ms | 6.563828 RPS |
-| Increment | 476 | 1.514706 ms | 1 ms | 2 ms | 3 ms | 3 ms | 6.000403 RPS |
+| Label     | Samples |        Mean |  p50 |  p95 |  p99 |   Max |   Throughput |
+| --------- | ------: | ----------: | ---: | ---: | ---: | ----: | -----------: |
+| Baseline  |     774 | 1.624031 ms | 2 ms | 3 ms | 4 ms | 28 ms | 6.563828 RPS |
+| Increment |     476 | 1.514706 ms | 1 ms | 2 ms | 3 ms |  3 ms | 6.000403 RPS |
 
 Time-window facts từ parser (`60s`, không filtering/warm-up):
 
-| Window | Samples | Mean | p95 | p99 | Throughput |
-|---|---:|---:|---:|---:|---:|
-| `0-60s` | 478 | 1.784519 ms | 3 ms | 4 ms | 7.966667 RPS |
-| `60-120s` (observed 58.071s) | 772 | 1.457254 ms | 2 ms | 3 ms | 13.294071 RPS |
+| Window                       | Samples |        Mean |  p95 |  p99 |    Throughput |
+| ---------------------------- | ------: | ----------: | ---: | ---: | ------------: |
+| `0-60s`                      |     478 | 1.784519 ms | 3 ms | 4 ms |  7.966667 RPS |
+| `60-120s` (observed 58.071s) |     772 | 1.457254 ms | 2 ms | 3 ms | 13.294071 RPS |
 
 Resource evidence độc lập: `133` samples, backend-not-alive `0`; system CPU `9.19-54.67%` (average `19.83%`); backend working set `56045568-67702784` bytes (average `63772810.59`). Đây là correlation context, không phải causal proof.
 
@@ -56,11 +56,11 @@ Resource evidence độc lập: `133` samples, backend-not-alive `0`; system CPU
 
 ## 4. AI Interpretation Candidates for Student Review
 
-| ID | AI Proposed Statement | Evidence | Confidence | Potential Misinterpretation Risk |
-|---|---|---|---|---|
-| `L-001` | Trong run này, tail latency quan sát được thấp và ổn định giữa hai cửa sổ (`p95 3 -> 2 ms`). | Parser windows và overall metrics | `MEDIUM` | Bị đọc thành SLA/pass hoặc ổn định cho mọi tải khác. |
-| `L-002` | Throughput cửa sổ sau cao hơn cửa sổ đầu (`13.294071` vs `7.966667 RPS`) mà không có error. | Window metrics | `LOW` | Bị đọc thành capacity scaling proof; hai cửa sổ có concurrency profile khác nhau. |
-| `L-003` | Không thấy lỗi transport/assertion trong `1250` samples. | `success=true`, HTTP `200` | `HIGH` | Bị đọc thành toàn bộ business correctness hoặc auth/owner coverage. |
+| ID      | AI Proposed Statement                                                                        | Evidence                          | Confidence | Potential Misinterpretation Risk                                                  |
+| ------- | -------------------------------------------------------------------------------------------- | --------------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| `L-001` | Trong run này, tail latency quan sát được thấp và ổn định giữa hai cửa sổ (`p95 3 -> 2 ms`). | Parser windows và overall metrics | `MEDIUM`   | Bị đọc thành SLA/pass hoặc ổn định cho mọi tải khác.                              |
+| `L-002` | Throughput cửa sổ sau cao hơn cửa sổ đầu (`13.294071` vs `7.966667 RPS`) mà không có error.  | Window metrics                    | `LOW`      | Bị đọc thành capacity scaling proof; hai cửa sổ có concurrency profile khác nhau. |
+| `L-003` | Không thấy lỗi transport/assertion trong `1250` samples.                                     | `success=true`, HTTP `200`        | `HIGH`     | Bị đọc thành toàn bộ business correctness hoặc auth/owner coverage.               |
 
 Đây là `AI_PROPOSED_INTERPRETATION`, chưa phải kết luận được Student duyệt.
 
@@ -68,10 +68,10 @@ Resource evidence độc lập: `133` samples, backend-not-alive `0`; system CPU
 
 Tất cả đều là `AI_PROPOSED_THRESHOLD`, `PENDING_STUDENT_REVIEW`, không phải SLA.
 
-| Threshold | Candidate | Derivation / limitation |
-|---|---:|---|
+| Threshold         | Candidate | Derivation / limitation                                                                                     |
+| ----------------- | --------: | ----------------------------------------------------------------------------------------------------------- |
 | p95 response time | `<= 5 ms` | Max observed window p95 `3 ms` x margin `1.5`, làm tròn lên; cần workload/baseline tương đương để dùng lại. |
-| Error rate | `<= 0.5%` | Observed `0%` + guardrail `0.5` percentage point; không chứng minh business error absence. |
+| Error rate        | `<= 0.5%` | Observed `0%` + guardrail `0.5` percentage point; không chứng minh business error absence.                  |
 
 Confidence: `LOW_TO_MEDIUM`. Student threshold review bắt buộc.
 
@@ -102,11 +102,11 @@ Optimization: `NOT_STARTED`
 
 ## 7. Student Review
 
-| Candidate | Student Decision | Review Note |
-|---|---|---|
-| `L-001` | `ACCEPT` | Chấp nhận trong phạm vi hai cửa sổ của run này; không phải SLA, capacity hoặc kết luận cho tải khác. |
-| `L-002` | `MODIFY` | Throughput tăng giữa hai cửa sổ cùng với thay đổi profile/concurrency; không dùng làm bằng chứng capacity scaling. |
-| `L-003` | `MODIFY` | `0%` failure và HTTP `200` chỉ xác nhận raw transport/assertion facts; không xác nhận business correctness, auth hoặc owner coverage. |
+| Candidate | Student Decision | Review Note                                                                                                                           |
+| --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `L-001`   | `ACCEPT`         | Chấp nhận trong phạm vi hai cửa sổ của run này; không phải SLA, capacity hoặc kết luận cho tải khác.                                  |
+| `L-002`   | `MODIFY`         | Throughput tăng giữa hai cửa sổ cùng với thay đổi profile/concurrency; không dùng làm bằng chứng capacity scaling.                    |
+| `L-003`   | `MODIFY`         | `0%` failure và HTTP `200` chỉ xác nhận raw transport/assertion facts; không xác nhận business correctness, auth hoặc owner coverage. |
 
 **Final Student Interpretation:** Run LOAD cho thấy các metric quan sát được của chính workload này; không kết luận `good performance`, SLA, capacity hay production readiness.
 

@@ -6,21 +6,21 @@ Phạm vi review là ba raw JTL production thuộc Task 2: `READ_HEAVY / LOAD`, 
 
 ## 2. Raw JTL Integrity
 
-| Scenario | Raw JTL | SHA-256 | Result |
-|---|---|---|---|
-| `LOAD` | `results/23127107_Load_20260812/run-002/raw/23127107_Load_20260812_run-002.jtl` | `35B7055E06C290A43358ECA8380C42F18A04507B0F41F58E23C4F1E31E9F3A66` | `PASS` |
-| `SPIKE` | `results/23127107_Spike_20260816/run-003/raw/23127107_Spike_20260816_run-003.jtl` | `B5484DF66137CFB3A7B2787D02DFB2D12B69F4AFFA2127D7A05EF524586E30AB` | `PASS` |
+| Scenario | Raw JTL                                                                             | SHA-256                                                            | Result |
+| -------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------ |
+| `LOAD`   | `results/23127107_Load_20260812/run-002/raw/23127107_Load_20260812_run-002.jtl`     | `35B7055E06C290A43358ECA8380C42F18A04507B0F41F58E23C4F1E31E9F3A66` | `PASS` |
+| `SPIKE`  | `results/23127107_Spike_20260816/run-003/raw/23127107_Spike_20260816_run-003.jtl`   | `B5484DF66137CFB3A7B2787D02DFB2D12B69F4AFFA2127D7A05EF524586E30AB` | `PASS` |
 | `STRESS` | `results/23127107_Stress_20260816/run-001/raw/23127107_Stress_20260816_run-001.jtl` | `8A7510F670FD67905E4887AEC0E584D26136AEBCCFB6B1A2CBA647481C732C5B` | `PASS` |
 
 Raw JTL là immutable; không có rerun hoặc chỉnh sửa raw evidence trong review này.
 
 ## 3. Raw Metric Verification
 
-| Scenario | Samples | Success / Failed | Error rate | Mean | p95 | p99 | Throughput |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| `LOAD` | 1250 | 1250 / 0 | 0% | 1.5824 ms | 2 ms | 3 ms | 10.58685 RPS |
-| `SPIKE` | 2123 | 2123 / 0 | 0% | 2.963731 ms | 4 ms | 6 ms | 32.025463 RPS |
-| `STRESS` | 1687 | 1687 / 0 | 0% | 6.033788 ms | 8 ms | 16 ms | 11.865158 RPS |
+| Scenario | Samples | Success / Failed | Error rate |        Mean |  p95 |   p99 |    Throughput |
+| -------- | ------: | ---------------: | ---------: | ----------: | ---: | ----: | ------------: |
+| `LOAD`   |    1250 |         1250 / 0 |         0% |   1.5824 ms | 2 ms |  3 ms |  10.58685 RPS |
+| `SPIKE`  |    2123 |         2123 / 0 |         0% | 2.963731 ms | 4 ms |  6 ms | 32.025463 RPS |
+| `STRESS` |    1687 |         1687 / 0 |         0% | 6.033788 ms | 8 ms | 16 ms | 11.865158 RPS |
 
 Raw Metrics Decision: `APPROVED`. Đây là execution facts, không phải SLA, capacity hoặc business correctness.
 
@@ -62,11 +62,11 @@ Giữ nguyên `STATE_GROWTH_CONFOUND: DOCUMENTED` và `POTENTIAL_WRITE_CONTENTIO
 
 ## 9. AI Threshold Review
 
-| Scenario | p95 | Error rate | Decision |
-|---|---:|---:|---|
-| `LOAD` | `<= 5 ms` | `<= 0.5%` | `MODIFIED_AND_APPROVED` |
-| `SPIKE` | `<= 6 ms` | `<= 0.5%` | `MODIFIED_AND_APPROVED` |
-| `STRESS` | `<= 16 ms` | `<= 0.5%` | `MODIFIED_AND_APPROVED` |
+| Scenario |        p95 | Error rate | Decision                |
+| -------- | ---------: | ---------: | ----------------------- |
+| `LOAD`   |  `<= 5 ms` |  `<= 0.5%` | `MODIFIED_AND_APPROVED` |
+| `SPIKE`  |  `<= 6 ms` |  `<= 0.5%` | `MODIFIED_AND_APPROVED` |
+| `STRESS` | `<= 16 ms` |  `<= 0.5%` | `MODIFIED_AND_APPROVED` |
 
 Các threshold có source, công thức và margin tái lập được; applicability phụ thuộc workload tương ứng. Chúng không thay thế SLA hoặc instructor requirement.
 

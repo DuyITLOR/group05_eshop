@@ -26,11 +26,11 @@ Mục tiêu vận hành là:
 
 ## 3. Tài sản hiệu năng HW05 hiện có (Existing HW05 Performance Assets)
 
-| Nhóm / Scenario | Endpoint | Approved JMX | Successful run | Primary Listener | CSV |
-|---|---|---|---|---|---|
-| `READ_HEAVY / LOAD` | `GET /api/orders/:id` | `test-plans/23127107_Load_20260812.jmx` | `run-002` | `Summary Report` | `test-data/read-heavy-orders.csv` |
-| `AUTH_HEAVY / SPIKE` | `GET /api/users/me` | `test-plans/23127107_Spike_20260816.jmx` | `run-003` | `Response Time Graph` | `test-data/auth-heavy-users-me.csv` |
-| `TRANSACTIONAL / STRESS` | `POST /api/admin/coupons` | `test-plans/23127107_Stress_20260816.jmx` | `run-001` | `Aggregate Report` | `test-data/transactional-admin-coupons.csv` |
+| Nhóm / Scenario          | Endpoint                  | Approved JMX                              | Successful run | Primary Listener      | CSV                                         |
+| ------------------------ | ------------------------- | ----------------------------------------- | -------------- | --------------------- | ------------------------------------------- |
+| `READ_HEAVY / LOAD`      | `GET /api/orders/:id`     | `test-plans/23127107_Load_20260812.jmx`   | `run-002`      | `Summary Report`      | `test-data/read-heavy-orders.csv`           |
+| `AUTH_HEAVY / SPIKE`     | `GET /api/users/me`       | `test-plans/23127107_Spike_20260816.jmx`  | `run-003`      | `Response Time Graph` | `test-data/auth-heavy-users-me.csv`         |
+| `TRANSACTIONAL / STRESS` | `POST /api/admin/coupons` | `test-plans/23127107_Stress_20260816.jmx` | `run-001`      | `Aggregate Report`    | `test-data/transactional-admin-coupons.csv` |
 
 Supporting Endurance dùng `GET /api/orders/:id`, profile `60s ramp-up + 600s soak + 60s ramp-down`, và phải luôn được gắn nhãn `SUPPORTING_ENDURANCE_EXECUTION_ARTIFACT`. Nó không phải scenario production thứ tư và không được gộp vào final set ba JMX/JTL/HTML.
 
@@ -48,11 +48,11 @@ Không tier nào được diễn giải như production capacity proof.
 
 ## 5. Test tiers
 
-| Tier | Trigger | Scenario / profile | Expected runtime | Mục đích | Artifacts | Failure / warning policy |
-|---|---|---|---|---|---|---|
-| `FAST_PERFORMANCE_CHECK` | PR có backend endpoint, auth, database hoặc performance tooling liên quan; merge vào main | Representative `SUPPORTING_CI_PROFILE`, không phải JMX production bị sửa | Mục tiêu dưới 5 phút gồm setup/preflight; thời lượng workload phải được phê duyệt riêng | Early regression signal, không đo capacity | JTL nếu chạy, concise metadata, JMeter log, preflight và summary | `NON_BLOCKING` ban đầu; integrity/functional/preflight failure được report rõ, guardrail deviation là `WARNING` |
-| `WEEKLY_SCHEDULED_VALIDATION` | Weekly schedule hoặc manual scheduled validation | Ba approved production JMX: LOAD, SPIKE, STRESS, chạy tuần tự | Planned workload tổng khoảng 333 giây; thời gian job thực tế gồm seed/report/upload phải được metadata ghi nhận | So sánh với baseline tương đương và giữ trend evidence | Raw JTL, HTML, resource files, metadata, JMeter logs, analyzer output | `FAIL` cho evidence/preflight/tooling/functional failure; p95/error guardrail vượt là `PERFORMANCE_REGRESSION_CANDIDATE`/`WARNING` chờ review |
-| `FULL_PERFORMANCE_VALIDATION` | Release candidate, major backend change, database/schema change, authentication change, hoặc manual validation | Ba approved production JMX với CSV/Think Time/concurrency giữ nguyên | Cùng profile approved, cộng setup/cleanup/report; không ước lượng thành SLA | Tạo benchmark/release evidence có review và baseline candidate | Full artifact bundle cùng config identity, commit, branch, timestamp | Không promote kết quả thành release conclusion tự động; issue/release decision cần Human Review |
+| Tier                          | Trigger                                                                                                        | Scenario / profile                                                       | Expected runtime                                                                                                | Mục đích                                                       | Artifacts                                                             | Failure / warning policy                                                                                                                      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FAST_PERFORMANCE_CHECK`      | PR có backend endpoint, auth, database hoặc performance tooling liên quan; merge vào main                      | Representative `SUPPORTING_CI_PROFILE`, không phải JMX production bị sửa | Mục tiêu dưới 5 phút gồm setup/preflight; thời lượng workload phải được phê duyệt riêng                         | Early regression signal, không đo capacity                     | JTL nếu chạy, concise metadata, JMeter log, preflight và summary      | `NON_BLOCKING` ban đầu; integrity/functional/preflight failure được report rõ, guardrail deviation là `WARNING`                               |
+| `WEEKLY_SCHEDULED_VALIDATION` | Weekly schedule hoặc manual scheduled validation                                                               | Ba approved production JMX: LOAD, SPIKE, STRESS, chạy tuần tự            | Planned workload tổng khoảng 333 giây; thời gian job thực tế gồm seed/report/upload phải được metadata ghi nhận | So sánh với baseline tương đương và giữ trend evidence         | Raw JTL, HTML, resource files, metadata, JMeter logs, analyzer output | `FAIL` cho evidence/preflight/tooling/functional failure; p95/error guardrail vượt là `PERFORMANCE_REGRESSION_CANDIDATE`/`WARNING` chờ review |
+| `FULL_PERFORMANCE_VALIDATION` | Release candidate, major backend change, database/schema change, authentication change, hoặc manual validation | Ba approved production JMX với CSV/Think Time/concurrency giữ nguyên     | Cùng profile approved, cộng setup/cleanup/report; không ước lượng thành SLA                                     | Tạo benchmark/release evidence có review và baseline candidate | Full artifact bundle cùng config identity, commit, branch, timestamp  | Không promote kết quả thành release conclusion tự động; issue/release decision cần Human Review                                               |
 
 `HARD_FAILURE_THRESHOLD` trong proposal này chỉ áp dụng cho điều kiện validity: preflight fail, secret absent, isolated runtime/seed fail, JTL không parse được, assertion/functional failure được xác minh, evidence thiếu hoặc configuration identity không khớp. Đây không phải latency SLA.
 
@@ -60,27 +60,27 @@ Không tier nào được diễn giải như production capacity proof.
 
 ### Traceability — Student Human Review quyết định
 
-| Nội dung | Original AI Proposal | Student Decision | Final Proposal |
-|---|---|---|---|
-| Fast tier | `CI_SUPPORTING_PROFILE` và fast check theo thay đổi liên quan | `MODIFY` | `SUPPORTING_CI_PROFILE` riêng, chỉ backend-relevant, workload ngắn, `NON_BLOCKING` ban đầu |
-| Scheduled tier | Nightly ba scenario production | `MODIFY` | `WEEKLY_SCHEDULED_VALIDATION` tuần tự `LOAD -> SPIKE -> STRESS`; manual scheduled validation được phép |
-| Full validation | Release/major backend, database, auth hoặc manual | `APPROVE` | Giữ nguyên; không chạy full STRESS mỗi commit |
-| Endurance | Weekly, pre-release hoặc manual | `MODIFY` | Pre-release/manual, optional weekly khi runner time cho phép |
-| Threshold policy | Integrity fail là hard fail; performance guardrail là warning | `MODIFY` | `WARNING_THRESHOLD` cho percentile/resource drift; `HARD_FAILURE_THRESHOLD` chỉ cho functional failure hoặc guardrail violation đã được Student approve sau valid comparability |
-| Regression/issue policy | Candidate -> triage -> Human Review | `MODIFY` | Bắt buộc integrity, comparability và repeat/verify trước Human confirmation |
+| Nội dung                | Original AI Proposal                                          | Student Decision | Final Proposal                                                                                                                                                                  |
+| ----------------------- | ------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fast tier               | `CI_SUPPORTING_PROFILE` và fast check theo thay đổi liên quan | `MODIFY`         | `SUPPORTING_CI_PROFILE` riêng, chỉ backend-relevant, workload ngắn, `NON_BLOCKING` ban đầu                                                                                      |
+| Scheduled tier          | Nightly ba scenario production                                | `MODIFY`         | `WEEKLY_SCHEDULED_VALIDATION` tuần tự `LOAD -> SPIKE -> STRESS`; manual scheduled validation được phép                                                                          |
+| Full validation         | Release/major backend, database, auth hoặc manual             | `APPROVE`        | Giữ nguyên; không chạy full STRESS mỗi commit                                                                                                                                   |
+| Endurance               | Weekly, pre-release hoặc manual                               | `MODIFY`         | Pre-release/manual, optional weekly khi runner time cho phép                                                                                                                    |
+| Threshold policy        | Integrity fail là hard fail; performance guardrail là warning | `MODIFY`         | `WARNING_THRESHOLD` cho percentile/resource drift; `HARD_FAILURE_THRESHOLD` chỉ cho functional failure hoặc guardrail violation đã được Student approve sau valid comparability |
+| Regression/issue policy | Candidate -> triage -> Human Review                           | `MODIFY`         | Bắt buộc integrity, comparability và repeat/verify trước Human confirmation                                                                                                     |
 
 ## 6. Ma trận trigger (Trigger Matrix)
 
-| Trigger | Performance tier | Scenario | Lý do | Expected cost | Blocking / Non-blocking |
-|---|---|---|---|---|---|
-| PR chỉ chạm frontend | `NONE` | None | Không có bằng chứng endpoint/runtime hiệu năng thay đổi | Thấp | `NON_BLOCKING` |
-| PR chạm backend endpoint | `FAST_PERFORMANCE_CHECK` | Representative supporting profile của endpoint bị ảnh hưởng | Early regression signal | Thấp | `NON_BLOCKING` ban đầu |
-| PR chạm database/schema | `FAST_PERFORMANCE_CHECK` + full validation khi performance-sensitive/before release | Supporting profile + data setup validation | Schema/seed có thể làm baseline không comparable | Thấp trong PR | Fast `NON_BLOCKING`; full validation required theo trigger |
-| PR chạm auth/secret middleware | `FAST_PERFORMANCE_CHECK` + full validation trước release/khi scenario liên quan | AUTH supporting profile và auth preflight | Bảo vệ token boundary/fail-closed behavior | Thấp | `NON_BLOCKING` ban đầu |
-| Merge vào main | `FAST_PERFORMANCE_CHECK` | Supporting profile theo backend impact | Tín hiệu sớm, không thay full validation | Thấp | `NON_BLOCKING` ban đầu |
-| Weekly schedule | `WEEKLY_SCHEDULED_VALIDATION` | LOAD + SPIKE + STRESS approved profiles | Trend/regression evidence phù hợp coursework cost | Trung bình | `NON_BLOCKING` / reporting; evidence failure `FAIL`, guardrail `WARNING` |
-| Release candidate / major backend, DB, auth change | `FULL_PERFORMANCE_VALIDATION` | Ba approved production JMX | So sánh release candidate với baseline comparable | Trung bình | Human review required trước kết luận release |
-| Manual performance validation | `FULL_PERFORMANCE_VALIDATION`; Endurance khi có lý do | Ba production JMX; Endurance tách riêng | Điều tra/release readiness đã được Human authorize | Trung bình/cao | Theo Human-approved run policy |
+| Trigger                                            | Performance tier                                                                    | Scenario                                                    | Lý do                                                   | Expected cost  | Blocking / Non-blocking                                                  |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------- | -------------- | ------------------------------------------------------------------------ |
+| PR chỉ chạm frontend                               | `NONE`                                                                              | None                                                        | Không có bằng chứng endpoint/runtime hiệu năng thay đổi | Thấp           | `NON_BLOCKING`                                                           |
+| PR chạm backend endpoint                           | `FAST_PERFORMANCE_CHECK`                                                            | Representative supporting profile của endpoint bị ảnh hưởng | Early regression signal                                 | Thấp           | `NON_BLOCKING` ban đầu                                                   |
+| PR chạm database/schema                            | `FAST_PERFORMANCE_CHECK` + full validation khi performance-sensitive/before release | Supporting profile + data setup validation                  | Schema/seed có thể làm baseline không comparable        | Thấp trong PR  | Fast `NON_BLOCKING`; full validation required theo trigger               |
+| PR chạm auth/secret middleware                     | `FAST_PERFORMANCE_CHECK` + full validation trước release/khi scenario liên quan     | AUTH supporting profile và auth preflight                   | Bảo vệ token boundary/fail-closed behavior              | Thấp           | `NON_BLOCKING` ban đầu                                                   |
+| Merge vào main                                     | `FAST_PERFORMANCE_CHECK`                                                            | Supporting profile theo backend impact                      | Tín hiệu sớm, không thay full validation                | Thấp           | `NON_BLOCKING` ban đầu                                                   |
+| Weekly schedule                                    | `WEEKLY_SCHEDULED_VALIDATION`                                                       | LOAD + SPIKE + STRESS approved profiles                     | Trend/regression evidence phù hợp coursework cost       | Trung bình     | `NON_BLOCKING` / reporting; evidence failure `FAIL`, guardrail `WARNING` |
+| Release candidate / major backend, DB, auth change | `FULL_PERFORMANCE_VALIDATION`                                                       | Ba approved production JMX                                  | So sánh release candidate với baseline comparable       | Trung bình     | Human review required trước kết luận release                             |
+| Manual performance validation                      | `FULL_PERFORMANCE_VALIDATION`; Endurance khi có lý do                               | Ba production JMX; Endurance tách riêng                     | Điều tra/release readiness đã được Human authorize      | Trung bình/cao | Theo Human-approved run policy                                           |
 
 ## 7. Cô lập môi trường (Environment Isolation)
 
@@ -141,11 +141,11 @@ Chỉ so sánh p95/error của current run với baseline khi endpoint, scenario
 
 Task 2 đã Student-review ba ngưỡng sau. Trong Task 3, chúng chỉ được gắn nhãn `COURSEWORK_REGRESSION_GUARDRAIL`, không phải official SLA, production SLA, capacity target hay instructor requirement.
 
-| Scenario | p95 guardrail | Error-rate guardrail | Điều kiện áp dụng |
-|---|---:|---:|---|
-| `LOAD` | `<= 5 ms` | `<= 0.5%` | Cùng LOAD JMX/window profile, CSV, timer và environment comparable |
-| `SPIKE` | `<= 6 ms` | `<= 0.5%` | Cùng SPIKE stage mapping/profile; phải giữ limitation stage coverage |
-| `STRESS` | `<= 16 ms` | `<= 0.5%` | Cùng STRESS stage/data-state; giữ `STATE_GROWTH_CONFOUND` |
+| Scenario | p95 guardrail | Error-rate guardrail | Điều kiện áp dụng                                                    |
+| -------- | ------------: | -------------------: | -------------------------------------------------------------------- |
+| `LOAD`   |     `<= 5 ms` |            `<= 0.5%` | Cùng LOAD JMX/window profile, CSV, timer và environment comparable   |
+| `SPIKE`  |     `<= 6 ms` |            `<= 0.5%` | Cùng SPIKE stage mapping/profile; phải giữ limitation stage coverage |
+| `STRESS` |    `<= 16 ms` |            `<= 0.5%` | Cùng STRESS stage/data-state; giữ `STATE_GROWTH_CONFOUND`            |
 
 Pipeline không dùng một extreme `max` sample làm failure. Nó ưu tiên error rate và p95; p99/resource stability là triage context, không có ngưỡng mới được bịa. Atypical run cần stable runner, hardware class nhất quán, warm-up khi profile yêu cầu, workload nền tối thiểu, metadata đầy đủ và có thể rerun xác minh trước khi upgrade classification.
 
@@ -170,12 +170,12 @@ Formal performance issue chỉ được tạo khi có vi phạm guardrail tái l
 
 Known HW05 context được giữ đúng nhóm:
 
-| Context | Classification | Boundary |
-|---|---|---|
-| `GET /api/users/me` trả full user record/sensitive fields theo source hiện tại | `SECURITY` | Không được chuyển thành latency defect nếu chưa có benchmark proving benefit |
-| `POST /api/admin/coupons` thiếu server-side admin role check | `SECURITY` / `CORRECTNESS` | Không phải measured STRESS latency issue |
-| STRESS state growth | `PERFORMANCE_RISK` / `STATE_GROWTH_CONFOUND: DOCUMENTED` | Là confound cho comparability, không chứng minh bottleneck |
-| Potential write contention | `UNVERIFIED_PERFORMANCE_HYPOTHESIS` | Không gọi SQLite bottleneck nếu không có evidence trực tiếp |
+| Context                                                                        | Classification                                           | Boundary                                                                     |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `GET /api/users/me` trả full user record/sensitive fields theo source hiện tại | `SECURITY`                                               | Không được chuyển thành latency defect nếu chưa có benchmark proving benefit |
+| `POST /api/admin/coupons` thiếu server-side admin role check                   | `SECURITY` / `CORRECTNESS`                               | Không phải measured STRESS latency issue                                     |
+| STRESS state growth                                                            | `PERFORMANCE_RISK` / `STATE_GROWTH_CONFOUND: DOCUMENTED` | Là confound cho comparability, không chứng minh bottleneck                   |
+| Potential write contention                                                     | `UNVERIFIED_PERFORMANCE_HYPOTHESIS`                      | Không gọi SQLite bottleneck nếu không có evidence trực tiếp                  |
 
 ## 15. AI-assisted analysis
 

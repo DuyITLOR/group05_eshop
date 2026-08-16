@@ -7,13 +7,13 @@ description: Điều phối workflow performance testing HW05 bằng tiếng Vi�
 
 Là Orchestrator của workflow HW05, không phải một skill làm tất cả. Nó xác định state, kiểm tra prerequisite, gọi **một** skill con phù hợp, xác minh output, duy trì state Markdown, enforce gate và trả `NEXT_ALLOWED_ACTION` rõ ràng.
 
-| Nhiệm vụ | Skill sở hữu |
-|---|---|
-| Phân tích endpoint và thiết kế workload | `$perf-scenario-designer` |
-| Tạo JMX/CSV/summary từ design approved | `$jmeter-plan-builder` |
-| Review độc lập JMX/CSV/summary | `$perf-plan-reviewer` |
+| Nhiệm vụ                                         | Skill sở hữu                |
+| ------------------------------------------------ | --------------------------- |
+| Phân tích endpoint và thiết kế workload          | `$perf-scenario-designer`   |
+| Tạo JMX/CSV/summary từ design approved           | `$jmeter-plan-builder`      |
+| Review độc lập JMX/CSV/summary                   | `$perf-plan-reviewer`       |
 | Tính metric JTL và AI/misinterpretation analysis | `$jtl-performance-analyzer` |
-| Audit interaction theo convention | `$log-ai-audit` |
+| Audit interaction theo convention                | `$log-ai-audit`             |
 
 Không duplicate parser JTL, XML/JMX validation, workload design, JMeter generation hay plan-review logic trong skill này. Không sửa skill con để orchestration dễ hơn; mismatch thực tế phải trả `INTEGRATION_CONFLICT` với artifact/field bị lệch.
 
@@ -96,6 +96,7 @@ else: write one normalized current snapshot
 # HW05 Performance Workflow Status
 
 ## Metadata
+
 - Student ID:
 - Last Updated:
 - Workflow Mode: `ENDPOINT` / `HW05_PROJECT` / `DEMO`
@@ -103,17 +104,21 @@ else: write one normalized current snapshot
 - HW05_SUBMISSION_READINESS:
 
 ## Endpoint Mapping
+
 | Group | Endpoint | Scenario | Phase | Status |
-|---|---|---|---|---|
+| ----- | -------- | -------- | ----- | ------ |
 
 ## <GROUP> / <SCENARIO>
+
 ### Design
+
 Status: `...`
 Artifact:
 Human Review:
 Fingerprint: `CURRENT` / `STALE` / `UNKNOWN`
 
 ### JMeter Plan
+
 Status: `...`
 JMX:
 CSV:
@@ -121,6 +126,7 @@ Generation Summary:
 Fingerprint:
 
 ### Plan Review
+
 Status: `...`
 Review Artifact:
 Open Critical/High Findings:
@@ -128,6 +134,7 @@ Student Decision:
 Fingerprint:
 
 ### Execution
+
 Status: `...`
 Raw JTL:
 HTML Report:
@@ -135,12 +142,14 @@ Resource Evidence:
 Execution Metadata:
 
 ### Analysis
+
 Status: `...`
 Metrics:
 AI Analysis:
 Human Review:
 
 ## Endurance / Soak
+
 Status: `NOT_STARTED`
 Duration:
 Raw JTL:
@@ -148,20 +157,22 @@ Resource Evidence:
 Threshold:
 
 ## Global Compliance
-| Requirement | Status | Evidence |
-|---|---|---|
-| 3 groups assigned | | |
-| 3 scenarios unique | | |
-| Separate CSV | | |
-| Distinct listeners | | |
+
+| Requirement        | Status | Evidence |
+| ------------------ | ------ | -------- |
+| 3 groups assigned  |        |          |
+| 3 scenarios unique |        |          |
+| Separate CSV       |        |          |
+| Distinct listeners |        |          |
 
 ## Submission Readiness (read-only)
-| Item | Status | Evidence |
-|---|---|---|
-| Main report MD/PDF | | |
-| 3 plans / 3 CSV / 3 raw JTL / 3 HTML reports | | |
-| Resource and hardware evidence | | |
-| Endurance, demo, Task 3, AI Critique, AI Audit, Git log, README | | |
+
+| Item                                                            | Status | Evidence |
+| --------------------------------------------------------------- | ------ | -------- |
+| Main report MD/PDF                                              |        |          |
+| 3 plans / 3 CSV / 3 raw JTL / 3 HTML reports                    |        |          |
+| Resource and hardware evidence                                  |        |          |
+| Endurance, demo, Task 3, AI Critique, AI Audit, Git log, README |        |          |
 
 ## Current Workflow State
 
@@ -176,17 +187,17 @@ Threshold:
 
 At each invocation inspect state file if present, then artifact paths and Human Decisions. Do not restart a valid workflow or duplicate artifact.
 
-| Prerequisite/evidence | Current phase | Next allowed action |
-|---|---|---|
-| Endpoint context valid, design absent | `ENDPOINT_SELECTED` | Call `$perf-scenario-designer`. |
-| Design artifact exists, decision not `APPROVED`/`MODIFIED_AND_APPROVED` | `HUMAN_DESIGN_REVIEW_REQUIRED` | `CHECKPOINT: PERFORMANCE_DESIGN_REVIEW_REQUIRED`. |
-| Design approval valid, JMX/CSV/summary absent | `DESIGN_APPROVED` | Call `$jmeter-plan-builder`; require Student ID/date only now. |
-| JMX + dedicated CSV + summary exist, review absent | `JMETER_PLAN_CREATED` | Call `$perf-plan-reviewer`. |
-| Review exists, decision not approved or unresolved CRITICAL/HIGH finding | `HUMAN_PLAN_REVIEW_REQUIRED` | `CHECKPOINT: JMETER_AI_REVIEW_REQUIRED`. |
-| Plan review approved, no valid raw JTL | `REAL_EXECUTION_REQUIRED` | Stop at real execution barrier. |
-| Non-empty, basic-parseable real JTL exists | `RAW_JTL_AVAILABLE` | Call `$jtl-performance-analyzer`. |
-| Metrics + AI analysis exist, analysis decision not approved | `HUMAN_ANALYSIS_REVIEW_REQUIRED` | `CHECKPOINT: AI_PERFORMANCE_ANALYSIS_REVIEW_REQUIRED`. |
-| All mandatory artifacts/reviews valid | `ENDPOINT_WORKFLOW_COMPLETE` | Mark endpoint core workflow complete. |
+| Prerequisite/evidence                                                    | Current phase                    | Next allowed action                                            |
+| ------------------------------------------------------------------------ | -------------------------------- | -------------------------------------------------------------- |
+| Endpoint context valid, design absent                                    | `ENDPOINT_SELECTED`              | Call `$perf-scenario-designer`.                                |
+| Design artifact exists, decision not `APPROVED`/`MODIFIED_AND_APPROVED`  | `HUMAN_DESIGN_REVIEW_REQUIRED`   | `CHECKPOINT: PERFORMANCE_DESIGN_REVIEW_REQUIRED`.              |
+| Design approval valid, JMX/CSV/summary absent                            | `DESIGN_APPROVED`                | Call `$jmeter-plan-builder`; require Student ID/date only now. |
+| JMX + dedicated CSV + summary exist, review absent                       | `JMETER_PLAN_CREATED`            | Call `$perf-plan-reviewer`.                                    |
+| Review exists, decision not approved or unresolved CRITICAL/HIGH finding | `HUMAN_PLAN_REVIEW_REQUIRED`     | `CHECKPOINT: JMETER_AI_REVIEW_REQUIRED`.                       |
+| Plan review approved, no valid raw JTL                                   | `REAL_EXECUTION_REQUIRED`        | Stop at real execution barrier.                                |
+| Non-empty, basic-parseable real JTL exists                               | `RAW_JTL_AVAILABLE`              | Call `$jtl-performance-analyzer`.                              |
+| Metrics + AI analysis exist, analysis decision not approved              | `HUMAN_ANALYSIS_REVIEW_REQUIRED` | `CHECKPOINT: AI_PERFORMANCE_ANALYSIS_REVIEW_REQUIRED`.         |
+| All mandatory artifacts/reviews valid                                    | `ENDPOINT_WORKFLOW_COMPLETE`     | Mark endpoint core workflow complete.                          |
 
 If an expected artifact is missing/invalid, set `BLOCKED` with one relevant blocker: `ENDPOINT_NOT_SELECTED`, `GROUP_MAPPING_INVALID`, `DESIGN_NOT_FOUND`, `DESIGN_NOT_APPROVED`, `JMETER_PLAN_NOT_FOUND`, `PLAN_REVIEW_NOT_FOUND`, `PLAN_NOT_APPROVED`, `DATA_BLOCKER`, `LISTENER_CONFLICT`, `DEPENDENCY_MISSING`, `RAW_JTL_NOT_FOUND`, `RAW_JTL_INVALID`, `ANALYSIS_NOT_REVIEWED`, or `HARDWARE_EVIDENCE_MISSING`.
 
@@ -232,12 +243,12 @@ READ_HEAVY, AUTH_HEAVY, TRANSACTIONAL
 LOAD, STRESS, SPIKE
 ```
 
-| Check | Failure |
-|---|---|
-| Each group maps once | `GLOBAL_MAPPING: FAIL` for duplicate/missing group. |
-| Each scenario maps once | `GLOBAL_MAPPING: FAIL` for duplicate/missing scenario. |
-| Primary CSV is distinct per group | `CSV_SEPARATION: FAIL` with `CSV_DUPLICATION`, `CSV_MISSING` or `CSV_GROUP_MISMATCH`. |
-| Primary Listener is distinct per scenario | `LISTENER_UNIQUENESS: FAIL` with `GLOBAL_LISTENER_CONFLICT`. |
+| Check                                     | Failure                                                                               |
+| ----------------------------------------- | ------------------------------------------------------------------------------------- |
+| Each group maps once                      | `GLOBAL_MAPPING: FAIL` for duplicate/missing group.                                   |
+| Each scenario maps once                   | `GLOBAL_MAPPING: FAIL` for duplicate/missing scenario.                                |
+| Primary CSV is distinct per group         | `CSV_SEPARATION: FAIL` with `CSV_DUPLICATION`, `CSV_MISSING` or `CSV_GROUP_MISMATCH`. |
+| Primary Listener is distinct per scenario | `LISTENER_UNIQUENESS: FAIL` with `GLOBAL_LISTENER_CONFLICT`.                          |
 
 Missing other-scenario artifacts are `NEEDS_CLARIFICATION`, not evidence of passing uniqueness. Endpoint ownership only checks an explicit repository record; otherwise `ENDPOINT_OWNERSHIP: NOT_VERIFIABLE`.
 
@@ -262,7 +273,7 @@ Carry forward `CRITICAL`/`HIGH` open findings from plan review into state. `Exec
 
 ## Audit coordination
 
-Find `$log-ai-audit` before workflow. Subskills already own audit for their meaningful generated artifact; orchestrator records only status/path and must not create a second entry. Khi subskill đã audit đúng artifact, ghi `AUDIT_STATUS: DUPLICATE_AUDIT_ENTRY_PREVENTED`. If a subskill did not audit and project contract requires it, orchestrator invokes audit only with actual verbatim prompt/output/timestamp. Missing exact content yields `AUDIT_STATUS: BLOCKED_OR_INCOMPLETE`, never a fabricated entry.
+Find `$log-ai-audit` before workflow. Áp dụng `AUDIT_SCOPE` trước khi audit: chỉ interaction trực tiếp tạo/phân tích/review/sửa artifact hoặc kết quả HW05 là `INCLUDED_HW05_ARTIFACT_INTERACTION`; development, repair, smoke/contract test và synthetic fixture của Agent Skill là `EXCLUDED_AGENT_SKILL_DEVELOPMENT`, không có Artifact ID. Subskills already own audit for their meaningful generated artifact; orchestrator records only status/path and must not create a second entry. Khi subskill đã audit đúng artifact, ghi `AUDIT_STATUS: DUPLICATE_AUDIT_ENTRY_PREVENTED`. If a subskill did not audit and project contract requires it, orchestrator invokes audit only with actual verbatim prompt/output/timestamp. Missing exact content yields `AUDIT_STATUS: BLOCKED_OR_INCOMPLETE` hoặc `BACKFILL_GAP`, never a fabricated entry.
 
 Do not audit execution, screenshot, raw JTL or resource data as AI-created. No automatic Git commit/push; optionally state `COMMIT_STATUS: PENDING`.
 
@@ -300,40 +311,40 @@ If child artifact/status differs materially, report exact `INTEGRATION_CONFLICT`
 
 Do not call child skill runtime, JMeter or real execution. Use isolated mock state only; do not write production state file/JTL/HTML/CPU/RAM evidence.
 
-| Test | Expected state/action |
-|---|---|
-| A New `GET /api/categories`, `READ_HEAVY`, `LOAD`, no design | `ENDPOINT_SELECTED`; call designer only. |
-| B Design `NOT_REVIEWED` | `HUMAN_DESIGN_REVIEW_REQUIRED`; builder not called. |
-| C Design approved, no JMX | call builder. |
-| D JMX + CSV + summary, no review | call reviewer. |
-| E Review `NOT_REVIEWED` | `HUMAN_PLAN_REVIEW_REQUIRED`; execution blocked. |
-| F Plan approved, no JTL | `CHECKPOINT: REAL_EXECUTION_REQUIRED`; no JMeter run. |
-| G Empty JTL | `RAW_JTL_INVALID`; no execution complete. |
-| H Synthetic `TEST-ONLY` JTL | analyzer integration can dry-validate, never production state. |
-| I Metrics + analysis, decision `NOT_REVIEWED` | `CHECKPOINT: AI_PERFORMANCE_ANALYSIS_REVIEW_REQUIRED`. |
-| J Isolated all-production-like mock states approved | transition logic reaches `ENDPOINT_WORKFLOW_COMPLETE`, no fabricated evidence. |
-| K Two groups map `LOAD` | `GLOBAL_MAPPING: FAIL`. |
-| L Two groups use `common.csv` | `CSV_SEPARATION: FAIL`. |
-| M Load/Stress use `Summary Report` | `LISTENER_UNIQUENESS: FAIL`. |
-| N Design changed after JMX | JMX/review `STALE`, execution blocked. |
-| O Resume at real-execution phase with valid real-like test state | resume JTL/analyzer phase; no designer/builder/reviewer rerun. |
-| P/Q No fake evidence/audit duplicate | `NO_FAKE_EVIDENCE_CHECK: PASS`; no second audit entry. |
+| Test                                                             | Expected state/action                                                          |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| A New `GET /api/categories`, `READ_HEAVY`, `LOAD`, no design     | `ENDPOINT_SELECTED`; call designer only.                                       |
+| B Design `NOT_REVIEWED`                                          | `HUMAN_DESIGN_REVIEW_REQUIRED`; builder not called.                            |
+| C Design approved, no JMX                                        | call builder.                                                                  |
+| D JMX + CSV + summary, no review                                 | call reviewer.                                                                 |
+| E Review `NOT_REVIEWED`                                          | `HUMAN_PLAN_REVIEW_REQUIRED`; execution blocked.                               |
+| F Plan approved, no JTL                                          | `CHECKPOINT: REAL_EXECUTION_REQUIRED`; no JMeter run.                          |
+| G Empty JTL                                                      | `RAW_JTL_INVALID`; no execution complete.                                      |
+| H Synthetic `TEST-ONLY` JTL                                      | analyzer integration can dry-validate, never production state.                 |
+| I Metrics + analysis, decision `NOT_REVIEWED`                    | `CHECKPOINT: AI_PERFORMANCE_ANALYSIS_REVIEW_REQUIRED`.                         |
+| J Isolated all-production-like mock states approved              | transition logic reaches `ENDPOINT_WORKFLOW_COMPLETE`, no fabricated evidence. |
+| K Two groups map `LOAD`                                          | `GLOBAL_MAPPING: FAIL`.                                                        |
+| L Two groups use `common.csv`                                    | `CSV_SEPARATION: FAIL`.                                                        |
+| M Load/Stress use `Summary Report`                               | `LISTENER_UNIQUENESS: FAIL`.                                                   |
+| N Design changed after JMX                                       | JMX/review `STALE`, execution blocked.                                         |
+| O Resume at real-execution phase with valid real-like test state | resume JTL/analyzer phase; no designer/builder/reviewer rerun.                 |
+| P/Q No fake evidence/audit duplicate                             | `NO_FAKE_EVIDENCE_CHECK: PASS`; no second audit entry.                         |
 
 ### Regression idempotency bắt buộc
 
 Các case này chỉ dùng state synthetic trong bộ nhớ hoặc thư mục tạm; actual state file là read-only baseline trừ khi phát hiện inconsistency thật.
 
-| Case | Transition | Expected |
-|---|---|---|
-| A Same state twice | Apply cùng Student ID/date, phase, blocker và action hai lần. | Semantic content và bytes không đổi; không duplicate field/row/action. |
-| B Resolve Student info | `NOT_PROVIDED`/`MISSING` -> actual ID/date `PROVIDED`. | Giá trị cũ và clarification blocker/action bị remove. |
-| C New dependency blocker | Student info đã resolve; builder trả `DEPENDENCY_MISSING`. | JMeter Plan `BLOCKED`, đúng một current blocker và action cài/verify plugin. |
-| D Resolve dependency | Plugin được verify và builder có actual result mới. | `DEPENDENCY_MISSING` bị remove; status/blocker/action phản ánh actual result mới. |
-| E Endpoint table upsert | Cùng `(Group, Endpoint, Scenario)` đổi phase/status. | Một row duy nhất với phase/status mới. |
-| F Section status | Design/JMeter Plan/Plan Review có status khác nhau. | Section-aware update preserve cả ba; không global replace. |
-| G Global Compliance upsert | Cùng requirement đổi `NEEDS_CLARIFICATION` -> `PASS`. | Một row duy nhất với `PASS`. |
-| H Current file baseline | Lint actual state hiện tại. | Đúng một value cho metadata/prerequisite/state/blocker/action và một row cho mỗi logical table key. |
-| I Repeated resume | Apply cùng evidence ba lần. | Run 1/2/3 byte-for-byte giống nhau; file không tăng kích thước. |
+| Case                       | Transition                                                    | Expected                                                                                            |
+| -------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| A Same state twice         | Apply cùng Student ID/date, phase, blocker và action hai lần. | Semantic content và bytes không đổi; không duplicate field/row/action.                              |
+| B Resolve Student info     | `NOT_PROVIDED`/`MISSING` -> actual ID/date `PROVIDED`.        | Giá trị cũ và clarification blocker/action bị remove.                                               |
+| C New dependency blocker   | Student info đã resolve; builder trả `DEPENDENCY_MISSING`.    | JMeter Plan `BLOCKED`, đúng một current blocker và action cài/verify plugin.                        |
+| D Resolve dependency       | Plugin được verify và builder có actual result mới.           | `DEPENDENCY_MISSING` bị remove; status/blocker/action phản ánh actual result mới.                   |
+| E Endpoint table upsert    | Cùng `(Group, Endpoint, Scenario)` đổi phase/status.          | Một row duy nhất với phase/status mới.                                                              |
+| F Section status           | Design/JMeter Plan/Plan Review có status khác nhau.           | Section-aware update preserve cả ba; không global replace.                                          |
+| G Global Compliance upsert | Cùng requirement đổi `NEEDS_CLARIFICATION` -> `PASS`.         | Một row duy nhất với `PASS`.                                                                        |
+| H Current file baseline    | Lint actual state hiện tại.                                   | Đúng một value cho metadata/prerequisite/state/blocker/action và một row cho mỗi logical table key. |
+| I Repeated resume          | Apply cùng evidence ba lần.                                   | Run 1/2/3 byte-for-byte giống nhau; file không tăng kích thước.                                     |
 
 Build mode never waits for Human Review, creates a `SKILL_IMPLEMENTATION_REVIEW_REQUIRED` checkpoint, commits, pushes, runs production workflow or runs JMeter. Runtime behavior retains all four required checkpoints.
 
