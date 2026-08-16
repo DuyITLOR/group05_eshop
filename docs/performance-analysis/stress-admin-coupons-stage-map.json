@@ -1,0 +1,7 @@
+[
+  {"name":"STAGE_5_VU_BASELINE","start_ms":1786832642486,"end_ms":1786832662486},
+  {"name":"STAGE_10_VU_HOLD","start_ms":1786832672486,"end_ms":1786832692486},
+  {"name":"STAGE_20_VU_HOLD","start_ms":1786832702486,"end_ms":1786832722486},
+  {"name":"STAGE_30_VU_HOLD","start_ms":1786832732486,"end_ms":1786832752486},
+  {"name":"RECOVERY_RAMP_DOWN_AND_HOLD","start_ms":1786832752486,"end_ms":1786832787486}
+]

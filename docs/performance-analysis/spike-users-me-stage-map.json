@@ -1,0 +1,5 @@
+[
+  {"name":"BASELINE","start_ms":1786827081309,"end_ms":1786827101309},
+  {"name":"SPIKE_RAMP_AND_HOLD","start_ms":1786827101309,"end_ms":1786827124309},
+  {"name":"RECOVERY_RAMP_AND_HOLD","start_ms":1786827124309,"end_ms":1786827149309}
+]
