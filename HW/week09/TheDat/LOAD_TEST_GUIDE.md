@@ -27,12 +27,10 @@ Các giá trị trong bảng đã được cấu hình trực tiếp tại Ultim
 
 Mở PowerShell tại thư mục gốc repository `D:\group05_eshop`.
 
-Nếu đây là lần đầu thiết lập project, cài dependency cho backend:
+Nếu đây là lần đầu thiết lập project, cài dependency cho backend (1 dòng):
 
 ```powershell
-cd backend
-npm install
-cd ..
+cd backend; npm install; cd ..
 ```
 
 Không cần chạy riêng `node database.js`. Backend hiện reset/seed database khi `server.js` khởi động.
@@ -78,15 +76,10 @@ Trước khi chạy:
 
 ## 4. Chạy Load Test chính thức
 
-Lệnh dưới đây tự dùng cấu hình đã lưu trong `.jmx`: 500 VU, ramp-up 120 giây, hold 300 giây và ramp-down 60 giây.
+Lệnh 1 dòng dưới đây tự dùng cấu hình đã lưu trong `.jmx`: 500 VU, ramp-up 120 giây, hold 300 giây và ramp-down 60 giây (paste 1 lần chạy ngay):
 
 ```powershell
-$stamp = Get-Date -Format "yyyyMMdd_HHmmss"
-$jtl = "HW/week09/TheDat/results/load/23127340_Load_$stamp.jtl"
-$report = "HW/week09/TheDat/results/load/23127340_Load_${stamp}_html"
-$jmeterLog = "HW/week09/TheDat/results/load/23127340_Load_$stamp.log"
-New-Item -ItemType Directory -Force "HW/week09/TheDat/results/load" | Out-Null
-jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Load_20260816.jmx" -l $jtl -j $jmeterLog -e -o $report
+$stamp = Get-Date -Format "yyyyMMdd_HHmmss"; $jtl = "HW/week09/TheDat/results/load/23127340_Load_$stamp.jtl"; $report = "HW/week09/TheDat/results/load/23127340_Load_${stamp}_html"; $jmeterLog = "HW/week09/TheDat/results/load/23127340_Load_$stamp.log"; New-Item -ItemType Directory -Force "HW/week09/TheDat/results/load" | Out-Null; jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Load_20260816.jmx" -l $jtl -j $jmeterLog -e -o $report
 ```
 
 Tổng profile kéo dài khoảng 480 giây. Không đóng terminal backend hoặc terminal JMeter giữa chừng.
@@ -95,21 +88,22 @@ Timestamp trong tên `$jtl`, `$jmeterLog` và `$report` giúp mỗi lần chạy
 
 ## 5. Kiểm tra kết quả
 
-Mở HTML Report:
+Mở HTML Report mới nhất (1 dòng, chạy an toàn kể cả khi mở terminal mới):
 
 ```powershell
-Invoke-Item "$report\index.html"
+$targetReport = if ($report -and (Test-Path "$report\index.html")) { "$report\index.html" } else { (Get-ChildItem -Directory "HW/week09/TheDat/results/load/*_html" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName + "\index.html" }; Invoke-Item $targetReport
 ```
 
-Thống kê lỗi từ raw `.jtl`:
+Thống kê Success/Fail từ raw `.jtl` mới nhất (1 dòng):
 
 ```powershell
-$data = Import-Csv $jtl
-$data | Group-Object success | Select-Object Name,Count
-$data | Where-Object success -eq 'false' |
-  Group-Object label,responseCode,failureMessage |
-  Sort-Object Count -Descending |
-  Select-Object Count,Name
+$targetJtl = if ($jtl -and (Test-Path $jtl)) { $jtl } else { (Get-ChildItem "HW/week09/TheDat/results/load/*.jtl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName }; $data = Import-Csv $targetJtl; $data | Group-Object success | Select-Object Name,Count
+```
+
+Thống kê chi tiết lỗi theo label, mã lỗi và thông điệp lỗi (1 dòng):
+
+```powershell
+$targetJtl = if ($jtl -and (Test-Path $jtl)) { $jtl } else { (Get-ChildItem "HW/week09/TheDat/results/load/*.jtl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName }; $data = Import-Csv $targetJtl; $data | Where-Object { $_.success -eq 'false' } | Group-Object label,responseCode,failureMessage | Sort-Object Count -Descending | Select-Object Count,Name
 ```
 
 Ghi vào report:

@@ -1,5 +1,4 @@
 interface:
   display_name: "Kiểm thử hiệu năng và phân tích log JMeter"
-  short_description: "Thiết kế JMeter và xác minh bằng chứng JTL"
-  default_prompt: "Dùng $jmeter-performance-log-analysis để thiết kế, chạy và kiểm chứng một bài kiểm thử hiệu năng JMeter cho nhóm endpoint."
-
+  short_description: "Tạo JMeter E2E chuẩn, test guide và xác minh JTL"
+  default_prompt: "Dùng $jmeter-performance-log-analysis để tạo test plan JMeter E2E theo style chuẩn hóa, viết test guide, chạy và kiểm chứng kết quả JTL."

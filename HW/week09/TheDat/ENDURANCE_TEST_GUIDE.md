@@ -1,55 +1,147 @@
-# Hướng dẫn chạy Endurance Test 500 VU
+# Hướng dẫn chạy Endurance Test JMeter
 
-## Cấu hình
+Test plan: `test-plans/23127340_Endurance_20260816.jmx`  
+Test data: `test-data/accounts_endurance.csv` (500 users)  
+Workflow: Login -> Products -> Add Cart -> Get Cart -> Checkout -> Order Detail  
 
-- Test plan: `test-plans/23127340_Endurance_20260816.jmx`
-- Dữ liệu: `test-data/accounts_endurance.csv`
-- Script chuẩn bị: `scripts/prepare-endurance-users.js`
-- Ramp-up: 120 giây
-- Giữ 500 VU: 720 giây (12 phút)
-- Ramp-down: 60 giây
-- Tổng thời gian: 900 giây (15 phút)
-- Listener: `Aggregate Report - All Samples`, luôn bật
+## 1. Cấu hình mặc định
 
-500 VU là mức tải cần kiểm chứng, chưa được gọi là giới hạn tối đa trước khi có kết quả thực nghiệm.
+| Tham số      |                                            Giá trị |
+| ------------- | ---------------------------------------------------: |
+| Virtual users |                                                  500 |
+| Initial delay |                                              0 giây |
+| Ramp-up       |                                            120 giây |
+| Hold load     |                                720 giây (12 phút) |
+| Ramp-down     |                                             60 giây |
+| Tổng thời gian|                               900 giây (15 phút) |
+| Think-time    | Ngẫu nhiên 1-3 giây trước mỗi bước sau Login (1-3s) |
+| Report view   |            Aggregate Report - All Samples, luôn bật |
+| Base URL      |                            `http://localhost:3000` |
 
-## Chuẩn bị
+- **Plugin:** Ultimate Thread Group từ plugin **Custom Thread Groups** (`jmeter-plugins-casutg`).
+- 500 VU là mức tải cần kiểm chứng tính bền vững lâu dài, không làm rò rỉ bộ nhớ (memory leak) và giữ throughput ổn định.
 
-Khởi động lại backend để xóa cart trong RAM, đợi database reset/seed xong, sau đó chạy từ thư mục gốc repository:
+`Aggregate Report` luôn được bật và nhận tất cả sample thành công lẫn thất bại trong lần chạy chính thức. Không disable listener hoặc bật bộ lọc chỉ lỗi.
+
+Các giá trị trong bảng đã được cấu hình trực tiếp tại Ultimate Thread Group, Loop Controller, HTTP Request Defaults và preprocessor đọc CSV. Test plan chính thức không dùng `-J...` để thay đổi load profile.
+
+## 2. Chuẩn bị backend và tài khoản
+
+Mở PowerShell tại thư mục gốc repository `D:\group05_eshop`.
+
+Nếu đây là lần đầu thiết lập project, cài dependency cho backend (1 dòng):
 
 ```powershell
-node HW/week09/TheDat/scripts/prepare-endurance-users.js
+cd backend; npm install; cd ..
 ```
 
-Script phải báo có 500 tài khoản và CSV phải có 500 dòng dữ liệu. Không restart backend sau bước này vì backend sẽ reset bảng users.
+Không cần chạy riêng `node database.js`. Backend hiện reset/seed database khi `server.js` khởi động.
 
-## Chạy non-GUI
+Khởi động backend trong một terminal riêng:
 
 ```powershell
-$stamp = Get-Date -Format "yyyyMMdd_HHmmss"
-$jtl = "HW/week09/TheDat/results/endurance/23127340_Endurance_$stamp.jtl"
-$report = "HW/week09/TheDat/results/endurance/23127340_Endurance_${stamp}_html"
-$jmeterLog = "HW/week09/TheDat/results/endurance/23127340_Endurance_$stamp.log"
-New-Item -ItemType Directory -Force "HW/week09/TheDat/results/endurance" | Out-Null
-jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Endurance_20260816.jmx" -l $jtl -j $jmeterLog -e -o $report
+node backend\server.js
 ```
 
-`Aggregate Report - All Samples` luôn được bật và nhận tất cả sample thành công lẫn thất bại trong lần chạy Endurance 500 VU. Không disable listener hoặc bật bộ lọc chỉ lỗi. Raw JTL và HTML Report vẫn là artifact chính dùng để phân tích.
+Backend chạy logic reset/seed database khi khởi động, vì vậy phải đợi backend khởi động xong rồi mới tạo tài khoản performance test. Không chạy lại hoặc restart backend sau bước chuẩn bị user nếu chưa chạy lại script.
 
-## Bằng chứng cần lưu
+Giữ terminal backend mở. Trong terminal khác, tạo/cập nhật 500 tài khoản Endurance Test, tái tạo 500 dòng dữ liệu CSV và xóa trạng thái lockout:
 
-- PID sở hữu port 3000.
-- Terminal JMeter và CPU/RAM của đúng tiến trình backend trong giai đoạn giữ 500 VU.
-- Ảnh kết thúc có `end of run`.
-- Raw `.jtl`, `.log` và toàn bộ thư mục HTML Report.
+```powershell
+node HW\week09\TheDat\scripts\prepare-endurance-users.js
+```
 
-## Kết luận threshold
+Sau đó kiểm tra API:
 
-Báo cáo riêng giai đoạn giữ tải từ giây 120 đến giây 840:
+```powershell
+Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/products
+```
 
-- Error rate.
-- p95 E2E và p95 từng API.
-- Throughput/RPS ổn định.
-- CPU và RAM cao nhất; RAM có tăng liên tục hay không.
+Kết quả mong đợi là HTTP `200` và danh sách sản phẩm JSON.
 
-Nếu 500 VU vẫn ổn định, kết luận hệ thống chịu được **ít nhất 500 VU** trong 12 phút giữ tải (15 phút tổng thời gian test). Không gọi đó là giới hạn tối đa nếu chưa kiểm tra tải cao hơn.
+Xác định PID backend đang giữ port 3000 để theo dõi đúng tiến trình trong Task Manager:
+
+```powershell
+"PID: $((Get-NetTCPConnection -LocalPort 3000 -State Listen).OwningProcess)"
+```
+
+## 3. Chuẩn bị lần Endurance Test chính thức
+
+Trước khi chạy:
+
+- Restart backend để xóa cart đang lưu trong RAM, sau đó luôn chạy lại `prepare-endurance-users.js` vì backend reset bảng users khi khởi động.
+- Ghi commit SHA, số order hiện tại và thời gian bắt đầu.
+- Mở Task Manager/Resource Monitor để theo dõi xu hướng RAM (tránh Memory Leak) trong suốt 15 phút.
+- Hiển thị tiến trình backend `node` và JMeter để chụp cùng một khung hình.
+- Đảm bảo tên `.jmx` có ngày chạy thật. Nếu chạy ngày khác 2026-08-16, sao chép/đổi tên file theo `23127340_Endurance_YYYYMMDD.jmx`.
+- Dùng tên output mới; JMeter yêu cầu thư mục HTML Report chưa tồn tại hoặc đang trống.
+- `Aggregate Report` luôn được bật trong lần chạy chính thức.
+
+## 4. Chạy Endurance Test chính thức
+
+Lệnh 1 dòng dưới đây tự dùng cấu hình đã lưu trong `.jmx`: 500 VU, ramp-up 120 giây, hold 720 giây (12 phút) và ramp-down 60 giây (paste 1 lần chạy ngay):
+
+```powershell
+$stamp = Get-Date -Format "yyyyMMdd_HHmmss"; $jtl = "HW/week09/TheDat/results/endurance/23127340_Endurance_$stamp.jtl"; $report = "HW/week09/TheDat/results/endurance/23127340_Endurance_${stamp}_html"; $jmeterLog = "HW/week09/TheDat/results/endurance/23127340_Endurance_$stamp.log"; New-Item -ItemType Directory -Force "HW/week09/TheDat/results/endurance" | Out-Null; jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Endurance_20260816.jmx" -l $jtl -j $jmeterLog -e -o $report
+```
+
+Tổng profile kéo dài khoảng 900 giây (15 phút). Không đóng terminal backend hoặc terminal JMeter giữa chừng.
+
+Timestamp trong tên `$jtl`, `$jmeterLog` và `$report` giúp mỗi lần chạy có bộ artifact riêng, không ghi đè bằng chứng cũ.
+
+## 5. Kiểm tra kết quả
+
+Mở HTML Report mới nhất (1 dòng, chạy an toàn kể cả khi mở terminal mới):
+
+```powershell
+$targetReport = if ($report -and (Test-Path "$report\index.html")) { "$report\index.html" } else { (Get-ChildItem -Directory "HW/week09/TheDat/results/endurance/*_html" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName + "\index.html" }; Invoke-Item $targetReport
+```
+
+Thống kê Success/Fail từ raw `.jtl` mới nhất (1 dòng):
+
+```powershell
+$targetJtl = if ($jtl -and (Test-Path $jtl)) { $jtl } else { (Get-ChildItem "HW/week09/TheDat/results/endurance/*.jtl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName }; $data = Import-Csv $targetJtl; $data | Group-Object success | Select-Object Name,Count
+```
+
+Thống kê chi tiết lỗi theo label, mã lỗi và thông điệp lỗi (1 dòng):
+
+```powershell
+$targetJtl = if ($jtl -and (Test-Path $jtl)) { $jtl } else { (Get-ChildItem "HW/week09/TheDat/results/endurance/*.jtl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName }; $data = Import-Csv $targetJtl; $data | Where-Object { $_.success -eq 'false' } | Group-Object label,responseCode,failureMessage | Sort-Object Count -Descending | Select-Object Count,Name
+```
+
+Đánh giá tính ổn định trong giai đoạn giữ tải (giây 120 đến giây 840):
+
+- **Tỷ lệ lỗi (Error Rate):** Duy trì ở mức thấp ổn định (< 1%).
+- **Percentile Latency (p95, p99):** Không có xu hướng tăng dần theo thời gian.
+- **Throughput:** Giữ đều trong suốt 12 phút tải tĩnh.
+- **CPU & Bộ nhớ (RAM):** RAM của tiến trình Node.js không tăng liên tục không điểm dừng (dấu hiệu rò rỉ bộ nhớ).
+
+## 6. Artifact phải giữ lại
+
+- `23127340_Endurance_YYYYMMDD.jmx`.
+- `accounts_endurance.csv` đã dùng.
+- Raw `.jtl` đầy đủ.
+- JMeter execution log `.log`.
+- Toàn bộ thư mục HTML Report.
+- Screenshot JMeter/tool và resource monitor trong cùng khung hình (đặc biệt là đồ thị RAM theo thời gian).
+- Backend log.
+- Hardware screenshot/specification.
+- Ghi chú reset cart/account lockout và số order trước/sau.
+
+## 7. Lỗi thường gặp
+
+### `CannotResolveClassException: UltimateThreadGroup`
+Cài plugin **Custom Thread Groups** bằng JMeter Plugins Manager rồi khởi động lại JMeter.
+
+### `CSV has ... accounts but VU ... needs a row`
+CSV cần đủ 500 tài khoản cho 500 VU. Chạy lại `node HW\week09\TheDat\scripts\prepare-endurance-users.js`.
+
+### Login trả `401` hoặc `403`
+- Chạy lại `prepare-endurance-users.js` sau khi khởi động backend.
+- Script chuẩn bị user tự động reset `login_attempts = 0` và `locked_until = NULL` cho 500 accounts.
+
+### Mở HTML Report bị trắng trơn / thiếu CSS
+Tái sinh lại report từ file JTL bằng lệnh 1 dòng:
+```powershell
+$latestJtl = (Get-ChildItem "HW/week09/TheDat/results/endurance/*.jtl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName; $reportFolder = $latestJtl -replace '\.jtl$', '_regenerated_html'; jmeter -g $latestJtl -o $reportFolder; Invoke-Item "$reportFolder\index.html"
+```
