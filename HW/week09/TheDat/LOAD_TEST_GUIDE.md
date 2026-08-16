@@ -1,6 +1,6 @@
 # Hướng dẫn chạy Load Test JMeter
 
-Test plan: `test-plans/23127340_Load_20260815.jmx`
+Test plan: `test-plans/23127340_Load_20260816.jmx`
 Test data: `test-data/accounts_load.csv`
 Workflow: Login -> Products -> Add Cart -> Get Cart -> Checkout -> Order Detail
 
@@ -14,7 +14,7 @@ Workflow: Login -> Products -> Add Cart -> Get Cart -> Checkout -> Order Detail
 | Hold load     |                                            300 giây |
 | Ramp-down     |                                             60 giây |
 | Think-time    | Ngẫu nhiên 1-3 giây trước mỗi bước sau Login |
-| Report view   |                 Summary Report - All Samples, luôn bật |
+| Report view   |             Summary Report - All Samples, luôn bật |
 | Base URL      |                            `http://localhost:3000` |
 
 Test plan dùng Ultimate Thread Group từ plugin **Custom Thread Groups**. Máy cần JMeter 5.6.3 và plugin `jmeter-plugins-casutg`.
@@ -27,16 +27,15 @@ Các giá trị trong bảng đã được cấu hình trực tiếp tại Ultim
 
 Mở PowerShell tại thư mục gốc repository `D:\group05_eshop`.
 
-Nếu đây là lần đầu hoặc muốn reset toàn bộ database:
+Nếu đây là lần đầu thiết lập project, cài dependency cho backend:
 
 ```powershell
 cd backend
 npm install
-node database.js
 cd ..
 ```
 
-Không chạy `node database.js` trước mỗi test nếu muốn giữ dữ liệu cũ, vì lệnh này xóa và seed lại các bảng.
+Không cần chạy riêng `node database.js`. Backend hiện reset/seed database khi `server.js` khởi động.
 
 Khởi động backend trong một terminal riêng:
 
@@ -60,16 +59,21 @@ Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/products
 
 Kết quả mong đợi là HTTP `200` và danh sách sản phẩm JSON.
 
+Xác định PID backend đang giữ port 3000 để theo dõi đúng tiến trình trong Task Manager:
+
+```powershell
+"PID: $((Get-NetTCPConnection -LocalPort 3000 -State Listen).OwningProcess)"
+```
+
 ## 3. Chuẩn bị lần Load Test chính thức
 
 Trước khi chạy:
 
 - Restart backend để xóa cart đang lưu trong RAM, sau đó luôn chạy lại `prepare-load-users.js` vì backend reset bảng users khi khởi động.
-- Nếu vừa chạy lại `node database.js`, cũng phải chạy lại `prepare-load-users.js`.
 - Ghi commit SHA, số order hiện tại và thời gian bắt đầu.
 - Mở Task Manager/Resource Monitor.
 - Hiển thị tiến trình backend `node` và JMeter để chụp cùng một khung hình.
-- Đảm bảo tên `.jmx` có ngày chạy thật. Nếu chạy ngày khác 2026-08-15, sao chép/đổi tên file theo `23127340_Load_YYYYMMDD.jmx`.
+- Đảm bảo tên `.jmx` có ngày chạy thật. Nếu chạy ngày khác 2026-08-16, sao chép/đổi tên file theo `23127340_Load_YYYYMMDD.jmx`.
 - Dùng tên output mới; JMeter yêu cầu thư mục HTML Report chưa tồn tại hoặc đang trống.
 
 ## 4. Chạy Load Test chính thức
@@ -82,7 +86,7 @@ $jtl = "HW/week09/TheDat/results/load/23127340_Load_$stamp.jtl"
 $report = "HW/week09/TheDat/results/load/23127340_Load_${stamp}_html"
 $jmeterLog = "HW/week09/TheDat/results/load/23127340_Load_$stamp.log"
 New-Item -ItemType Directory -Force "HW/week09/TheDat/results/load" | Out-Null
-jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Load_20260815.jmx" -l $jtl -j $jmeterLog -e -o $report
+jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Load_20260816.jmx" -l $jtl -j $jmeterLog -e -o $report
 ```
 
 Tổng profile kéo dài khoảng 480 giây. Không đóng terminal backend hoặc terminal JMeter giữa chừng.
