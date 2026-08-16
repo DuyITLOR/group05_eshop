@@ -5,7 +5,7 @@
 - Test plan: `test-plans/23127340_Stress_20260815.jmx`
 - Dữ liệu test: `test-data/accounts_stress.csv`
 - Script chuẩn bị tài khoản: `scripts/prepare-stress-users.js`
-- Listener theo yêu cầu: Aggregate Report
+- Listener theo yêu cầu: `Aggregate Report - All Samples`, luôn bật
 
 ## Lịch Stress Test
 
@@ -23,6 +23,8 @@
 
 Các dòng trong Ultimate Thread Group là những nhóm user được cộng dồn. Nhóm đã khởi động trước đó tiếp tục hoạt động đến giai đoạn ramp-down chung, nhờ vậy tạo đúng số VU mục tiêu trong bảng.
 
+`Aggregate Report` luôn được bật và nhận tất cả sample thành công lẫn thất bại trong lần chạy chính thức. Không disable listener hoặc bật bộ lọc chỉ lỗi.
+
 ## Trước mỗi lần chạy chính thức
 
 1. Khởi động lại backend để xóa cart đang lưu trong RAM.
@@ -32,8 +34,7 @@ Các dòng trong Ultimate Thread Group là những nhóm user được cộng d�
 node HW/week09/TheDat/scripts/prepare-stress-users.js
 ```
 
-3. Xác nhận script báo đã chuẩn bị 1.000 user và 1.000 dòng tài khoản CSV.
-4. Smoke test toàn bộ workflow trước khi chạy Stress chính thức.
+3. Xác nhận script báo đã chuẩn bị 1.000 user và 1.000 dòng tài khoản CSV. Không restart backend sau bước này vì backend sẽ reset bảng users.
 
 ## Chạy non-GUI
 

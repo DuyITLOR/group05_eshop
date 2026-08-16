@@ -5,7 +5,7 @@
 - Test plan: `test-plans/23127340_Spike_20260815.jmx`
 - Dữ liệu test: `test-data/accounts_spike.csv`
 - Script chuẩn bị tài khoản: `scripts/prepare-spike-users.js`
-- Report view riêng: `View Results Tree` được bật và cấu hình `Errors` only khi chạy chính thức.
+- Report view riêng: `View Results Tree - All Samples` luôn bật và hiển thị cả sample thành công lẫn thất bại.
 
 ## Lịch Spike Test
 
@@ -22,15 +22,17 @@ Ultimate Thread Group dùng hai dòng cộng dồn: 100 VU nền chạy xuyên s
 
 ## Trước mỗi lần chạy
 
-1. Khởi động lại backend để xóa cart lưu trong RAM.
-2. Chuẩn bị/reset 1.000 tài khoản Spike:
+1. Khởi động lại backend để xóa cart lưu trong RAM và đợi thông báo database đã reset/seed xong.
+2. Sau khi backend đã chạy, chuẩn bị/reset 1.000 tài khoản Spike:
 
 ```powershell
 node HW/week09/TheDat/scripts/prepare-spike-users.js
 ```
 
-3. Smoke test với 1 VU, 1 loop; tạm bỏ chọn `Errors` trong `View Results Tree` để kiểm tra cả request thành công, response, correlation và assertion.
-4. Trả lại lịch Spike chuẩn và chọn lại `Log/Display Only -> Errors` trước khi chạy chính thức để giảm lượng dữ liệu listener giữ trong RAM.
+3. Xác nhận script báo 1.000 user và CSV có 1.000 dòng dữ liệu. Không restart backend sau bước này vì backend sẽ reset bảng users.
+4. Giữ `View Results Tree` luôn bật và không chọn `Log/Display Only -> Errors`.
+
+Theo quyết định human review, listener hiển thị toàn bộ success/error trong lần chạy Spike 1.000 VU; không disable hoặc chuyển sang chế độ Errors Only.
 
 ## Chạy chính thức bằng non-GUI
 

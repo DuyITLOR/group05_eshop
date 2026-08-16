@@ -25,8 +25,6 @@
 
 ## Bằng chứng thực thi
 
-- [ ] Smoke test chứng minh toàn bộ workflow trước run chính thức.
-- [ ] Debug listener và hành động dừng smoke tạm đã được disable.
 - [ ] Lệnh non-GUI dùng JTL và HTML path mới.
 - [ ] Ảnh active phase có JMeter và tài nguyên tiến trình backend.
 - [ ] Bằng chứng PID-to-port xác định backend giữa nhiều tiến trình.
@@ -48,4 +46,3 @@
 - [ ] Bản sửa nêu lỗi ban đầu, cách sửa, lý do và kết quả chạy lại.
 - [ ] Đề xuất optimization thiếu bằng chứng không được trình bày như sự thật.
 - [ ] Không bịa metric, threshold, ảnh hoặc xác nhận thủ công.
-

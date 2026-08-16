@@ -42,7 +42,7 @@ for (let index = 1; index <= USER_COUNT; index += 1) {
   );
 }
 
-fs.writeFileSync(csvPath, `${csvRows.join("\\n")}\\n`, "utf8");
+fs.writeFileSync(csvPath, `${csvRows.join("\n")}\n`, "utf8");
 
 db.serialize(() => {
   const update = db.prepare(

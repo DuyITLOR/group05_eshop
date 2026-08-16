@@ -9,18 +9,19 @@
 - Giữ 500 VU: 600 giây (10 phút)
 - Ramp-down: 60 giây
 - Tổng thời gian: 780 giây (13 phút)
+- Listener: `Aggregate Report - All Samples`, luôn bật
 
 500 VU là mức tải cần kiểm chứng, chưa được gọi là giới hạn tối đa trước khi có kết quả thực nghiệm.
 
 ## Chuẩn bị
 
-Khởi động lại backend để xóa cart trong RAM, sau đó chạy từ thư mục gốc repository:
+Khởi động lại backend để xóa cart trong RAM, đợi database reset/seed xong, sau đó chạy từ thư mục gốc repository:
 
 ```powershell
 node HW/week09/TheDat/scripts/prepare-endurance-users.js
 ```
 
-Script phải báo có 500 tài khoản và CSV phải có 500 dòng dữ liệu. Chạy smoke 1 VU × 1 loop trước lần chạy chính thức.
+Script phải báo có 500 tài khoản và CSV phải có 500 dòng dữ liệu. Không restart backend sau bước này vì backend sẽ reset bảng users. Chạy smoke 1 VU × 1 loop trước lần chạy chính thức.
 
 ## Chạy non-GUI
 
@@ -33,7 +34,7 @@ New-Item -ItemType Directory -Force "HW/week09/TheDat/results/endurance" | Out-N
 jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Endurance_20260815.jmx" -l $jtl -j $jmeterLog -e -o $report
 ```
 
-Không bật Aggregate Report khi chạy full 500 VU. Listener này đã được disable để tránh giữ dữ liệu trong RAM; dùng raw JTL và HTML Report để phân tích.
+`Aggregate Report - All Samples` luôn được bật và nhận tất cả sample thành công lẫn thất bại trong smoke test và full Endurance 500 VU. Không disable listener hoặc bật bộ lọc chỉ lỗi. Raw JTL và HTML Report vẫn là artifact chính dùng để phân tích.
 
 ## Bằng chứng cần lưu
 

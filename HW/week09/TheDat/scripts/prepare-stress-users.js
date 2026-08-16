@@ -47,6 +47,15 @@ for (let index = 1; index <= USER_COUNT; index += 1) {
 }
 
 fs.writeFileSync(csvPath, `${csvRows.join("\n")}\n`, "utf8");
+const writtenLineCount = fs
+  .readFileSync(csvPath, "utf8")
+  .trimEnd()
+  .split(/\r?\n/).length;
+if (writtenLineCount !== USER_COUNT + 1) {
+  throw new Error(
+    `Invalid Stress CSV: expected ${USER_COUNT + 1} lines, got ${writtenLineCount}`,
+  );
+}
 
 db.serialize(() => {
   const update = db.prepare(
@@ -78,6 +87,7 @@ db.serialize(() => {
         } else {
           console.log(`Đã chuẩn bị ${row.count} tài khoản Stress trong ${databasePath}`);
           console.log(`Đã ghi ${USER_COUNT} tài khoản CSV vào ${csvPath}`);
+          console.log("Không restart backend sau bước này; restart sẽ xóa test users.");
         }
         db.close();
       },

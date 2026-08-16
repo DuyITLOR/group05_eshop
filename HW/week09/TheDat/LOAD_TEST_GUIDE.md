@@ -14,10 +14,12 @@ Workflow: Login -> Products -> Add Cart -> Get Cart -> Checkout -> Order Detail
 | Hold load     |                                            300 giây |
 | Ramp-down     |                                             60 giây |
 | Think-time    | Ngẫu nhiên 1-3 giây trước mỗi bước sau Login |
-| Report view   |                                       Summary Report |
+| Report view   |                 Summary Report - All Samples, luôn bật |
 | Base URL      |                            `http://localhost:3000` |
 
 Test plan dùng Ultimate Thread Group từ plugin **Custom Thread Groups**. Máy cần JMeter 5.6.3 và plugin `jmeter-plugins-casutg`.
+
+`Summary Report` luôn được bật và nhận tất cả sample thành công lẫn thất bại trong lần chạy chính thức. Không disable listener hoặc bật bộ lọc chỉ lỗi.
 
 Các giá trị trong bảng đã được cấu hình trực tiếp tại Ultimate Thread Group, Loop Controller, HTTP Request Defaults và preprocessor đọc CSV. Test plan chính thức không dùng `-Jusers`, `-JrampUp`, v.v. để thay đổi load profile.
 
@@ -36,19 +38,21 @@ cd ..
 
 Không chạy `node database.js` trước mỗi test nếu muốn giữ dữ liệu cũ, vì lệnh này xóa và seed lại các bảng.
 
-Tạo/cập nhật 500 tài khoản Load Test, tái tạo 500 dòng dữ liệu CSV và xóa trạng thái lockout của các tài khoản này:
-
-```powershell
-node HW\week09\TheDat\scripts\prepare-load-users.js
-```
-
 Khởi động backend trong một terminal riêng:
 
 ```powershell
 node backend\server.js
 ```
 
-Giữ terminal này mở. Trong terminal khác, kiểm tra API:
+Backend hiện chạy logic reset/seed database khi khởi động, vì vậy phải đợi backend khởi động xong rồi mới tạo tài khoản performance test. Không chạy lại hoặc restart backend sau bước chuẩn bị user nếu chưa chạy lại script.
+
+Giữ terminal backend mở. Trong terminal khác, tạo/cập nhật 500 tài khoản Load Test, tái tạo 500 dòng dữ liệu CSV và xóa trạng thái lockout:
+
+```powershell
+node HW\week09\TheDat\scripts\prepare-load-users.js
+```
+
+Sau đó kiểm tra API:
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/products
@@ -56,43 +60,19 @@ Invoke-WebRequest -UseBasicParsing http://localhost:3000/api/products
 
 Kết quả mong đợi là HTTP `200` và danh sách sản phẩm JSON.
 
-## 3. Chạy smoke test trước
-
-Smoke test chỉ dùng 1 VU và 1 vòng để xác nhận CSV, JWT, request body, assertions và `orderId`. Vì test plan chính thức dùng giá trị trực tiếp, không dùng `-J...` để đổi profile. Khi cần smoke test lại, tạo một bản sao `.jmx`, đặt Ultimate Thread Group thành 1 VU, ramp-up 1 giây, hold 30 giây, ramp-down 1 giây và Loop Controller thành 1; không lưu đè lên file Load chính thức.
-
-Chạy bản sao smoke bằng lệnh tương tự Load Test, nhưng truyền đường dẫn bản sao tại `-t` và dùng output có tiền tố `smoke_`.
-
-Kiểm tra nhanh raw result:
-
-```powershell
-Import-Csv $jtl | Group-Object label | Select-Object Name,Count
-Import-Csv $jtl | Where-Object success -eq 'false' | Select-Object label,responseCode,failureMessage
-```
-
-Smoke test hợp lệ khi sáu HTTP request đều xuất hiện và không có dòng `success=false`:
-
-1. `01 POST Login`
-2. `02 GET Products`
-3. `03 POST Add to Cart`
-4. `04 GET Cart`
-5. `05 POST Checkout`
-6. `06 GET Order Detail`
-
-Raw `.jtl` còn có `E2E Purchase Workflow` là Transaction Controller. Phân tích request và E2E riêng để không đếm đôi sample.
-
-## 4. Chuẩn bị lần Load Test chính thức
+## 3. Chuẩn bị lần Load Test chính thức
 
 Trước khi chạy:
 
-- Restart backend để xóa cart đang lưu trong RAM.
-- Nếu vừa chạy lại `node database.js`, phải chạy lại `prepare-load-users.js`.
+- Restart backend để xóa cart đang lưu trong RAM, sau đó luôn chạy lại `prepare-load-users.js` vì backend reset bảng users khi khởi động.
+- Nếu vừa chạy lại `node database.js`, cũng phải chạy lại `prepare-load-users.js`.
 - Ghi commit SHA, số order hiện tại và thời gian bắt đầu.
 - Mở Task Manager/Resource Monitor.
 - Hiển thị tiến trình backend `node` và JMeter để chụp cùng một khung hình.
 - Đảm bảo tên `.jmx` có ngày chạy thật. Nếu chạy ngày khác 2026-08-15, sao chép/đổi tên file theo `23127340_Load_YYYYMMDD.jmx`.
 - Dùng tên output mới; JMeter yêu cầu thư mục HTML Report chưa tồn tại hoặc đang trống.
 
-## 5. Chạy Load Test chính thức
+## 4. Chạy Load Test chính thức
 
 Lệnh dưới đây tự dùng cấu hình đã lưu trong `.jmx`: 500 VU, ramp-up 120 giây, hold 300 giây và ramp-down 60 giây.
 
@@ -109,7 +89,7 @@ Tổng profile kéo dài khoảng 480 giây. Không đóng terminal backend ho�
 
 Timestamp trong tên `$jtl`, `$jmeterLog` và `$report` giúp mỗi lần chạy có bộ artifact riêng, không ghi đè bằng chứng cũ.
 
-## 6. Kiểm tra kết quả
+## 5. Kiểm tra kết quả
 
 Mở HTML Report:
 
@@ -147,7 +127,7 @@ Tiêu chí khởi điểm trong `plan.md`:
 
 Chỉ kết luận Pass/Fail từ số đo thật. Không gộp `E2E Purchase Workflow` với sáu request khi tính tổng sample/throughput.
 
-## 7. Artifact phải giữ lại
+## 6. Artifact phải giữ lại
 
 - `23127340_Load_YYYYMMDD.jmx`.
 - `accounts_load.csv` đã dùng.
@@ -160,7 +140,7 @@ Chỉ kết luận Pass/Fail từ số đo thật. Không gộp `E2E Purchase Wo
 - Ghi chú reset cart/account lockout và số order trước/sau.
 - AI Audit và bảng human verification cho test plan.
 
-## 8. Lỗi thường gặp
+## 7. Lỗi thường gặp
 
 ### `CannotResolveClassException: UltimateThreadGroup`
 

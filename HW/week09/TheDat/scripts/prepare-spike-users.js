@@ -47,6 +47,15 @@ for (let index = 1; index <= USER_COUNT; index += 1) {
 }
 
 fs.writeFileSync(csvPath, `${csvRows.join("\n")}\n`, "utf8");
+const writtenLineCount = fs
+  .readFileSync(csvPath, "utf8")
+  .trimEnd()
+  .split(/\r?\n/).length;
+if (writtenLineCount !== USER_COUNT + 1) {
+  throw new Error(
+    `Invalid Spike CSV: expected ${USER_COUNT + 1} lines, got ${writtenLineCount}`,
+  );
+}
 
 db.serialize(() => {
   const update = db.prepare(
@@ -78,6 +87,7 @@ db.serialize(() => {
         } else {
           console.log(`Da chuan bi ${row.count} tai khoan Spike trong ${databasePath}`);
           console.log(`Da ghi ${USER_COUNT} tai khoan CSV vao ${csvPath}`);
+          console.log("Khong restart backend sau buoc nay; restart se xoa test users.");
         }
         db.close();
       },
