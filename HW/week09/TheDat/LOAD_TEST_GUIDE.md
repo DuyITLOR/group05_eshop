@@ -8,11 +8,11 @@ Workflow: Login -> Products -> Add Cart -> Get Cart -> Checkout -> Order Detail
 
 | Tham số      |                                            Giá trị |
 | ------------- | ---------------------------------------------------: |
-| Virtual users |                                                   30 |
+| Virtual users |                                                  500 |
 | Initial delay |                                              0 giây |
-| Ramp-up       |                                             60 giây |
+| Ramp-up       |                                            120 giây |
 | Hold load     |                                            300 giây |
-| Ramp-down     |                                             30 giây |
+| Ramp-down     |                                             60 giây |
 | Think-time    | Ngẫu nhiên 1-3 giây trước mỗi bước sau Login |
 | Report view   |                                       Summary Report |
 | Base URL      |                            `http://localhost:3000` |
@@ -36,7 +36,7 @@ cd ..
 
 Không chạy `node database.js` trước mỗi test nếu muốn giữ dữ liệu cũ, vì lệnh này xóa và seed lại các bảng.
 
-Tạo/cập nhật 30 tài khoản Load Test và xóa trạng thái lockout của các tài khoản này:
+Tạo/cập nhật 500 tài khoản Load Test, tái tạo 500 dòng dữ liệu CSV và xóa trạng thái lockout của các tài khoản này:
 
 ```powershell
 node HW\week09\TheDat\scripts\prepare-load-users.js
@@ -94,21 +94,20 @@ Trước khi chạy:
 
 ## 5. Chạy Load Test chính thức
 
-Lệnh dưới đây tự dùng cấu hình đã lưu trong `.jmx`: 30 VU, ramp-up 60 giây, hold 300 giây và ramp-down 30 giây.
+Lệnh dưới đây tự dùng cấu hình đã lưu trong `.jmx`: 500 VU, ramp-up 120 giây, hold 300 giây và ramp-down 60 giây.
 
 ```powershell
-$runDate = Get-Date -Format 'yyyyMMdd'
-$jtl = "HW\week09\TheDat\results\load\23127340_Load_${runDate}.jtl"
-$report = "HW\week09\TheDat\results\load\23127340_Load_${runDate}_html"
-jmeter -n `
-  -t HW\week09\TheDat\test-plans\23127340_Load_20260815.jmx `
-  -l $jtl `
-  -e -o $report
+$stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$jtl = "HW/week09/TheDat/results/load/23127340_Load_$stamp.jtl"
+$report = "HW/week09/TheDat/results/load/23127340_Load_${stamp}_html"
+$jmeterLog = "HW/week09/TheDat/results/load/23127340_Load_$stamp.log"
+New-Item -ItemType Directory -Force "HW/week09/TheDat/results/load" | Out-Null
+jmeter -n -t "HW/week09/TheDat/test-plans/23127340_Load_20260815.jmx" -l $jtl -j $jmeterLog -e -o $report
 ```
 
-Tổng profile kéo dài khoảng 390 giây. Không đóng terminal backend hoặc terminal JMeter giữa chừng.
+Tổng profile kéo dài khoảng 480 giây. Không đóng terminal backend hoặc terminal JMeter giữa chừng.
 
-Nếu cần chạy lại trong cùng ngày, thêm timestamp vào `$jtl` và `$report` để không ghi đè bằng chứng cũ.
+Timestamp trong tên `$jtl`, `$jmeterLog` và `$report` giúp mỗi lần chạy có bộ artifact riêng, không ghi đè bằng chứng cũ.
 
 ## 6. Kiểm tra kết quả
 
@@ -153,6 +152,7 @@ Chỉ kết luận Pass/Fail từ số đo thật. Không gộp `E2E Purchase Wo
 - `23127340_Load_YYYYMMDD.jmx`.
 - `accounts_load.csv` đã dùng.
 - Raw `.jtl` đầy đủ.
+- JMeter execution log `.log`.
 - Toàn bộ thư mục HTML Report.
 - Screenshot JMeter/tool và resource monitor trong cùng khung hình.
 - Backend log.
@@ -168,14 +168,14 @@ Cài plugin **Custom Thread Groups** bằng JMeter Plugins Manager rồi khởi 
 
 ### `CSV has ... accounts but VU ... needs a row`
 
-Số `-Jusers` lớn hơn 30. Thêm tài khoản/CSV row tương ứng hoặc giảm số VU. Mỗi VU cần một dòng riêng.
+CSV có ít hơn 500 tài khoản hoặc số VU trong JMX lớn hơn số dòng CSV. Chạy lại script chuẩn bị tài khoản, thêm CSV row tương ứng hoặc giảm số VU. Mỗi VU cần một dòng riêng.
 
 ### Login trả `401` hoặc `403`
 
 - Chạy lại `prepare-load-users.js` sau khi seed database.
 - Kiểm tra backend đang dùng đúng `backend/database.sqlite`.
 - Không sửa email/password trong CSV mà không cập nhật database.
-- Script chuẩn bị user cũng reset `login_attempts` và `locked_until` của 30 load users.
+- Script chuẩn bị user cũng reset `login_attempts` và `locked_until` của 500 load users.
 
 ### JMeter không tìm thấy CSV
 

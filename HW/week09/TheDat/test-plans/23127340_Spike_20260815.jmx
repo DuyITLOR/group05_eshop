@@ -2,7 +2,7 @@
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="23127340 Spike - Authenticated Cart Integrity and Order Verification">
-      <stringProp name="TestPlan.comments">Spike test: 10 VU baseline for 60s, ramp to 120 VU in 10s, hold peak for 90s, ramp back to 10 VU in 10s, observe recovery for 120s, then ramp down in 10s. Each VU uses one dedicated spike CSV account.</stringProp>
+      <stringProp name="TestPlan.comments">Spike test: 100 VU baseline for 60s, ramp to 1000 VU in 10s, hold peak for 90s, ramp back to 100 VU in 10s, observe recovery for 120s, then ramp down in 10s. Each VU uses one dedicated spike CSV account.</stringProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
@@ -41,7 +41,7 @@
         <boolProp name="DNSCacheManager.isCustomResolver">false</boolProp>
       </DNSCacheManager>
       <hashTree/>
-      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Spike Profile - 10 to 120 to 10 VU">
+      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Spike Profile - 100 to 1000 to 100 VU">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
           <intProp name="LoopController.loops">-1</intProp>
@@ -49,14 +49,14 @@
         </elementProp>
         <collectionProp name="ultimatethreadgroupdata">
           <collectionProp name="-1172410540">
-            <stringProp name="1567">10</stringProp>
+            <stringProp name="1567">100</stringProp>
             <stringProp name="48">0</stringProp>
             <stringProp name="49">1</stringProp>
             <stringProp name="55569">289</stringProp>
             <stringProp name="1567">10</stringProp>
           </collectionProp>
           <collectionProp name="-1172410539">
-            <stringProp name="48658">110</stringProp>
+            <stringProp name="48658">900</stringProp>
             <stringProp name="1722">60</stringProp>
             <stringProp name="1567">10</stringProp>
             <stringProp name="1815">90</stringProp>

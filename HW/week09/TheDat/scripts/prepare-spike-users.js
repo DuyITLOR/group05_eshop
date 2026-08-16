@@ -16,7 +16,7 @@ const csvPath = path.resolve(
 const sqlite3 = require(sqlite3Path).verbose();
 const db = new sqlite3.Database(databasePath);
 
-const USER_COUNT = 120;
+const USER_COUNT = 1000;
 const PASSWORD = "Spike1234!";
 const products = [
   { id: 1, name: "iPhone 15 Pro Max", price: 30000000 },

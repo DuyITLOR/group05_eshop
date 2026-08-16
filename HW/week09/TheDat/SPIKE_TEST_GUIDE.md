@@ -11,19 +11,19 @@
 
 | Giai đoạn | Thời gian | Tổng VU |
 |---|---:|---:|
-| Baseline | 00:00-01:00 | 10 |
-| Tăng đột ngột | 01:00-01:10 | 10 -> 120 |
-| Giữ đỉnh | 01:10-02:40 | 120 |
-| Giảm tải | 02:40-02:50 | 120 -> 10 |
-| Theo dõi phục hồi | 02:50-04:50 | 10 |
-| Kết thúc baseline | 04:50-05:00 | 10 -> 0 |
+| Baseline | 00:00-01:00 | 100 |
+| Tăng đột ngột | 01:00-01:10 | 100 -> 1.000 |
+| Giữ đỉnh | 01:10-02:40 | 1.000 |
+| Giảm tải | 02:40-02:50 | 1.000 -> 100 |
+| Theo dõi phục hồi | 02:50-04:50 | 100 |
+| Kết thúc baseline | 04:50-05:00 | 100 -> 0 |
 
-Ultimate Thread Group dùng hai dòng cộng dồn: 10 VU nền chạy xuyên suốt và 110 VU bổ sung bắt đầu ở giây 60. Vì vậy đỉnh là 120 VU, không phải 130 VU.
+Ultimate Thread Group dùng hai dòng cộng dồn: 100 VU nền chạy xuyên suốt và 900 VU bổ sung bắt đầu ở giây 60. Vì vậy đỉnh là 1.000 VU, không phải 1.100 VU.
 
 ## Trước mỗi lần chạy
 
 1. Khởi động lại backend để xóa cart lưu trong RAM.
-2. Chuẩn bị/reset 120 tài khoản Spike:
+2. Chuẩn bị/reset 1.000 tài khoản Spike:
 
 ```powershell
 node HW/week09/TheDat/scripts/prepare-spike-users.js
@@ -54,6 +54,7 @@ Luôn dùng tên output mới. Không ghi nối vào JTL cũ và không dùng l�
 - Recovery: terminal JMeter và CPU/RAM backend trong khoảng giây 200-270.
 - Kết thúc: terminal có dòng `end of run`.
 - Ảnh hoặc lệnh chứng minh PID đang giữ cổng 3000.
+- Raw `.jtl`, JMeter execution log `.log` và toàn bộ thư mục HTML Report của đúng lần chạy.
 
 ## Phân tích kết quả
 
@@ -63,5 +64,5 @@ Tách raw JTL thành ba phase baseline, spike và recovery. Báo cáo riêng E2E
 
 - Peak p95 và error rate trong phase spike.
 - Mức suy giảm throughput/latency so với baseline.
-- Thời gian latency và error rate trở lại gần baseline sau khi giảm còn 10 VU.
+- Thời gian latency và error rate trở lại gần baseline sau khi giảm còn 100 VU.
 - Backend còn hoạt động hay không và CPU/RAM có trở lại ổn định hay không.

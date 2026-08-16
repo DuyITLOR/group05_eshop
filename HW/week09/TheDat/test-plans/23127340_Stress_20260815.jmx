@@ -2,7 +2,7 @@
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="23127340 Stress - Authenticated Cart Integrity and Order Verification">
-      <stringProp name="TestPlan.comments">Stress test: 20, 40, 80, 120 and 160 VU. Each level ramps for 30s and holds for 120s; final ramp-down is 30s. Each VU uses one dedicated stress CSV account.</stringProp>
+      <stringProp name="TestPlan.comments">Stress test: 500, 650, 800 and 1000 VU. Each level ramps for 60s and holds for 120s; final ramp-down is 60s. Each VU uses one dedicated stress CSV account.</stringProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
@@ -41,7 +41,7 @@
         <boolProp name="DNSCacheManager.isCustomResolver">false</boolProp>
       </DNSCacheManager>
       <hashTree/>
-      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Stress Step Profile - 20 to 160 VU">
+      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Stress Step Profile - 500 to 1000 VU">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
           <intProp name="LoopController.loops">-1</intProp>
@@ -49,39 +49,32 @@
         </elementProp>
         <collectionProp name="ultimatethreadgroupdata">
           <collectionProp name="-1172410540">
-            <stringProp name="1598">20</stringProp>
+            <stringProp name="1598">500</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="1629">30</stringProp>
-            <stringProp name="54453">720</stringProp>
-            <stringProp name="1629">30</stringProp>
+            <stringProp name="1629">60</stringProp>
+            <stringProp name="54453">660</stringProp>
+            <stringProp name="1629">60</stringProp>
           </collectionProp>
           <collectionProp name="-1172410539">
-            <stringProp name="1598">20</stringProp>
-            <stringProp name="48780">150</stringProp>
-            <stringProp name="1629">30</stringProp>
-            <stringProp name="52686">570</stringProp>
-            <stringProp name="1629">30</stringProp>
+            <stringProp name="1598">150</stringProp>
+            <stringProp name="48780">180</stringProp>
+            <stringProp name="1629">60</stringProp>
+            <stringProp name="52686">480</stringProp>
+            <stringProp name="1629">60</stringProp>
           </collectionProp>
           <collectionProp name="-1172410538">
-            <stringProp name="1660">40</stringProp>
-            <stringProp name="50547">300</stringProp>
-            <stringProp name="1629">30</stringProp>
-            <stringProp name="51570">420</stringProp>
-            <stringProp name="1629">30</stringProp>
+            <stringProp name="1660">150</stringProp>
+            <stringProp name="50547">360</stringProp>
+            <stringProp name="1629">60</stringProp>
+            <stringProp name="51570">300</stringProp>
+            <stringProp name="1629">60</stringProp>
           </collectionProp>
           <collectionProp name="-1172410537">
-            <stringProp name="1660">40</stringProp>
-            <stringProp name="51663">450</stringProp>
-            <stringProp name="1629">30</stringProp>
-            <stringProp name="49803">270</stringProp>
-            <stringProp name="1629">30</stringProp>
-          </collectionProp>
-          <collectionProp name="-1172410536">
-            <stringProp name="1660">40</stringProp>
-            <stringProp name="53430">600</stringProp>
-            <stringProp name="1629">30</stringProp>
-            <stringProp name="48687">120</stringProp>
-            <stringProp name="1629">30</stringProp>
+            <stringProp name="1660">200</stringProp>
+            <stringProp name="51663">540</stringProp>
+            <stringProp name="1629">60</stringProp>
+            <stringProp name="49803">120</stringProp>
+            <stringProp name="1629">60</stringProp>
           </collectionProp>
         </collectionProp>
       </kg.apc.jmeter.threads.UltimateThreadGroup>

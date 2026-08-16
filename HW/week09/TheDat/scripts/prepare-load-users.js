@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 
 const sqlite3Path = path.resolve(
@@ -8,11 +9,40 @@ const databasePath = path.resolve(
   __dirname,
   "../../../../backend/database.sqlite",
 );
+const csvPath = path.resolve(__dirname, "../test-data/accounts_load.csv");
 const sqlite3 = require(sqlite3Path).verbose();
 const db = new sqlite3.Database(databasePath);
 
-const USER_COUNT = 30;
+const USER_COUNT = 500;
 const PASSWORD = "Load1234!";
+const products = [
+  { id: 1, name: "iPhone 15 Pro Max", price: 30000000 },
+  { id: 2, name: "Samsung Galaxy S24 Ultra", price: 28000000 },
+  { id: 3, name: "MacBook Pro M3", price: 45000000 },
+  { id: 4, name: "Tai nghe AirPods Pro 2", price: 6000000 },
+  { id: 5, name: "Bàn phím cơ Keychron Q1", price: 4000000 },
+];
+const csvRows = [
+  "email,password,productId,productName,price,quantity,shippingAddress",
+];
+
+for (let index = 1; index <= USER_COUNT; index += 1) {
+  const suffix = String(index).padStart(3, "0");
+  const product = products[(index - 1) % products.length];
+  csvRows.push(
+    [
+      `load${suffix}@eshop.test`,
+      PASSWORD,
+      product.id,
+      product.name,
+      product.price,
+      1,
+      `Load Test Address ${suffix} HCMC`,
+    ].join(","),
+  );
+}
+
+fs.writeFileSync(csvPath, `${csvRows.join("\\n")}\\n`, "utf8");
 
 db.serialize(() => {
   const update = db.prepare(
