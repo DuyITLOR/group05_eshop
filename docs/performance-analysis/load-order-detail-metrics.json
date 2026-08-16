@@ -1,0 +1,216 @@
+{
+  "analysis_status": "COMPLETE",
+  "source": {
+    "jtl": "results\\23127107_Load_20260812\\run-002\\raw\\23127107_Load_20260812_run-002.jtl",
+    "format": "csv",
+    "raw_sha256_before": "35b7055e06c290a43358eca8380c42f18a04507b0f41f58e23c4f1e31e9f3a66",
+    "raw_sha256_after": "35b7055e06c290a43358eca8380c42f18a04507b0f41f58e23c4f1e31e9f3a66",
+    "raw_unchanged": true
+  },
+  "calculation_notes": {
+    "response_time_field": "elapsed (CSV) / t (XML), milliseconds",
+    "median_method": "statistical median; even n is the arithmetic mean of the two middle values",
+    "percentile_method": "p50_nearest_rank/p90/p95/p99: ceil(p / 100 * n), no interpolation",
+    "overall_throughput_method": "total samples divided by full run observation duration from min to max timestamp",
+    "window_throughput_method": "samples divided by configured window duration; final partial window uses observed run intersection",
+    "stage_throughput_method": "stage samples divided by explicit stage end_ms-start_ms duration",
+    "filtering": "none; all parseable samples are included",
+    "warmup_handling": "none unless a separate, explicit filter is supplied outside this script",
+    "application_success": "NOT_AVAILABLE from standard JTL fields unless separately evidenced"
+  },
+  "overall_metrics": {
+    "samples": 1250,
+    "response_time_samples": 1250,
+    "response_time_coverage_percent": 100,
+    "observed_successful_samples": 1250,
+    "observed_failed_samples": 0,
+    "successful_samples": 1250,
+    "failed_samples": 0,
+    "unknown_success_samples": 0,
+    "error_rate_percent": 0,
+    "response_time_ms": {
+      "min": 0,
+      "max": 28,
+      "mean": 1.5824,
+      "median": 2,
+      "p50_nearest_rank": 2,
+      "p90": 2,
+      "p95": 2,
+      "p99": 3
+    },
+    "throughput_rps": 10.58685,
+    "throughput_observation_duration_seconds": 118.071,
+    "time_span_seconds": 118.071,
+    "response_codes": {
+      "200": 1250
+    },
+    "error_types": {},
+    "integrity_notes": {
+      "invalid_elapsed_samples": 0,
+      "invalid_timestamp_samples": 0,
+      "success_classification_complete": true,
+      "throughput_computable": true
+    }
+  },
+  "per_label_metrics": {
+    "GET Order Detail - Baseline": {
+      "samples": 774,
+      "response_time_samples": 774,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 774,
+      "observed_failed_samples": 0,
+      "successful_samples": 774,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 0,
+        "max": 28,
+        "mean": 1.624031,
+        "median": 2,
+        "p50_nearest_rank": 2,
+        "p90": 2,
+        "p95": 3,
+        "p99": 4
+      },
+      "throughput_rps": 6.563828,
+      "throughput_observation_duration_seconds": 117.919,
+      "time_span_seconds": 117.919,
+      "response_codes": {
+        "200": 774
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "GET Order Detail - Increment": {
+      "samples": 476,
+      "response_time_samples": 476,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 476,
+      "observed_failed_samples": 0,
+      "successful_samples": 476,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 0,
+        "max": 3,
+        "mean": 1.514706,
+        "median": 1,
+        "p50_nearest_rank": 1,
+        "p90": 2,
+        "p95": 2,
+        "p99": 3
+      },
+      "throughput_rps": 6.000403,
+      "throughput_observation_duration_seconds": 79.328,
+      "time_span_seconds": 79.328,
+      "response_codes": {
+        "200": 476
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    }
+  },
+  "per_window_metrics": {
+    "0-60s": {
+      "relative_start_seconds": 0,
+      "relative_end_seconds": 60,
+      "absolute_start_ms": 1786816559854,
+      "absolute_end_ms": 1786816619854,
+      "metrics": {
+        "samples": 478,
+        "response_time_samples": 478,
+        "response_time_coverage_percent": 100,
+        "observed_successful_samples": 478,
+        "observed_failed_samples": 0,
+        "successful_samples": 478,
+        "failed_samples": 0,
+        "unknown_success_samples": 0,
+        "error_rate_percent": 0,
+        "response_time_ms": {
+          "min": 0,
+          "max": 28,
+          "mean": 1.784519,
+          "median": 2,
+          "p50_nearest_rank": 2,
+          "p90": 2,
+          "p95": 3,
+          "p99": 4
+        },
+        "throughput_rps": 7.966667,
+        "throughput_observation_duration_seconds": 60,
+        "time_span_seconds": 60,
+        "response_codes": {
+          "200": 478
+        },
+        "error_types": {},
+        "integrity_notes": {
+          "invalid_elapsed_samples": 0,
+          "invalid_timestamp_samples": 0,
+          "success_classification_complete": true,
+          "throughput_computable": true
+        }
+      }
+    },
+    "60-120s": {
+      "relative_start_seconds": 60,
+      "relative_end_seconds": 120,
+      "absolute_start_ms": 1786816619854,
+      "absolute_end_ms": 1786816679854,
+      "metrics": {
+        "samples": 772,
+        "response_time_samples": 772,
+        "response_time_coverage_percent": 100,
+        "observed_successful_samples": 772,
+        "observed_failed_samples": 0,
+        "successful_samples": 772,
+        "failed_samples": 0,
+        "unknown_success_samples": 0,
+        "error_rate_percent": 0,
+        "response_time_ms": {
+          "min": 0,
+          "max": 4,
+          "mean": 1.457254,
+          "median": 1,
+          "p50_nearest_rank": 1,
+          "p90": 2,
+          "p95": 2,
+          "p99": 3
+        },
+        "throughput_rps": 13.294071,
+        "throughput_observation_duration_seconds": 58.071,
+        "time_span_seconds": 58.071,
+        "response_codes": {
+          "200": 772
+        },
+        "error_types": {},
+        "integrity_notes": {
+          "invalid_elapsed_samples": 0,
+          "invalid_timestamp_samples": 0,
+          "success_classification_complete": true,
+          "throughput_computable": true
+        }
+      }
+    }
+  },
+  "per_stage_metrics": {},
+  "stage_mapping": {
+    "status": "NOT_APPLICABLE",
+    "timestamped_samples": 1250,
+    "mapped_samples": 0,
+    "unmapped_samples": 0,
+    "mapping_coverage_percent": "NOT_COMPUTABLE"
+  },
+  "time_window_seconds": 60
+}

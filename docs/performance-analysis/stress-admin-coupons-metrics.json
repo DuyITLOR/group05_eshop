@@ -1,0 +1,271 @@
+{
+  "analysis_status": "PARTIAL",
+  "source": {
+    "jtl": "results\\23127107_Stress_20260816\\run-001\\raw\\23127107_Stress_20260816_run-001.jtl",
+    "format": "csv",
+    "raw_sha256_before": "8a7510f670fd67905e4887aec0e584d26136aebccfb6b1a2cba647481c732c5b",
+    "raw_sha256_after": "8a7510f670fd67905e4887aec0e584d26136aebccfb6b1a2cba647481c732c5b",
+    "raw_unchanged": true
+  },
+  "calculation_notes": {
+    "response_time_field": "elapsed (CSV) / t (XML), milliseconds",
+    "median_method": "statistical median; even n is the arithmetic mean of the two middle values",
+    "percentile_method": "p50_nearest_rank/p90/p95/p99: ceil(p / 100 * n), no interpolation",
+    "overall_throughput_method": "total samples divided by full run observation duration from min to max timestamp",
+    "window_throughput_method": "samples divided by configured window duration; final partial window uses observed run intersection",
+    "stage_throughput_method": "stage samples divided by explicit stage end_ms-start_ms duration",
+    "filtering": "none; all parseable samples are included",
+    "warmup_handling": "none unless a separate, explicit filter is supplied outside this script",
+    "application_success": "NOT_AVAILABLE from standard JTL fields unless separately evidenced"
+  },
+  "overall_metrics": {
+    "samples": 1687,
+    "response_time_samples": 1687,
+    "response_time_coverage_percent": 100,
+    "observed_successful_samples": 1687,
+    "observed_failed_samples": 0,
+    "successful_samples": 1687,
+    "failed_samples": 0,
+    "unknown_success_samples": 0,
+    "error_rate_percent": 0,
+    "response_time_ms": {
+      "min": 4,
+      "max": 33,
+      "mean": 6.033788,
+      "median": 6,
+      "p50_nearest_rank": 6,
+      "p90": 7,
+      "p95": 8,
+      "p99": 16
+    },
+    "throughput_rps": 11.865158,
+    "throughput_observation_duration_seconds": 142.181,
+    "time_span_seconds": 142.181,
+    "response_codes": {
+      "200": 1687
+    },
+    "error_types": {},
+    "integrity_notes": {
+      "invalid_elapsed_samples": 0,
+      "invalid_timestamp_samples": 0,
+      "success_classification_complete": true,
+      "throughput_computable": true
+    }
+  },
+  "per_label_metrics": {
+    "POST /api/admin/coupons": {
+      "samples": 1687,
+      "response_time_samples": 1687,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 1687,
+      "observed_failed_samples": 0,
+      "successful_samples": 1687,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 4,
+        "max": 33,
+        "mean": 6.033788,
+        "median": 6,
+        "p50_nearest_rank": 6,
+        "p90": 7,
+        "p95": 8,
+        "p99": 16
+      },
+      "throughput_rps": 11.865158,
+      "throughput_observation_duration_seconds": 142.181,
+      "time_span_seconds": 142.181,
+      "response_codes": {
+        "200": 1687
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    }
+  },
+  "per_window_metrics": {},
+  "per_stage_metrics": {
+    "STAGE_5_VU_BASELINE": {
+      "samples": 58,
+      "response_time_samples": 58,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 58,
+      "observed_failed_samples": 0,
+      "successful_samples": 58,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 4,
+        "max": 33,
+        "mean": 7.931034,
+        "median": 7,
+        "p50_nearest_rank": 7,
+        "p90": 9,
+        "p95": 13,
+        "p99": 33
+      },
+      "throughput_rps": 2.9,
+      "throughput_observation_duration_seconds": 20,
+      "time_span_seconds": 20,
+      "response_codes": {
+        "200": 58
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "STAGE_10_VU_HOLD": {
+      "samples": 152,
+      "response_time_samples": 152,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 152,
+      "observed_failed_samples": 0,
+      "successful_samples": 152,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 4,
+        "max": 14,
+        "mean": 6.375,
+        "median": 6,
+        "p50_nearest_rank": 6,
+        "p90": 8,
+        "p95": 8,
+        "p99": 10
+      },
+      "throughput_rps": 7.6,
+      "throughput_observation_duration_seconds": 20,
+      "time_span_seconds": 20,
+      "response_codes": {
+        "200": 152
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "STAGE_20_VU_HOLD": {
+      "samples": 312,
+      "response_time_samples": 312,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 312,
+      "observed_failed_samples": 0,
+      "successful_samples": 312,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 4,
+        "max": 16,
+        "mean": 5.974359,
+        "median": 6,
+        "p50_nearest_rank": 6,
+        "p90": 7,
+        "p95": 8,
+        "p99": 10
+      },
+      "throughput_rps": 15.6,
+      "throughput_observation_duration_seconds": 20,
+      "time_span_seconds": 20,
+      "response_codes": {
+        "200": 312
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "STAGE_30_VU_HOLD": {
+      "samples": 470,
+      "response_time_samples": 470,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 470,
+      "observed_failed_samples": 0,
+      "successful_samples": 470,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 4,
+        "max": 10,
+        "mean": 5.474468,
+        "median": 5,
+        "p50_nearest_rank": 5,
+        "p90": 7,
+        "p95": 7,
+        "p99": 8
+      },
+      "throughput_rps": 23.5,
+      "throughput_observation_duration_seconds": 20,
+      "time_span_seconds": 20,
+      "response_codes": {
+        "200": 470
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "RECOVERY_RAMP_DOWN_AND_HOLD": {
+      "samples": 372,
+      "response_time_samples": 372,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 372,
+      "observed_failed_samples": 0,
+      "successful_samples": 372,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 4,
+        "max": 24,
+        "mean": 6.448925,
+        "median": 6,
+        "p50_nearest_rank": 6,
+        "p90": 8,
+        "p95": 10,
+        "p99": 22
+      },
+      "throughput_rps": 10.628571,
+      "throughput_observation_duration_seconds": 35,
+      "time_span_seconds": 35,
+      "response_codes": {
+        "200": 372
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    }
+  },
+  "stage_mapping": {
+    "status": "PARTIAL",
+    "timestamped_samples": 1687,
+    "mapped_samples": 1364,
+    "unmapped_samples": 323,
+    "mapping_coverage_percent": 80.853586
+  }
+}

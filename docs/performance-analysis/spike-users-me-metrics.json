@@ -1,0 +1,203 @@
+{
+  "analysis_status": "PARTIAL",
+  "source": {
+    "jtl": "results\\23127107_Spike_20260816\\run-003\\raw\\23127107_Spike_20260816_run-003.jtl",
+    "format": "csv",
+    "raw_sha256_before": "b5484df66137cfb3a7b2787d02dfb2d12b69f4affa2127d7a05ef524586e30ab",
+    "raw_sha256_after": "b5484df66137cfb3a7b2787d02dfb2d12b69f4affa2127d7a05ef524586e30ab",
+    "raw_unchanged": true
+  },
+  "calculation_notes": {
+    "response_time_field": "elapsed (CSV) / t (XML), milliseconds",
+    "median_method": "statistical median; even n is the arithmetic mean of the two middle values",
+    "percentile_method": "p50_nearest_rank/p90/p95/p99: ceil(p / 100 * n), no interpolation",
+    "overall_throughput_method": "total samples divided by full run observation duration from min to max timestamp",
+    "window_throughput_method": "samples divided by configured window duration; final partial window uses observed run intersection",
+    "stage_throughput_method": "stage samples divided by explicit stage end_ms-start_ms duration",
+    "filtering": "none; all parseable samples are included",
+    "warmup_handling": "none unless a separate, explicit filter is supplied outside this script",
+    "application_success": "NOT_AVAILABLE from standard JTL fields unless separately evidenced"
+  },
+  "overall_metrics": {
+    "samples": 2123,
+    "response_time_samples": 2123,
+    "response_time_coverage_percent": 100,
+    "observed_successful_samples": 2123,
+    "observed_failed_samples": 0,
+    "successful_samples": 2123,
+    "failed_samples": 0,
+    "unknown_success_samples": 0,
+    "error_rate_percent": 0,
+    "response_time_ms": {
+      "min": 1,
+      "max": 55,
+      "mean": 2.963731,
+      "median": 3,
+      "p50_nearest_rank": 3,
+      "p90": 4,
+      "p95": 4,
+      "p99": 6
+    },
+    "throughput_rps": 32.025463,
+    "throughput_observation_duration_seconds": 66.291,
+    "time_span_seconds": 66.291,
+    "response_codes": {
+      "200": 2123
+    },
+    "error_types": {},
+    "integrity_notes": {
+      "invalid_elapsed_samples": 0,
+      "invalid_timestamp_samples": 0,
+      "success_classification_complete": true,
+      "throughput_computable": true
+    }
+  },
+  "per_label_metrics": {
+    "GET /api/users/me": {
+      "samples": 2123,
+      "response_time_samples": 2123,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 2123,
+      "observed_failed_samples": 0,
+      "successful_samples": 2123,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 1,
+        "max": 55,
+        "mean": 2.963731,
+        "median": 3,
+        "p50_nearest_rank": 3,
+        "p90": 4,
+        "p95": 4,
+        "p99": 6
+      },
+      "throughput_rps": 32.025463,
+      "throughput_observation_duration_seconds": 66.291,
+      "time_span_seconds": 66.291,
+      "response_codes": {
+        "200": 2123
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    }
+  },
+  "per_window_metrics": {},
+  "per_stage_metrics": {
+    "BASELINE": {
+      "samples": 196,
+      "response_time_samples": 196,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 196,
+      "observed_failed_samples": 0,
+      "successful_samples": 196,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 2,
+        "max": 55,
+        "mean": 4.127551,
+        "median": 3,
+        "p50_nearest_rank": 3,
+        "p90": 4,
+        "p95": 5,
+        "p99": 55
+      },
+      "throughput_rps": 9.8,
+      "throughput_observation_duration_seconds": 20,
+      "time_span_seconds": 20,
+      "response_codes": {
+        "200": 196
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "SPIKE_RAMP_AND_HOLD": {
+      "samples": 1229,
+      "response_time_samples": 1229,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 1229,
+      "observed_failed_samples": 0,
+      "successful_samples": 1229,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 1,
+        "max": 8,
+        "mean": 2.925142,
+        "median": 3,
+        "p50_nearest_rank": 3,
+        "p90": 4,
+        "p95": 5,
+        "p99": 6
+      },
+      "throughput_rps": 53.434783,
+      "throughput_observation_duration_seconds": 23,
+      "time_span_seconds": 23,
+      "response_codes": {
+        "200": 1229
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    },
+    "RECOVERY_RAMP_AND_HOLD": {
+      "samples": 653,
+      "response_time_samples": 653,
+      "response_time_coverage_percent": 100,
+      "observed_successful_samples": 653,
+      "observed_failed_samples": 0,
+      "successful_samples": 653,
+      "failed_samples": 0,
+      "unknown_success_samples": 0,
+      "error_rate_percent": 0,
+      "response_time_ms": {
+        "min": 1,
+        "max": 8,
+        "mean": 2.705972,
+        "median": 3,
+        "p50_nearest_rank": 3,
+        "p90": 4,
+        "p95": 4,
+        "p99": 5
+      },
+      "throughput_rps": 26.12,
+      "throughput_observation_duration_seconds": 25,
+      "time_span_seconds": 25,
+      "response_codes": {
+        "200": 653
+      },
+      "error_types": {},
+      "integrity_notes": {
+        "invalid_elapsed_samples": 0,
+        "invalid_timestamp_samples": 0,
+        "success_classification_complete": true,
+        "throughput_computable": true
+      }
+    }
+  },
+  "stage_mapping": {
+    "status": "PARTIAL",
+    "timestamped_samples": 2123,
+    "mapped_samples": 2078,
+    "unmapped_samples": 45,
+    "mapping_coverage_percent": 97.880358
+  }
+}
