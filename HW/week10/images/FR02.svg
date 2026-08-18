@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="100%" height="100%" style="background-color: #121826; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Arrow Markers -->
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f97316" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ea580c" />
+    </marker>
+
+    <!-- Filters for clean shadow effect -->
+    <filter id="box-shadow" x="-8%" y="-8%" width="116%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- ================= TOP-LEFT: ENTER LOGIN DETAILS ================= -->
+  <g filter="url(#box-shadow)">
+    <rect x="50" y="60" width="190" height="60" rx="8" fill="#fdba74" stroke="#ea580c" stroke-width="2.2"/>
+    <text x="145" y="86" fill="#7c2d12" font-size="14" font-weight="800" text-anchor="middle">Enter Login</text>
+    <text x="145" y="105" fill="#7c2d12" font-size="14" font-weight="800" text-anchor="middle">Details</text>
+  </g>
+
+  <!-- Arrow: Enter Details -> 1st Attempt -->
+  <line x1="240" y1="105" x2="285" y2="148" stroke="#f97316" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- ================= 1ST ATTEMPT ================= -->
+  <g filter="url(#box-shadow)">
+    <rect x="270" y="150" width="160" height="60" rx="8" fill="#fdba74" stroke="#ea580c" stroke-width="2.2"/>
+    <text x="350" y="176" fill="#7c2d12" font-size="15" font-weight="800" text-anchor="middle">1st</text>
+    <text x="350" y="195" fill="#7c2d12" font-size="14" font-weight="700" text-anchor="middle">Attempt</text>
+  </g>
+
+  <!-- Arrow: 1st Attempt -> 2nd Attempt -->
+  <line x1="430" y1="195" x2="475" y2="238" stroke="#f97316" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- Arrow: 1st Attempt -> Access Granted -->
+  <line x1="335" y1="210" x2="335" y2="438" stroke="#38bdf8" stroke-width="2.2" marker-end="url(#arrow-blue)"/>
+
+  <!-- ================= 2ND ATTEMPT ================= -->
+  <g filter="url(#box-shadow)">
+    <rect x="460" y="240" width="160" height="60" rx="8" fill="#fdba74" stroke="#ea580c" stroke-width="2.2"/>
+    <text x="540" y="266" fill="#7c2d12" font-size="15" font-weight="800" text-anchor="middle">2nd</text>
+    <text x="540" y="285" fill="#7c2d12" font-size="14" font-weight="700" text-anchor="middle">Attempt</text>
+  </g>
+
+  <!-- Arrow: 2nd Attempt -> 3rd Attempt -->
+  <line x1="620" y1="285" x2="665" y2="328" stroke="#f97316" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- Arrow: 2nd Attempt -> Access Granted -->
+  <line x1="500" y1="300" x2="385" y2="440" stroke="#38bdf8" stroke-width="2.2" marker-end="url(#arrow-blue)"/>
+
+  <!-- ================= 3RD ATTEMPT ================= -->
+  <g filter="url(#box-shadow)">
+    <rect x="650" y="330" width="160" height="60" rx="8" fill="#fdba74" stroke="#ea580c" stroke-width="2.2"/>
+    <text x="730" y="356" fill="#7c2d12" font-size="15" font-weight="800" text-anchor="middle">3rd</text>
+    <text x="730" y="375" fill="#7c2d12" font-size="14" font-weight="700" text-anchor="middle">Attempt</text>
+  </g>
+
+  <!-- Arrow: 3rd Attempt -> Access Granted -->
+  <line x1="670" y1="390" x2="445" y2="448" stroke="#38bdf8" stroke-width="2.2" marker-end="url(#arrow-blue)"/>
+
+  <!-- Arrow: 3rd Attempt -> Account Locked -->
+  <line x1="745" y1="330" x2="745" y2="135" stroke="#ea580c" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+
+  <!-- ================= TOP-RIGHT: ACCOUNT LOCKED ================= -->
+  <g filter="url(#box-shadow)">
+    <rect x="640" y="60" width="210" height="65" rx="8" fill="#ea580c" stroke="#c2410c" stroke-width="2.5"/>
+    <text x="745" y="88" fill="#ffffff" font-size="15" font-weight="800" text-anchor="middle">Account Locked</text>
+    <text x="745" y="108" fill="#fed7aa" font-size="12" font-weight="600" text-anchor="middle">[403 Forbidden]</text>
+  </g>
+
+  <!-- ================= BOTTOM-LEFT: ACCESS GRANTED ================= -->
+  <g filter="url(#box-shadow)">
+    <rect x="190" y="440" width="300" height="85" rx="10" fill="#93c5fd" stroke="#2563eb" stroke-width="2.8"/>
+    <text x="340" y="476" fill="#1e3a8a" font-size="20" font-weight="900" text-anchor="middle">Access</text>
+    <text x="340" y="502" fill="#1e3a8a" font-size="20" font-weight="900" text-anchor="middle">Granted</text>
+  </g>
+</svg>
