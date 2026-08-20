@@ -17,14 +17,14 @@
 | **1** | **API 1 — POST /api/login (Full Pipeline)**<br>• Generate (>=35 TCs) + Human Audit<br>• 5 Human Extended TCs<br>• Newman Execute (X-Student-Id)<br>• Bug Reports + GitHub Issues | 30 | **30** | Đầy đủ 44 test cases, phát hiện 7 bugs nghiêm trọng, đã log GitHub Issues #359 - #365. |
 | **2** | **API 2 — POST /api/apply-coupon (Full Pipeline)**<br>• Generate (>=35 TCs) + Human Audit<br>• 5 Human Extended TCs<br>• Newman Execute (X-Student-Id)<br>• Bug Reports + GitHub Issues | 30 | **30** | Đầy đủ 43 test cases, phát hiện 7 bugs logic giảm giá và bảo mật, đã log GitHub Issues #366 - #372. |
 | **3** | **API 3 — PUT /api/admin/orders/:id/status (Full Pipeline)**<br>• Generate (>=35 TCs) + Human Audit<br>• 5 Human Extended TCs<br>• Newman Execute (X-Student-Id)<br>• Bug Reports + GitHub Issues | 30 | **30** | Đầy đủ 48 test cases, phủ toàn diện 16 chuyển trạng thái (4x4 matrix), phát hiện 4 bugs, đã log GitHub Issues #373 - #376. |
-| **4** | **Agent Skill & Postman Features & CI/CD**<br>• Thiết kế AI-driven API Test Generator (Diagram + Pseudocode)<br>• Khai thác toàn diện Postman Features<br>• CI/CD Pipeline (2 Sample Runs: Green & Red)<br>• AI Critique & AI Audit Report | 10 | **10** | Thiết kế Agent Skill hoàn chỉnh, pipeline GitHub Actions chạy thực tế 2 runs, audit và critique đầy đủ. |
+| **4** | **Agent Skill & Postman Features & CI/CD**<br>• Thiết kế AI-driven API Test Generator (Diagram + Pseudocode)<br>• Khai thác toàn diện Postman Features<br>• CI/CD Pipeline (2 Sample Runs: Green & Red)<br>• AI Critique & AI Audit Report (Tách file riêng) | 10 | **10** | Thiết kế Agent Skill hoàn chỉnh, pipeline GitHub Actions chạy thực tế 2 runs, audit và critique được trình bày chi tiết tại file riêng. |
 | **TỔNG** | **TỔNG ĐIỂM TỰ ĐÁNH GIÁ (TOTAL GRADE)** | **100** | **100** | **100 / 100** |
 
 ---
 
 ## 1. TỔNG QUAN HỆ THỐNG VÀ 3 APIS ĐÃ LỰA CHỌN
 
-Theo yêu cầu của đề bài, sinh viên chọn 3 APIs thuộc 3 Pool tính năng khác nhau từ tài liệu đặc tả `api_specification.md`:
+Theo yêu cầu của đề bài, em chọn 3 APIs thuộc 3 Pool tính năng khác nhau từ tài liệu đặc tả `api_specification.md`:
 
 ```
 +-------------------------------------------------------------------------------+
@@ -77,8 +77,8 @@ Theo yêu cầu của đề bài, sinh viên chọn 3 APIs thuộc 3 Pool tính 
    * **Security Testing (SEC-01..07):** SQL Injection payload (`' OR '1'='1`), NoSQL injection, rò rỉ trường nhạy cảm trong response, kiểm tra hashing Bcrypt.
 2. **AI Generation & Human Audit:**
    * AI sinh ban đầu 39 test cases.
-   * Sinh viên phát hiện và chỉnh sửa 4 test cases AI tạo sai logic (AI nhầm lẫn thời gian khóa là 60s thay vì 30s theo đặc tả).
-3. **5 Human Extended Test Cases:**
+   * Em phát hiện và chỉnh sửa 4 test cases AI tạo sai logic (AI nhầm lẫn thời gian khóa là 60s thay vì 30s theo đặc tả).
+3. **5 Human Extended Test Cases do em tự thiết kế:**
    * `TC_LOG_EXT_01`: SQL Injection Bypass (`admin@eshop.com'--`)
    * `TC_LOG_EXT_02`: Password Truncation Attack (Mật khẩu cực dài > 10,000 ký tự)
    * `TC_LOG_EXT_03`: Case-Insensitive Email Login (`TEST@eshop.com` thay vì chữ thường)
@@ -103,8 +103,8 @@ Theo yêu cầu của đề bài, sinh viên chọn 3 APIs thuộc 3 Pool tính 
    * **Security Testing:** IDOR (Áp mã của user khác), Missing JWT Authorization token, Tampering `user_id`.
 2. **AI Generation & Human Audit:**
    * AI sinh 38 test cases.
-   * Sinh viên audit và hoàn thiện các assertion kiểm tra cấu trúc JSON trả về (`discount_amount`, `final_total`).
-3. **5 Human Extended Test Cases:**
+   * Em đã audit và hoàn thiện các assertion kiểm tra cấu trúc JSON trả về (`discount_amount`, `final_total`).
+3. **5 Human Extended Test Cases do em tự thiết kế:**
    * `TC_CPN_EXT_01`: Case-Insensitive Coupon Code (`bigbuy` vs `BIGBUY`)
    * `TC_CPN_EXT_02`: Floating-point Total Amount Precision (`300000.99 ₫`)
    * `TC_CPN_EXT_03`: Negative Discount Exploitation (Cố tình nhập coupon có giá trị âm)
@@ -131,8 +131,8 @@ Theo yêu cầu của đề bài, sinh viên chọn 3 APIs thuộc 3 Pool tính 
    * **Access Control & Security (BFLA/IDOR):** Kiểm tra người dùng thường gọi API Admin, Request không kèm token, Token giả mạo.
 2. **AI Generation & Human Audit:**
    * AI sinh 43 test cases.
-   * Sinh viên audit lại máy trạng thái và viết thêm kịch bản Pre-request tạo đơn hàng tươi (`/api/checkout`) trước mỗi lần chuyển trạng thái để tránh phụ thuộc dữ liệu tĩnh.
-3. **5 Human Extended Test Cases:**
+   * Em đã audit lại máy trạng thái và viết thêm kịch bản Pre-request tạo đơn hàng tươi (`/api/checkout`) trước mỗi lần chuyển trạng thái để tránh phụ thuộc dữ liệu tĩnh.
+3. **5 Human Extended Test Cases do em tự thiết kế:**
    * `TC_ORD_EXT_01`: Non-existent Order ID with Boundary Integers (`ID = 2147483647`)
    * `TC_ORD_EXT_02`: Cross-Tenant Order Manipulation (Admin thao tác đơn hàng giữa các phân vùng)
    * `TC_ORD_EXT_03`: Status Update with Empty Payload `{}`
@@ -148,7 +148,7 @@ Theo yêu cầu của đề bài, sinh viên chọn 3 APIs thuộc 3 Pool tính 
 
 ## 4. KHAI THÁC CÁC TÍNH NĂNG NÂNG CAO CỦA POSTMAN (POSTMAN FEATURES)
 
-Trong bài tập cá nhân này, sinh viên đã ứng dụng triệt để hệ sinh thái tính năng của Postman:
+Trong bài tập này, em đã ứng dụng triệt để hệ sinh thái tính năng của Postman:
 
 1. **Workspaces & Hierarchical Collections:** Tổ chức bài bản theo thư mục phân cấp rõ ràng, dễ bảo trì.
 2. **Environments & Variables Management:**
@@ -264,31 +264,14 @@ def generate_api_test_suite(api_spec_file, output_collection_path):
 
 ---
 
-## 7. BÀN LUẬN & ĐÁNH GIÁ VỀ AI (AI CRITIQUE — 250 WORDS)
+## 7. BÁO CÁO PHẢN BIỆN VÀ NHẬT KÝ SỬ DỤNG AI (AI CRITIQUE & AI AUDIT REPORT)
 
-Trong quá trình đồng hành cùng AI để thiết kế và kiểm thử 3 API của hệ thống EShop, AI thể hiện năng lực vượt trội trong việc tự động sinh cấu trúc dữ liệu JSON, phân loại các giá trị biên (Boundary Values) và soạn thảo cú pháp kiểm thử Chai Assertion nhanh chóng. Tuy nhiên, AI bộc lộ những điểm mù nghiêm trọng khi xử lý logic nghiệp vụ phụ thuộc trạng thái (State-dependent logic) và bảo mật thực tế:
-
-Thứ nhất, AI thường mặc định giả định mã nguồn backend đã được triển khai đúng theo đặc tả (Golden Standard Bias). Ví dụ, AI không tự phát hiện được lỗi công thức tính coupon bị ngược dấu hoặc lỗi cho phép chuyển trạng thái đơn hàng từ `canceled` sang `delivered` nếu người kiểm thử không chủ động ép AI xây dựng ma trận chuyển trạng thái đầy đủ 4x4. Thứ hai, AI có xu hướng bỏ qua các bước tiền xử lý dữ liệu động (Pre-request dynamic chaining), thường gán ID đơn hàng cố định dẫn đến test case bị fail do phụ thuộc dữ liệu cũ.
-
-Bài học cốt lõi rút ra là: AI đóng vai trò như một trợ lý tăng tốc độ soạn thảo (Execution Accelerator), nhưng tư duy phản biện (Critical Thinking), chiến lược kiểm thử biên và việc rà soát từng bước (Step-by-step Human Review) của kỹ sư kiểm thử vẫn là yếu tố quyết định để phát hiện các lỗi nghiệp vụ và lỗ hổng bảo mật sâu trong hệ thống.
+Theo quy định của bài tập, toàn bộ nội dung phản biện AI (AI Critique 200–300 từ) và bảng nhật ký tương tác kiểm toán AI chi tiết đã được tách thành tài liệu riêng biệt tại:
+👉 [**ai_audit_and_critique.md**](./ai_audit_and_critique.md) (hoặc xem tại [HW/week10/ai_audit_and_critique.md](file:///d:/group05_eshop/HW/week10/ai_audit_and_critique.md)).
 
 ---
 
-## 8. PHỤ LỤC NHẬT KÝ SỬ DỤNG AI (AI AUDIT REPORT)
-
-* **Tuyên bố:** *"Tôi có sử dụng công cụ AI (Gemini / Antigravity IDE) làm trợ lý hỗ trợ trong bài tập này."*
-* **Bảng nhật ký tương tác chính:**
-
-| Thời gian | Tác vụ (Task) | Prompt của sinh viên | Kết quả do AI sinh ra | Hành động của sinh viên (Audit) |
-| :---: | :--- | :--- | :--- | :--- |
-| **19/08/2026** | Phân tích API 1 (Login) | "Phân tích đặc tả POST /api/login, sinh các test case EP và BVA" | Danh sách 39 test cases | Sửa đổi lại thời gian khóa tài khoản từ 60s thành 30s. |
-| **19/08/2026** | Phân tích API 2 (Coupon) | "Thiết kế test cases kiểm tra giá trị tối thiểu 300k và coupon Fixed/Percent" | Danh sách 38 test cases | Bổ sung thêm các test case kiểm tra IDOR và rỗng Token. |
-| **20/08/2026** | Ma trận API 3 (Order Status) | "Lập ma trận 4x4 cho các trạng thái đơn hàng và sinh test script" | Danh sách 43 test cases | Viết script Pre-request tự động checkout đơn hàng mới ngầm. |
-| **20/08/2026** | Tích hợp CI/CD | "Viết GitHub Actions workflow chạy Newman và xuất artifact" | File YAML workflow | Hoàn thiện 2 sample collection (All Pass vs One Fail). |
-
----
-
-## 9. BẰNG CHỨNG XÁC THỰC CHỐNG GIAN LẬN (ANTI-CHEAT EVIDENCE)
+## 8. BẰNG CHỨNG XÁC THỰC CHỐNG GIAN LẬN (ANTI-CHEAT EVIDENCE)
 
 1. **Header sinh viên:** `X-Student-Id: 23127340` được nhúng tự động trong toàn bộ request gửi đi.
 2. **Môi trường thực thi SUT:** Hostname thực tế là `http://localhost:3000` (EShop Express.js Backend chạy trên máy nội bộ).

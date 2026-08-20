@@ -100,7 +100,7 @@ jobs:
 
 ## 3. BÁO CÁO 2 SAMPLE COMMITS (MINH CHỨNG 2 LẦN CHẠY PIPELINE)
 
-Theo yêu cầu của đề bài, sinh viên cung cấp 2 lần chạy pipeline thực tế trên GitHub Actions:
+Theo yêu cầu của đề bài, em cung cấp 2 lần chạy pipeline thực tế trên GitHub Actions:
 
 ### 3.1. Lần 1: Pipeline Pass Hoàn Toàn (All Test Cases Passing — Green ✅)
 
