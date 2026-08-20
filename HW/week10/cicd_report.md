@@ -113,7 +113,7 @@ Theo yêu cầu của đề bài, sinh viên cung cấp 2 lần chạy pipeline 
 * **Link GitHub Action Run:** [Run #32335667479 (Success)](https://github.com/DuyITLOR/group05_eshop/actions/runs/32335667479)
 
 #### Ảnh minh chứng Pipeline Pass:
-> ![CI All Pass Screenshot](./images/ci_all_pass.png)
+> ![CI All Pass Screenshot](./images/screenshots/ci_pass.png)
 
 ---
 
@@ -131,7 +131,7 @@ Theo yêu cầu của đề bài, sinh viên cung cấp 2 lần chạy pipeline 
 * **Link GitHub Action Run:** [Run #32335710319 (Failure)](https://github.com/DuyITLOR/group05_eshop/actions/runs/32335710319)
 
 #### Ảnh minh chứng Pipeline Fail:
-> ![CI One Fail Screenshot](./images/ci_one_fail.png)
+> ![CI One Fail Screenshot](./images/screenshots/ci_fail.png)
 
 ---
 
