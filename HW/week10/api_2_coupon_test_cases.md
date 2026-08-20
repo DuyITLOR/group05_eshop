@@ -165,12 +165,12 @@ Phân tích miền giá trị của các trường trong Request Body (`code`, `
 
 ## 5. MỞ RỘNG TEST CASES (HUMAN EXTENSION — 5 TCs)
 
-| TC ID | Kỹ thuật & Tên Test Case | Mô tả & Dữ liệu Request | Lý do AI bỏ sót (Root Cause Analysis) |
-| :--- | :--- | :--- | :--- |
-| `TC_CPN_EXT_01` | **Race Condition / Concurrency** | Gửi đồng thời 10 requests cùng 1ms với mã max 1 lượt (`SAVE10`) | AI chỉ tư duy đơn luồng, bỏ sót nguy cơ bất đồng bộ DB khi không có Transaction lock. |
-| `TC_CPN_EXT_02` | **Float Precision Rounding** | Gửi `total_amount = 333333.33` với coupon 33% (kiểm tra làm tròn số) | AI chỉ test số nguyên tròn trăm, bỏ qua sai số dấu phẩy động trong thanh toán. |
-| `TC_CPN_EXT_03` | **Negative Discount Injection** | Giả lập hacker gửi mã có giá trị giảm âm để tăng tiền đơn hàng | AI chỉ test dữ liệu chuẩn, không lường trước can thiệp trái phép CSDL. |
-| `TC_CPN_EXT_04` | **Timezone Mismatch at 23:59:59** | Kiểm tra áp dụng mã tại giây cuối cùng của ngày hết hạn so với GMT+7 | AI không chú ý vấn đề sai lệch múi giờ khi so sánh `new Date()`. |
-| `TC_CPN_EXT_05` | **Coupon with Shipping Fee** | Kiểm tra giảm giá áp dụng trên tổng giá trị hàng hay cả tiền ship | AI chỉ nhìn cục bộ endpoint đơn lẻ, không liên kết luồng thanh toán tổng thể. |
+| TC ID | Kỹ thuật & Tên Test Case | Mô tả & Dữ liệu Request | Expected Status | Lý do AI bỏ sót (Root Cause Analysis) |
+| :--- | :--- | :--- | :---: | :--- |
+| `TC_CPN_EXT_01` | **Domain / Usability: Case-Insensitive Coupon Code** | Gửi mã giảm giá ở dạng chữ thường: `{"code": "save10", "total_amount": 500000, "user_id": 1}` | `200 OK` | AI mặc định so khớp chuỗi phân biệt hoa/thường tuyệt đối (`Exact Match`), bỏ qua tính tiện dụng (Usability) của người dùng thực tế khi nhập mã voucher dạng chữ thường. |
+| `TC_CPN_EXT_02` | **Float Precision Rounding** | Gửi `total_amount = 333333.33` với coupon 33% (kiểm tra làm tròn số) | `200 OK` | AI chỉ test số nguyên tròn trăm, bỏ qua sai số dấu phẩy động trong thanh toán. |
+| `TC_CPN_EXT_03` | **Negative Discount Injection** | Giả lập hacker gửi mã có giá trị giảm âm để tăng tiền đơn hàng | `200 OK` / `400` | AI chỉ test dữ liệu chuẩn, không lường trước can thiệp trái phép CSDL. |
+| `TC_CPN_EXT_04` | **Timezone Mismatch at 23:59:59** | Kiểm tra áp dụng mã tại giây cuối cùng của ngày hết hạn so với GMT+7 | `400 Bad Request` | AI không chú ý vấn đề sai lệch múi giờ khi so sánh `new Date()`. |
+| `TC_CPN_EXT_05` | **Coupon with Shipping Fee** | Kiểm tra giảm giá áp dụng trên tổng giá trị hàng hay cả tiền ship | `200 OK` | AI chỉ nhìn cục bộ endpoint đơn lẻ, không liên kết luồng thanh toán tổng thể. |
 
 **TỔNG CỘNG TEST CASES API 2:** **43 Test Cases** (AI: 38, Human Extend: 5).
