@@ -110,7 +110,7 @@ Theo yêu cầu của đề bài, sinh viên cung cấp 2 lần chạy pipeline 
 * **Tổng số Assertions:** 20/20 Passed (0 Failures)
 * **Thời gian thực thi:** ~1.01s (Newman Execution)
 * **Mô tả hoạt động:** Toàn bộ luồng đăng nhập, áp mã giảm giá hợp lệ, cập nhật trạng thái đơn hàng hợp lệ đều trả về kết quả đúng như mong đợi.
-* **Link GitHub Action Run:** `https://github.com/DuyITLOR/group05_eshop/actions`
+* **Link GitHub Action Run:** [Run #32335667479 (Success)](https://github.com/DuyITLOR/group05_eshop/actions/runs/32335667479)
 
 #### Ảnh minh chứng Pipeline Pass:
 > ![CI All Pass Screenshot](./images/ci_all_pass.png)
@@ -128,7 +128,7 @@ Theo yêu cầu của đề bài, sinh viên cung cấp 2 lần chạy pipeline 
   * **Endpoint:** `PUT /api/admin/orders/:id/status`
   * **Assertion Failure:** `AssertionError: Transition from canceled to delivered MUST BE 400 Bad Request: expected response to have status code 400 but got 200`
 * **Mô tả hành vi lỗi:** Hệ thống SUT vi phạm tính toàn vẹn trạng thái đơn hàng (cho phép đơn hàng đã `canceled` chuyển thành `delivered`). Nhờ có assertion kiểm thử, pipeline CI/CD đã tự động chặn lại và báo động đỏ thành công.
-* **Link GitHub Action Run:** `https://github.com/DuyITLOR/group05_eshop/actions`
+* **Link GitHub Action Run:** [Run #32335710319 (Failure)](https://github.com/DuyITLOR/group05_eshop/actions/runs/32335710319)
 
 #### Ảnh minh chứng Pipeline Fail:
 > ![CI One Fail Screenshot](./images/ci_one_fail.png)
