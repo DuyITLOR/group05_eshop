@@ -1,0 +1,917 @@
+{
+  "info": {
+    "_postman_id": "23127340-ci-one-fail-collection",
+    "name": "HW06_CI_One_Fail_23127340",
+    "description": "Bộ test suite CI/CD mẫu phát hiện 1 Bug (TC_ORD_ST_24: canceled -> delivered) - Sinh viên: 23127340",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Mandatory Header for HW06 Anti-AI-Cheat Constraint",
+          "pm.request.headers.upsert({",
+          "    key: 'X-Student-Id',",
+          "    value: '23127340'",
+          "});",
+          "console.log('[X-Student-Id: 23127340] Request:', pm.request.method, pm.request.url.toString());"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "00. Auth & Pre-requisites",
+      "item": [
+        {
+          "name": "00.0 Setup Lockout User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lockout Test User\",\n  \"email\": \"lockout_user@eshop.com\",\n  \"password\": \"Test1234!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Lockout User Setup Status 200 or 400 (if exists)\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 500]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "00.1 Admin Login (Extract admin_token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@eshop.com\",\n  \"password\": \"Admin123!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Admin Login Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "var res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.environment.set(\"admin_token\", res.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "00.2 User Login (Extract user_token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"User Login Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "var res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.environment.set(\"user_token\", res.token);",
+                  "}",
+                  "if (res.user && res.user.id) {",
+                  "    pm.environment.set(\"user_id\", res.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "00.3 Setup Order (Create initial test order)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total_amount\": 1500000,\n  \"shipping_address\": \"123 Test Street, HCM\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Initial Test Order Created Status is 200 OK\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "var res = pm.response.json();",
+                  "if (res.orderId) {",
+                  "    pm.environment.set(\"test_order_id\", res.orderId);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01. API 1 - POST /api/login (Passing Samples)",
+      "item": [
+        {
+          "name": "TC_LOG_DOM_01: Valid User Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_LOG_DOM_01: Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"TC_LOG_DOM_01: Returns Token and User Email\", function () {",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property(\"token\");",
+                  "    pm.expect(res.user.email).to.eql(\"test@eshop.com\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_LOG_DOM_02: Valid Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@eshop.com\",\n  \"password\": \"Admin123!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_LOG_DOM_02: Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"TC_LOG_DOM_02: Returns Admin Role\", function () {",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.user.role).to.eql(\"admin\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_LOG_DOM_03: Invalid Email Non-existent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"notfound@eshop.com\",\n  \"password\": \"Test1234!\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_LOG_DOM_03: Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "pm.test(\"TC_LOG_DOM_03: Error message returned\", function () {",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property(\"error\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02. API 2 - POST /api/apply-coupon (Passing Samples)",
+      "item": [
+        {
+          "name": "TC_CPN_DOM_02: Valid Fixed Coupon (BIGBUY - 50k)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"BIGBUY\",\n  \"total_amount\": 800000,\n  \"user_id\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_CPN_DOM_02: Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"TC_CPN_DOM_02: Fixed Discount is 50,000 and Final is 750,000\", function () {",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.discount_amount).to.eql(50000);",
+                  "    pm.expect(res.final_amount).to.eql(750000);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_CPN_DOM_03: Non-existent Coupon Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"NON_EXISTENT_999\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_CPN_DOM_03: Status is 404 Not Found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_CPN_DOM_11: Total Amount Negative",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": -100000,\n  \"user_id\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_CPN_DOM_11: Status is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03. API 3 - PUT /api/admin/orders/:id/status (Passing Samples + 1 Intentional Bug Detection)",
+      "item": [
+        {
+          "name": "TC_ORD_DOM_01: Valid Order ID & Valid Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{current_test_order_id}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{current_test_order_id}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var baseUrl = pm.environment.get(\"baseUrl\") || \"http://localhost:3000\";",
+                  "var userToken = pm.environment.get(\"user_token\");",
+                  "var adminToken = pm.environment.get(\"admin_token\");",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: baseUrl + '/api/checkout',",
+                  "    method: 'POST',",
+                  "    header: {",
+                  "        'Content-Type': 'application/json',",
+                  "        'Authorization': 'Bearer ' + userToken,",
+                  "        'X-Student-Id': '23127340'",
+                  "    },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ total_amount: 1000000, shipping_address: 'Setup State Order' }) }",
+                  "}, function (err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        var newOrderId = res.json().orderId;",
+                  "        pm.environment.set(\"current_test_order_id\", newOrderId);",
+                  "        ",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_ORD_DOM_01: Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"TC_ORD_DOM_01: Returns success message\", function () {",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql(\"Order status updated\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_ORD_DOM_02: Non-existent Order ID (999999)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/999999/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "999999",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_ORD_DOM_02: Status is 404 Not Found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_ORD_ST_01: (pending -> pending) Self Duplicate",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{current_test_order_id}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{current_test_order_id}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"pending\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var baseUrl = pm.environment.get(\"baseUrl\") || \"http://localhost:3000\";",
+                  "var userToken = pm.environment.get(\"user_token\");",
+                  "var adminToken = pm.environment.get(\"admin_token\");",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: baseUrl + '/api/checkout',",
+                  "    method: 'POST',",
+                  "    header: {",
+                  "        'Content-Type': 'application/json',",
+                  "        'Authorization': 'Bearer ' + userToken,",
+                  "        'X-Student-Id': '23127340'",
+                  "    },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ total_amount: 1000000, shipping_address: 'Setup State Order' }) }",
+                  "}, function (err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        var newOrderId = res.json().orderId;",
+                  "        pm.environment.set(\"current_test_order_id\", newOrderId);",
+                  "        ",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_ORD_ST_01: Duplicate status transition rejected as 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_ORD_ST_02: (pending -> confirmed) Valid Confirm",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{current_test_order_id}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{current_test_order_id}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var baseUrl = pm.environment.get(\"baseUrl\") || \"http://localhost:3000\";",
+                  "var userToken = pm.environment.get(\"user_token\");",
+                  "var adminToken = pm.environment.get(\"admin_token\");",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: baseUrl + '/api/checkout',",
+                  "    method: 'POST',",
+                  "    header: {",
+                  "        'Content-Type': 'application/json',",
+                  "        'Authorization': 'Bearer ' + userToken,",
+                  "        'X-Student-Id': '23127340'",
+                  "    },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ total_amount: 1000000, shipping_address: 'Setup State Order' }) }",
+                  "}, function (err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        var newOrderId = res.json().orderId;",
+                  "        pm.environment.set(\"current_test_order_id\", newOrderId);",
+                  "        ",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_ORD_ST_02: Valid Confirm Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql(\"Order status updated\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_ORD_ST_03: (pending -> shipping) Invalid Skip",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{current_test_order_id}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{current_test_order_id}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"shipping\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var baseUrl = pm.environment.get(\"baseUrl\") || \"http://localhost:3000\";",
+                  "var userToken = pm.environment.get(\"user_token\");",
+                  "var adminToken = pm.environment.get(\"admin_token\");",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: baseUrl + '/api/checkout',",
+                  "    method: 'POST',",
+                  "    header: {",
+                  "        'Content-Type': 'application/json',",
+                  "        'Authorization': 'Bearer ' + userToken,",
+                  "        'X-Student-Id': '23127340'",
+                  "    },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ total_amount: 1000000, shipping_address: 'Setup State Order' }) }",
+                  "}, function (err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        var newOrderId = res.json().orderId;",
+                  "        pm.environment.set(\"current_test_order_id\", newOrderId);",
+                  "        ",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_ORD_ST_03: Skip step to shipping rejected as 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC_ORD_ST_24: (canceled -> delivered) Illegal Transition",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{current_test_order_id}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{current_test_order_id}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"delivered\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var baseUrl = pm.environment.get(\"baseUrl\") || \"http://localhost:3000\";",
+                  "var userToken = pm.environment.get(\"user_token\");",
+                  "var adminToken = pm.environment.get(\"admin_token\");",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: baseUrl + '/api/checkout',",
+                  "    method: 'POST',",
+                  "    header: {",
+                  "        'Content-Type': 'application/json',",
+                  "        'Authorization': 'Bearer ' + userToken,",
+                  "        'X-Student-Id': '23127340'",
+                  "    },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ total_amount: 1000000, shipping_address: 'Setup State Order' }) }",
+                  "}, function (err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        var newOrderId = res.json().orderId;",
+                  "        pm.environment.set(\"current_test_order_id\", newOrderId);",
+                  "        ",
+                  "    pm.sendRequest({",
+                  "        url: baseUrl + '/api/admin/orders/' + newOrderId + '/status',",
+                  "        method: 'PUT',",
+                  "        header: {",
+                  "            'Content-Type': 'application/json',",
+                  "            'Authorization': 'Bearer ' + adminToken,",
+                  "            'X-Student-Id': '23127340'",
+                  "        },",
+                  "        body: { mode: 'raw', raw: JSON.stringify({ status: 'canceled' }) }",
+                  "    }, function () {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC_ORD_ST_24: Transition from canceled to delivered MUST BE 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+name: HW06 API Testing Pipeline - 23127340
+
+on:
+  push:
+    branches: [ main, master, feature/23127340, 'HW**' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      collection:
+        description: 'Postman Collection to execute'
+        required: true
+        default: 'HW/week10/ci_samples/all_pass_collection.json'
+        type: choice
+        options:
+          - 'HW/week10/ci_samples/all_pass_collection.json'
+          - 'HW/week10/ci_samples/one_fail_collection.json'
+          - 'HW/week10/23127340_hw06_api_collection.postman_collection.json'
+
+jobs:
+  api-testing:
+    name: Run Newman SUT API Tests (HW06 - 23127340)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment (v20)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Backend Dependencies
+        working-directory: backend
+        run: npm ci || npm install
+
+      - name: Install Newman & HTML Reporter CLI
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Start Backend Server (EShop SUT)
+        working-directory: backend
+        run: |
+          node server.js &
+          sleep 4
+
+      - name: Verify Backend Health
+        run: |
+          curl -s http://localhost:3000/api/products || exit 1
+          echo "Backend Server is UP and healthy!"
+
+      - name: Run Newman Test Suite
+        run: |
+          COLLECTION="${{ github.event.inputs.collection || 'HW/week10/ci_samples/all_pass_collection.json' }}"
+          echo "Executing Collection: $COLLECTION"
+          newman run "$COLLECTION" \
+            --environment HW/week10/23127340_hw06_api_environment.postman_environment.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export HW/week10/newman_ci_report.html
+
+      - name: Upload Test Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-ci-report-23127340
+          path: HW/week10/newman_ci_report.html
